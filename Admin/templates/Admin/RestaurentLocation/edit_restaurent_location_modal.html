@@ -1,0 +1,76 @@
+<div  class="modal animation-modal fade" id="restaurentlocation-{{i.id}}" tabindex="-1" role="dialog"
+   aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <form method="post" action="{% url "edit_restaurentlocation" i.id %}" hx-post="true" hx-swap="outerHTML" hx-target="#main" hx-trigger="htmx:afterSwap">
+      
+         {% csrf_token %}
+      <div class="modal-content">
+
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle-1">Edit Restaurant Location</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <div class="row mb-3">
+                <div class="col-lg-12">
+                    <label for="country-name">Location Name</label>
+                    <input type="text" class="form-control" placeholder="Enter Name" value="{{i.name}}" name="name">
+                                                 
+                </div> 
+               
+            </div> 
+
+             <div class="row mb-3">
+                <div class="col-lg-12">
+                    <label>Destination</label>
+                   
+                                                 
+                </div> 
+                <div class="col-lg-12">
+                    
+                    <select class="select2" name="destination_id" id="destination_id" style="width:100%;">
+                        {% for destination in destination %}
+                        <option value="{{destination.id}}" {% if destination.id == i.destination.id %}selected{% endif %}>{{destination.name}}</option>
+                        {% endfor %}
+
+                     </select>
+                                                 
+                </div> 
+            </div> 
+           
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"
+               data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            
+         </div>
+         
+      </div>
+      </form>
+   </div>
+</div>
+
+
+
+
+<!-- <script>
+   document.addEventListener('htmx:afterSwap', function(event) {
+       // Open the "citylist" URL in a new tab only if the form was successfully submitted
+       if (event.target === document.getElementById('editCityForm')) {
+           window.open('{% url "city" %}');
+       }
+   });
+
+   // Prevent the default form submission behavior
+   document.getElementById('editCityForm').addEventListener('submit', function(event) {
+       event.preventDefault(); // Prevent the form from submitting normally
+       var form = event.target;
+       var formData = new FormData(form);
+
+       // Manually submit the form using htmx
+       hx.trigger(form, 'submit', formData);
+   });
+</script> -->

@@ -1,0 +1,97 @@
+
+{% load static %}
+
+<div class="modal animation-modal fade" id="state" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form action="" id="add-state-form">
+            {% csrf_token %}
+       <div class="modal-content">
+            <div class="modal-header">
+             <h5 class="modal-title" id="exampleModalLongTitle-1">Add State</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+            </div>
+            <div class="modal-body">
+             {% comment %} <img src="{% static "assets/images/small/img-3.jpg" %}" alt="" class="img-fluid"> {% endcomment %}
+            
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label for="country-name">Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Name" hx-post="{% url "checkstate" %}"  hx-target="#post-data-container" hx-trigger="keyup changed delay:500ms" name="state_name">
+                                                     
+                    </div> 
+                    <div id="post-data-container"></div>
+                </div> 
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label for="country-name">Country</label>
+                        <select name="country_id" id="country-name" class="select2  mb-3" style="width:100%">
+                            <option  selected disabled>Select</option>
+                            {% for country in country %}
+                            <option value="{{country.id}}">{{country.country_name}}</option>
+                            
+                            {% endfor %}
+                        </select>
+                                                     
+                    </div> 
+                </div> 
+                
+               
+                
+            </div>
+            <div class="modal-footer">
+             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+             {% comment %} <button type="button"  class="btn btn-primary" hx-post="{% url "country" %}">Save </button> {% endcomment %}
+             <button type="button" class="btn btn-primary" id="save-state-btn">Save </button>
+            </div>
+       </div>
+    </form>
+    </div>
+ </div>
+  
+      
+ <script>
+
+
+    document.getElementById('save-state-btn').addEventListener('click', function() {
+        console.log("hellooooooooo")
+        
+        var form = document.getElementById('add-state-form');
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', "{% url 'addstate' %}", true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log("workkk")
+                
+                window.location.href = "{% url 'state' %}";
+                // Reload the page
+                {% comment %} window.location.reload();  {% endcomment %}
+                
+            } else if (xhr.status === 400) {
+                // Handle bad request response
+                
+                                                    
+                {% comment %} alert('Country name already exists'); {% endcomment %}
+               //document.getElementById('custom-html-alert').style.display = 'block';
+               showCountryExistsAlert("State");
+            } else {
+                // Handle other error responses
+                alert('Select Country');
+            }
+        };
+        xhr.send(formData);
+    });
+
+</script>
+
+
+ 
+
+ 
+
+ 
+        

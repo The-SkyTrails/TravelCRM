@@ -1,0 +1,17 @@
+<ul>
+    {% for task in object_list %}
+    <li>
+        <form hx-post="{% url 'update_task' task.pk %}">
+            <input type="text" name="title" value="{{ task.title }}">
+            <input type="checkbox" name="completed" {% if task.completed %}checked{% endif %}>
+            <button type="submit">Save</button>
+        </form>
+        <button hx-delete="{% url 'delete_task' task.pk %}">Delete</button>
+    </li>
+    {% endfor %}
+</ul>
+
+<form hx-post="{% url 'create_task' %}">
+    <input type="text" name="title" placeholder="New Task">
+    <button type="submit">Add Task</button>
+</form>

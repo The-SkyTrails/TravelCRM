@@ -1,0 +1,11 @@
+{% extends "Admin/Base/base.html" %}
+{% block main-content %} 
+
+<div id="citylist">
+
+    {% include "Admin/RestaurentType/restaurent_type-list.html" %}
+</div>
+
+{{ message|json_script:"room-name" }}
+
+{% endblock main-content %} 

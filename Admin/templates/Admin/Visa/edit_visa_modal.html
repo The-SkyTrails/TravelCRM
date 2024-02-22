@@ -1,0 +1,83 @@
+<div  class="modal animation-modal fade" id="visa{{i.id}}" tabindex="-1" role="dialog"
+   aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <form method="post" action="{% url 'edit_visa' i.id %}" hx-post="true" hx-swap="outerHTML" hx-target="#main" hx-trigger="htmx:afterSwap">
+         {% csrf_token %}
+      <div class="modal-content">
+
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle-1">Edit Visa</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <div class="row mb-3">
+               <div class="col-lg-12">
+                   <label for="country-name">Name</label>
+                   <input type="text" class="form-control" placeholder="Enter Name" name="name" value="{{i.name}}">
+                                                
+               </div> 
+               
+           </div> 
+           <div class="row mb-3">
+               <div class="col-lg-12">
+                   <h6 for="currency-name">Currency</h6>
+                   <select name="currency_id" class="select2  mb-3" style="width:100%;height:100%;">
+                       <option  selected disabled>Select</option>
+                       {% for currency in currency %}
+                     <option value="{{currency.id}}" {% if currency.id == i.currency.id %}selected{% endif %}>{{currency.name}}</option>
+                     {% endfor %}
+                       
+                   </select>
+                                                
+               </div> 
+               
+           </div> 
+           
+           
+           <div class="row mb-3">
+               <div class="col-lg-4">
+                   <label for="country-name">Adult Cost</label>
+                   <input type="text" class="form-control" placeholder="Adult Cost" name="adult_cost" value="{{i.adult_cost}}">
+                                                
+               </div> 
+               <div class="col-lg-4">
+                   <label for="country-name">Child Cost</label>
+                   <input type="text" class="form-control" placeholder="Child Cost" name="child_cost" value="{{i.child_cost}}">
+                                                
+               </div> 
+               <div class="col-lg-4">
+                   <label for="country-name">Infant Cost</label>
+                   <input type="text" class="form-control" placeholder="Infant Cost" name="infant_cost" value="{{i.infant_cost}}">
+                                                
+               </div> 
+               
+           </div> 
+           
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"
+               data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            
+         </div>
+         
+      </div>
+      </form>
+   </div>
+</div>
+
+<div class="ddemo"></div>
+
+
+
+
+
+<script>
+
+   document.addEventListener('htmx:afterSwap', function(event) {
+      $('#visa{{i.id}}').modal('hide');
+  });
+  
+</script>

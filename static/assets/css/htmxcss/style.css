@@ -1,0 +1,19 @@
+.success{
+    padding-left: 15px;
+    color:green;
+
+    transition: all ease-in .2s;
+}
+
+.error{
+    color:red;
+    padding-left: 15px;
+    /* font-size: 50px; */
+    /* transform: rotate(45deg); */
+    /* transition: all ease-in 2s; */
+
+}
+
+.custom-pointer {
+    cursor: pointer;
+}

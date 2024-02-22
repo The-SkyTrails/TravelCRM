@@ -1,0 +1,90 @@
+{% load static %}
+<div class="modal animation-modal fade" id="exampleModalLong-1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form action="" id="add-restaurentlocation-form">
+            {% csrf_token %}
+       <div class="modal-content">
+            <div class="modal-header">
+             <h5 class="modal-title" id="exampleModalLongTitle-1">Add Restaurant Location</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+            </div>
+            <div class="modal-body">
+             {% comment %} <img src="{% static "assets/images/small/img-3.jpg" %}" alt="" class="img-fluid"> {% endcomment %}
+            
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label for="country-name">Location Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Name" hx-post="{% url "checkrestaurentlocationname" %}"  hx-target="#post-data-container" hx-trigger="keyup changed delay:500ms" name="name">
+                                                     
+                    </div> 
+                    <div id="post-data-container"></div>
+                </div> 
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label for="country-name">Destination</label>
+                        <select class="select2" name="destination_id" style="width:100%">
+                            {% for destination in destination %}
+                            <option value="{{destination.id}}">{{destination.name}}</option>
+                             {% endfor %}
+
+                        </select>
+                                                     
+                    </div> 
+                </div> 
+              
+                
+            </div>
+            <div class="modal-footer">
+             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+             
+             <button type="button" class="btn btn-primary" id="save-restaurentlocation-btn">Save </button>
+            </div>
+       </div>
+    </form>
+    </div>
+ </div>
+
+ 
+ <script>
+    document.getElementById('save-restaurentlocation-btn').addEventListener('click', function() {
+        
+        var form = document.getElementById('add-restaurentlocation-form');
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', "{% url 'restaurentlocation' %}", true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log("workkk")
+                
+                window.location.href = "{% url 'add_restaurentlocation' %}";
+                // Reload the page
+                {% comment %} window.location.reload();  {% endcomment %}
+                
+            } else if (xhr.status === 400) {
+                // Handle bad request response
+                
+                                                    
+                
+               //document.getElementById('custom-html-alert').style.display = 'block';
+               showCountryExistsAlert("Restaurent Location");
+            } else {
+                // Handle other error responses
+                alert('Error occurred');
+            }
+        };
+        xhr.send(formData);
+    });
+
+</script>
+
+
+ 
+
+ 
+
+ 
+        

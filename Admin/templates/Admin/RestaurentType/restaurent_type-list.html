@@ -1,0 +1,85 @@
+
+<div class="wrapper">
+    <div class="container-fluid">
+
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    
+                    <h4 class="page-title">Datatable</h4>
+                    <div class="btn-group mt-2">
+                        <ol class="breadcrumb hide-phone p-0 m-0">
+                            <li class="breadcrumb-item"><a href="#">Zoogler</a></li>
+                            <li class="breadcrumb-item"><a href="#">Components</a></li>
+                            <li class="breadcrumb-item"><a href="#">Tables</a></li>
+                            <li class="breadcrumb-item active">Datatable</li>
+                        </ol>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- end page title end breadcrumb -->
+
+      
+        <div class="row">
+            <div class="col-lg-12 col-sm-12">
+                <div class="card">
+                    <div class="card-body table-responsive">
+                        {% comment %} <button class="btn btn-primary mb-2">Add Country</button> {% endcomment %}
+                         <button type="button" class="btn btn-primary mb-5  btn-animation" data-animation="slideInDown" data-toggle="modal" data-target="#exampleModalLong-1">Add Restaurant Type </button>
+                        
+                        <div class="" id="testoo">
+                            <table id="datatable2" class="table dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+
+                                <thead>
+                                <tr>
+                                    <th>Type Name</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                   
+                                </tr>
+                                </thead>
+
+
+                                <tbody >
+                                {% for i in restaurenttype_list %}
+                                <tr id="gg">
+                                    <td>{{i.name}}</td>
+                                    <td>{{i.date}}</td>
+                                 <td >
+
+                                    
+                                    
+                                 <button hx-trigger="change" hx-sync="closest form:abort" type="button" class="btn btn-gradient-info waves-effect waves-light btn-animation"
+                                    data-animation="slideInUp" data-toggle="modal"
+                                    data-target="#restaurenttype-{{i.id}}">
+                                    <i class="fas fa-edit"></i>
+                                    </button>
+
+                                    <button class="btn btn-gradient-danger waves-effect waves-light" hx-delete="{% url "delete_restaurenttype" i.id %}" hx-target="#citylist" id="alertify-success" hx-confirm="Do you want to delete ?"><i class="far fa-trash-alt"></i> </button>
+                                     
+                                    {% include "Admin/RestaurentType/edit_restaurent_type_modal.html" %}
+                                    </td>  
+                                  
+                                    
+                                </tr>
+                                {% endfor %}
+                               
+                            
+                                </tbody>
+                            </table>
+                        </div>           
+                    </div>
+                </div>
+            </div>
+        </div><!--end row-->
+
+
+    </div> <!-- end container -->
+</div>
+
+
+
+ {% include "Admin/RestaurentType/add_restaurent_type_modal.html" %}
