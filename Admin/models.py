@@ -528,7 +528,7 @@ class Notes(models.Model):
     
     
 class Payment(models.Model):
-    leads = models.ForeignKey(Lead,on_delete=models.CASCADE)
+    leads = models.ForeignKey(Lead,on_delete=models.CASCADE,related_name='payments')
     link_id = models.CharField(max_length=255)
     payment_link = models.URLField(max_length=200,)
     link_expiry_time = models.DateTimeField()

@@ -11,6 +11,7 @@ import json
 from django.core.mail import EmailMessage
 import mimetypes 
 import uuid
+from django.db.models import Q
 
 def index(request):
     return render(request,"Admin/Base/index2.html")
@@ -2835,12 +2836,10 @@ def user(request):
 
 def allquerylist(request):
     url = "https://api-smartflo.tatateleservices.com/v1/call/records"
-    print("hello gg")
     new_lead_list = Lead.objects.filter(lead_status="New Lead").order_by("-id")
     lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
     quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-    payprolead_list = Lead.objects.filter(lead_status="Payment Processing").order_by("-id")
-    paydonelead_list = Lead.objects.filter(lead_status="Payment Done").order_by("-id")
+    paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
     comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
     lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
     all_lead = Lead.objects.all().order_by("-id")
@@ -2867,7 +2866,6 @@ def allquerylist(request):
         "new_lead_list":new_lead_list,
         "lead_list":lead_list,
         "quatation_lead_list":quatation_lead_list,
-        "payprolead_list":payprolead_list,
         "paydonelead_list":paydonelead_list,
         "comlead_list":comlead_list,
         "all_lead":all_lead,
@@ -2881,20 +2879,20 @@ def newquerylist(request):
     new_lead_list = Lead.objects.filter(lead_status="New Lead").order_by("-id")
     lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
     quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-    payprolead_list = Lead.objects.filter(lead_status="Payment Processing").order_by("-id")
-    paydonelead_list = Lead.objects.filter(lead_status="Payment Done").order_by("-id")
+    paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
     comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
     lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
     all_lead = Lead.objects.all().order_by("-id")
+    operation = CustomUser.objects.filter(user_type = "Operation Person")
     context = {
         "new_lead_list":new_lead_list,
         "lead_list":lead_list,
         "quatation_lead_list":quatation_lead_list,
-        "payprolead_list":payprolead_list,
         "paydonelead_list":paydonelead_list,
         "comlead_list":comlead_list,
         "all_lead":all_lead,
-        "lost_list":lost_list
+        "lost_list":lost_list,
+        "operation":operation
     }
     return render(request,"Admin/Query/newquery.html",context)
 
@@ -2903,20 +2901,20 @@ def connectedquerylist(request):
     new_lead_list = Lead.objects.filter(lead_status="New Lead").order_by("-id")
     lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
     quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-    payprolead_list = Lead.objects.filter(lead_status="Payment Processing").order_by("-id")
-    paydonelead_list = Lead.objects.filter(lead_status="Payment Done").order_by("-id")
+    paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
     comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
     all_lead = Lead.objects.all().order_by("-id")
     lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
+    operation = CustomUser.objects.filter(user_type = "Operation Person")
     context = {
         "new_lead_list":new_lead_list,
         "lead_list":lead_list,
         "quatation_lead_list":quatation_lead_list,
-        "payprolead_list":payprolead_list,
         "paydonelead_list":paydonelead_list,
         "comlead_list":comlead_list,
         "all_lead":all_lead,
-        "lost_list":lost_list
+        "lost_list":lost_list,
+        "operation":operation
     }
     return render(request,"Admin/Query/connectedquery.html",context)
 
@@ -2925,60 +2923,38 @@ def quatationquerylist(request):
     new_lead_list = Lead.objects.filter(lead_status="New Lead").order_by("-id")
     lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
     quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-    payprolead_list = Lead.objects.filter(lead_status="Payment Processing").order_by("-id")
-    paydonelead_list = Lead.objects.filter(lead_status="Payment Done").order_by("-id")
+    paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
     comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
     all_lead = Lead.objects.all().order_by("-id")
     lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
     quatation = Quatation.objects.all()
+    operation = CustomUser.objects.filter(user_type = "Operation Person")
     context = {
         "new_lead_list":new_lead_list,
         "lead_list":lead_list,
         "quatation_lead_list":quatation_lead_list,
-        "payprolead_list":payprolead_list,
         "paydonelead_list":paydonelead_list,
         "comlead_list":comlead_list,
         "all_lead":all_lead,
         "lost_list":lost_list,
-        "quatation":quatation
+        "quatation":quatation,
+        "operation":operation
+        
     }
     return render(request,"Admin/Query/quatationquery-list.html",context)
 
 
-def paymentprocessquerylist(request):
+def paymentdonequerylist(request):
+    payment = Payment.objects.all()
+    url = "https://sandbox.cashfree.com/pg/links/testpoppee../orders"
     new_lead_list = Lead.objects.filter(lead_status="New Lead").order_by("-id")
     lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
     quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-    payprolead_list = Lead.objects.filter(lead_status="Payment Processing").order_by("-id")
-    paydonelead_list = Lead.objects.filter(lead_status="Payment Done").order_by("-id")
+    paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
     comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
     all_lead = Lead.objects.all().order_by("-id")
     lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
-    context = {
-        "new_lead_list":new_lead_list,
-        "lead_list":lead_list,
-        "quatation_lead_list":quatation_lead_list,
-        "payprolead_list":payprolead_list,
-        "paydonelead_list":paydonelead_list,
-        "comlead_list":comlead_list,
-        "all_lead":all_lead,
-        "lost_list":lost_list
-    }
-    return render(request,"Admin/Query/paymentprocessquery.html",context)
-
-
-def paymentdonequerylist(request):
-    payment = Payment.objects.all()
-
-    url = "https://sandbox.cashfree.com/pg/links/testpoppee../orders"
-    # new_lead_list = Lead.objects.filter(lead_status="New Lead").order_by("-id")
-    # lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
-    # quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-    # payprolead_list = Lead.objects.filter(lead_status="Payment Processing").order_by("-id")
-    # paydonelead_list = Lead.objects.filter(lead_status="Payment Done").order_by("-id")
-    # comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
-    # all_lead = Lead.objects.all().order_by("-id")
-    # lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
+    operation = CustomUser.objects.filter(user_type = "Operation Person")
     headers = {
         "accept": "application/json",
         "x-api-version": "2023-08-01",
@@ -2988,16 +2964,16 @@ def paymentdonequerylist(request):
     response = requests.get(url, headers=headers)
     data = response.json()
     context = {
-        # "new_lead_list":new_lead_list,
-        # "lead_list":lead_list,
-        # "quatation_lead_list":quatation_lead_list,
-        # "payprolead_list":payprolead_list,
-        # "paydonelead_list":paydonelead_list,
-        # "comlead_list":comlead_list,
-        # "all_lead":all_lead,
-        # "lost_list":lost_list,
+        "new_lead_list":new_lead_list,
+        "lead_list":lead_list,
+        "quatation_lead_list":quatation_lead_list,
+        "paydonelead_list":paydonelead_list,
+        "comlead_list":comlead_list,
+        "all_lead":all_lead,
+        "lost_list":lost_list,
         "data":data,
-        "payment":payment
+        "payment":payment,
+        "operation":operation
     }
     return render(request,"Admin/Query/paymentdonequery.html",context)
 
@@ -3005,20 +2981,20 @@ def completedquerylist(request):
     new_lead_list = Lead.objects.filter(lead_status="New Lead").order_by("-id")
     lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
     quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-    payprolead_list = Lead.objects.filter(lead_status="Payment Processing").order_by("-id")
-    paydonelead_list = Lead.objects.filter(lead_status="Payment Done").order_by("-id")
+    paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
     comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
     all_lead = Lead.objects.all().order_by("-id")
     lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
+    operation = CustomUser.objects.filter(user_type = "Operation Person")
     context = {
         "new_lead_list":new_lead_list,
         "lead_list":lead_list,
         "quatation_lead_list":quatation_lead_list,
-        "payprolead_list":payprolead_list,
         "paydonelead_list":paydonelead_list,
         "comlead_list":comlead_list,
         "all_lead":all_lead,
-        "lost_list":lost_list
+        "lost_list":lost_list,
+        "operation":operation
     }
     return render(request,"Admin/Query/completedquery.html",context)
 
@@ -3026,16 +3002,16 @@ def lostquerylist(request):
     new_lead_list = Lead.objects.filter(lead_status="New Lead").order_by("-id")
     lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
     quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-    payprolead_list = Lead.objects.filter(lead_status="Payment Processing").order_by("-id")
-    paydonelead_list = Lead.objects.filter(lead_status="Payment Done").order_by("-id")
+    paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
     comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
     all_lead = Lead.objects.all().order_by("-id")
     lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
+    operation = CustomUser.objects.filter(user_type = "Operation Person")
     context = {
         "new_lead_list":new_lead_list,
         "lead_list":lead_list,
         "quatation_lead_list":quatation_lead_list,
-        "payprolead_list":payprolead_list,
+        "operation":operation,
         "paydonelead_list":paydonelead_list,
         "comlead_list":comlead_list,
         "all_lead":all_lead,

@@ -282,7 +282,6 @@ urlpatterns = [
     path("allquerylist", allquerylist, name="allquerylist"),
     path("connectedquerylist", connectedquerylist, name="connectedquerylist"),
     path("quatationquerylist", quatationquerylist, name="quatationquerylist"),
-    path("paymentprocessquerylist", paymentprocessquerylist, name="paymentprocessquerylist"),
     path("paymentdonequerylist", paymentdonequerylist, name="paymentdonequerylist"),
     path("completedquery", completedquerylist, name="completedquery"),
     path("lostquery", lostquerylist, name="lostquery"),
