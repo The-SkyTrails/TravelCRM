@@ -1,0 +1,11 @@
+{% extends "Admin/Base/base.html" %}
+{% block main-content %} 
+
+<div id="hotellist">
+
+    {% include "Admin/Hotel/hotellist.html" %}
+</div>
+
+{{ message|json_script:"room-name" }}
+
+{% endblock main-content %} 

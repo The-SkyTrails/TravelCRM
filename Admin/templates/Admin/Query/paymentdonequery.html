@@ -1,0 +1,210 @@
+
+{% extends "Admin/Base/base.html" %}
+{% load static %}
+{% block main-content %} 
+
+<div id="querylist">
+<div class="body-wrapper">
+    <div class="container-fluid">
+      <div class="font-weight-medium shadow-none position-relative overflow-hidden mb-7">
+        <div class="card-body px-0">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h4 class="font-weight-medium fs-14 mb-0">Datatable Advanced</h4>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a class="text-muted text-decoration-none" href="index.html">Home
+                    </a>
+                  </li>
+                  <li class="breadcrumb-item text-muted" aria-current="page"> <a class="text-muted text-decoration-none" href="{% url "allquerylist" %}">All Leads
+                </a></li>
+                </ol>
+              </nav>
+            </div>
+            <div>
+              <div class="d-sm-flex d-none gap-3 no-block justify-content-end align-items-center">
+                <div class="d-flex gap-2">
+                  <a href="{% url "addquery" %}">
+                    <button type="button" class="btn mb-1 bg-primary-subtle text-primary px-4 fs-4 font-medium">
+                        Add Query
+                      </button>
+                </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% include "Login/messages.html" %}
+      <div class="datatables">
+        <div class="row">
+          <div class="col-lg-2">
+            <a href="{% url "newquerylist" %}">
+            <div class="card" style="background: linear-gradient(90deg, rgba(255,145,94,1) 26%, rgba(224,158,0,1) 69%);">
+              <div class="card-body p-4 d-flex align-items-center gap-3">
+                  <div>
+                    <h5 class="fw-semibold mb-0">{{new_lead_list.count}}</h5>
+                    <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>
+                      New Lead</span>
+                  </div>
+                  
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-2">
+            <a href="{% url "connectedquerylist" %}">
+            <div class="card" style="background: linear-gradient(90deg, rgba(120,144,126,1) 26%, rgba(55,73,51,1) 69%);">
+              <div class="card-body p-4 d-flex align-items-center gap-3">
+                  <div>
+                      <h5 class="fw-semibold mb-0">{{lead_list.count}}</h5>
+                      <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Connected</span>
+                    </div>
+                    
+                  </div>
+                </div>
+              </a>
+          </div>
+          <div class="col-lg-2">
+            <a href="{% url "quatationquerylist" %}">
+            <div class="card" style="background: linear-gradient(90deg, rgba(231,111,96,1) 26%, rgba(209,2,2,1) 65%);">
+              <div class="card-body p-4 d-flex align-items-center gap-3">
+                <div>
+                  <h5 class="fw-semibold mb-0">{{quatation_lead_list.count}}</h5>
+                  <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Quotation Send</span>
+                </div>
+              </div>
+            </div>
+          </a>
+          </div>
+          <div class="col-lg-2">
+            <a href="{% url "paymentdonequerylist" %}">
+            <div class="card" style="background: linear-gradient(90deg, rgba(128,164,255,1) 26%, rgba(45,84,167,1) 65%);">
+              <div class="card-body p-4 d-flex align-items-center gap-3">
+                <div>
+                  <h5 class="fw-semibold mb-0">{{paydonelead_list.count}}</h5>
+                  <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Payment</span>
+                </div>
+              </div>
+            </div>
+          </a>
+          </div>
+          <div class="col-lg-2">
+            <a href="{% url "completedquery" %}">
+            <div class="card" style="background: linear-gradient(90deg, rgba(5,172,33,1) 26%, rgba(6,103,33,1) 65%);;">
+              <div class="card-body p-4 d-flex align-items-center gap-3">
+                <div>
+                  <h5 class="fw-semibold mb-0">{{comlead_list.count}}</h5>
+                  <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Completed</span>
+                </div>
+              </div>
+            </div>
+          </a>
+          </div>
+          
+          <div class="col-lg-2">
+            <a href="{% url "lostquery" %}">
+            <div class="card" style="background: linear-gradient(90deg, rgba(80,75,75,1) 26%, rgba(22,16,16,1) 65%);">
+              <div class="card-body p-4 d-flex align-items-center gap-3">
+                <div>
+                  <h5 class="fw-semibold mb-0">{{lost_list.count}}</h5>
+                  <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Lost</span>
+                </div>
+              </div>
+            </div>
+          </a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <!-- ---------------------
+                        start File export
+                    ---------------- -->
+            <div class="card">
+              <div class="card-body">
+                
+                <div class="table-responsive">
+                  
+                  <table id="file_export" class="table border table-striped table-bordered display text-nowrap">
+                    <thead>
+                                <tr>
+                                  <th>Id</th>
+                                  <th>Link Id</th>
+                                  <th>payment Link</th>
+                                  <th>Expiry Time</th>
+                                  <th>Payment Status</th>
+                                 
+                                </tr>
+                                </thead>
+
+                                <tbody >
+                               {% for i in payment %}
+                                <tr>
+
+                                    
+                                  <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
+                                     {{i.leads.enquiry_number}}
+                                  </td>
+                                  <td> {{i.link_id}}</td>
+                                    {% comment %} {% include "Admin/Query/detailsquery.html" %} {% endcomment %}
+                                  <td>{{i.payment_link}}
+                                  </td>
+                                  <td>{{i.link_expiry_time}}</td>
+                                  <td>
+                                  {% comment %} <a href="{% url "payment_status" i.id %}"><button type="button" class="btn d-flex bg-primary-subtle w-100 d-block text-primary font-medium" data-bs-toggle="modal" data-bs-target="#payment_status{{i.id}}">
+                                      Check status 
+                                    </button></a> {% endcomment %}
+                                     <button type="button" id="status_button_{{ i.id }}" class="btn d-flex bg-primary-subtle w-100 d-block text-primary font-medium" onclick="checkPaymentStatus({{ i.id }})">
+                                        Check status
+                                    </button>
+                                     <span id="status_{{ i.id }}" class="text-success mx-5"></span>
+                                  </td>
+                                 
+                              </tr>
+
+                              {% endfor %}
+                               
+                               
+                            
+                                </tbody>
+                            </table>
+                        </div>           
+                    </div>
+                </div>
+            </div>
+        </div><!--end row-->
+
+
+    </div> <!-- end container -->
+</div>
+
+</div>
+
+
+<script>
+function checkPaymentStatus(paymentId) {
+    var button = $('#status_button_' + paymentId);
+    button.prop('disabled', true);
+    button.text('Loading...');
+    $.ajax({
+        url: "{% url 'payment_status' id=0 %}".replace('0', paymentId),
+        type: 'GET',
+        success: function(response) {
+            button.text('Check status');
+            button.prop('disabled', false);
+            $('#status_' + paymentId).text(response.link_status);
+        },
+        error: function(xhr, status, error) {
+            button.text('Check status');
+            button.prop('disabled', false);
+            console.error(error);
+        }
+    });
+}
+</script>
+
+
+{{ message|json_script:"room-name" }}
+
+{% endblock main-content %} 

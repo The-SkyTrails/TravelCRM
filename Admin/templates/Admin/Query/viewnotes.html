@@ -1,0 +1,33 @@
+
+{% load static %}
+<div class="modal fade" id="view-notes-{{i.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="view-notes" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center">
+                    <h4 class="modal-title" id="exampleModalLabel1">
+                       View Notes
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="custom-table">
+                        <div class="custom-row bg-success text-white">
+                            <div class="custom-cell">Enquiry No</div>
+                            <div class="custom-cell">Remarks</div>
+                            <div class="custom-cell">Date</div>
+                        </div>
+                        {% for note in i.notes.all %}
+                        <div class="custom-row">
+                            <div class="custom-cell">{{ i.enquiry_number }}</div>
+                            <div class="custom-cell">{{note.notes}}</div>
+                            <div class="custom-cell">{{ note.date }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,210 @@
+{% extends "Admin/Base/base.html" %}
+{% block main-content %}
+<div class="body-wrapper">
+    <div class="container-fluid">
+      <div class="font-weight-medium shadow-none position-relative overflow-hidden mb-7">
+        <div class="card-body px-0">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h4 class="font-weight-medium fs-14 mb-0">Form Basic</h4>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a class="text-muted text-decoration-none" href="index.html">Home
+                    </a>
+                  </li>
+                  <li class="breadcrumb-item text-muted" aria-current="page">Form Basic</li>
+                </ol>
+              </nav>
+            </div>
+            <div>
+              <div class="d-sm-flex d-none gap-3 no-block justify-content-end align-items-center">
+                <div class="d-flex gap-2">
+                  <div class="">
+                    <small>This Month</small>
+                    <h4 class="text-primary mb-0 font-medium">$58,256</h4>
+                  </div>
+                  <div class="">
+                    <div class="breadbar"></div>
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <div class="">
+                    <small>Last Month</small>
+                    <h4 class="text-secondary mb-0 font-medium">$58,256</h4>
+                  </div>
+                  <div class="">
+                    <div class="breadbar2"></div>
+                  </div>
+                </div>
+                
+                
+              </div>
+            </div>
+          </div>
+        </div>    
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+                <form action="" id="edit-extra-meal-form">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-group row">
+                                
+                                <div class="col-sm-10">
+                                    <label for="example-text-input" class="col-sm-2 col-form-label">Name</label>
+                                    <input class="form-control" type="text" value="{{extra_meal.name}}" id="example-text-input" placeholder = "Enter Name" hx-post="{% url "check_extrameal" %}"  hx-target="#post-data-container" hx-trigger="keyup changed delay:500ms" name="extra_meal_name">
+                                </div>
+                                <div id="post-data-container"></div>
+                            </div>
+                            <div class="form-group row">
+                                
+                                <div class="col-sm-10">
+                                    <label for="example-search-input" class="col-sm-6 col-form-label">Meal Duration</label>
+                                    <input class="form-control" type="text"  id="example-search-input" value="{{extra_meal.meal_duration}}" placeholder="Enter Duration" name="duration">
+                                </div>
+                            
+                            </div>
+                            <div class="form-group row">
+                            
+                                <div class="col-sm-5">
+                                    <label for="example-email-input" class="col-sm-6 col-form-label">Destination</label>
+                                    {% comment %} <input class="form-control" type="email"  id="example-email-input" name="destination"> {% endcomment %}
+                                    <select class="select2 form-control" name="destination_id">
+                                        {% for i in destination %}
+                                        <option value="{{i.id}}" {% if i.id == extra_meal.destination.id %}selected{% endif %}>{{i.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-sm-5">
+                                    <label for="example-email-input" class="col-sm-6 col-form-label">Location</label>
+                                    {% comment %} <input class="form-control" type="email" value="bootstrap@example.com" id="example-email-input"> {% endcomment %}
+                                    <select class="select2 form-control" name="restaurant_location_id">
+                                        <option selected disabled>select</option>
+                                        {% for location in location %}
+                                        <option value="{{location.id}}"{% if location.id == extra_meal.restaurant_location.id %}selected{% endif %}>{{location.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                
+                                <div class="col-sm-10">
+                                    <label for="example-url-input" class="col-sm-10 col-form-label">Restaurant</label>
+                                    <select name="restaurant_id"  class="select2 form-control">
+                                        {% for i in restaurant %}
+                                        
+                                        <option value="{{i.id}}"{% if i.id == extra_meal.restaurant.id %}selected{% endif %}>{{i.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                
+                                <div class="col-sm-10">
+                                    <label for="example-tel-input" class="col-sm-10 col-form-label">Short Description</label>
+                                    <textarea name="short_description" id="" cols="60" rows="3">{{extra_meal.short_description}}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+
+                                <div class="col-sm-10">
+                                    <label for="example-password-input" class="col-sm-10 col-form-label">Description</label>
+                                    <textarea name="description" id="" cols="20" rows="10" class="summernote">{{extra_meal.description}}</textarea>
+                                    {% comment %} <div class="summernote">Hello Summernote</div> {% endcomment %}
+                                </div>
+                            </div>
+                        
+                            
+                            
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="form-group row">
+                                
+                                <div class="col-sm-12">
+                                    <div class="col-sm-10">
+                                        <label for="example-password-input" class="col-sm-10 col-form-label">Inclusions</label>
+                                        <textarea name="inclusion" id=""  class="summernote">{{extra_meal.inclusions}}</textarea>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group row">
+                                
+                                <div class="col-sm-10">
+                                        <label for="example-password-input" class="col-sm-10 col-form-label">Useful Information</label>
+                                        <textarea name="useful_information" id="" cols="20" rows="10" class="summernote">{{extra_meal.useful_information}}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                
+                                <div class="col-sm-10">
+                                        <label for="example-password-input" class="col-sm-10 col-form-label">Important Notes</label>
+                                        <textarea name="important_notes" id="" cols="20" rows="10" class="summernote">{{extra_meal.import_notes}}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                
+                                <div class="col-sm-10">
+                                        
+                                        <button class="btn btn-primary btn-sm float-right" id="edit-extra-meal-btn">Save</button>
+                                        <button class="btn btn-danger btn-sm float-right mx-2" hx-get="{% url "extrameal" %}" hx-push-url="true" hx-target="#main">Cancel</button>
+                                        {% comment %} <button type="button" class="btn btn-primary" id="save-extra-meal-btn">Save </button> {% endcomment %}
+                                </div>
+                            </div>
+
+                            
+                        
+                        
+                        </div>
+                    </div> 
+                </form>         
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>
+</div>
+
+
+
+<script>
+    document.getElementById('edit-extra-meal-btn').addEventListener('click', function() {
+        
+        var form = document.getElementById('edit-extra-meal-form');
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', "{% url 'edit_extra_meal' extra_meal.id  %}", true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log("workkk")
+                
+                window.location.href = "{% url 'extrameal' %}";
+                // Reload the page
+                {% comment %} window.location.reload();  {% endcomment %}
+                
+            } else if (xhr.status === 400) {
+                // Handle bad request response
+                
+                                                    
+                {% comment %} alert('Country name already exists'); {% endcomment %}
+               //document.getElementById('custom-html-alert').style.display = 'block';
+               showCountryExistsAlert("City");
+            } else {
+                // Handle other error responses
+                alert('Error occurred');
+            }
+        };
+        xhr.send(formData);
+    });
+
+</script>
+
+{% endblock main-content %}

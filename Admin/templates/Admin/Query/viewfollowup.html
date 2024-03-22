@@ -1,0 +1,35 @@
+
+{% load static %}
+<div class="modal fade" id="view-followup-{{i.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="view-followup" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center">
+                    <h4 class="modal-title" id="exampleModalLabel1">
+                       View Followup
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="custom-table">
+                        <div class="custom-row bg-success text-white">
+                            <div class="custom-cell">Enquiry No</div>
+                            <div class="custom-cell">Notes</div>
+                            <div class="custom-cell">Date-Time</div>
+                            <div class="custom-cell">Added On</div>
+                        </div>
+                        {% for followup in i.followup.all %}
+                        <div class="custom-row">
+                            <div class="custom-cell">{{ i.enquiry_number }}</div>
+                            <div class="custom-cell">{{ followup.note }}</div>
+                            <div class="custom-cell">{{ followup.datetime }}</div>
+                            <div class="custom-cell">{{ followup.date }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </form>
+    </div>
+</div>

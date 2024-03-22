@@ -1,0 +1,11 @@
+{% extends "Admin/Base/base.html" %}
+{% block main-content %} 
+
+<div id="transferlist">
+
+    {% include "Admin/Transfer/transfer-list.html" %}
+</div>
+
+{{ message|json_script:"room-name" }}
+
+{% endblock main-content %} 

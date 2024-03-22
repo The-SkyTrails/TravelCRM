@@ -1,0 +1,43 @@
+{% load static %}
+
+  
+ <div class="modal fade" id="editdocument-{{i.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+ aria-labelledby="editdocument" aria-hidden="true">
+ <div class="modal-dialog modal-dialog-scrollable">
+     <div class="modal-content">
+         <form action="{% url "edit_document" i.id %}" id="edit-document-form" enctype="multipart/form-data">
+             {% csrf_token %}
+             <div class="modal-header d-flex align-items-center">
+                 <h4 class="modal-title" id="exampleModalLabel1">
+                     Add Folder
+                 </h4>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <div class="modal-body">
+
+                 <div class="mb-3">
+                     <label for="recipient-name" class="control-label">Folder Name</label>
+                     <input type="text" class="form-control" placeholder="Enter Name" name="folder" value="{{i.folder.name}}">
+                     </div>
+                     <div id="post-data-container"></div>
+                 <div class="mb-3">
+                    <label for="country-name" class="control-label">Upload Documents</label>
+                    <input type="file" class="form-control" name="documents">
+                    
+
+                 </div>
+
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn bg-danger-subtle text-danger font-medium" data-bs-dismiss="modal">
+                     Close
+                 </button>
+                 <button type="Submit" class="btn btn-success">
+                     Save
+                 </button>
+             </div>
+         </form>
+         
+     </div>
+ </div>
+</div>

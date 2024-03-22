@@ -1,0 +1,112 @@
+{% load static %}
+<div class="modal fade" id="visa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+aria-labelledby="visa" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+        <form action="" id="add-visa-form">
+            {% csrf_token %}
+       <div class="modal-content">
+        <div class="modal-header d-flex align-items-center">
+            <h4 class="modal-title" id="exampleModalLabel1">
+                Add Visa
+            </h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <div class="modal-body">
+             
+            <div class="row mb-3">
+                <div class="col-lg-12">
+                    <label for="country-name" class="control-label">Name</label>
+                    <input type="text" class="form-control" placeholder="Enter Name" hx-post="{% url "checkvisaname" %}"  hx-target="#post-data-container2" hx-trigger="keyup changed delay:500ms" name="name">
+                                                 
+                </div> 
+                <div id="post-data-container2"></div>
+            </div> 
+            <div class="row mb-3">
+                <div class="col-lg-12">
+                    <label for="currency-name" class="control-label">Currency</label>
+                    <select name="currency_id" class="select2 form-control" style="width: 100%; height: 36px">
+                        <option  selected disabled>Select</option>
+                        {% for currency in currency %}
+                        <option value="{{currency.id}}">{{currency.name}}</option>
+                        
+                        {% endfor %}
+                    </select>
+                                                 
+                </div> 
+                
+            </div> 
+            
+            
+            <div class="row mb-3">
+                <div class="col-lg-4">
+                    <label for="country-name" class="control-label">Adult Cost</label>
+                    <input type="text" class="form-control" placeholder="Adult Cost" name="adult">
+                                                 
+                </div> 
+                <div class="col-lg-4">
+                    <label for="country-name" class="control-label">Child Cost</label>
+                    <input type="text" class="form-control" placeholder="Child Cost" name="child">
+                                                 
+                </div> 
+                <div class="col-lg-4">
+                    <label for="country-name" class="control-label">Infant Cost</label>
+                    <input type="text" class="form-control" placeholder="Infant Cost" name="infant">
+                                                 
+                </div> 
+                
+            </div> 
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-danger-subtle text-danger font-medium" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-success" id="save-visa-btn">
+                    Save
+                </button>
+            </div>
+       </div>
+    </form>
+    </div>
+ </div>
+
+ 
+ <script>
+    document.getElementById('save-visa-btn').addEventListener('click', function() {
+        
+        var form = document.getElementById('add-visa-form');
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', "{% url 'visa' %}", true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                
+                window.location.href = "{% url 'add_visa' %}";
+                // Reload the page
+                {% comment %} window.location.reload();  {% endcomment %}
+                
+            } else if (xhr.status === 400) {
+                // Handle bad request response
+                
+                                                    
+               //document.getElementById('custom-html-alert').style.display = 'block';
+               showCountryExistsAlert("Visa");
+            } else {
+                // Handle other error responses
+                alert('Error occurred');
+            }
+        };
+        xhr.send(formData);
+    });
+
+</script>
+
+
+ 
+
+ 
+
+ 
+        

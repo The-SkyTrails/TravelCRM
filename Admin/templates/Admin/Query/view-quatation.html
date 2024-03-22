@@ -1,0 +1,35 @@
+{% load custom_filters %}
+{% load static %}
+<div class="modal fade" id="view-quatation-{{i.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="view-quatation" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center">
+                    <h4 class="modal-title" id="exampleModalLabel1">
+                       View Quatation
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="custom-table">
+                        <div class="custom-row bg-success text-white">
+                            <div class="custom-cell">Enquiry No</div>
+                            <div class="custom-cell">Attachment</div>
+                            <div class="custom-cell">Date</div>
+                        </div>
+                        {% for quotation in i.quotations.all %}
+                        <div class="custom-row">
+                            <div class="custom-cell">{{ i.enquiry_number }}</div>
+                            <div class="custom-cell">{% for attachment in quotation.attachment.all %}
+                                <a href="{{ attachment.file.url }}" target="_blank">{{ attachment.file.name|filename}}</a><br><br>
+                            {% endfor %}</div>
+                            <div class="custom-cell">{{ quotation.date }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+            </div>
+        </form>
+    </div>
+</div>

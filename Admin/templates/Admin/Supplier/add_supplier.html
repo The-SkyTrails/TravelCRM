@@ -1,0 +1,224 @@
+{% extends "Admin/Base/base.html" %}
+{% block main-content %}
+
+    <div class="body-wrapper">
+        <div class="container-fluid">
+          <div class="font-weight-medium shadow-none position-relative overflow-hidden mb-7">
+            <div class="card-body px-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h4 class="font-weight-medium fs-14 mb-0">Form Basic</h4>
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item">
+                        <a class="text-muted text-decoration-none" href="index.html">Home
+                        </a>
+                      </li>
+                      <li class="breadcrumb-item text-muted" aria-current="page">Form Basic</li>
+                    </ol>
+                  </nav>
+                </div>
+                <div>
+                  <div class="d-sm-flex d-none gap-3 no-block justify-content-end align-items-center">
+                    <div class="d-flex gap-2">
+                      <div class="">
+                        <small>This Month</small>
+                        <h4 class="text-primary mb-0 font-medium">$58,256</h4>
+                      </div>
+                      <div class="">
+                        <div class="breadbar"></div>
+                      </div>
+                    </div>
+                    <div class="d-flex">
+                      <div class="">
+                        <small>Last Month</small>
+                        <h4 class="text-secondary mb-0 font-medium">$58,256</h4>
+                      </div>
+                      <div class="">
+                        <div class="breadbar2"></div>
+                      </div>
+                    </div>
+                    
+                    
+                  </div>
+                </div>
+              </div>
+            </div>    
+          </div>
+    
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <form action="" method="post" enctype="multipart/form-data">
+                   
+                      {% csrf_token %}
+                        <div class="row">
+                            <div class="col-xl-6">
+                              <h4 class="mt-0 header-title">Supplier Information</h4>
+                                <div class="form-group row">
+                                    
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">Name</label>
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Name" name="name">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">Contact Person Name</label>
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Name" name="contact_person_name">
+                                    </div>
+                                    
+                                </div>
+                                <div class="form-group row">
+                                    
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">Contact Person Designation</label>
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Designation" name="contact_person_designation">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">Contact Person Email</label>
+                                        <input class="form-control" type="email"  id="example-text-input" placeholder="Enter Email" name="contact_person_email">
+                                    </div>
+                                    
+                                </div>
+                                <div class="form-group row">
+                                    
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">Landline No.</label>
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter No." name="landline_no">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">Mobile No.</label>
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Mobile" name="mob_no">
+                                    </div>
+                                    
+                                </div>
+                                <div class="form-group row">
+                                    
+                                    <div class="col-sm-6">
+                                        <label for="example-search-input" class="col-form-label">Service Type</label>
+                                        <select class="select2 form-control" name="service_type_id" id="service_type_id" multiple="multiple" style="height: 36px; width: 100%">
+                                            {% for i in service_types %}
+                                            <option value="{{i.id}}">{{i.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                      <label for="example-email-input" class="col-form-label">Contract</label>
+                                      <input class="form-control" type="file" name="contract" id="">
+                                  </div>
+                                
+                                </div>
+                                    
+                                
+                            </div>
+                            <div class="col-xl-6">
+                              <h4 class="mt-0 header-title">Other Information</h4>
+                              <div class="form-group row">
+                                    
+                                <div class="col-sm-12">
+                                    <label for="example-text-input" class="col-form-label">GST/VAT Number</label>
+                                    <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Name" name="gst_vat">
+                                </div>
+                                
+                              </div>
+                              <div class="form-group row">
+                                      
+                                <div class="col-sm-6">
+                                    <label for="example-text-input" class="col-form-label">Country</label>
+                                    <select name="country_id" id="country-name" class="select2 form-control" style="width: 100%; height: 36px">
+                                      <option  selected disabled>Select</option>
+                                      {% for country in country %}
+                                      <option value="{{country.id}}">{{country.country_name}}</option>
+                                      
+                                      {% endfor %}
+                                  </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="example-text-input" class="col-form-label">State</label>
+                                    <select name="state_id" id="state-name" class="select2 form-control" style="width: 100%; height: 36px">
+                                      <option  selected disabled>Select</option>
+                                  </select>
+                                </div>
+                                
+                              </div>
+                              <div class="form-group row">
+                                      
+                                <div class="col-sm-6">
+                                    <label for="example-text-input" class="col-form-label">City</label>
+                                    <select name="city_id" id="city-name" class="select2 form-control" style="width: 100%; height: 36px">
+                                      <option  selected disabled>Select</option>
+                                  </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="example-text-input" class="col-form-label">Zipcode</label>
+                                    <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Zip" name="zip">
+                                </div>
+                                
+                              </div>
+                              <div class="form-group row">
+                                      
+                                <div class="col-sm-12">
+                                    <label for="example-text-input" class="col-form-label">Address</label>
+                                    <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Address" name="address">
+                                  </select>
+                                </div>
+                                
+                              </div>
+                               
+                              <div class="form-group row">
+                                  <div class="modal-footer" style="margin-top: 10px;">
+                                      <button type="submit" class="btn btn-primary">Save</button>
+                                      <button class="btn btn-danger mx-2" hx-get="{% url "supplier" %}" hx-push-url="true" hx-target="#main">Cancel</button>
+                                  </div>
+                              </div>
+                            </div>
+                            
+                        </div> 
+                    </form>    
+                </div>
+              </div>
+            </div>
+          </div>
+    
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#country-name').change(function(){
+                var country_id = $(this).val();
+                $.ajax({
+                    url: '{% url "get_states" %}',
+                    type: 'GET',
+                    data: {'country_id': country_id},
+                    success: function(response){
+                        $('#state-name').empty();
+                        $.each(response.states, function(key, value){
+                            $('#state-name').append('<option value="' + key + '">' + value + '</option>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    
+    <script>
+        $(document).ready(function(){
+            $('#state-name').change(function(){
+                var state_id = $(this).val();
+                $.ajax({
+                    url: '{% url "get_city" %}',
+                    type: 'GET',
+                    data: {'state_id': state_id},
+                    success: function(response){
+                        $('#city-name').empty();
+                        $.each(response.citys, function(key, value){
+                            $('#city-name').append('<option value="' + key + '">' + value + '</option>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock main-content %}

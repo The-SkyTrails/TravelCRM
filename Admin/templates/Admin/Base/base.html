@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme" data-layout="horizontal">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Favicon icon-->
+  <link rel="shortcut icon" type="image/png" href="{% static "assets/images/logos/logo.svg" %}">
+
+  <!-- Core Css -->
+  <link rel="stylesheet" href="{% static "assets/css/styles.css" %}">
+  <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+
+
+  <title>TheSkytrails-Travel CRM</title>
+  <link rel="stylesheet" href="{% static "assets/libs/jvectormap/jquery-jvectormap.css" %}">
+  <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+  <link rel="stylesheet" href="{% static "assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" %}">
+  <link rel="stylesheet" href="{% static "assets/buttons/2.4.2/css/buttons.dataTables.min.css" %}">
+  
+</head>
+
+  <!-- Preloader -->
+  <div class="preloader">
+    <img src="{% static "assets/images/logos/logo-icon.svg" %}" alt="loader" class="lds-ripple img-fluid">
+  </div>
+
+  <div id="main-wrapper">
+    {% include "Admin/Base/Navbar.html" %}
+    
+    
+    <!--  Sidebar End -->
+    <div class="page-wrapper">
+      <!--  Header Start -->
+      {% include "Admin/Base/header.html" %}
+      <!--  Header End -->
+ 
+        <div id="main">
+          {% block main-content %}
+          {% endblock main-content %}
+        </div>
+
+
+    </div>
+ 
+
+</div>
+<div class="dark-transparent sidebartoggler"></div>
+<!-- Import Js Files -->
+
+<script src="{% static "assets/libs/jquery/dist/jquery.min.js" %}"></script>
+<script src="{% static "assets/js/app.min.js" %}"></script>
+<script src="{% static "assets/js/app.horizontal.init.js" %}"></script>
+<script src="{% static "assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js" %}"></script>
+<script src="{% static "assets/libs/simplebar/dist/simplebar.min.js" %}"></script>
+<script src="{% static "npm/iconify-icon%401.0.8/dist/iconify-icon.min.js" %}"></script>
+<script src="{% static "assets/js/sidebarmenu.js" %}"></script>
+<script src="{% static "assets/js/theme.js" %}"></script>
+<script src="{% static "assets/js/feather.min.js" %}"></script>
+<script src="{% static "assets/js/breadcrumb/breadcrumbChart.js" %}"></script>
+<script src="{% static "assets/libs/apexcharts/dist/apexcharts.min.js" %}"></script>
+<script src="{% static "assets/js/dashboards/dashboard2.js" %}"></script>
+<script src="{% static "assets/libs/jvectormap/jquery-jvectormap.min.js" %}"></script>
+<script src="{% static "assets/js/extra-libs/jvectormap/jquery-jvectormap-us-aea-en.js" %}"></script>
+<script src="{% static "assets/libs/datatables.net/js/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "assets/buttons/2.4.2/js/dataTables.buttons.min.js" %}"></script>
+<script src="{% static "assets/ajax/libs/jszip/3.10.1/jszip.min.js" %}"></script>
+<script src="{% static "assets/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" %}"></script>
+<script src="{% static "assets/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" %}"></script>
+<script src="{% static "assets/buttons/2.4.2/js/buttons.html5.min.js" %}"></script>
+<script src="{% static "assets/buttons/2.4.2/js/buttons.print.min.js" %}"></script>
+
+<script src="{% static "assets/js/datatable/datatable-advanced.init.js" %}"></script>
+
+<script>
+  document.body.addEventListener('htmx:configRequest', function(event) {
+  event.detail.headers['X-CSRFToken'] = '{{csrf_token}}'; // add a new parameter into the mix
+});
+</script>
+{% comment %} <script src="{% static "ckeditor/ckeditor.js" %}"></script> {% endcomment %}
+</body>
+
+</html>
+
+<body>

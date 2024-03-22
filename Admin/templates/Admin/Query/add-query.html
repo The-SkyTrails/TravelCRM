@@ -1,0 +1,238 @@
+{% extends "Admin/Base/base.html" %}
+{% load static %}
+{% block main-content %}
+
+<div class="body-wrapper">
+    <div class="container-fluid">
+      <div class="font-weight-medium shadow-none position-relative overflow-hidden mb-7">
+        <div class="card-body px-0">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h4 class="font-weight-medium fs-14 mb-0">Form Basic</h4>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a class="text-muted text-decoration-none" href="index.html">Home
+                    </a>
+                  </li>
+                  <li class="breadcrumb-item text-muted" aria-current="page">Form Basic</li>
+                </ol>
+              </nav>
+            </div>
+            <div>
+              <div class="d-sm-flex d-none gap-3 no-block justify-content-end align-items-center">
+                <div class="d-flex gap-2">
+                  <div class="">
+                    <small>This Month</small>
+                    <h4 class="text-primary mb-0 font-medium">$58,256</h4>
+                  </div>
+                  <div class="">
+                    <div class="breadbar"></div>
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <div class="">
+                    <small>Last Month</small>
+                    <h4 class="text-secondary mb-0 font-medium">$58,256</h4>
+                  </div>
+                  <div class="">
+                    <div class="breadbar2"></div>
+                  </div>
+                </div>
+                
+                
+              </div>
+            </div>
+          </div>
+        </div>    
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-xl-12">
+                        <h4 class="mt-0 header-title">Query Information</h4>
+                        <div class="form-group row">
+                            
+                            <div class="col-sm-6">
+                                <label for="example-text-input" class="col-form-label">Name</label>
+                                <input class="form-control" type="text" name="contact_person_name" placeholder="Enter Name" required>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="example-text-input" class="col-form-label">Email</label>
+                                <input class="form-control" type="email" name="contact_person_email" placeholder="Enter Email">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            
+                           <div class="col-sm-6">
+                                <label for="example-email-input" class="col-sm-6 col-form-label">Mobile Number</label>
+                               <input class="form-control" type="text" name="mobile_number" placeholder="Enter No." required>
+                           </div>
+                           <div class="col-sm-6">
+                            <label for="example-email-input" class="col-sm-6 col-form-label"></label>
+                            <div class="col-md-8 col-xl-9">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input success" type="radio" name="inter_domes" id="International" value="International">
+                                    <label class="form-check-label" for="International">International</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input success" type="radio" name="inter_domes" id="Domestic" value="Domestic">
+                                    <label class="form-check-label" for="Domestic">Domestic</label>
+                                </div>
+                            </div>
+                        </div>
+                           
+                        </div>
+                        <div class="form-group row">
+                            
+                          <div class="col-sm-2">
+                            <label for="destination_id" class="col-form-label">Destination</label>
+                            <select class="select2 form-control" name="destination_id" id="destination_id"  style="height: 36px; width: 100%">
+                              <option  selected disabled>Select</option>
+                                {% for dest in destinations %}
+                                    <option value="{{dest.id}}" data-country="{{dest.country.country_name}}">{{dest.name}}</option>
+                                {% endfor %}
+                            </select>
+                          </div>
+                          <div class="col-sm-2">
+                              <label for="from" class="col-form-label">From Date</label>
+                              <input class="form-control" type="date" name="from" id="from">
+                          </div>
+                          <div class="col-sm-2">
+                              <label for="to" class="col-form-label">To Date</label>
+                              <input class="form-control" type="date" name="to" id="to">
+                          </div>
+                          <div class="col-sm-2">
+                            <label for="example-email-input" class="col-form-label">Adult</label>
+                            <input class="form-control" type="number" name="adult">
+                        </div>
+                        <div class="col-sm-2">
+                            <label for="example-email-input" class="col-form-label">Child(Above 2 Year)</label>
+                            <input class="form-control" type="number" name="child">
+                        </div>
+                        <div class="col-sm-2">
+                            <label for="example-email-input" class="col-form-label">Infant(Below 2 Year)</label>
+                            <input class="form-control" type="number" name="infants">
+                        </div>
+                          
+                      </div>
+
+                        <div class="form-group row">
+                          <div class="col-sm-6">
+                            <label for="example-email-input" class="col-sm-6 col-form-label">Budget</label>
+                            <input class="form-control" type="text" name="budget" placeholder="Enter Budget">
+                        </div> 
+                          <div class="col-sm-6">
+                            <label for="example-email-input" class="col-sm-6 col-form-label">Purpose Of Travel</label>
+                            <input class="form-control" type="text" name="purpose_of_travel" placeholder="Enter Purpose Of Travel">
+                        </div> 
+                        </div>
+                        <div class="form-group row">
+                          <div class="col-sm-6">
+                            <label for="example-email-input" class="col-sm-6 col-form-label">Service Type</label>
+                            <select class="select2 form-control" name="service_type_id" id="service_type_id" style="height: 36px; width: 100%">
+                                {% for serv in servicess %}
+                                <option value="{{serv.id}}">{{serv.name}}</option>
+                                 {% endfor %}
+                            </select>
+                       </div>
+                            <div class="col-sm-6">
+                                <label for="example-email-input" class="col-sm-6 col-form-label">Query Title</label>
+                                <input class="form-control" type="text" name="query_title" placeholder="Enter Title">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            
+                          <div class="col-sm-6">
+                              <label for="example-email-input" class="col-form-label">Lead Source</label>
+                              <select class="select2 form-control" name="lead_source_id" id="lead_source_id" style="height: 36px; width: 100%">
+                                  {% for lead in lead_sources %}
+                                  <option value="{{lead.id}}">{{lead.name}}</option>
+                                   {% endfor %}
+                              </select>
+                          </div>
+                          
+                          <div class="col-sm-6">
+                              <label for="example-email-input" class="col-form-label">Sales Person</label>
+                              <select class="select2 form-control" name="sales_person_id" id="sales_person_id" style="height: 36px; width: 100%">
+                                  {% for sale in sales %}
+                                  <option value="{{sale.id}}">{{sale.first_name}} {{sale.last_name}}</option>
+                                   {% endfor %}
+                              </select>
+                          </div>
+                      </div>
+            
+                      <div class="form-group row">
+                          
+                          <div class="col-sm-12">
+                              <label for="example-text-input" class="col-form-label">Other Information</label>
+                              <textarea name="other_information" class="form-control"></textarea>
+                          </div>
+                          
+                      </div>
+                        
+                         
+                    </div>
+                   
+
+                </div>  
+                <div class="modal-footer" style="margin-top:10px;">
+                    
+                    <button type="submit" class="btn btn-primary">Save</button>
+                   </div>
+                
+            </form>   
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      // Get reference to select element and options
+      var selectElement = document.getElementById("destination_id");
+      var options = selectElement.getElementsByTagName("option");
+
+      // Function to show/hide options based on country
+      function toggleOptions(country) {
+          for (var i = 0; i < options.length; i++) {
+              if (country === "Domestic") {
+                  if (options[i].dataset.country === "India") {
+                      options[i].style.display = "block";
+                  } else {
+                      options[i].style.display = "none";
+                  }
+              } else if (country === "International" && options[i].dataset.country !== "India") {
+                  options[i].style.display = "block";
+              } else {
+                  options[i].style.display = "none";
+              }
+          }
+      }
+
+      // Add event listener to radio buttons
+      var radioButtons = document.getElementsByName("inter_domes");
+      for (var i = 0; i < radioButtons.length; i++) {
+          radioButtons[i].addEventListener("change", function() {
+              toggleOptions(this.value);
+          });
+      }
+
+      // Initially show all destinations
+      toggleOptions("International");
+  });
+</script>
+
+
+
+{% endblock main-content %}

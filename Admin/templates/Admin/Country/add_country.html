@@ -1,0 +1,14 @@
+{% extends "Admin/Base/base.html" %}
+{% block main-content %} 
+
+<div id="contrylist">
+
+    {% include "Admin/Country/country-list.html" %}
+</div>
+
+{{ message|json_script:"room-name" }}
+
+
+
+  
+{% endblock main-content %} 
