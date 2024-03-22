@@ -1,0 +1,37 @@
+{% load static %}
+<div class="modal fade" id="update_op{{i.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="update_op" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <form action="{% url 'op_update' i.id %}" method="post" id="update-op-form-{{ i.id }}">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center">
+                    <h4 class="modal-title" id="exampleModalLabel1">
+                        Update Operations Person
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-lg-12">
+                            <label for="country-name" class="control-label">Operation Person</label>
+                            <select class="select2 form-control" name="operation_person_id" id="operation_person_id" style="height: 36px; width: 100%">
+                                {% for oper in operation %}
+                                    <option value="{{ oper.id }}" {% if oper.id == i.operation_person_id %}selected{% endif %}>{{ oper.first_name }} {{ oper.last_name }}</option>
+                                {% endfor %}
+                            </select>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger-subtle text-danger font-medium" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

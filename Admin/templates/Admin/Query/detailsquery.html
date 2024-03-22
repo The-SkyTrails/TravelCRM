@@ -1,0 +1,382 @@
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight-{{i.id}}" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header" style="background-color: #43ced7;">
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+        Lead Details
+      </h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="form-body">
+        <div class="card-body" style="padding: 6px 0;">
+          <h5 class="card-title mb-0" style="color: black !important;">Contact Person Details</h5>
+        </div>
+        
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="form-label text-start col-md-4">Name :</label>
+                <div class="col-md-8">
+                  <p class="form-control-static">{{i.name}}</p>
+                </div>
+              </div>
+            </div> 
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="form-label text-start col-md-4">Email :</label>
+                <div class="col-md-8">
+                  <p class="form-control-static">{{i.email}}</p>
+                </div>
+              </div>
+            </div> 
+          </div>
+          <div class="row">
+
+          <div class="col-md-12">
+            <div class="form-group row">
+              <label class="form-label text-start col-md-4">Call :</label>
+              <div class="col-md-8">
+                <button class="btn btn-danger" id="callButton">call</button>
+              </div>
+              {{i.mobile_number}}
+              <div id="status"></div>
+            </div>
+          </div> 
+          </div>
+        </div>
+
+          
+        </div>
+
+        <div class="card-body" style="padding: 6px 0;">
+          <h5 class="card-title mb-0" style="color: black !important;">Destination Details</h5>
+        </div>
+        
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="form-label text-start col-md-4">Destination Type:</label>
+                <div class="col-md-8">
+                  <p class="form-control-static">{{i.inter_domes}}</p>
+                </div>
+              </div>
+            </div> 
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="form-label text-start col-md-4">Destination :</label>
+                <div class="col-md-8">
+                  <p class="form-control-static">{{i.destinations.name}}</p>
+                </div>
+              </div>
+            </div> 
+          </div>
+          
+          <div class="row" style="margin-bottom: 20px;">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label class="form-label text-start">From Date </label>
+                  <input type="text" class="form-control" value="{{i.from_date}}" readonly>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label text-start">To Date </label>
+                  <input type="text" class="form-control" value="{{i.to_date}}" readonly>
+                </div>
+              </div>
+            </div> 
+          </div>
+          <div class="row" style="margin-bottom: 20px;">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <div class="col-md-4">
+                  <label class="form-label text-start">Adult </label>
+                  <input type="text" class="form-control" value="{{i.adult}}" readonly>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label text-start">Child </label>
+                  <input type="text" class="form-control" value="{{i.child}}" readonly>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label text-start">Infants </label>
+                  <input type="text" class="form-control" value="{{i.infants}}" readonly>
+                </div>
+              </div>
+            </div> 
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="form-label text-start col-md-4">Budget :</label>
+                <div class="col-md-8">
+                  <p class="form-control-static">{{i.budget}}</p>
+                </div>
+              </div>
+            </div> 
+          </div> 
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="form-label text-start col-md-4">Purpose Of Travel :</label>
+                <div class="col-md-8">
+                  <p class="form-control-static">{{i.purpose_of_travel}}</p>
+                </div>
+              </div>
+            </div> 
+          </div> 
+
+          
+          
+        </div>
+
+        <div class="card-body" style="padding: 6px 0;">
+          <h5 class="card-title mb-0" style="color: black !important;">Lead Details</h5>
+        </div>
+        
+        
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="form-label text-start col-md-4">Service Type :</label>
+                <div class="col-md-8">
+                  <p class="form-control-static">{{i.service_type.name}}</p>
+                </div>
+              </div>
+            </div> 
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="form-label text-start col-md-4">Query Title :</label>
+                <div class="col-md-8">
+                  <p class="form-control-static">{{i.query_title}}</p>
+                </div>
+              </div>
+            </div> 
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="form-label text-start col-md-4">Lead Source :</label>
+                <div class="col-md-8">
+                  <p class="form-control-static">{{i.lead_source.name}}</p>
+                </div>
+              </div>
+            </div> 
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="form-label text-start col-md-4">Operation Person :</label>
+                <div class="col-md-8">
+                  <p class="form-control-static">{{i.operation_person.first_name}} {{i.operation_person.last_name}}</p>
+                </div>
+              </div>
+            </div> 
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="form-label text-start col-md-4">Sales Person :</label>
+                <div class="col-md-8">
+                  <p class="form-control-static">{{i.sales_person.first_name}} {{i.sales_person.last_name}}</p>
+                </div>
+              </div>
+            </div> 
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="form-label text-start col-md-4">Other Information :</label>
+                <div class="col-md-8">
+                  <p class="form-control-static">{{i.other_information}}</p>
+                </div>
+              </div>
+            </div> 
+          </div>
+          
+        </div>
+        
+        
+
+        <div class="row" style="margin-bottom: 24px;">
+          <div class="col-md-4">
+            <div class="card-body" style="padding: 6px 0;">
+              <h5 class="card-title mb-0" style="color: black !important;">Follow Up</h5>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#add-followup-{{i.id}}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                <path d="M12.5 5V12M12.5 12V19M12.5 12H19.5M12.5 12H5.5" stroke="#4373C5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Add
+            </button>
+            {% include "Admin/Query/addfollowup.html" %}
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#view-followup-{{i.id}}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                <path d="M12.5 16C11.7089 16 10.9355 15.7654 10.2777 15.3259C9.61992 14.8864 9.10723 14.2616 8.80448 13.5307C8.50173 12.7998 8.42252 11.9956 8.57686 11.2196C8.7312 10.4437 9.11216 9.73098 9.67157 9.17157C10.231 8.61216 10.9437 8.2312 11.7196 8.07686C12.4956 7.92252 13.2998 8.00173 14.0307 8.30448C14.7616 8.60723 15.3864 9.11992 15.8259 9.77772C16.2654 10.4355 16.5 11.2089 16.5 12C16.5 13.0609 16.0786 14.0783 15.3284 14.8284C14.5783 15.5786 13.5609 16 12.5 16ZM12.5 10C12.1044 10 11.7178 10.1173 11.3889 10.3371C11.06 10.5568 10.8036 10.8692 10.6522 11.2346C10.5009 11.6001 10.4613 12.0022 10.5384 12.3902C10.6156 12.7781 10.8061 13.1345 11.0858 13.4142C11.3655 13.6939 11.7219 13.8844 12.1098 13.9616C12.4978 14.0387 12.8999 13.9991 13.2654 13.8478C13.6308 13.6964 13.9432 13.44 14.1629 13.1111C14.3827 12.7822 14.5 12.3956 14.5 12C14.5 11.4696 14.2893 10.9609 13.9142 10.5858C13.5391 10.2107 13.0304 10 12.5 10Z" fill="#4373C5"/>
+                <path d="M12.5 19C6.046 19 2.5 13.742 2.5 12C2.5 10.336 7.112 5 12.5 5C17.888 5 22.5 10.336 22.5 12C22.5 13.742 18.954 19 12.5 19ZM4.513 12.028C5.22447 13.5376 6.35657 14.8098 7.77335 15.6917C9.19013 16.5737 10.8314 17.028 12.5 17C14.1686 17.028 15.8099 16.5737 17.2267 15.6917C18.6434 14.8098 19.7755 13.5376 20.487 12.028C20.124 11.058 16.755 7 12.5 7C8.245 7 4.876 11.058 4.513 12.028Z" fill="#4373C5"/>
+              </svg>
+              View
+            </button>
+            {% include "Admin/Query/viewfollowup.html" %}
+            
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 24px;">
+          <div class="col-md-4">
+            <div class="card-body" style="padding: 6px 0;">
+              <h5 class="card-title mb-0" style="color: black !important;">Notes</h5>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#add-notes-{{i.id}}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                <path d="M12.5 5V12M12.5 12V19M12.5 12H19.5M12.5 12H5.5" stroke="#4373C5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Add
+            </button>
+            {% include "Admin/Query/addnotes.html" %}
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#view-notes-{{i.id}}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                <path d="M12.5 16C11.7089 16 10.9355 15.7654 10.2777 15.3259C9.61992 14.8864 9.10723 14.2616 8.80448 13.5307C8.50173 12.7998 8.42252 11.9956 8.57686 11.2196C8.7312 10.4437 9.11216 9.73098 9.67157 9.17157C10.231 8.61216 10.9437 8.2312 11.7196 8.07686C12.4956 7.92252 13.2998 8.00173 14.0307 8.30448C14.7616 8.60723 15.3864 9.11992 15.8259 9.77772C16.2654 10.4355 16.5 11.2089 16.5 12C16.5 13.0609 16.0786 14.0783 15.3284 14.8284C14.5783 15.5786 13.5609 16 12.5 16ZM12.5 10C12.1044 10 11.7178 10.1173 11.3889 10.3371C11.06 10.5568 10.8036 10.8692 10.6522 11.2346C10.5009 11.6001 10.4613 12.0022 10.5384 12.3902C10.6156 12.7781 10.8061 13.1345 11.0858 13.4142C11.3655 13.6939 11.7219 13.8844 12.1098 13.9616C12.4978 14.0387 12.8999 13.9991 13.2654 13.8478C13.6308 13.6964 13.9432 13.44 14.1629 13.1111C14.3827 12.7822 14.5 12.3956 14.5 12C14.5 11.4696 14.2893 10.9609 13.9142 10.5858C13.5391 10.2107 13.0304 10 12.5 10Z" fill="#4373C5"/>
+                <path d="M12.5 19C6.046 19 2.5 13.742 2.5 12C2.5 10.336 7.112 5 12.5 5C17.888 5 22.5 10.336 22.5 12C22.5 13.742 18.954 19 12.5 19ZM4.513 12.028C5.22447 13.5376 6.35657 14.8098 7.77335 15.6917C9.19013 16.5737 10.8314 17.028 12.5 17C14.1686 17.028 15.8099 16.5737 17.2267 15.6917C18.6434 14.8098 19.7755 13.5376 20.487 12.028C20.124 11.058 16.755 7 12.5 7C8.245 7 4.876 11.058 4.513 12.028Z" fill="#4373C5"/>
+              </svg>
+              View
+            </button>
+            {% include "Admin/Query/viewnotes.html" %}
+            
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 24px;">
+          <div class="col-md-4">
+            <div class="card-body" style="padding: 6px 0;">
+              <h5 class="card-title mb-0" style="color: black !important;">Quotation</h5>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#attach-quatation-{{i.id}}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 22C10.4092 21.9984 8.88399 21.3658 7.75911 20.2409C6.63424 19.116 6.00159 17.5908 6 16V8C6 7.73478 6.10536 7.48043 6.29289 7.29289C6.48043 7.10536 6.73478 7 7 7C7.26522 7 7.51957 7.10536 7.70711 7.29289C7.89464 7.48043 8 7.73478 8 8V16C8 17.0609 8.42143 18.0783 9.17157 18.8284C9.92172 19.5786 10.9391 20 12 20C13.0609 20 14.0783 19.5786 14.8284 18.8284C15.5786 18.0783 16 17.0609 16 16V6.5C16 5.83696 15.7366 5.20107 15.2678 4.73223C14.7989 4.26339 14.163 4 13.5 4C12.837 4 12.2011 4.26339 11.7322 4.73223C11.2634 5.20107 11 5.83696 11 6.5V15C11 15.2652 11.1054 15.5196 11.2929 15.7071C11.4804 15.8946 11.7348 16 12 16C12.2652 16 12.5196 15.8946 12.7071 15.7071C12.8946 15.5196 13 15.2652 13 15V8C13 7.73478 13.1054 7.48043 13.2929 7.29289C13.4804 7.10536 13.7348 7 14 7C14.2652 7 14.5196 7.10536 14.7071 7.29289C14.8946 7.48043 15 7.73478 15 8V15C15 15.7956 14.6839 16.5587 14.1213 17.1213C13.5587 17.6839 12.7956 18 12 18C11.2044 18 10.4413 17.6839 9.87868 17.1213C9.31607 16.5587 9 15.7956 9 15V6.5C9 5.30653 9.47411 4.16193 10.318 3.31802C11.1619 2.47411 12.3065 2 13.5 2C14.6935 2 15.8381 2.47411 16.682 3.31802C17.5259 4.16193 18 5.30653 18 6.5V16C17.9984 17.5908 17.3658 19.116 16.2409 20.2409C15.116 21.3658 13.5908 21.9984 12 22Z" fill="#4373C5"/>
+              </svg>
+              Attach
+            </button>
+            {% include "Admin/Query/attach-quatation.html" %}
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#view-quatation-{{i.id}}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                <path d="M12.5 16C11.7089 16 10.9355 15.7654 10.2777 15.3259C9.61992 14.8864 9.10723 14.2616 8.80448 13.5307C8.50173 12.7998 8.42252 11.9956 8.57686 11.2196C8.7312 10.4437 9.11216 9.73098 9.67157 9.17157C10.231 8.61216 10.9437 8.2312 11.7196 8.07686C12.4956 7.92252 13.2998 8.00173 14.0307 8.30448C14.7616 8.60723 15.3864 9.11992 15.8259 9.77772C16.2654 10.4355 16.5 11.2089 16.5 12C16.5 13.0609 16.0786 14.0783 15.3284 14.8284C14.5783 15.5786 13.5609 16 12.5 16ZM12.5 10C12.1044 10 11.7178 10.1173 11.3889 10.3371C11.06 10.5568 10.8036 10.8692 10.6522 11.2346C10.5009 11.6001 10.4613 12.0022 10.5384 12.3902C10.6156 12.7781 10.8061 13.1345 11.0858 13.4142C11.3655 13.6939 11.7219 13.8844 12.1098 13.9616C12.4978 14.0387 12.8999 13.9991 13.2654 13.8478C13.6308 13.6964 13.9432 13.44 14.1629 13.1111C14.3827 12.7822 14.5 12.3956 14.5 12C14.5 11.4696 14.2893 10.9609 13.9142 10.5858C13.5391 10.2107 13.0304 10 12.5 10Z" fill="#4373C5"/>
+                <path d="M12.5 19C6.046 19 2.5 13.742 2.5 12C2.5 10.336 7.112 5 12.5 5C17.888 5 22.5 10.336 22.5 12C22.5 13.742 18.954 19 12.5 19ZM4.513 12.028C5.22447 13.5376 6.35657 14.8098 7.77335 15.6917C9.19013 16.5737 10.8314 17.028 12.5 17C14.1686 17.028 15.8099 16.5737 17.2267 15.6917C18.6434 14.8098 19.7755 13.5376 20.487 12.028C20.124 11.058 16.755 7 12.5 7C8.245 7 4.876 11.058 4.513 12.028Z" fill="#4373C5"/>
+              </svg>
+              View
+            </button>
+            {% include "Admin/Query/view-quatation.html" %}
+            
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 24px;">
+          <div class="col-md-4">
+            <div class="card-body" style="padding: 6px 0;">
+              <h5 class="card-title mb-0" style="color: black !important;">Call Records</h5>
+            </div>
+          </div>
+         
+          <div class="col-md-4">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#view-call-records-{{i.id}}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                <path d="M12.5 16C11.7089 16 10.9355 15.7654 10.2777 15.3259C9.61992 14.8864 9.10723 14.2616 8.80448 13.5307C8.50173 12.7998 8.42252 11.9956 8.57686 11.2196C8.7312 10.4437 9.11216 9.73098 9.67157 9.17157C10.231 8.61216 10.9437 8.2312 11.7196 8.07686C12.4956 7.92252 13.2998 8.00173 14.0307 8.30448C14.7616 8.60723 15.3864 9.11992 15.8259 9.77772C16.2654 10.4355 16.5 11.2089 16.5 12C16.5 13.0609 16.0786 14.0783 15.3284 14.8284C14.5783 15.5786 13.5609 16 12.5 16ZM12.5 10C12.1044 10 11.7178 10.1173 11.3889 10.3371C11.06 10.5568 10.8036 10.8692 10.6522 11.2346C10.5009 11.6001 10.4613 12.0022 10.5384 12.3902C10.6156 12.7781 10.8061 13.1345 11.0858 13.4142C11.3655 13.6939 11.7219 13.8844 12.1098 13.9616C12.4978 14.0387 12.8999 13.9991 13.2654 13.8478C13.6308 13.6964 13.9432 13.44 14.1629 13.1111C14.3827 12.7822 14.5 12.3956 14.5 12C14.5 11.4696 14.2893 10.9609 13.9142 10.5858C13.5391 10.2107 13.0304 10 12.5 10Z" fill="#4373C5"/>
+                <path d="M12.5 19C6.046 19 2.5 13.742 2.5 12C2.5 10.336 7.112 5 12.5 5C17.888 5 22.5 10.336 22.5 12C22.5 13.742 18.954 19 12.5 19ZM4.513 12.028C5.22447 13.5376 6.35657 14.8098 7.77335 15.6917C9.19013 16.5737 10.8314 17.028 12.5 17C14.1686 17.028 15.8099 16.5737 17.2267 15.6917C18.6434 14.8098 19.7755 13.5376 20.487 12.028C20.124 11.058 16.755 7 12.5 7C8.245 7 4.876 11.058 4.513 12.028Z" fill="#4373C5"/>
+              </svg>
+              View
+            </button>
+            {% include "Admin/Query/view_call_Records_modal.html" %} 
+            
+          </div>
+        </div>
+
+        <div class="card-body" style="padding: 6px 0;">
+          <h5 class="card-title mb-0" style="color: black !important;">Lead History</h5>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <h5 style="color: black !important;">Event 1</h5>
+            <p>Details about Event 1.</p>
+          </div>
+          <div class="timeline-item">
+            <h5 style="color: black !important;">Event 2</h5>
+            <p>Details about Event 2.</p>
+          </div>
+          <div class="timeline-item">
+            <h5 style="color: black !important;">Event 3</h5>
+            <p>Details about Event 3.</p>
+          </div>
+          <div class="timeline-item">
+            <h5 style="color: black !important;">Event 4</h5>
+            <p>Details about Event 4.</p>
+          </div>
+          <div class="timeline-item">
+            <h5 style="color: black !important;">Event 5</h5>
+            <p>Details about Event 5.</p>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+    
+  </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+
+  $(document).ready(function() {
+      console.log("ssss");
+      
+      // Implement event delegation for the click event
+      $(document).on("click", "#callButton", function() {
+          console.log("click is working");
+          
+          // Get the CSRF token from the cookie
+          var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+          
+          // Make AJAX request to initiate the call
+          $.ajax({
+              url: "/make_click_to_call/{{i.id}}/",
+              method: "POST",
+              headers: {
+                  "X-CSRFToken": csrftoken  // Include CSRF token in the headers
+              },
+              success: function(data) {
+                  
+                  // Check the status returned by the server
+                  if (data.status === "calling") {
+                      $("#status").text("Connected....");
+                  } else {
+                      $("#status").text("Error: " + data.error);
+                  }
+              },
+              error: function(xhr, status, error) {
+                  $("#status").text("Error: " + error);
+              }
+          });
+      });
+  });
+  
+  </script>

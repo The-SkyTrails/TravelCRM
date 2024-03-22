@@ -1,0 +1,34 @@
+{% load static %}
+<div class="modal fade" id="view-call-records-{{i.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="view-followup" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center">
+                    <h4 class="modal-title" id="exampleModalLabel1">
+                       Call Record List
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="custom-table">
+                        <div class="custom-row bg-success text-white">
+                            <div class="custom-cell">Call Records</div>
+                            <div class="custom-cell">Date</div>
+                            {% comment %} <div class="custom-cell">Date-Time</div>
+                            <div class="custom-cell">Added On</div> {% endcomment %}
+                        </div>
+                        {% for item in recording_urls_and_dates %}
+                        <div class="custom-row">
+                            <div class="custom-cell"><a href="{{ item.recording_url }}" target="_blank">record</a></div>
+                           <div class="custom-cell">{{ item.date }}</div>
+                            {% comment %} <div class="custom-cell">{{ followup.datetime }}</div>
+                            <div class="custom-cell">{{ followup.date }}</div> {% endcomment %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </form>
+    </div>
+</div>

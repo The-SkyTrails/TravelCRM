@@ -1,0 +1,31 @@
+
+{% for message in messages %}
+{% if message.tags == 'success' %}
+
+<div class="alert customize-alert alert-dismissible text-success alert-light-success bg-success-subtle fade show remove-close-icon" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="d-flex align-items-center font-medium me-3 me-md-0">
+      <i class="ti ti-info-circle fs-5 me-2 text-success"></i>
+      {{message}}
+    </div>
+  </div>
+
+{% elif message.tags == 'error' %}
+<div class="alert customize-alert alert-dismissible alert-light-danger bg-danger-subtle text-danger fade show remove-close-icon" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="d-flex align-items-center font-medium me-3 me-md-0">
+      <i class="ti ti-info-circle fs-5 me-2 text-danger"></i>
+      {{message}}
+    </div>
+  </div>
+{% else %}
+<div class="alert customize-alert alert-dismissible alert-light-warning bg-warning-subtle text-warning fade show remove-close-icon" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="d-flex align-items-center font-medium me-3 me-md-0">
+      <i class="ti ti-info-circle fs-5 me-2 text-warning"></i>
+      {{message}}
+    </div>
+  </div>
+{% endif %}
+{% endfor %}
+

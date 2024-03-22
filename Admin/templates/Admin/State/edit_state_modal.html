@@ -1,0 +1,54 @@
+
+
+<div class="modal fade" id="state{{i.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="scroll-long-inner-modal" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-scrollable">
+     <div class="modal-content">
+      <form method="POST" action="{% url 'editstate' i.id %}" hx-post="true" hx-swap="outerHTML" hx-target="#main" hx-trigger="htmx:afterSwap">
+         {% csrf_token %}
+       <div class="modal-header d-flex align-items-center">
+         <h4 class="modal-title" id="myLargeModalLabel">
+            Edit State
+         </h4>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body">
+         
+        <div class="mb-3">
+          <label for="recipient-name" class="control-label">Name</label>
+          <input type="text" class="form-control" placeholder="Enter Name" value="{{i.name}}" name="state_name" hx-post="{% url "checkstates" %}"  hx-target="#post-data-container" hx-trigger="keyup changed delay:500ms">
+        </div>
+        <div id="post-data-container2"></div>
+        <div class="mb-3">
+            <label for="recipient-name" class="control-label">Country</label>
+            <select class="select2 form-control" name="country_id" id="country-name"  style="width: 100%; height: 36px">   
+               {% for country in country %}
+                     <option value="{{country.id}}" {% if country.id == i.country.id %}selected{% endif %}>{{country.country_name}}</option>
+                      {% endfor %}
+       </select>
+        </div>
+        
+         
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn bg-danger-subtle text-danger font-medium waves-effect text-start" data-bs-dismiss="modal">
+           Close
+         </button>
+         <button type="submit" class="btn btn-success">
+            Save Changes
+          </button>
+       </div>
+      </form>
+     </div>
+   </div>
+ </div>
+
+
+
+
+<script>
+
+   document.addEventListener('htmx:afterSwap', function(event) {
+      $('#state-{{i.id}}').modal('hide');
+  });
+  
+</script>

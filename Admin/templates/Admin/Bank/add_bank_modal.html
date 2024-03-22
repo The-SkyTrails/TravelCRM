@@ -1,0 +1,182 @@
+{% load static %}
+<div class="modal fade" id="bank" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+aria-labelledby="bank" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+        <form action="" id="add-bank-form" enctype="multipart/form-data">
+            {% csrf_token %}
+       <div class="modal-content">
+        <div class="modal-header d-flex align-items-center">
+            <h4 class="modal-title" id="exampleModalLabel1">
+                Add Bank
+            </h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <div class="modal-body">
+            <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label for="country-name" class="control-label">Bank Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Name"  name="bank_name">
+                                                     
+                    </div> 
+                </div> 
+                
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label for="country-name" class="control-label">Account Details</label>
+                        <textarea name="account_details" id="account_details" class="form-control"></textarea>
+                                                     
+                    </div> 
+                </div> 
+                
+                <div class="row mb-3">
+                    <div class="col-lg-6">
+                        <label for="country-name" class="control-label">Country</label>
+                        <select name="country_id" id="country-name" class="select2 form-control" style="width: 100%; height: 36px">
+                            <option  selected disabled>Select</option>
+                            {% for country in country %}
+                            <option value="{{country.id}}">{{country.country_name}}</option>
+                            
+                            {% endfor %}
+                        </select>
+                                                     
+                    </div> 
+                    <div class="col-lg-6">
+                        <label for="state-name" class="control-label">State</label>
+                        <select name="state_id" id="state-name" class="select2 form-control" style="width: 100%; height: 36px">
+                            <option  selected disabled>Select</option>
+                        </select>
+                                                     
+                    </div> 
+                </div> 
+                <div class="row mb-3">
+                    <div class="col-lg-6">
+                        <label for="country-name" class="control-label">City</label>
+                        <select name="city_id" id="city-name" class="select2 form-control" style="width: 100%; height: 36px">
+                            <option  selected disabled>Select</option>
+                        </select>
+                                                     
+                    </div> 
+                    <div class="col-lg-6">
+                        <label for="state-name" class="control-label">Zipcode</label>
+                        <input type="text" class="form-control" placeholder="Enter Zip"  name="zip">
+                                                     
+                    </div> 
+                </div> 
+
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label for="country-name" class="control-label">Address</label>
+                        <textarea name="address" id="address" class="form-control"></textarea>
+                    </div>
+
+                </div>
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label for="currency-name" class="control-label">Currency</label>
+                        <select name="currency_id" class="select2 form-control" style="width: 100%; height: 36px">
+                            <option  selected disabled>Select</option>
+                            {% for currency in currency %}
+                            <option value="{{currency.id}}">{{currency.name}}</option>
+                            
+                            {% endfor %}
+                        </select>
+                                                     
+                    </div> 
+                    
+                </div> 
+                
+                
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-danger-subtle text-danger font-medium" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-success" id="save-bank-btn">
+                    Save
+                </button>
+            </div>
+       </div>
+    </form>
+    </div>
+ </div>
+
+ 
+ <script>
+    document.getElementById('save-bank-btn').addEventListener('click', function() {
+        
+        var form = document.getElementById('add-bank-form');
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', "{% url 'bank' %}", true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                
+                window.location.href = "{% url 'add_bank' %}";
+                // Reload the page
+                {% comment %} window.location.reload();  {% endcomment %}
+                
+            } else if (xhr.status === 400) {
+                // Handle bad request response
+                
+                                            
+               //document.getElementById('custom-html-alert').style.display = 'block';
+               showCountryExistsAlert("Bank");
+            } else {
+                // Handle other error responses
+                alert('Error occurred');
+            }
+        };
+        xhr.send(formData);
+    });
+
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#country-name').change(function(){
+            var country_id = $(this).val();
+            $.ajax({
+                url: '{% url "get_states" %}',
+                type: 'GET',
+                data: {'country_id': country_id},
+                success: function(response){
+                    $('#state-name').empty();
+                    $.each(response.states, function(key, value){
+                        $('#state-name').append('<option value="' + key + '">' + value + '</option>');
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('#state-name').change(function(){
+            var state_id = $(this).val();
+            $.ajax({
+                url: '{% url "get_city" %}',
+                type: 'GET',
+                data: {'state_id': state_id},
+                success: function(response){
+                    $('#city-name').empty();
+                    $.each(response.citys, function(key, value){
+                        $('#city-name').append('<option value="' + key + '">' + value + '</option>');
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+
+ 
+
+ 
+
+ 
+        

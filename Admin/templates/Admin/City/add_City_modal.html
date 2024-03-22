@@ -1,0 +1,78 @@
+{% load static %}
+
+ <div class="modal fade" id="city" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+ aria-labelledby="city" aria-hidden="true">
+ <div class="modal-dialog modal-dialog-scrollable">
+     <div class="modal-content">
+         <form action="" id="add-city-form">
+             {% csrf_token %}
+             <div class="modal-header d-flex align-items-center">
+                 <h4 class="modal-title" id="exampleModalLabel1">
+                     Add City
+                 </h4>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <div class="modal-body">
+
+                 <div class="mb-3">
+                     <label for="recipient-name" class="control-label">Name</label>
+                     <input type="text" class="form-control" placeholder="Enter Name" hx-post="{% url "checkcity" %}"  hx-target="#post-data-container2" hx-trigger="keyup changed delay:500ms" name="city_name">
+                     </div>
+                     <div id="post-data-container2"></div>
+                 <div class="mb-3">
+                     <label for="country-name" class="control-label">State</label>
+                     <select class="select2 form-control" name="state_id" id="country-name"
+                         style="width: 100%; height: 36px">
+                         <option selected disabled>Select</option>
+                         {% for state in state %}
+                         <option value="{{state.id}}">{{state.name}}</option>
+                          {% endfor %}
+                     </select>
+
+                 </div>
+
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn bg-danger-subtle text-danger font-medium" data-bs-dismiss="modal">
+                     Close
+                 </button>
+                 <button type="button" class="btn btn-success" id="save-city-btn">
+                     Save
+                 </button>
+             </div>
+         </form>
+     </div>
+ </div>
+</div>
+
+
+<script>
+
+
+    document.getElementById('save-city-btn').addEventListener('click', function () {
+
+        var form = document.getElementById('add-city-form');
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', "{% url 'addcity' %}", true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+
+                window.location.href = "{% url 'city' %}";
+                // Reload the page
+
+            } else if (xhr.status === 400) {
+                // Handle bad request response
+                //document.getElementById('custom-html-alert').style.display = 'block';
+                showCountryExistsAlert("City");
+            } else {
+                // Handle other error responses
+                alert('Error Occurred');
+            }
+        };
+        xhr.send(formData);
+    });
+
+</script>

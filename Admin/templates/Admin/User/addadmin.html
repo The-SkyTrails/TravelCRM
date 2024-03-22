@@ -1,0 +1,272 @@
+{% extends "Admin/Base/base.html" %}
+{% block main-content %}
+
+    <div class="body-wrapper">
+        <div class="container-fluid">
+          <div class="font-weight-medium shadow-none position-relative overflow-hidden mb-7">
+            <div class="card-body px-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h4 class="font-weight-medium fs-14 mb-0">Form Basic</h4>
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item">
+                        <a class="text-muted text-decoration-none" href="index.html">Home
+                        </a>
+                      </li>
+                      <li class="breadcrumb-item text-muted" aria-current="page">Form Basic</li>
+                    </ol>
+                  </nav>
+                </div>
+                <div>
+                  <div class="d-sm-flex d-none gap-3 no-block justify-content-end align-items-center">
+                    <div class="d-flex gap-2">
+                      <div class="">
+                        <small>This Month</small>
+                        <h4 class="text-primary mb-0 font-medium">$58,256</h4>
+                      </div>
+                      <div class="">
+                        <div class="breadbar"></div>
+                      </div>
+                    </div>
+                    <div class="d-flex">
+                      <div class="">
+                        <small>Last Month</small>
+                        <h4 class="text-secondary mb-0 font-medium">$58,256</h4>
+                      </div>
+                      <div class="">
+                        <div class="breadbar2"></div>
+                      </div>
+                    </div>
+                    
+                    
+                  </div>
+                </div>
+              </div>
+            </div>    
+          </div>
+    
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <form action="" method="post" enctype="multipart/form-data">
+                   
+                      {% csrf_token %}
+                        <div class="row">
+                            <div class="col-xl-6">
+                              <h4 class="mt-0 header-title">Login Information</h4>
+                                <div class="form-group row">
+                                    
+                                    <div class="col-sm-12">
+                                        <label for="example-text-input" class="col-form-label">Assigned Company</label>
+                                        <select class="select2 form-control" name="assigned_company" id="assigned_company" style="height: 36px; width: 100%">
+                                            
+                                            <option value="The Skytrails">The Skytrails</option>
+                                            
+                                        </select>
+                                    </div>
+                                    
+                                </div>
+                                <div class="form-group row">
+                                    
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">First Name</label>
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter FirstName" name="firstname">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">Last Name</label>
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter LastName" name="lastname">
+                                    </div>
+                                    
+                                </div>
+                                <div class="form-group row">
+                                    
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">Email</label>
+                                        <input class="form-control" type="email"  id="example-text-input" placeholder="Enter Email" name="email">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">Password</label>
+                                        <input class="form-control" type="password"  id="example-text-input" placeholder="Enter Password" name="password">
+                                    </div>
+                                    
+                                </div>
+                                <div class="form-group row">
+                                    
+                                    <div class="col-sm-2">
+                                        <label for="example-search-input" class="col-form-label">Code</label>
+                                        <input class="form-control" type="text" name="code" id="" placeholder="+91">
+                                    </div>
+                                    <div class="col-sm-4">
+                                      <label for="example-email-input" class="col-form-label">Mobile</label>
+                                      <input class="form-control" type="text" name="contact" id="" placeholder="Enter Mobile">
+                                    </div>
+                                    <div class="col-sm-6">
+                                      <label for="example-email-input" class="col-form-label">Role/Permission</label>
+                                      <select class="select2 form-control" name="role_id" id="role_id" style="height: 36px; width: 100%">
+                                        {% for i in roles %}
+                                        <option value="{{i.id}}">{{i.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    </div>
+                                
+                                </div>
+                                <div class="form-group row">
+                                    
+                                    
+                                    <div class="col-sm-6">
+                                      <label for="example-email-input" class="col-form-label">User Type</label>
+                                      <select class="select2 form-control" name="user_type" id="user_type" style="height: 36px; width: 100%">
+                                        <option value="Admin">Admin</option>
+                                        <option value="Operation Person">Operation Person</option>
+                                        <option value="Sales Person">Sales Person</option>
+                                        <option value="Hotel Reservation Person">Hotel Reservation Person</option>
+                                        <option value="Visa Service">Visa Service</option>
+                                        <option value="Account">Account</option>
+                                        <option value="Ground Operation">Ground Operation</option>
+                                        <option value="Hr">Hr</option>
+                                        <option value="Customer Service">Customer Service</option>
+                                        <option value="Marketing Person">Marketing Person</option>
+                                        <option value="Sales + Marketing Person">Sales + Marketing Person</option>
+                                    </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                      <label for="example-email-input" class="col-form-label">Reporting To</label>
+                                      <select class="select2 form-control" name="reporting_to_id" id="reporting_to_id" style="height: 36px; width: 100%">
+                                        {% for i in reporting %}
+                                        <option value="{{i.id}}">{{i.first_name}} {{i.last_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    </div>
+                                
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-lg-6">
+                                        <label for="country-name" class="col-form-label">Country</label>
+                                        <select name="country_id" id="country-name" class="select2 form-control" style="width: 100%; height: 36px">
+                                            <option  selected disabled>Select</option>
+                                            {% for country in countrys %}
+                                            <option value="{{country.id}}">{{country.country_name}}</option>
+                                            
+                                            {% endfor %}
+                                        </select>
+                                                                     
+                                    </div> 
+                                    <div class="col-lg-6">
+                                        <label for="state-name" class="col-form-label">State</label>
+                                        <select name="state_id" id="state-name" class="select2 form-control" style="width: 100%; height: 36px">
+                                            <option  selected disabled>Select</option>
+                                        </select>
+                                                                     
+                                    </div> 
+                                </div> 
+                                <div class="row mb-3">
+                                    <div class="col-lg-6">
+                                        <label for="country-name" class="col-form-label">City</label>
+                                        <select name="city_id" id="city-name" class="select2 form-control" style="width: 100%; height: 36px">
+                                            <option  selected disabled>Select</option>
+                                        </select>
+                                                                     
+                                    </div> 
+                                    <div class="col-lg-6">
+                                        <label for="state-name" class="col-form-label">Pin</label>
+                                        <input type="text" class="form-control" placeholder="Enter Pin"  name="pin">
+                                                                     
+                                    </div> 
+                                </div> 
+                                    
+                                
+                            </div>
+                            <div class="col-xl-6">
+                                <h4 class="mt-0 header-title">Other Information</h4>
+                                <div class="form-group row">
+                                      
+                                  <div class="col-sm-12">
+                                      <label for="example-text-input" class="col-form-label">Destination</label>
+                                      <select name="destination_id" class="select2 form-control" style="width: 100%; height: 36px">
+                                        <option  selected disabled>Select</option>
+                                        {% for destination in destinations %}
+                                        <option value="{{destination.id}}">{{destination.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                  </div>
+                                  
+                                </div>
+                                <div class="form-group row">
+                                      
+                                  <div class="col-sm-12">
+                                      <label for="example-text-input" class="col-form-label">Address</label>
+                                      <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Address" name="address">
+                                  </div>
+                                  
+                                </div>
+                                <div class="form-group row">
+                                        
+                                  <div class="col-sm-12">
+                                      <label for="example-text-input" class="col-form-label">Email Signature</label>
+                                      <textarea class="form-control" name="email_signature" id="" cols="30" rows="10"></textarea>
+                                  </div>
+                                  
+                                  
+                                </div>
+                                
+                                 
+                                <div class="form-group row">
+                                    <div class="modal-footer" style="margin-top: 10px;">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        <button class="btn btn-danger mx-2" hx-get="{% url "user" %}" hx-push-url="true" hx-target="#main">Cancel</button>
+                                    </div>
+                                </div>
+                              </div>
+                            
+                        </div> 
+                    </form>    
+                </div>
+              </div>
+            </div>
+          </div>
+    
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#country-name').change(function(){
+            var country_id = $(this).val();
+            $.ajax({
+                url: '{% url "get_states" %}',
+                type: 'GET',
+                data: {'country_id': country_id},
+                success: function(response){
+                    $('#state-name').empty();
+                    $.each(response.states, function(key, value){
+                        $('#state-name').append('<option value="' + key + '">' + value + '</option>');
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('#state-name').change(function(){
+            var state_id = $(this).val();
+            $.ajax({
+                url: '{% url "get_city" %}',
+                type: 'GET',
+                data: {'state_id': state_id},
+                success: function(response){
+                    $('#city-name').empty();
+                    $.each(response.citys, function(key, value){
+                        $('#city-name').append('<option value="' + key + '">' + value + '</option>');
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock main-content %}

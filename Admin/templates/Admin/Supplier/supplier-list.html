@@ -1,0 +1,141 @@
+{% load static %}
+<div class="body-wrapper">
+    <div class="container-fluid">
+      <div class="font-weight-medium shadow-none position-relative overflow-hidden mb-7">
+        <div class="card-body px-0">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h4 class="font-weight-medium fs-14 mb-0">Datatable Advanced</h4>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a class="text-muted text-decoration-none" href="index.html">Home
+                    </a>
+                  </li>
+                  <li class="breadcrumb-item text-muted" aria-current="page">Datatable Advanced</li>
+                </ol>
+              </nav>
+            </div>
+            <div>
+              <div class="d-sm-flex d-none gap-3 no-block justify-content-end align-items-center">
+                <div class="d-flex gap-2">
+                  <div class="">
+                    <small>This Month</small>
+                    <h4 class="text-primary mb-0 font-medium">$58,256</h4>
+                  </div>
+                  <div class="">
+                    <div class="breadbar"></div>
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <div class="">
+                    <small>Last Month</small>
+                    <h4 class="text-secondary mb-0 font-medium">$58,256</h4>
+                  </div>
+                  <div class="">
+                    <div class="breadbar2"></div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="datatables">
+        <!-- File export -->
+        <div class="row">
+          <div class="col-12">
+            <!-- ---------------------
+                        start File export
+                    ---------------- -->
+            <div class="card">
+              <div class="card-body">
+                
+                <div class="table-responsive">
+                    <a href="{% url "add_supplier" %}">
+                        <button type="button" class="btn mb-1 bg-primary-subtle text-primary px-4 fs-4 font-medium">
+                            Add Supplier
+                          </button>
+                    </a>
+
+                  
+                  <table id="file_export" class="table border table-striped table-bordered display text-nowrap">
+                    <thead>
+                                <tr>
+                                  <th>Supplier Name</th>
+                                    <th>Service Type</th>
+                                    <th>Contact person</th>
+                                    <th>Contact Info</th>
+                                    <th>Address</th>
+                                    <th>Contract</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+
+
+                                <tbody >
+                                {% for i in supplier %}
+                               
+                                <tr>
+                                  <td>{{i.name}}</td>
+                                  <td>
+                                    {% for restype in i.service_type.all %}
+                                          {{restype.name}}
+                                          {% if not forloop.last %}, {% endif %}
+                                       {% endfor %}
+                                  </td>
+                                  <td>{{i.contact_person_name}}</td>
+                                  <td>{{i.contact_person_email}}/{{i.mob_no}}/{{i.landline_no}}</td>
+                                  <td>{{i.address}}</td>
+                                  {% if i.contract %}
+                                  <td><img src="{{i.contract.url}}" alt="" srcset="" style="width:20%;"></td>
+                                  {% else %}
+                                  <td><img src="{% static "assets/images/products/product-1.jpg" %}" alt="" style="width:20%;"></td>
+                                  {% endif %}
+                               <td>{{i.date}}</td>
+
+                                     <td >
+
+                                        <button hx-trigger="change" hx-sync="closest form:abort" type="button" class="btn mb-1 bg-success-subtle text-success px-4 fs-4 font-medium" hx-get="{% url "edit_extra_meal" i.id %}" hx-push-url="true" hx-target="#main" hx-trigger="click">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                                                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                                                <path d="M16 5l3 3" />
+                                              </svg>
+                                            </button>
+                                        
+                                            <button class="btn mb-1 bg-danger-subtle text-danger px-4 fs-4 font-medium" hx-delete="{% url "delete_supplier" i.id %}" hx-target="#supplierlist" id="alertify-success" hx-confirm="Do you want to delete ?">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M4 7h16" />
+                                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                                <path d="M10 12l4 4m0 -4l-4 4" />
+                                              </svg></button>
+                                    
+                                    </td>  
+                                   
+                                    
+                                </tr>
+                                {% endfor %}
+                               
+                               
+                            
+                                </tbody>
+                            </table>
+                        </div>           
+                    </div>
+                </div>
+            </div>
+        </div><!--end row-->
+
+
+    </div> <!-- end container -->
+</div>
+
+

@@ -1,0 +1,221 @@
+{% extends "Admin/Base/base.html" %}
+{% load static %}
+{% block main-content %}
+
+<div class="body-wrapper">
+    <div class="container-fluid">
+      <div class="font-weight-medium shadow-none position-relative overflow-hidden mb-7">
+        <div class="card-body px-0">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h4 class="font-weight-medium fs-14 mb-0">Form Basic</h4>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a class="text-muted text-decoration-none" href="index.html">Home
+                    </a>
+                  </li>
+                  <li class="breadcrumb-item text-muted" aria-current="page">Form Basic</li>
+                </ol>
+              </nav>
+            </div>
+            <div>
+              <div class="d-sm-flex d-none gap-3 no-block justify-content-end align-items-center">
+                <div class="d-flex gap-2">
+                  <div class="">
+                    <small>This Month</small>
+                    <h4 class="text-primary mb-0 font-medium">$58,256</h4>
+                  </div>
+                  <div class="">
+                    <div class="breadbar"></div>
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <div class="">
+                    <small>Last Month</small>
+                    <h4 class="text-secondary mb-0 font-medium">$58,256</h4>
+                  </div>
+                  <div class="">
+                    <div class="breadbar2"></div>
+                  </div>
+                </div>
+                
+                
+              </div>
+            </div>
+          </div>
+        </div>    
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-xl-6">
+                        <h4 class="mt-0 header-title">Restaurant Information</h4>
+                        <div class="form-group row">
+                            
+                            <div class="col-sm-12">
+                                <label for="example-text-input" class="col-sm-2 col-form-label">Name</label>
+                                <input class="form-control" type="text" name="name" placeholder="Enter Name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            
+                            <div class="col-sm-6">
+                                <label for="example-email-input" class="col-sm-6 col-form-label">Image</label>
+                               <input class="form-control" type="file" name="image">
+                           </div>
+                           <div class="col-sm-6">
+                                <label for="example-email-input" class="col-sm-6 col-form-label">Timing</label>
+                               <input class="form-control" type="text" name="timing" placeholder="Enter Timing">
+                           </div>
+                           
+                        </div>
+                        <div class="form-group row">
+                           
+                            <div class="col-sm-6">
+                                <label for="example-email-input" class="col-sm-6 col-form-label">Destination</label>
+                                <select class="select2 form-control" name="destination_id" id="id_destination" style="width: 100%; height: 36px">
+                                    {% for destination in destinations %}
+                                    <option value="{{destination.id}}">{{destination.name}}</option>
+                                     {% endfor %}
+        
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="example-email-input" class="col-sm-6 col-form-label">Location</label>
+                                <select class="select2 form-control" id="id_restaurant_location" name="restauration_location_id" style="width: 100%; height: 36px">
+                                    <option value="">Select</option>
+                                    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            
+                            <div class="col-sm-6">
+                                <label for="example-email-input" class="col-sm-6 col-form-label">Meal Prefrence</label>
+                                <select class="select2 form-control" name="meal_prefrence" id="meal_prefrence" style="width: 100%; height: 36px">
+                                    <option value="Veg/Non Veg">Veg/Non Veg</option>
+                                    <option value="Pure Veg/Jain Meals">Pure Veg/Jain Meals</option>
+        
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="example-email-input" class="col-sm-6 col-form-label">Landmark</label>
+                                <input class="form-control" type="text" name="landmark" id="landmark" placeholder="Enter Landmark">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            
+                            <div class="col-sm-6">
+                                <label for="example-email-input" class="col-sm-6 col-form-label">Restaurant Type</label>
+                                    <select class="select2 form-control" name="restaurent_type_ids" id="restaurent_type_id" multiple="multiple" style="height: 36px; width: 100%">
+                                    {% for restaurant in restaurant_type %}
+                                    <option value="{{restaurant.id}}">{{restaurant.name}}</option>
+                                     {% endfor %}
+        
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="example-email-input" class="col-sm-6 col-form-label">Type</label>
+                               <select class="select2 form-control" name="type_id" id="id_type" style="width: 100%; height: 36px">
+                                    {% for type in types %}
+                                    <option value="{{type.id}}">{{type.name}}</option>
+                                     {% endfor %}
+        
+                                </select>
+                            </div>
+                        </div>
+                         
+                    </div>
+                    <div class="col-xl-6">
+                        <h4 class="mt-0 header-title">Other Information</h4>
+                        <div class="form-group row">
+                            
+                            <div class="col-sm-12">
+                                <label for="example-text-input" class="col-sm-2 col-form-label">Address</label>
+                                <input class="form-control" type="text" name="address" placeholder="Enter Address">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            
+                            <div class="col-sm-6">
+                                <label for="example-text-input" class="col-form-label">Contact Person</label>
+                                <input class="form-control" type="text" name="contact_person" placeholder="Enter Contact Person">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="example-text-input" class="col-form-label">Contact Person Phone</label>
+                                <input class="form-control" type="text" name="contact_person_phone" placeholder="Enter Phone">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            
+                            <div class="col-sm-6">
+                                <label for="example-text-input" class="col-form-label">Contact Person Email</label>
+                                <input class="form-control" type="email" name="contact_person_email" placeholder="Enter Email">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="example-text-input" class="col-form-label">Landline No.</label>
+                                <input class="form-control" type="text" name="landline_no" placeholder="Enter Landline No.">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            
+                            <div class="col-sm-12">
+                                <label for="example-text-input" class="col-form-label">Restaurant Details</label>
+                                <textarea name="restaurent_details" id="" class="form-control"></textarea>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>  
+                <div class="modal-footer">
+                    
+                    <button type="submit" class="btn btn-primary">Save</button>
+                   </div>
+                
+            </form>   
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#id_destination").change(function() {
+            var url = "{% url 'get-restaurant-locations' %}";
+            var destinationId = $(this).val();
+    
+            $.ajax({
+                url: url,
+                data: {
+                    'destination_id': destinationId
+                },
+                success: function(data) {
+                    console.log("Received data:", data);
+                    $("#id_restaurant_location").html(""); 
+                    $.each(data, function(index, item) {
+                        $("#id_restaurant_location").append(
+                            $("<option></option>").attr("value", item.id).text(item.name)
+                        );
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching restaurant locations:", error);
+                }
+            });
+        });
+    });
+    
+</script>
+
+
+{% endblock main-content %}

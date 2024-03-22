@@ -1,0 +1,95 @@
+{% load static %}
+<div class="modal fade" id="specialdays" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+aria-labelledby="specialdays" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+        <form action="" id="add-specialdays-form">
+            {% csrf_token %}
+       <div class="modal-content">
+        <div class="modal-header d-flex align-items-center">
+            <h4 class="modal-title" id="exampleModalLabel1">
+                Add Special Days
+            </h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <div class="modal-body">
+
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label for="country-name" class="control-label">Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Name" hx-post="{% url "checkspecialdaysname" %}"  hx-target="#post-data-container" hx-trigger="keyup changed delay:500ms" name="name">
+                                                     
+                    </div> 
+                    <div id="post-data-container"></div>
+                </div> 
+                <div class="row mb-3">
+                    <div class="col-lg-6">
+                        <label for="country-name" class="control-label">Block Out From Date</label>
+                        <input type="date" class="form-control" name="block_out_from_date">
+                                                     
+                    </div> 
+                    <div class="col-lg-6">
+                        <label for="country-name" class="control-label">Block Out To Date</label>
+                        <input type="date" class="form-control" name="block_out_to_date">
+                                                     
+                    </div> 
+                    
+                </div> 
+                 
+              
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-danger-subtle text-danger font-medium" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-success" id="save-specialdays-btn">
+                    Save
+                </button>
+            </div>
+       </div>
+    </form>
+    </div>
+ </div>
+
+ 
+ <script>
+    document.getElementById('save-specialdays-btn').addEventListener('click', function() {
+        
+        var form = document.getElementById('add-specialdays-form');
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', "{% url 'specialdays' %}", true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log("workkk")
+                
+                window.location.href = "{% url 'add_specialdays' %}";
+                // Reload the page
+                {% comment %} window.location.reload();  {% endcomment %}
+                
+            } else if (xhr.status === 400) {
+                // Handle bad request response
+                
+                                                    
+                
+               //document.getElementById('custom-html-alert').style.display = 'block';
+               showCountryExistsAlert("Special Days");
+            } else {
+                // Handle other error responses
+                alert('Error occurred');
+            }
+        };
+        xhr.send(formData);
+    });
+
+</script>
+
+
+ 
+
+ 
+
+ 
+        
