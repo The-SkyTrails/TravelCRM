@@ -8,15 +8,13 @@ from django.conf import settings
 import requests
 from datetime import date
 import json
+from django.core.mail import EmailMessage
+import mimetypes 
 import uuid
+from.tatatele_api.call_records import fetch_recording_urls_and_dates
 
 def index(request):
-    today = date.today()
-    followups_due_today = Followup.objects.filter(date=today)
-    context = {
-            'followups_due_today': followups_due_today
-            }
-    return render(request,"Admin/Base/index2.html",context)
+    return render(request,"Admin/Base/index2.html")
 
 
 def add_Country(request):
@@ -2383,7 +2381,6 @@ def edit_extra_meal(request, id):
 # ------------------------------- SightSeeing ----------------------------------------
 
 
-
 def add_sightseeing(request):
     destination = Destination.objects.all()
     days = Day.objects.all()
@@ -2838,8 +2835,7 @@ def user(request):
 # ------------------------------------ Query ---------------------------------------------
 
 def allquerylist(request):
-    url = "https://api-smartflo.tatateleservices.com/v1/call/records"
-    print("hello gg")
+    
     new_lead_list = Lead.objects.filter(lead_status="New Lead").order_by("-id")
     lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
     quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
@@ -2849,23 +2845,25 @@ def allquerylist(request):
     lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
     all_lead = Lead.objects.all().order_by("-id")
     operation = CustomUser.objects.filter(user_type = "Operation Person")
-    headers = {
-        "accept": "application/json",
-        "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjM3MDgiLCJpc3MiOiJodHRwczovL2Nsb3VkcGhvbmUudGF0YXRlbGVzZXJ2aWNlcy5jb20vdG9rZW4vZ2VuZXJhdGUiLCJpYXQiOjE3MDIyNzE2NzAsImV4cCI6MjAwMjI3MTY3MCwibmJmIjoxNzAyMjcxNjcwLCJqdGkiOiJCa0xPV05hcVNNVkZabm4wIn0.w76qiqkkFZpcb9sjIg_J9MG__iw7m0yZ-rlAoOGKab4"
-    }
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        data = response.json()
-        recording_urls_and_dates = [
-            {
-                'recording_url': result.get('recording_url'),
-                'date': result.get('date')
-            } 
-            for result in data.get('results', [])
-        ]
-    else:
-        recording_urls_and_dates = []
-    
+    # url = "https://api-smartflo.tatateleservices.com/v1/call/records"
+   
+    # headers = {
+    #     "accept": "application/json",
+    #     "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjM3MDgiLCJpc3MiOiJodHRwczovL2Nsb3VkcGhvbmUudGF0YXRlbGVzZXJ2aWNlcy5jb20vdG9rZW4vZ2VuZXJhdGUiLCJpYXQiOjE3MDIyNzE2NzAsImV4cCI6MjAwMjI3MTY3MCwibmJmIjoxNzAyMjcxNjcwLCJqdGkiOiJCa0xPV05hcVNNVkZabm4wIn0.w76qiqkkFZpcb9sjIg_J9MG__iw7m0yZ-rlAoOGKab4"
+    # }
+    # response = requests.get(url, headers=headers)
+    # if response.status_code == 200:
+    #     data = response.json()
+    #     recording_urls_and_dates = [
+    #         {
+    #             'recording_url': result.get('recording_url'),
+    #             'date': result.get('date')
+    #         } 
+    #         for result in data.get('results', [])
+    #     ]
+    # else:
+    #     recording_urls_and_dates = []
+    recording_urls_and_dates = fetch_recording_urls_and_dates()
 
     context = {
         "new_lead_list":new_lead_list,
@@ -2890,6 +2888,7 @@ def newquerylist(request):
     comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
     lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
     all_lead = Lead.objects.all().order_by("-id")
+    recording_urls_and_dates = fetch_recording_urls_and_dates()
     context = {
         "new_lead_list":new_lead_list,
         "lead_list":lead_list,
@@ -2898,7 +2897,9 @@ def newquerylist(request):
         "paydonelead_list":paydonelead_list,
         "comlead_list":comlead_list,
         "all_lead":all_lead,
-        "lost_list":lost_list
+        "lost_list":lost_list,
+        "recording_urls_and_dates":recording_urls_and_dates,
+
     }
     return render(request,"Admin/Query/newquery.html",context)
 
@@ -2912,6 +2913,7 @@ def connectedquerylist(request):
     comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
     all_lead = Lead.objects.all().order_by("-id")
     lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
+    recording_urls_and_dates = fetch_recording_urls_and_dates()
     context = {
         "new_lead_list":new_lead_list,
         "lead_list":lead_list,
@@ -2920,7 +2922,8 @@ def connectedquerylist(request):
         "paydonelead_list":paydonelead_list,
         "comlead_list":comlead_list,
         "all_lead":all_lead,
-        "lost_list":lost_list
+        "lost_list":lost_list,
+        "recording_urls_and_dates":recording_urls_and_dates
     }
     return render(request,"Admin/Query/connectedquery.html",context)
 
@@ -2935,6 +2938,7 @@ def quatationquerylist(request):
     all_lead = Lead.objects.all().order_by("-id")
     lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
     quatation = Quatation.objects.all()
+    recording_urls_and_dates = fetch_recording_urls_and_dates()
     context = {
         "new_lead_list":new_lead_list,
         "lead_list":lead_list,
@@ -2944,7 +2948,7 @@ def quatationquerylist(request):
         "comlead_list":comlead_list,
         "all_lead":all_lead,
         "lost_list":lost_list,
-        "quatation":quatation
+        "recording_urls_and_dates":recording_urls_and_dates
     }
     return render(request,"Admin/Query/quatationquery-list.html",context)
 
@@ -2958,6 +2962,7 @@ def paymentprocessquerylist(request):
     comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
     all_lead = Lead.objects.all().order_by("-id")
     lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
+    recording_urls_and_dates = fetch_recording_urls_and_dates()
     context = {
         "new_lead_list":new_lead_list,
         "lead_list":lead_list,
@@ -2966,7 +2971,8 @@ def paymentprocessquerylist(request):
         "paydonelead_list":paydonelead_list,
         "comlead_list":comlead_list,
         "all_lead":all_lead,
-        "lost_list":lost_list
+        "lost_list":lost_list,
+        "recording_urls_and_dates":recording_urls_and_dates
     }
     return render(request,"Admin/Query/paymentprocessquery.html",context)
 
@@ -2991,6 +2997,7 @@ def paymentdonequerylist(request):
     }
     response = requests.get(url, headers=headers)
     data = response.json()
+    recording_urls_and_dates = fetch_recording_urls_and_dates()
     context = {
         # "new_lead_list":new_lead_list,
         # "lead_list":lead_list,
@@ -3001,10 +3008,10 @@ def paymentdonequerylist(request):
         # "all_lead":all_lead,
         # "lost_list":lost_list,
         "data":data,
-        "payment":payment
+        "payment":payment,
+        "recording_urls_and_dates":recording_urls_and_dates,
     }
     return render(request,"Admin/Query/paymentdonequery.html",context)
-
 
 def completedquerylist(request):
     new_lead_list = Lead.objects.filter(lead_status="New Lead").order_by("-id")
@@ -3015,6 +3022,7 @@ def completedquerylist(request):
     comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
     all_lead = Lead.objects.all().order_by("-id")
     lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
+    recording_urls_and_dates = fetch_recording_urls_and_dates()
     context = {
         "new_lead_list":new_lead_list,
         "lead_list":lead_list,
@@ -3023,7 +3031,8 @@ def completedquerylist(request):
         "paydonelead_list":paydonelead_list,
         "comlead_list":comlead_list,
         "all_lead":all_lead,
-        "lost_list":lost_list
+        "lost_list":lost_list,
+        "recording_urls_and_dates":recording_urls_and_dates
     }
     return render(request,"Admin/Query/completedquery.html",context)
 
@@ -3036,6 +3045,7 @@ def lostquerylist(request):
     comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
     all_lead = Lead.objects.all().order_by("-id")
     lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
+    recording_urls_and_dates = fetch_recording_urls_and_dates()
     context = {
         "new_lead_list":new_lead_list,
         "lead_list":lead_list,
@@ -3044,7 +3054,8 @@ def lostquerylist(request):
         "paydonelead_list":paydonelead_list,
         "comlead_list":comlead_list,
         "all_lead":all_lead,
-        "lost_list":lost_list
+        "lost_list":lost_list,
+        "recording_urls_and_dates":recording_urls_and_dates,
     }
     return render(request,"Admin/Query/lostleads.html",context)
 
@@ -3126,7 +3137,6 @@ def addquery(request):
     return render(request,"Admin/Query/add-query.html",context)
 
 
-
 def editquery(request,id):
     servicess = Service_type.objects.all()
     destinations = Destination.objects.all()
@@ -3166,7 +3176,7 @@ def editquery(request,id):
             lead_source = Lead_source.objects.get(id=lead_source_id)
             sales_person = CustomUser.objects.get(id=sales_person_id)
             destination = Destination.objects.get(id=destination_name)
-        
+ 
             lead.name=contact_person_name
             lead.email=contact_person_email
             lead.inter_domes=inter_domes
@@ -3198,7 +3208,6 @@ def editquery(request,id):
 
 
 def lead_status_update(request,id):
-   
     lead = Lead.objects.get(id=id)
     if request.method == "POST":
         lead_status = request.POST.get("lead_status")
@@ -3234,6 +3243,21 @@ def attach_quotation(request, id):
             lead.save()
 
             messages.success(request, "Quotation Added Successfully...")
+            subject = "Travel Packages Quotation Attached"
+            message = "Dear {},\n\nI hope this email finds you well. Find your dream vacation inside!  We've attached a detailed quotation outlining each package, including destinations, activities, pricing, and more. \nWe look forward to helping you plan your next adventure!".format(lead.name)
+            email_from = settings.EMAIL_HOST_USER
+            to_email = lead.email
+
+            email = EmailMessage(subject, message, email_from, [to_email])
+            
+            # Attach all the files associated with the quotation
+            for attachment in quotation.attachment.all():
+                content_type, _ = mimetypes.guess_type(attachment.file.name)
+                if content_type is None:
+                    content_type = 'application/octet-stream'  # Default to binary if content type is unknown
+                email.attach(attachment.file.name, attachment.file.read(), content_type)
+            
+            email.send()
         except Lead.DoesNotExist:
             pass
         
