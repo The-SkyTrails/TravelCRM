@@ -136,8 +136,6 @@
                                   <th>Status</th>
                                   <th>Operation</th>
                                   <th>Sales</th>
-                                  <th>Quatation</th>
-                                  <th>Notes</th>
                                   <th>Payment</th>
                                   <th>Action</th>
                                 </tr>
@@ -161,28 +159,7 @@
                                     </button></td>
                                     {% include "Admin/Query/status_update.html" %}
                                   <td><span class="mb-1 badge rounded-pill text-bg-info">{{i.operation_person.first_name}} {{i.operation_person.last_name}}</span></td>
-                                  <td><span class="mb-1 badge rounded-pill text-bg-dark">{{i.sales_person.first_name}} {{i.sales_person.last_name}}</span></td>
-                                  <td><button type="button" class="btn d-flex bg-secondary-subtle w-100 d-block text-secondary font-medium" data-bs-toggle="modal" data-bs-target="#attach-quatation-{{i.id}}">
-                                   Attach Quatation
-                                  </button>
-                                  {% include "Admin/Query/attach-quatation.html" %}
-                                  <br>
-                                  <button type="button" class="btn d-flex bg-secondary-subtle w-100 d-block text-secondary font-medium" data-bs-toggle="modal" data-bs-target="#view-quatation-{{i.id}}">
-                                    View Quatation
-                                   </button>
-                                   {% include "Admin/Query/view-quatation.html" %}
-                                </td>  
-
-                                <td><button type="button" class="btn d-flex bg-warning-subtle w-100 d-block text-warning font-medium" data-bs-toggle="modal" data-bs-target="#add-notes-{{i.id}}">
-                                  Add Notes
-                                 </button>
-                                 {% include "Admin/Query/addnotes.html" %}
-                                 <br>
-                                 <button type="button" class="btn d-flex bg-warning-subtle w-100 d-block text-warning font-medium" data-bs-toggle="modal" data-bs-target="#view-notes-{{i.id}}">
-                                   View Notes
-                                  </button>
-                                  {% include "Admin/Query/viewnotes.html" %}
-                               </td> 
+                                  <td><span class="mb-1 badge rounded-pill text-bg-dark">{{i.sales_person.first_name}} {{i.sales_person.last_name}}</span></td> 
                                <td>
                                       
                                 <button type="button" class="btn d-flex bg-secondary-subtle w-100 d-block text-secondary font-medium" data-bs-toggle="modal" data-bs-target="#payment{{i.id}}">
