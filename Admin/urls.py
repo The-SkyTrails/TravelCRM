@@ -200,7 +200,7 @@ urlpatterns = [
         name="delete_transfer_location",
     ),
     
-        # -------------------------- Restaurant ----------------------
+    # -------------------------- Restaurant ----------------------
     path("restaurant", restaurant, name="restaurant"),
     path("add_restaurant", add_restaurant, name="add_restaurant"),
     path("delete_restaurant/<int:id>/", delete_restaurant, name="delete_restaurant"),
