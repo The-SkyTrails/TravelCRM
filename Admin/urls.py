@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import *
-
+from django.contrib.auth import views as auth_views
 urlpatterns = [
     path("dashboard", index, name="home"),
     # ----------------------COUNTRY----------------
@@ -242,6 +242,7 @@ urlpatterns = [
     path("Add/sightseeing", add_sightseeing, name="add_sightseeing"),
     path("delete_sightseeing/<int:id>/", delete_sightseeing, name="delete_sightseeing"),
     # ---------------------------- Supplier ----------------------
+
     path("supplier", supplier, name="supplier"),
     path("Add/supplier", add_supplier, name="add_supplier"),
     path("delete_supplier/<int:id>/", delete_supplier, name="delete_supplier"),
@@ -296,6 +297,22 @@ urlpatterns = [
     path('generate/paymentlink/<int:id>/', payment_link, name='payment_link'),
     path('Check/Payment/Status/<int:id>/', payment_status, name='payment_status'),
     path('make_click_to_call/<int:id>/', make_click_to_call, name='make_click_to_call'),
+    path('profile/', profile, name='profile'),
+    path('Edit/profile/', edit_profile, name='edit_profile'),
+    path('Logout/', userlogout, name='logout'),
+    # path("Accounts/Admin/Change/Password",admin_reset_psw,name="admin_reset_psw"),
     
+    path('ForgotPassword/', forgot_psw, name='forgot_psw'),
+    # path('forgot-password/', forgot_psw, name='forgot_password'),  # Include your forgot password view here
+    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    # path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_change_form.html'), name='password_reset_confirm'),
+    path('reset/<uidb64>/<token>/set-password/', CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
+    path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
+    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
+
+    # -------------------------------------------- Change Password ------------------ 
+    path("Change/Password",change_psw,name="change_psw")
     
 ]

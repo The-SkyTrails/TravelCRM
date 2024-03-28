@@ -1424,6 +1424,11 @@
                           Inbox
                         </a>
                       </div>
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "profile" %}" class=" d-flex  align-items-center ">
+                          Profile
+                        </a>
+                      </div>
                     </div>
                     <hr>
                     <div class="px-3">
@@ -1442,12 +1447,12 @@
                         </div>
                       </div>
                       <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
-                        <a href="#" class=" d-flex  align-items-center  ">
+                        <a href="{% url "change_psw" %}" class=" d-flex  align-items-center  ">
                           Account Settings
                         </a>
                       </div>
                       <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
-                        <a href="#" class=" d-flex  align-items-center ">
+                        <a href="{% url "logout" %}" class=" d-flex  align-items-center ">
                           Sign Out
                         </a>
                       </div>

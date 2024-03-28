@@ -21,7 +21,7 @@
   <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
   <link rel="stylesheet" href="{% static "assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" %}">
   <link rel="stylesheet" href="{% static "assets/buttons/2.4.2/css/buttons.dataTables.min.css" %}">
-  
+  <link rel="stylesheet" href="{% static "assets/libs/select2/dist/css/select2.min.css" %}">
 </head>
 
   <!-- Preloader -->
@@ -75,7 +75,9 @@
 <script src="{% static "assets/buttons/2.4.2/js/buttons.print.min.js" %}"></script>
 
 <script src="{% static "assets/js/datatable/datatable-advanced.init.js" %}"></script>
-
+<script src="{% static "assets/libs/select2/dist/js/select2.full.min.js" %}"></script>
+<script src="{% static "assets/libs/select2/dist/js/select2.min.js" %}"></script>
+<script src="{% static "assets/js/forms/select2.init.js" %}"></script>
 <script>
   document.body.addEventListener('htmx:configRequest', function(event) {
   event.detail.headers['X-CSRFToken'] = '{{csrf_token}}'; // add a new parameter into the mix

@@ -28,20 +28,18 @@
     <div class="forms">
         <div class="form-content">
           <div class="login-form">
-            <div class="title">Login</div>
+            <div class="title" style="margin-bottom:10px;">Forgot Password</div>
+            <p>Enter your register email ID to reset the password</p>
             {% include "Login/messages.html" %}
-          <form action="" method="post">
+          <form method="post">
             {% csrf_token %}
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-envelope"></i>
-                <input type="text" placeholder="Enter your email" name="username" required>
+                <input type="email" placeholder="Enter your email" name="email" required>
               </div>
-              <div class="input-box">
-                <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Enter your password" name="password" required>
-              </div>
-              <div class="text"><a href="{% url "forgot_psw" %}">Forgot password?</a></div>
+             
+              <div class="text"><a href="/">Back</a></div>
               <div class="button input-box">
                 <input type="submit" value="Submit">
               </div>

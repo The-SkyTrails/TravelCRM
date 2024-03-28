@@ -24,5 +24,6 @@ from .views import CustomLoginView
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("Admin.urls")),
-    path("",CustomLoginView,name="login")
+    path("",CustomLoginView,name="login"),
+   
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

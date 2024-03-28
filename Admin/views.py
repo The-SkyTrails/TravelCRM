@@ -13,6 +13,8 @@ import mimetypes
 import uuid
 from django.db.models import Q
 from.tatatele_api.call_records import fetch_recording_urls_and_dates
+from django.contrib.auth import authenticate, logout, login as auth_login
+
 
 def index(request):
     return render(request,"Admin/Base/index2.html")
@@ -3377,3 +3379,110 @@ def make_click_to_call(request,id):
         
         response_data = {"error": "Failed to initiate call"}
         return JsonResponse(response_data, status=response.status_code)
+
+
+
+def profile(request):
+    country = Country.objects.all()
+    state = State.objects.all()
+    city = City.objects.all()
+    context = {
+        'country':country,
+        'state':state,
+        'city':city,
+
+        }
+    return render(request,"Profile/user-profile.html",context)
+
+
+# views.py
+from django.http import JsonResponse
+
+def edit_profile(request):
+    if request.method == 'POST':
+        # Assuming you're expecting 'data' in the POST request
+        
+        username = request.POST.get('username')
+        country_id = request.POST.get('country')
+        state_id = request.POST.get('state')
+        address = request.POST.get('address')
+        city_id = request.POST.get('city')
+        pincode = request.POST.get('pincode')
+
+        country = Country.objects.get(id=country_id)
+        state = State.objects.get(id=state_id)
+        city = City.objects.get(name=city_id)
+
+        print("country:",country_id,"state:",state_id,"city:",city_id)
+        user = request.user
+        user.username = username
+        user.admin.country = country
+        user.admin.state = state
+        user.admin.city = city
+        user.admin.address = address
+        user.admin.pin = pincode
+        user.save()
+        
+
+
+        print("username:",username,"country:",country,"state:",state,"city:",city,"pincode:",pincode)
+        
+        # Process data here as needed
+        return JsonResponse({'message': 'Profile update successfully'})
+    else:
+        # Return error if request method is not POST
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+
+
+def userlogout (request):
+    logout(request)
+    return redirect("/")
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.template.loader import render_to_string
+
+def forgot_psw(request):
+   
+    if request.method == "POST":
+        email = request.POST.get('email')
+        if CustomUser.objects.filter(email=email):
+            user = CustomUser.objects.get(email=email)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = default_token_generator.make_token(user)
+            reset_link = request.build_absolute_uri(
+                reverse('password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
+            )
+            email_template = render_to_string('password_reset_email.html', {
+                'reset_link': reset_link,
+            })
+            email_subject = 'Reset your password'
+            email_to = [email]
+            email = EmailMessage(email_subject, email_template, to=email_to)
+            email.send()
+            return render(request, 'forgot_psw_success.html')
+            
+        else:
+            messages.error(request,"email not found")
+    return render(request,"forgot_psw.html")
+
+def resetpsw(request):
+    return render(request,"forgot_psw.html")
+
+def forgot_psw_success(request):
+    return render(request,'forgot_psw.html')
+
+
+
+from django.contrib.auth.views import PasswordResetConfirmView
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'password_change_form.html'  # Specify your custom template here
+
+
+
+def change_psw(request):
+    return render(request,'AccountSetting/changepsw.html')

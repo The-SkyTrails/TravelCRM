@@ -30,4 +30,4 @@ def CustomLoginView(request):
         except CustomUser.DoesNotExist:
             messages.error(request, "User Does Not Exist")
             return redirect("login")
-    return render(request, "Login/Login.html")
+    return render(request, "Login/login.html")

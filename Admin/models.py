@@ -433,7 +433,7 @@ class CustomUser(AbstractUser):
     contact = models.CharField(max_length=15)
     user_type = models.CharField(max_length=50,choices=USER_TYPE_CHOICES,default="Admin")
     destination = models.ForeignKey(Destination,on_delete=models.CASCADE)
-    is_logged_in = models.BooleanField(default=False)
+    is_logged_in = models.CharField(max_length=255,null=True,blank=True)
     tata_tele_agent_no = models.CharField(max_length=255,null=True,blank=True)
     
     
