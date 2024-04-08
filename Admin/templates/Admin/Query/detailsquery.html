@@ -357,7 +357,7 @@
         </div>
         {% comment %} ------------------- call History ------------------- {% endcomment %}
         
-       
+        {% comment %} <p class="px-2" id="client_number_{{i.id}}"><b>Date :</b></p> {% endcomment %}
          <div class="timeline" id="clientDetails_{{i.id}}">
             <!-- Timeline items will be dynamically appended here -->
          </div>
@@ -414,8 +414,10 @@
   </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
+<script>
+console.log("helooo")
+</script>
+{% comment %} 
 <script>
    console.log("OOOOOOOOOOOOO")
   function checkPaymentStatus(paymentId) {
@@ -428,8 +430,10 @@
           url: "{% url 'payment_status' id=0 %}".replace('0', paymentId),
           type: 'GET',
           success: function(response) {
+          console.log("okkkkk")
               button.text('Check status');
               button.prop('disabled', false);
+              console.log("showingggg")
               $('#payment_status_' + paymentId).text(response.link_status);
           },
           error: function(xhr, status, error) {
@@ -439,6 +443,78 @@
           }
       });
   }
-</script>
+</script> {% endcomment %}
 
 
+
+
+
+
+
+
+
+
+{% comment %} 
+<script>
+  $(document).ready(function() {
+      // Implement event delegation for the click event
+      $(document).on("click", ".callButton", function(event) {
+          event.preventDefault(); // Prevent default action
+          event.stopPropagation(); // Stop event propagation
+          
+          // Get the ID of the clicked button
+          var id = $(this).attr('id').split('_')[1];
+          
+          console.log("Button clicked with ID: " + id);
+          
+          // Get the CSRF token from the cookie
+          var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+          
+          // Make AJAX request to initiate the call
+          $.ajax({
+              url: "/make_click_to_call/" + id + "/",
+              method: "POST",
+              headers: {
+                  "X-CSRFToken": csrftoken  // Include CSRF token in the headers
+              },
+              success: function(data) {
+                  // Check the status returned by the server
+                  if (data.status === "calling") {
+                      $("#status_" + id).text("Connected....");
+                  } else {
+                      $("#status_" + id).text("Error: " + data.error);
+                  }
+              },
+              error: function(xhr, status, error) {
+                  $("#status_" + id).text("Error: " + error);
+              }
+          });
+      });
+  });
+</script> {% endcomment %}
+{% comment %} 
+<script>
+  $(document).ready(function() {
+    $('.offcanvas').on('shown.bs.offcanvas', function() {
+      
+      var offcanvasId = $(this).attr('id');
+      console.log("Offcanvas opened:", offcanvasId);
+      
+      
+      var leadId = offcanvasId.split('-')[1];
+      console.log("Lead ID:", leadId);
+
+      
+      $.ajax({
+        url: "/offcanvas/" + leadId, 
+        type: "GET",
+        success: function(response) {
+          console.log("URL hit successfully");
+        },
+        error: function(xhr, status, error) {
+          console.error("Error:", error);
+        }
+      });
+    });
+  });
+</script> {% endcomment %}
