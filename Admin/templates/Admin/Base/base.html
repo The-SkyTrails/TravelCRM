@@ -84,6 +84,36 @@
 });
 </script>
 
+
+
+<script>
+   
+  function checkPaymentStatus(paymentId) {
+      
+      var button = $('#status_button_' + paymentId);
+     
+      button.prop('disabled', true);
+      button.text('Loading...');
+      $.ajax({
+          url: "{% url 'payment_status' id=0 %}".replace('0', paymentId),
+          type: 'GET',
+          success: function(response) {
+          console.log("okkkkk")
+              button.text('Check status');
+              button.prop('disabled', false);
+              console.log("showingggg")
+              $('#payment_status_' + paymentId).text(response.link_status);
+          },
+          error: function(xhr, status, error) {
+              button.text('Check status');
+              button.prop('disabled', false);
+              console.error(error);
+          }
+      });
+  }
+</script>
+
+
 <script>
   $(document).ready(function() {
     // Add click event listener to all buttons with ID starting with 'triggerAjax_'
