@@ -1,0 +1,135 @@
+{% extends "Admin/Base/base.html" %}
+{% block main-content %}
+
+    <div class="body-wrapper">
+        <div class="container-fluid">
+          <div class="font-weight-medium shadow-none position-relative overflow-hidden mb-7">
+            <div class="card-body px-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h4 class="font-weight-medium fs-14 mb-0">Form Basic</h4>
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item">
+                        <a class="text-muted text-decoration-none" href="index.html">Home
+                        </a>
+                      </li>
+                      <li class="breadcrumb-item text-muted" aria-current="page">Form Basic</li>
+                    </ol>
+                  </nav>
+                </div>
+                <div>
+                  <div class="d-sm-flex d-none gap-3 no-block justify-content-end align-items-center">
+                    <div class="d-flex gap-2">
+                      <div class="">
+                        <small>This Month</small>
+                        <h4 class="text-primary mb-0 font-medium">$58,256</h4>
+                      </div>
+                      <div class="">
+                        <div class="breadbar"></div>
+                      </div>
+                    </div>
+                    <div class="d-flex">
+                      <div class="">
+                        <small>Last Month</small>
+                        <h4 class="text-secondary mb-0 font-medium">$58,256</h4>
+                      </div>
+                      <div class="">
+                        <div class="breadbar2"></div>
+                      </div>
+                    </div>
+                    
+                    
+                  </div>
+                </div>
+              </div>
+            </div>    
+          </div>
+    
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <form action="" method="post" enctype="multipart/form-data">
+                   
+                      {% csrf_token %}
+                        <div class="row">
+                            <div class="col-xl-6">
+                              <h4 class="mt-0 header-title">Sightseeing Information</h4>
+                                <div class="form-group row">
+                                    
+                                    <div class="col-sm-12">
+                                        <label for="example-text-input" class="col-sm-6 col-form-label">Activity Name</label>
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Name" name="activity_name">
+                                    </div>
+                                    
+                                </div>
+                                <div class="form-group row">
+                                    
+                                    <div class="col-sm-6">
+                                        <label for="example-search-input" class="col-sm-6 col-form-label">Destination</label>
+                                        <select class="select2 form-control" name="destination_id">
+                                          {% for i in destination %}
+                                          <option value="{{i.id}}">{{i.name}}</option>
+                                          {% endfor %}
+                                      </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                      <label for="example-email-input" class="col-sm-6 col-form-label">Activity Image</label>
+                                      <input class="form-control" type="file" name="activity_image" id="">
+                                  </div>
+                                
+                                </div>
+                                
+                                <div class="form-group row">
+                                    
+                                    <div class="col-sm-6">
+                                        <label for="example-url-input" class="col-sm-10 col-form-label">Tour Duration</label>
+                                        <input class="form-control" type="text" name="tour_duration" id="">
+                                    </div>
+                                    <div class="col-sm-6">
+                                      <label for="example-tel-input" class="col-sm-10 col-form-label">Timings</label>
+                                      <input class="form-control" type="text" name="timings" id="">
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                                  <div class="col-sm-12">
+                                    <label for="example-search-input" class="col-sm-6 col-form-label">Operating Days</label>
+                                    <select class="select2 form-control" name="operating_days_id" id="operating_days_id" multiple="multiple" style="height: 36px; width: 100%">
+                                      {% for i in days %}
+                                      <option value="{{i.id}}">{{i.name}}</option>
+                                      {% endfor %}
+                                  </select>
+                                </div>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="col-xl-6">
+                              <h4 class="mt-0 header-title">Other Information</h4>
+                                <div class="form-group row">
+                                    <label for="example-password-input" class="col-sm-10 col-form-label">Details</label>
+                                    
+                                    <textarea name="details" class="form-control"></textarea>
+                                </div>
+                               
+                                <div class="form-group row">
+                                    <div class="modal-footer" style="margin-top: 10px;">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        <button class="btn btn-danger mx-2" hx-get="{% url "sightseeing" %}" hx-push-url="true" hx-target="#main">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div> 
+                    </form>    
+                </div>
+              </div>
+            </div>
+          </div>
+    
+    </div>
+    </div>
+
+
+{% endblock main-content %}

@@ -1,0 +1,118 @@
+
+
+<div class="body-wrapper">
+    <div class="container-fluid">
+      <div class="font-weight-medium shadow-none position-relative overflow-hidden mb-7">
+        <div class="card-body px-0">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h4 class="font-weight-medium fs-14 mb-0">Datatable Advanced</h4>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a class="text-muted text-decoration-none" href="index.html">Home
+                    </a>
+                  </li>
+                  <li class="breadcrumb-item text-muted" aria-current="page">Datatable Advanced</li>
+                </ol>
+              </nav>
+            </div>
+            <div>
+              <div class="d-sm-flex d-none gap-3 no-block justify-content-end align-items-center">
+                <div class="d-flex gap-2">
+                  <div class="">
+                    <small>This Month</small>
+                    <h4 class="text-primary mb-0 font-medium">$58,256</h4>
+                  </div>
+                  <div class="">
+                    <div class="breadbar"></div>
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <div class="">
+                    <small>Last Month</small>
+                    <h4 class="text-secondary mb-0 font-medium">$58,256</h4>
+                  </div>
+                  <div class="">
+                    <div class="breadbar2"></div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% include "Login/messages.html" %}
+      <div class="datatables">
+        <!-- File export -->
+        <div class="row">
+          <div class="col-12">
+            <!-- ---------------------
+                        start File export
+                    ---------------- -->
+            <div class="card">
+              <div class="card-body">
+                
+                <div class="table-responsive">
+                    <a href="{% url "add_user" %}">
+                        <button type="button" class="btn mb-1 bg-primary-subtle text-primary px-4 fs-4 font-medium" >
+                            Add User
+                          </button>
+    
+                    </a>
+                  
+                  <table id="file_export" class="table border table-striped table-bordered display text-nowrap">
+                    <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Mobile</th>
+                                    <th>User Type</th>
+                                    <th>Destination</th>
+                                    <th>Report To</th>
+                                    <th>Under Team</th>
+                                    <th>Address</th>
+                                    <th>By</th>
+                                    <th>Date</th>
+                                    <!-- <th>Action</th> -->
+                                </tr>
+                                </thead>
+
+
+                                <tbody >
+                                {% for i in user %}
+                                <tr>
+                                    <td>{{i.users.first_name}} {{i.users.last_name}}</td>
+                                    <td>{{i.users.email}}</td>
+                                    <td>{{i.users.code}}{{i.users.contact}}</td>
+                                    <td>{{i.users.user_type}}</td>
+                                    <td>{{i.users.destination.name}}</td>
+                                    <td>{{i.reporting_to}}</td>
+                                    <td>{% for user in i.users.reporting_to.all %}
+                                        <span class="mb-1 badge rounded-pill text-bg-danger">{{ user.users.first_name }} {{ user.users.last_name }} </span> <br> {% if not forloop.last %}{% endif %}
+                                      {% endfor %} </td>
+                                    <td>{{i.address}}</td>
+                                    <td>{{i.registered_by}}</td>
+                                    <td>{{i.users.date_joined}}</td>
+                                
+                                </tr>
+                                {% endfor %}
+                               
+                            
+                                </tbody>
+                            </table>
+                        </div>           
+                    </div>
+                </div>
+            </div>
+        </div><!--end row-->
+
+
+    </div> <!-- end container -->
+</div>
+
+
+
+ <!-- {% include "Admin/SpecialDays/add_special_days_modal.html" %} -->

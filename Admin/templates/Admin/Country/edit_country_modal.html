@@ -1,0 +1,52 @@
+
+<div class="modal fade" id="country{{i.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="scroll-long-inner-modal" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-scrollable">
+     <div class="modal-content">
+       <div class="modal-header d-flex align-items-center">
+         <h4 class="modal-title" id="myLargeModalLabel">
+            Edit Country
+         </h4>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body">
+         <form method="POST" action="{% url 'edit_Country' i.id %}" hx-post="true" hx-swap="outerHTML" hx-target="#main" hx-trigger="htmx:afterSwap">
+            {% csrf_token %}
+        <div class="mb-3">
+          <label for="recipient-name" class="control-label">Name</label>
+          <input type="text" class="form-control" placeholder="Enter Name" value="{{i.country_name}}" name="country_name">
+          <div id="post-data-container2"></div>
+        </div>
+        <div class="mb-3">
+            <label for="recipient-name" class="control-label">Nationality</label>
+            <input type="text" class="form-control" placeholder="Enter Nationality" value="{{i.nationality}}" name="nationality">
+        </div>
+        <div class="mb-3">
+            <label for="recipient-name" class="control-label">Sort Name</label>
+            <input type="text" class="form-control" placeholder="Enter Sort Name" value="{{i.sort_name}}" name="sort_name">
+        </div>
+      
+         
+         
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn bg-danger-subtle text-danger font-medium waves-effect text-start" data-bs-dismiss="modal">
+           Close
+         </button>
+         <button type="submit" class="btn btn-success">
+            Save Changes
+          </button>
+       </div>
+      </form>
+     </div>
+   </div>
+ </div>
+
+
+
+<script>
+
+   document.addEventListener('htmx:afterSwap', function(event) {
+      $('#country{{i.id}}').modal('hide');
+  });
+  
+</script>

@@ -1,0 +1,40 @@
+{% load static %}
+<div class="modal fade" id="add-followup-{{i.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="add-followup" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <form action="{% url "add_followup" i.id %}" method="post" id="add-followup-form-{{ i.id }}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center">
+                    <h4 class="modal-title" id="exampleModalLabel1">
+                       Add FollowUp
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-lg-12">
+                            <input type="text" name="enq_id" value="{{i.id}}" hidden>
+                            <label for="country-name" class="control-label">Note</label>
+                            <textarea name="note" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-lg-12">
+                            <label for="country-name" class="control-label">Date-Time</label>
+                            <input type="datetime-local" name="datetime" id="datetime" class="form-control">
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger-subtle text-danger font-medium" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

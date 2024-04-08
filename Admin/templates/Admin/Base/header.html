@@ -1,0 +1,616 @@
+{% load static %}
+<header class="topbar rounded-0 border-0 bg-primary">
+  <div class="with-vertical"><!-- ---------------------------------- -->
+    <!-- Start Vertical Layout Header -->
+    <!-- ---------------------------------- -->
+    <nav class="navbar navbar-expand-lg px-lg-0 px-3 py-0">
+      <div class="d-none d-lg-block">
+        <div class="brand-logo d-flex align-items-center justify-content-between">
+          <a href="index.html" class="text-nowrap logo-img">
+            <b class="logo-icon">
+              <img src="{% static "assets/images/logos/full-logo.svg" %}" alt="homepage" class="dark-logo" style="width:18%;">
+              
+            </b>
+
+          </a>
+        </div>
+
+
+      </div>
+
+      <ul class="navbar-nav">
+
+        <li class="nav-item">
+          <a class="nav-link nav-icon-hover sidebartoggler" id="headerCollapse" href="javascript:void(0)">
+            <iconify-icon icon="solar:list-bold"></iconify-icon>
+          </a>
+        </li>
+        <!-- ------------------------------- -->
+        <!-- start notification Dropdown -->
+        <!-- ------------------------------- -->
+        
+
+
+
+      </ul>
+
+      <ul class="navbar-nav flex-row  align-items-center justify-content-center d-flex d-lg-none">
+        <li class="nav-item dropdown">
+          <a class="navbar-toggler nav-link text-white nav-icon-hover border-0" href="javascript:void(0)"
+            data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="">
+              <iconify-icon icon="ph:dots-three"></iconify-icon>
+            </span>
+          </a>
+        </li>
+      </ul>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div class="d-flex align-items-center justify-content-between">
+          <ul class="navbar-nav flex-row  align-items-center justify-content-center d-flex d-lg-none">
+          
+            <li class="nav-item hover-dd dropdown">
+              <a class="nav-link nav-icon-hover waves-effect waves-dark" href="javascript:void(0)" id="drop2"
+                aria-expanded="false">
+                <iconify-icon icon="solar:bell-bing-line-duotone"></iconify-icon>
+                {% if followups_due_today %}
+                <div class="notify">
+                  <span class="heartbit"></span> <span class="point"></span>
+                </div>
+                {% endif %}
+              </a>
+              <div class="dropdown-menu py-0 content-dd  dropdown-menu-animate-up overflow-hidden"
+                aria-labelledby="drop2">
+
+                <div class="py-3 px-4 bg-primary">
+                  <div class="mb-0 fs-6 fw-medium text-white">Notifications</div>
+                  {% comment %} <div class="mb-0 fs-2 fw-medium text-white">You have 4 Notifications</div> {% endcomment %}
+                </div>
+                <div class="message-body" data-simplebar="">
+                  {% for followup in followups_due_today %}
+                    {% if not followup.closed %}
+                        <div class="p-3 d-flex align-items-center dropdown-item gap-3 border-bottom" data-followup-id="{{ followup.id }}">
+                            <span class="flex-shrink-0 bg-primary-subtle rounded-circle round-40 d-flex align-items-center justify-content-center fs-6 text-primary">
+                                <iconify-icon icon="solar:widget-3-line-duotone"></iconify-icon>
+                            </span>
+                            <div class="w-80 d-inline-block v-middle">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h6 class="mb-1">Follow Up for {{followup.lead.name}}</h6>
+                                    <button class="btn-close" data-followup-id="{{ followup.id }}"></button>
+                                </div>
+                                <span class="fs-2 text-nowrap d-block text-muted">{{ followup.datetime|date:"d-m-Y H:i A" }}</span>
+                                <span class="fs-2 d-block text-truncate text-muted">{{ followup.note }}</span>
+                            </div>
+                        </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+             
+
+              </div>
+            </li>
+            
+          </ul>
+          <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
+
+            <!-- ------------------------------- -->
+            <!-- end notification Dropdown -->
+            <!-- ------------------------------- -->
+
+            <!-- ------------------------------- -->
+            <!-- start profile Dropdown -->
+            <!-- ------------------------------- -->
+            <li class="nav-item hover-dd dropdown">
+              <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" aria-expanded="false">
+                <img src="{% static "assets/images/profile/user-1.jpg" %}" alt="user"
+                  class="profile-pic rounded-circle round-30">
+              </a>
+              <div class="dropdown-menu pt-0 content-dd overflow-hidden pt-0 dropdown-menu-end user-dd"
+                aria-labelledby="drop2">
+                <div class="profile-dropdown position-relative" data-simplebar="">
+                  <div class=" py-3 border-bottom">
+                    <div class="d-flex align-items-center px-3">
+                      <img src="{% static "assets/images/profile/user-1.jpg" %}" class="rounded-circle round-50" alt="">
+                      <div class="ms-3">
+                        <p class="mb-0 fs-2 d-flex align-items-center text-muted">
+                          {{request.user.email}}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="message-body pb-3">
+                    <div class="px-3 pt-3">
+                      {% if request.user.user_type == "Admin" %}
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "user" %}" class=" d-flex  align-items-center ">
+                          Users
+                        </a>
+                      </div>
+                      
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "add_role" %}" class=" d-flex  align-items-center ">
+                          Role & Permission
+                        </a>
+                      </div>
+                      {% endif %}
+                      
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "profile" %}" class=" d-flex  align-items-center ">
+                          Profile
+                        </a>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="px-3">
+                      
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "change_psw" %}" class=" d-flex  align-items-center  ">
+                          Account Settings
+                        </a>
+                      </div>
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "logout" %}" class=" d-flex  align-items-center ">
+                          Sign Out
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </li>
+
+
+            <!-- ------------------------------- -->
+            <!-- end profile Dropdown -->
+            <!-- ------------------------------- -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+  </div>
+  <div class="app-header with-horizontal">
+    <nav class="navbar navbar-expand-xl container-fluid">
+      <ul class="navbar-nav">
+        <li class="nav-item d-block d-xl-none">
+          <a class="nav-link sidebartoggler ms-n3" id="sidebarCollapse" href="javascript:void(0)">
+            <iconify-icon icon="solar:hamburger-menu-line-duotone"></iconify-icon>
+          </a>
+        </li>
+        <li class="nav-item d-none d-xl-block">
+          <div class="brand-logo d-flex align-items-center justify-content-between">
+            <a href="index.html" class="text-nowrap logo-img">
+              <span class="logo-text">  
+                <img src="{% static "assets/images/logos/full-logo.svg" %}" alt="homepage" class="dark-logo ps-2" style="width:18%;">
+              </span>
+            </a>
+          </div>
+        </li>
+      </ul>
+
+
+      
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div class="d-flex align-items-center justify-content-between">
+          <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
+            
+           
+            <li class="nav-item hover-dd dropdown  d-none d-lg-block">
+              <a class="nav-link nav-icon-hover waves-effect waves-dark" href="javascript:void(0)" id="drop2"
+                aria-expanded="false">
+                <iconify-icon icon="solar:bell-bing-line-duotone"></iconify-icon>
+                {% if followups_due_today %}
+                <div class="notify">
+                  <span class="heartbit"></span> <span class="point"></span>
+                </div>
+                {% endif %}
+              </a>
+              <div
+                class="dropdown-menu py-0 content-dd  dropdown-menu-animate-up dropdown-menu-end overflow-hidden"
+                aria-labelledby="drop2">
+
+                <div class="py-3 px-4 bg-primary">
+                  <div class="mb-0 fs-6 fw-medium text-white">Notifications</div>
+                  <!-- <div class="mb-0 fs-2 fw-medium text-white">You have {{ followups_due_today.count }} Notifications</div> -->
+              </div>
+              <div class="message-body" data-simplebar="">
+                {% for followup in followups_due_today %}
+                  {% if not followup.closed %}
+                      <div class="p-3 d-flex align-items-center dropdown-item gap-3 border-bottom" data-followup-id="{{ followup.id }}">
+                          <span class="flex-shrink-0 bg-primary-subtle rounded-circle round-40 d-flex align-items-center justify-content-center fs-6 text-primary">
+                              <iconify-icon icon="solar:widget-3-line-duotone"></iconify-icon>
+                          </span>
+                          <div class="w-80 d-inline-block v-middle">
+                              <div class="d-flex align-items-center justify-content-between">
+                                  <h6 class="mb-1">Follow Up for {{followup.lead.name}}</h6>
+                                  <button class="btn-close" data-followup-id="{{ followup.id }}"></button>
+                              </div>
+                              <span class="fs-2 text-nowrap d-block text-muted">{{ followup.datetime|date:"d-m-Y H:i A" }}</span>
+                              <span class="fs-2 d-block text-truncate text-muted">{{ followup.note }}</span>
+                          </div>
+                      </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+
+
+              </div>
+            </li>
+
+            <li class="nav-item hover-dd dropdown">
+              <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" aria-expanded="false">
+                <img src="{% static "assets/images/profile/user-1.jpg" %}" alt="user" width="30"
+                  class="profile-pic rounded-circle">
+              </a>
+              <div class="dropdown-menu pt-0 content-dd overflow-hidden pt-0 dropdown-menu-end user-dd"
+                aria-labelledby="drop2">
+                <div class="profile-dropdown position-relative" data-simplebar="">
+                  <div class=" py-3 border-bottom">
+                    <div class="d-flex align-items-center px-3">
+                      <img src="{% static "assets/images/profile/user-1.jpg" %}" class="rounded-circle round-50" alt="">
+                      <div class="ms-3">
+                        
+                        <p class="mb-0 fs-2 d-flex align-items-center text-muted">
+                          {{request.user.email}}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="message-body pb-3">
+                    <div class="px-3 pt-3">
+                      {% if request.user.user_type == "Admin" %}
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "user" %}" class=" d-flex  align-items-center ">
+                          Users
+                        </a>
+                      </div>
+                      
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "add_role" %}" class=" d-flex  align-items-center ">
+                          Role & Permission
+                        </a>
+                      </div>
+                      {% endif %}
+                      
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "profile" %}" class=" d-flex  align-items-center ">
+                          Profile
+                        </a>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="px-3">
+                      
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "change_psw" %}" class=" d-flex  align-items-center  ">
+                          Account Settings
+                        </a>
+                      </div>
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "logout" %}" class=" d-flex  align-items-center ">
+                          Sign Out
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </li>
+
+            <!-- ------------------------------- -->
+            <!-- end profile Dropdown -->
+            <!-- ------------------------------- -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+  </div>
+</header>
+<!--  Header End -->
+<aside class="left-sidebar with-horizontal">
+  <!-- Sidebar scroll-->
+  <div>
+    <!-- Sidebar navigation-->
+    <nav class="sidebar-nav scroll-sidebar container-fluid">
+      <ul id="sidebarnav">
+        <!-- ============================= -->
+        <!-- Home -->
+        <!-- ============================= -->
+        <li class="nav-small-cap">
+          <iconify-icon icon="solar:menu-dots-bold" class="nav-small-cap-icon"></iconify-icon>
+          <span class="hide-menu">Home</span>
+        </li>
+        <!-- =================== -->
+        <!-- Dashboard -->
+        <!-- =================== -->
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="{% url "home" %}" aria-expanded="false">
+            <iconify-icon icon="solar:widget-4-linear" class="aside-icon"></iconify-icon>
+            <span class="hide-menu">Dashboard</span>
+          </a>
+          
+        </li>
+
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="{% url "allquerylist" %}" aria-expanded="false">
+            <iconify-icon icon="solar:widget-4-linear" class="aside-icon"></iconify-icon>
+            <span class="hide-menu">Query</span>
+          </a>
+          
+        </li>
+        
+        <!-- ============================= -->
+        <!-- UI -->
+        <!-- ============================= -->
+        <!-- <li class="nav-small-cap">
+          <iconify-icon icon="solar:menu-dots-bold" class="nav-small-cap-icon"></iconify-icon>
+          <span class="hide-menu">Master</span>
+        </li> -->
+        <!-- =================== -->
+        <!-- UI Elements -->
+        <!-- =================== -->
+        {% if request.user.user_type == "Admin" %}
+        <li class="sidebar-item mega-dropdown">
+          <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+            <iconify-icon icon="solar:text-underline-cross-linear" class="aside-icon"></iconify-icon>
+            <span class="hide-menu">Master</span>
+          </a>
+          <ul aria-expanded="false" class="collapse first-level">
+            <li class="sidebar-item">
+              <a href="#" class="sidebar-link">
+                <i class="ti ti-user"></i>
+                <span class="hide-menu">Agents</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "amenities" %}" class="sidebar-link">
+                <i class="ti ti-notepad"></i>
+                <span class="hide-menu">Amenities</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "arrivals" %}" class="sidebar-link">
+                <i class="ti ti-rocket"></i>
+                <span class="hide-menu">Arrival Departure</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_bank" %}" class="sidebar-link">
+                <i class="ti ti-briefcase"></i>
+                <span class="hide-menu">Banks</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="#" class="sidebar-link">
+                <i class="ti ti-circle"></i>
+                <span class="hide-menu">B2C</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "city" %}" class="sidebar-link">
+                <i class="ti ti-ticket"></i>
+                <span class="hide-menu">City</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_Country" %}" class="sidebar-link">
+                <i class="ti ti-world"></i>
+                <span class="hide-menu">Country</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_currency" %}" class="sidebar-link">
+                <i class="ti ti-bag"></i>
+                <span class="hide-menu">Currency</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_destination" %}" class="sidebar-link">
+                <i class="ti ti-map-alt"></i>
+                <span class="hide-menu">Destination</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_driver" %}" class="sidebar-link">
+                <i class="ti ti-truck"></i>
+                <span class="hide-menu">Driver</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "extrameal" %}" class="sidebar-link">
+                <i class="ti ti-clipboard"></i>
+                <span class="hide-menu">Extra Meal</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_extra_meal_price" %}" class="sidebar-link">
+                <i class="ti ti-circle"></i>
+                <span class="hide-menu">Extra Meal Price</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_extra_service" %}" class="sidebar-link">
+                <i class="ti ti-server"></i>
+                <span class="hide-menu">Expense Service Type</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_ferry_class" %}" class="sidebar-link">
+                <i class="ti ti-circle"></i>
+                <span class="hide-menu">Ferry Class</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_flight" %}" class="sidebar-link">
+                <i class="ti ti-rocket"></i>
+                <span class="hide-menu">Flight</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_guide" %}" class="sidebar-link">
+                <i class="ti ti-id-badge"></i>
+                <span class="hide-menu">Guide</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "hotel" %}" class="sidebar-link">
+                <i class="ti ti-home"></i>
+                <span class="hide-menu">Hotel</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_hotel_category" %}" class="sidebar-link">
+                <i class="ti ti-layers"></i>
+                <span class="hide-menu">Hotel Category</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_hotellocation" %}" class="sidebar-link">
+                <i class="ti ti-location-pin"></i>
+                <span class="hide-menu">Hotel Location</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_itinerary" %}" class="sidebar-link">
+                <i class="ti ti-map"></i>
+                <span class="hide-menu">Itinerary</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_lead_source" %}" class="sidebar-link">
+                <i class="ti ti-alert"></i>
+                <span class="hide-menu">Lead Source</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_meal_plan" %}" class="sidebar-link">
+                <i class="ti ti-write"></i>
+                <span class="hide-menu">Meal Plan</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "documents" %}" class="sidebar-link">
+                <i class="ti ti-files"></i>
+                <span class="hide-menu">My Documents</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "restaurant" %}" class="sidebar-link">
+                <i class="ti ti-bar-chart-alt"></i>
+                <span class="hide-menu">Restaurants</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_restaurentlocation" %}" class="sidebar-link">
+                <i class="ti ti-location-pin"></i>
+                <span class="hide-menu">Restaurant Location</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_restaurenttype" %}" class="sidebar-link">
+                <i class="ti ti-ticket"></i>
+                <span class="hide-menu">Restaurant Type</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_roomtype" %}" class="sidebar-link">
+                <i class="ti ti-home"></i>
+                <span class="hide-menu">Room Type</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "sightseeing" %}" class="sidebar-link">
+                <i class="ti ti-image"></i>
+                <span class="hide-menu">Sightseeing</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_specialdays" %}" class="sidebar-link">
+                <i class="ti ti-heart"></i>
+                <span class="hide-menu">Special Days</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "state" %}" class="sidebar-link">
+                <i class="ti ti-map-alt"></i>
+                <span class="hide-menu">State</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "supplier" %}" class="sidebar-link">
+                <i class="ti ti-wheelchair"></i>
+                <span class="hide-menu">Supplier</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "transfer" %}" class="sidebar-link">
+                <i class="ti ti-car"></i>
+                <span class="hide-menu">Transfer</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_transfer_location" %}" class="sidebar-link">
+                <i class="ti ti-world"></i>
+                <span class="hide-menu">Transfer Location</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="#" class="sidebar-link">
+                <i class="ti ti-pie-chart"></i>
+                <span class="hide-menu">Travel Insurance</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_vehicle" %}" class="sidebar-link">
+                <i class="ti ti-car"></i>
+                <span class="hide-menu">Vehicle</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{% url "add_visa" %}" class="sidebar-link">
+                <i class="ti ti-agenda"></i>
+                <span class="hide-menu">Visa</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    <!-- End Sidebar navigation -->
+  </div>
+  <!-- End Sidebar scroll-->
+</aside>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const closedNotifications = JSON.parse(localStorage.getItem('closedNotifications')) || [];
+
+      const closeButtons = document.querySelectorAll('.btn-close');
+      closeButtons.forEach(button => {
+          button.addEventListener('click', function() {
+              const followupId = button.getAttribute('data-followup-id');
+              closeNotification(followupId);
+              button.closest('.dropdown-item').remove();
+          });
+      });
+
+      function closeNotification(followupId) {
+          // Store the ID of the closed notification in local storage
+          closedNotifications.push(followupId);
+          localStorage.setItem('closedNotifications', JSON.stringify(closedNotifications));
+      }
+
+      // Hide notifications that are permanently closed
+      closedNotifications.forEach(closedId => {
+          const closedNotification = document.querySelector(`[data-followup-id="${closedId}"]`);
+          if (closedNotification) {
+              closedNotification.remove();
+          }
+      });
+  });
+</script>

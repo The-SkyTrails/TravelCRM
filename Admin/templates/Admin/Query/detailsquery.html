@@ -1,0 +1,504 @@
+<style>
+  .btn-outline-warning:hover svg path {
+  stroke: white; 
+  }
+  .btn-outline-primary:hover svg path {
+  stroke: white; 
+  }
+  .btn-outline-secondary:hover svg path {
+  stroke: white; 
+  }
+  .custom-iframe {
+    background: none transparent;
+}
+
+</style>
+
+{% load custom_filters %}
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight-{{i.id}}" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header" style="background-color: #43ced7;">
+     <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+        Lead Details
+     </h5>
+    
+    
+     <input type="text" name="" id="lead_id" value="{{i.id}}" hidden>
+     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+     <div class="form-body">
+        <div class="card-body" style="padding: 6px 0;">
+           <h5 class="card-title mb-0" style="color: black !important;">Lead Details</h5>
+        </div>
+        <div class="card-body">
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Service Type :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.service_type.name}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Query Title :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.query_title}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Lead Source :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.lead_source.name}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Operation Person :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.operation_person.first_name}} {{i.operation_person.last_name}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Sales Person :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.sales_person.first_name}} {{i.sales_person.last_name}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Other Information :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.other_information}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class="card-body" style="padding: 6px 0;">
+           <h5 class="card-title mb-0" style="color: black !important;">Destination Details</h5>
+        </div>
+        <div class="card-body">
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Destination Type:</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.inter_domes}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Destination :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.destinations.name}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row" style="margin-bottom: 20px;">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <div class="col-md-6">
+                       <label class="form-label text-start">From Date </label>
+                       <input type="text" class="form-control" value="{{i.from_date}}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                       <label class="form-label text-start">To Date </label>
+                       <input type="text" class="form-control" value="{{i.to_date}}" readonly>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row" style="margin-bottom: 20px;">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <div class="col-md-4">
+                       <label class="form-label text-start">Adult </label>
+                       <input type="text" class="form-control" value="{{i.adult}}" readonly>
+                    </div>
+                    <div class="col-md-4">
+                       <label class="form-label text-start">Child </label>
+                       <input type="text" class="form-control" value="{{i.child}}" readonly>
+                    </div>
+                    <div class="col-md-4">
+                       <label class="form-label text-start">Infants </label>
+                       <input type="text" class="form-control" value="{{i.infants}}" readonly>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Budget :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.budget}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Purpose Of Travel :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.purpose_of_travel}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class="card-body" style="padding: 6px 0;">
+           <h5 class="card-title mb-0" style="color: black !important;">Contact Person Details</h5>
+        </div>
+        <div class="card-body">
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Name :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.name}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Email :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.email}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Mobile No. :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.mobile_number}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Alternate Mobile Number :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.alternate_mobile_number}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Call :</label>
+                    <div class="col-md-8">
+                       <div class="row">
+                          <div class="col-md-4">
+                              {% comment %} <button class="btn btn-danger callButton" id="callButton_{{i.id}}">call</button> {% endcomment %}
+                              <button class="btn btn-danger" id="triggerAjax_{{i.id}}">call</button>
+                              <span class="status" id="status_{{i.id}}"></span>
+                          </div>
+                          <div id="status"></div>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class="row" style="margin-bottom: 24px;">
+           <div class="col-md-3">
+              <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#add-followup-{{i.id}}">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 1V8M8 8V15M8 8H15M8 8H1" stroke="#1B84FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                 </svg>
+                 Add Follow Up
+              </button>
+              {% include "Admin/Query/addfollowup.html" %}
+           </div>
+           <div class="col-md-3">
+              <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#add-notes-{{i.id}}">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 1V8M8 8V15M8 8H15M8 8H1" stroke="#43CED7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                 </svg>
+                 Add Notes
+              </button>
+              {% include "Admin/Query/addnotes.html" %}
+           </div>
+           <div class="col-md-3">
+              <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#attach-quatation-{{i.id}}">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 5V12M12 12V19M12 12H19M12 12H5" stroke="#F6C000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                 </svg>
+                 Add Quotation
+              </button>
+              {% include "Admin/Query/attach-quatation.html" %}
+           </div>
+           <div class="col-md-3">
+              <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#attach-attachment-{{i.id}}">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 5V12M12 12V19M12 12H19M12 12H5" stroke="#F6C000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                 </svg>
+                 Add Attachment
+              </button>
+              {% include "Admin/Query/attach-attachment.html" %}
+           </div>
+        </div>
+        <div class="card-body" style="padding: 6px 0;">
+           <h5 class="card-title mb-0" style="color: black !important;">Lead History</h5>
+        </div>
+        <div class="timeline">
+           {% for activity in i.activities.all %}
+           <div class="timeline-item">
+              <h5 style="color: black !important;">{{ activity.activity_type }}</h5>
+              {% if activity.activity_type == "Quotation" %}
+              <div class="custom-row">
+                 {% for quotation in i.quotations.all %}
+                 {% if quotation.activity == activity %}
+                 <p>
+                    {% for attachment in quotation.attachment.all %}
+                    <a href="{{ attachment.file.url }}" target="_blank">{{ attachment.file.name|filename }}</a><br>
+                    {% endfor %}
+                 </p>
+                 <p>{{ quotation.date }}</p>
+                 {% endif %}
+                 {% endfor %}
+              </div>
+              {% elif activity.activity_type == "Followup" %}
+              <div class="custom-row">
+                 {% for followup in i.followup.all %}
+                 {% if followup.activity == activity %}
+                 <p>{{ followup.note }} - {{ followup.datetime }}</p>
+                 <p>{{ followup.date }}</p>
+                 {% endif %}
+                 {% endfor %}
+              </div>
+              {% elif activity.activity_type == "Note" %}
+              <div class="custom-row">
+                 {% for note in i.notes.all %}
+                 {% if note.activity == activity %}
+                 <p>{{ note.notes }}</p>
+                 <p>{{ note.date }}</p>
+                 {% endif %}
+                 {% endfor %}
+              </div>
+              {% elif activity.activity_type == "Attachment" %}
+              <div class="custom-row">
+                 {% for attach in i.attachment.all %}
+                 {% if attach.activity == activity %}
+                 <p>
+                  {% for attachment in attach.attachment.all %}
+                  <a href="{{ attachment.file.url }}" target="_blank">{{ attachment.file.name|filename }}</a><br>
+                  {% endfor %}
+               </p>
+               <p>{{ attach.date }}</p>
+                 {% endif %}
+                 {% endfor %}
+              </div>
+              {% elif activity.activity_type == "Payment" %}
+              <div class="custom-row">
+                 {% for payment in i.payments.all %}
+                 {% if payment.activity == activity %}
+                 <p><b>Link Id :</b> {{ payment.link_id }}</p>
+                 <p><b>Payment Link :</b> {{ payment.payment_link }}</p>
+                 <p><b>Expiry Date :</b> {{ payment.link_expiry_time }}</p>
+                 <p class="custom-cell"><button type="button" id="status_button_{{ payment.id }}" class="btn d-flex bg-primary-subtle w-100 d-block text-primary font-medium" onclick="checkPaymentStatus({{ payment.id }})">
+                    Check status
+                    </button>
+                    <span id="payment_status_{{ payment.id }}" class="text-success mx-5"></span>
+                 </p>
+                 {% endif %}
+                 {% endfor %}
+              </div>
+              {% endif %}
+           </div>
+           {% endfor %}
+        </div>
+        {% comment %} ------------------- call History ------------------- {% endcomment %}
+        
+        {% comment %} <p class="px-2" id="client_number_{{i.id}}"><b>Date :</b></p> {% endcomment %}
+         <div class="timeline" id="clientDetails_{{i.id}}">
+            <!-- Timeline items will be dynamically appended here -->
+         </div>
+
+         {% comment %} <div class="timeline">
+           
+           <div class="timeline-item">
+              <h5 style="color: black !important;" class="mb-5">{{forloop.counter}}.Call Record Detail</h5>
+            
+              
+              <div class="custom-row">
+                 
+                  
+                 <p class="px-2" id="client_number_{{i.id}}"><b>Date :</b> {{ item.date }}</p>
+                 <p class="px-2"><b>Time :</b> {{ item.time }}</p>
+                 <p class="px-2"><b>Call Duration :</b> {{ item.call_duration }}</p>
+                 <p class="px-2 mb-2"><b>Answer Seconds :</b> {{ item.answered_seconds }}</p>
+                 
+                 <p> {% if item.recording_url %} <audio controls src="{{ item.recording_url }}"></audio> {% else %}Call cut from Sales Department{% endif %} </p>
+                 
+             
+                 
+              </div>
+              
+           </div>
+           
+        </div>  {% endcomment %}
+        {% comment %} <div class="timeline">
+           {% for item in recording_urls_and_dates.results %}
+            {% if i.mobile_number == item.client_number %}
+           <div class="timeline-item">
+              <h5 style="color: black !important;" class="mb-5">{{forloop.counter}}.Call Record Detail</h5>
+            
+              
+              <div class="custom-row">
+                 
+                  
+                 <p class="px-2"><b>Date :</b> {{ item.date }}</p>
+                 <p class="px-2"><b>Time :</b> {{ item.time }}</p>
+                 <p class="px-2"><b>Call Duration :</b> {{ item.call_duration }}</p>
+                 <p class="px-2 mb-2"><b>Answer Seconds :</b> {{ item.answered_seconds }}</p>
+                 
+                 <p> {% if item.recording_url %} <audio controls src="{{ item.recording_url }}"></audio> {% else %}Call cut from Sales Department{% endif %} </p>
+                 
+             
+                 
+              </div>
+              
+           </div>
+           {% endif %}
+           {% endfor %}
+        </div> {% endcomment %}
+     </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+console.log("helooo")
+</script>
+{% comment %} 
+<script>
+   console.log("OOOOOOOOOOOOO")
+  function checkPaymentStatus(paymentId) {
+      
+      var button = $('#status_button_' + paymentId);
+     
+      button.prop('disabled', true);
+      button.text('Loading...');
+      $.ajax({
+          url: "{% url 'payment_status' id=0 %}".replace('0', paymentId),
+          type: 'GET',
+          success: function(response) {
+          console.log("okkkkk")
+              button.text('Check status');
+              button.prop('disabled', false);
+              console.log("showingggg")
+              $('#payment_status_' + paymentId).text(response.link_status);
+          },
+          error: function(xhr, status, error) {
+              button.text('Check status');
+              button.prop('disabled', false);
+              console.error(error);
+          }
+      });
+  }
+</script> {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+{% comment %} 
+<script>
+  $(document).ready(function() {
+      // Implement event delegation for the click event
+      $(document).on("click", ".callButton", function(event) {
+          event.preventDefault(); // Prevent default action
+          event.stopPropagation(); // Stop event propagation
+          
+          // Get the ID of the clicked button
+          var id = $(this).attr('id').split('_')[1];
+          
+          console.log("Button clicked with ID: " + id);
+          
+          // Get the CSRF token from the cookie
+          var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+          
+          // Make AJAX request to initiate the call
+          $.ajax({
+              url: "/make_click_to_call/" + id + "/",
+              method: "POST",
+              headers: {
+                  "X-CSRFToken": csrftoken  // Include CSRF token in the headers
+              },
+              success: function(data) {
+                  // Check the status returned by the server
+                  if (data.status === "calling") {
+                      $("#status_" + id).text("Connected....");
+                  } else {
+                      $("#status_" + id).text("Error: " + data.error);
+                  }
+              },
+              error: function(xhr, status, error) {
+                  $("#status_" + id).text("Error: " + error);
+              }
+          });
+      });
+  });
+</script> {% endcomment %}
+{% comment %} 
+<script>
+  $(document).ready(function() {
+    $('.offcanvas').on('shown.bs.offcanvas', function() {
+      
+      var offcanvasId = $(this).attr('id');
+      console.log("Offcanvas opened:", offcanvasId);
+      
+      
+      var leadId = offcanvasId.split('-')[1];
+      console.log("Lead ID:", leadId);
+
+      
+      $.ajax({
+        url: "/offcanvas/" + leadId, 
+        type: "GET",
+        success: function(response) {
+          console.log("URL hit successfully");
+        },
+        error: function(xhr, status, error) {
+          console.error("Error:", error);
+        }
+      });
+    });
+  });
+</script> {% endcomment %}
