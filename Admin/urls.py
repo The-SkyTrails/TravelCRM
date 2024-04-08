@@ -277,7 +277,7 @@ urlpatterns = [
     
     path("add_user", add_user, name="add_user"),
     path("user", user, name="user"),
-    path("Edit/user/<int:id>/", edit_user, name="user"),
+    path("Edit/user/<int:id>/", edit_user, name="edituser"),
     
     # --------------------------------- QUERY ------------------------------
     
