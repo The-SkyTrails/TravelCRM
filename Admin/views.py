@@ -3892,3 +3892,6 @@ def bulk_lead_upload(request):
 
 
 
+def edit_user(request,id):
+    
+    return render(request, "Admin/User/edit_user.html")
