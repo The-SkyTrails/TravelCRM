@@ -84,33 +84,6 @@
 });
 </script>
 
-
-<script>
-   
-  function checkPaymentStatus(paymentId) {
-      
-      var button = $('#status_button_' + paymentId);
-     
-      button.prop('disabled', true);
-      button.text('Loading...');
-      $.ajax({
-          url: "{% url 'payment_status' id=0 %}".replace('0', paymentId),
-          type: 'GET',
-          success: function(response) {
-          console.log("okkkkk")
-              button.text('Check status');
-              button.prop('disabled', false);
-              console.log("showingggg")
-              $('#payment_status_' + paymentId).text(response.link_status);
-          },
-          error: function(xhr, status, error) {
-              button.text('Check status');
-              button.prop('disabled', false);
-              console.error(error);
-          }
-      });
-  }
-</script>
 <script>
   $(document).ready(function() {
     // Add click event listener to all buttons with ID starting with 'triggerAjax_'
@@ -119,7 +92,6 @@
       var buttonId = $(this).attr('id');
       // Extract the lead ID from the button ID
       var leadId = buttonId.split('_')[1];
-      console.log("helooo",leadId)
       var csrftoken = $("[name=csrfmiddlewaretoken]").val();
           
 
@@ -132,7 +104,6 @@
                   "X-CSRFToken": csrftoken  // Include CSRF token in the headers
         },
         success: function(data) {
-          console.log("URL hit successfully");
           if (data.status === "calling") {
                 $("#status_" + leadId).text("Connected....");
           }else {
@@ -148,6 +119,43 @@
     });
   });
 </script>
+
+<script>
+  $(document).ready(function() {
+    // Add click event listener to all buttons with ID starting with 'triggerAjax_'
+    $('[id^="triggeredAjax_"]').on('click', function() {
+      // Get the ID of the button
+      var buttonId = $(this).attr('id');
+      // Extract the lead ID from the button ID
+      var leadId = buttonId.split('_')[1];
+      var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+          
+
+      // Make the AJAX request using the extracted ID
+      $.ajax({
+        url: "/make_click_to_alternatecall/" + leadId + "/",
+        //type: "GET",
+        method: "POST",
+        headers: {
+                  "X-CSRFToken": csrftoken  // Include CSRF token in the headers
+        },
+        success: function(data) {
+          if (data.status === "calling") {
+                $("#alternatestatus" + leadId).text("Connected....");
+          }else {
+              $("#alternatestatus" + leadId).text("Error: " + data.error);
+          }
+          // Handle success response if needed
+        },
+        error: function(xhr, status, error) {
+          console.error("Error:", error);
+          // Handle error if needed
+        }
+      });
+    });
+  });
+</script>
+
 </body>
 
 </html>

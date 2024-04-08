@@ -20,7 +20,7 @@
         <div id="post-data-container2"></div>
         <div class="mb-3">
             <label for="recipient-name" class="control-label">Country</label>
-            <select class="select2 form-control" name="country_id" id="country-name"  style="width: 100%; height: 36px">   
+            <select class="form-control" name="country_id" id="country-name"  style="width: 100%; height: 36px">   
                {% for country in country %}
                      <option value="{{country.id}}" {% if country.id == i.country.id %}selected{% endif %}>{{country.country_name}}</option>
                       {% endfor %}

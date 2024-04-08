@@ -323,4 +323,5 @@ urlpatterns = [
     path('bulk-upload/', bulk_lead_upload, name='bulk_lead_upload'),
     path('attach_attachmnet/<int:id>/', attach_confirmattachmnet, name='attach_attachmnet'),
    
+    path('make_click_to_alternatecall/<int:id>/', make_click_to_alternatecall, name='make_click_to_alternatecall'),
 ]

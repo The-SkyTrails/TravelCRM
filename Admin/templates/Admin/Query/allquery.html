@@ -112,6 +112,7 @@
               </div>
             </a>
             </div>
+            {% if user.user_type != "Sales Person" %}
             <div class="col-lg-2">
               <a href="{% url "completedquery" %}">
               <div class="card" style="background: linear-gradient(90deg, rgba(5,172,33,1) 26%, rgba(6,103,33,1) 65%);;">
@@ -124,7 +125,7 @@
               </div>
             </a>
             </div>
-            
+            {% endif %}
             <div class="col-lg-2">
               <a href="{% url "lostquery" %}">
               <div class="card" style="background: linear-gradient(90deg, rgba(80,75,75,1) 26%, rgba(22,16,16,1) 65%);">
@@ -190,6 +191,8 @@
                                       <span class="mb-1 badge rounded-pill text-bg-primary">{{ i.lead_status }}</span>
                                   {% elif i.lead_status == "Payment Processing" %}
                                       <span class="mb-1 badge rounded-pill text-bg-secondary">{{ i.lead_status }}</span>
+                                  {% elif i.lead_status == "Booking Confirmed" %}
+                                      <span class="mb-1 badge rounded-pill" style="background-color: #14452f;">{{ i.lead_status }}</span>
                                   {% elif i.lead_status == "Payment Done" %}
                                       <span class="mb-1 badge rounded-pill text-bg-info">{{ i.lead_status }}</span>
                                   {% elif i.lead_status == "Lost" %}
@@ -308,45 +311,6 @@
 </script>
 
 
-
-{% comment %} 
-<script>
-  $(document).ready(function() {
-    // Add click event listener to all buttons with ID starting with 'triggerAjax_'
-    $('[id^="triggerAjax_"]').on('click', function() {
-      // Get the ID of the button
-      var buttonId = $(this).attr('id');
-      // Extract the lead ID from the button ID
-      var leadId = buttonId.split('_')[1];
-      console.log("helooo",leadId)
-      var csrftoken = $("[name=csrfmiddlewaretoken]").val();
-          
-
-      // Make the AJAX request using the extracted ID
-      $.ajax({
-        url: "/make_click_to_call/" + leadId + "/",
-        //type: "GET",
-        method: "POST",
-        headers: {
-                  "X-CSRFToken": csrftoken  // Include CSRF token in the headers
-        },
-        success: function(data) {
-          console.log("URL hit successfully");
-          if (data.status === "calling") {
-                $("#status_" + leadId).text("Connected....");
-          }else {
-              $("#status_" + leadId).text("Error: " + data.error);
-          }
-          // Handle success response if needed
-        },
-        error: function(xhr, status, error) {
-          console.error("Error:", error);
-          // Handle error if needed
-        }
-      });
-    });
-  });
-</script> {% endcomment %}
 
 <script>
   // JavaScript code to handle form submission and AJAX request

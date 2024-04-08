@@ -2871,10 +2871,12 @@ def allquerylist(request):
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
         elif user_type == "Sales Person":
             if from_date and to_date:
-                all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)&
-                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-id")
+                all_lead = Lead.objects.filter(
+                    Q(added_by=request.user) | Q(sales_person=request.user),
+                    Q(from_date__gte=from_date, to_date__lte=to_date),
+                ).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
             else:
-                all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
+                all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user),).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
             new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
@@ -3594,7 +3596,6 @@ def payment_link(request,id):
 
         response = requests.post(url, headers=headers, json=data)
         data = response.json()
-        print("data response......",response.text)
         link_url = response.json().get('link_url')
         link_expiry_time = response.json().get('link_expiry_time')
         
@@ -3621,7 +3622,6 @@ def payment_status(request,id):
     }
     
     response = requests.get(url, headers=headers)   
-    print("status show",response.text)
     data = response.json() 
     return JsonResponse(data)
   
@@ -3655,7 +3655,6 @@ def make_click_to_call(request,id):
     print("hellooooooooo")
    
     lead = Lead.objects.get(id=id)
-    print("lead mobile:",lead.mobile_number)
     url = "https://api-smartflo.tatateleservices.com/v1/click_to_call"
 
     # Define your payload and headers
@@ -3890,6 +3889,42 @@ def bulk_lead_upload(request):
             
     return redirect("newquerylist")
 
+
+def make_click_to_alternatecall(request,id):
+   
+    user = request.user
+   
+    lead = Lead.objects.get(id=id)
+    url = "https://api-smartflo.tatateleservices.com/v1/click_to_call"
+
+    # Define your payload and headers
+    payload = {"agent_number": "0503637080052", "destination_number": lead.alternate_mobile_number}
+    headers = {
+        "accept": "application/json",
+        "Authorization": lead.added_by.authorization,
+        # "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjM3MDgiLCJpc3MiOiJodHRwczovL2Nsb3VkcGhvbmUudGF0YXRlbGVzZXJ2aWNlcy5jb20vdG9rZW4vZ2VuZXJhdGUiLCJpYXQiOjE3MDIyNzE2NzAsImV4cCI6MjAwMjI3MTY3MCwibmJmIjoxNzAyMjcxNjcwLCJqdGkiOiJCa0xPV05hcVNNVkZabm4wIn0.w76qiqkkFZpcb9sjIg_J9MG__iw7m0yZ-rlAoOGKab4",
+        "content-type": "application/json",
+    }
+
+    # Make the POST request
+    response = requests.post(url, json=payload, headers=headers)
+    json_text = response.text
+    data_dict = json.loads(json_text)
+    # print(type(data_dict)) 
+    # print(data_dict['success'])
+
+    # student_details = json.loads(jsonString)
+    if data_dict['success'] == True:
+       
+        response_data = {"status": "calling"}
+
+        return JsonResponse(response_data)
+
+   
+    else:
+        
+        response_data = {"error": "Failed to initiate call"}
+        return JsonResponse(response_data, status=response.status_code)
 
 
 def edit_user(request,id):
