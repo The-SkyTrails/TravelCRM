@@ -1,0 +1,61 @@
+{% load static %}
+<div class="modal fade" id="view-payment-history-{{i.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="view-paymenthistory" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center">
+                    <h4 class="modal-title" id="exampleModalLabel1">
+                       Payment List
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="custom-table">
+                        <div class="custom-row bg-success text-white">
+                            <div class="custom-cell">Enq Id</div>
+                            <div class="custom-cell">Link Id</div>
+                            <div class="custom-cell">Payment Link</div>
+                            <div class="custom-cell">Expiry Date</div>
+                            <div class="custom-cell">Payment Status</div>
+                        </div>
+                        {% for payment in i.payments.all %}
+                        <div class="custom-row">
+                            <div class="custom-cell">{{ i.enquiry_number }}</div>
+                            <div class="custom-cell">{{ payment.link_id }}</div>
+                            <div class="custom-cell">{{ payment.payment_link }}</div>
+                            <div class="custom-cell">{{ payment.link_expiry_time }}</div>
+                            <div class="custom-cell"><button type="button" id="status_button_{{ payment.id }}" class="btn d-flex bg-primary-subtle w-100 d-block text-primary font-medium" onclick="checkPaymentStatus({{ payment.id }})">
+                                Check status
+                            </button>
+                             <span id="status_{{ payment.id }}" class="text-success mx-5"></span></div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </form>
+    </div>
+</div>
+<!-- 
+<script>
+    function checkPaymentStatus(paymentId) {
+        var button = $('#status_button_' + paymentId);
+        button.prop('disabled', true);
+        button.text('Loading...');
+        $.ajax({
+            url: "{% url 'payment_status' id=0 %}".replace('0', paymentId),
+            type: 'GET',
+            success: function(response) {
+                button.text('Check status');
+                button.prop('disabled', false);
+                $('#status_' + paymentId).text(response.link_status);
+            },
+            error: function(xhr, status, error) {
+                button.text('Check status');
+                button.prop('disabled', false);
+                console.error(error);
+            }
+        });
+    }
+    </script> -->

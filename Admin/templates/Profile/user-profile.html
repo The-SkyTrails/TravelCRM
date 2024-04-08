@@ -1,0 +1,253 @@
+{% extends "Admin/Base/base.html" %}
+{% load static %}
+{% block main-content %}
+
+<div class="body-wrapper">
+    <div class="container-fluid">
+      <div class="font-weight-medium shadow-none position-relative overflow-hidden mb-7">
+        <div class="card-body px-0">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h4 class="font-weight-medium fs-14 mb-0">User Profile</h4>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a class="text-muted text-decoration-none" href="{% url "home" %}">Home
+                    </a>
+                  </li>
+                  <li class="breadcrumb-item text-muted" aria-current="page">User Profile</li>
+                </ol>
+              </nav>
+            </div>
+            <div>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card overflow-hidden">
+        <div class="card-body p-0">
+          <img src="{% static "/assets/images/backgrounds/profilebg.jpg" %}" alt="" class="img-fluid">
+          <div class="row align-items-center">
+            <div class="col-lg-4 order-lg-1 order-2">
+            
+            </div>
+            <div class="col-lg-4 mt-n3 order-lg-2 order-1">
+              <div class="mt-n5">
+                <div class="d-flex align-items-center justify-content-center mb-2">
+                  <div class=" d-flex align-items-center justify-content-center"
+                    style="width: 110px; height: 110px;" ;="">
+                    <div
+                      class="border border-4 border-white d-flex align-items-center justify-content-center rounded-circle overflow-hidden"
+                      style="width: 100px; height: 100px;" ;="">
+                      <img src="{% static "/assets/images/profile/user-1.jpg" %}" alt="" class="w-100 h-100">
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  {% comment %} <h5 class="fs-5 mb-0 fw-semibold">Jonathan Deo</h5> {% endcomment %}
+                  <h4 class="fs-5 mb-0 fw-semibold">{{request.user}}</h4>
+                  <p class="mb-0 fs-4">{{request.user.user_type}}</p>
+                </div>
+              </div>
+            </div>
+           
+          </div>
+         
+        </div>
+       
+      </div>
+       <h1 class="text-center" id="msg"></h1>
+      <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-profile" role="tabpanel"
+          aria-labelledby="pills-profile-tab" tabindex="0">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card shadow-none border">
+                <div class="card-body">
+                  {% comment %} <h4 class="fw-semibold mb-3">Introduction</h4>
+                  <p>Hello, I am Jonathan Deo. I love making websites and graphics. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit.</p> {% endcomment %}
+                  <ul class="list-unstyled mb-0">
+                    <li class="d-flex align-items-center gap-6 flex-wrap mb-4">
+                      <i class="ti ti-briefcase text-dark fs-6"></i>
+                      <h6 class="fs-4 fw-semibold mb-0"><span id="users">{{request.user}}</span>, {{request.user.user_type}}</h6>
+                    </li>
+                    <li class="d-flex align-items-center gap-6 flex-wrap mb-4">
+                      <i class="ti ti-mail text-dark fs-6"></i>
+                      <h6 class="fs-4 fw-semibold mb-0">{{request.user.email}}</h6>
+                    </li>
+                    <li class="d-flex align-items-center gap-6 flex-wrap mb-4">
+                      <i class="ti ti-device-desktop text-dark fs-6"></i>
+                      <h6 class="fs-4 fw-semibold mb-0">www.xyz.com</h6>
+                    </li>
+                    <li class="d-flex align-items-center gap-6 flex-wrap mb-2">
+                      <i class="ti ti-map-pin text-dark fs-6"></i>
+                      <h6 class="fs-4 fw-semibold mb-0" id="selected-country">{{request.user.admin.address}}, {{request.user.admin.city.name}} - {{request.user.admin.pin}}</h6>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card shadow-none border">
+                <div class="card-body">
+                  <h4 class="fw-semibold mb-3">Photos</h4>
+                  <div class="row">
+                    <div class="col-4">
+                      <img src="{% static "/assets/images/profile/user-1.jpg" %}" alt="" class="rounded-2 img-fluid mb-9">
+                    </div>
+                    <div class="col-4">
+                      <img src="../assets/images/profile/user-2.jpg" alt="" class="rounded-2 img-fluid mb-9">
+                    </div>
+                    <div class="col-4">
+                      <img src="../assets/images/profile/user-3.jpg" alt="" class="rounded-2 img-fluid mb-9">
+                    </div>
+                    <div class="col-4">
+                      <img src="../assets/images/profile/user-4.jpg" alt="" class="rounded-2 img-fluid mb-9">
+                    </div>
+                    <div class="col-4">
+                      <img src="../assets/images/profile/user-5.jpg" alt="" class="rounded-2 img-fluid mb-9">
+                    </div>
+                    <div class="col-4">
+                      <img src="../assets/images/profile/user-6.jpg" alt="" class="rounded-2 img-fluid mb-9">
+                    </div>
+                    <div class="col-4">
+                      <img src="../assets/images/profile/user-7.jpg" alt="" class="rounded-2 img-fluid mb-6">
+                    </div>
+                    <div class="col-4">
+                      <img src="../assets/images/profile/user-8.jpg" alt="" class="rounded-2 img-fluid mb-6">
+                    </div>
+                    <div class="col-4">
+                      <img src="../assets/images/profile/user-1.jpg" alt="" class="rounded-2 img-fluid mb-6">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="card shadow-none border">
+                <form  id="profile-form">
+                 {% csrf_token %}
+                  <div class="card-body">
+                  <h3>Edit</h3>
+                    <div class="mb-3">
+                    <label for="">Username</label>
+                    <input  type="text" class="form-control" placeholder="Enter Name" value="{{request.user}}" name="username" id="username">            
+                      
+                    </div>
+                    <div class="mb-3">
+                      <label for="">Country</label>
+                      
+                    
+                      <select name="" id="country-name" class="select2 form-control" style="width: 100%; height: 36px">
+                      {% for country in country %}
+                      <option value="{{country.id}}" {% if country.id == request.user.admin.country.id %}selected{% endif %} data-country="{{country.country_name}}">{{country.country_name}}</option>
+                      {% endfor %}
+                      </select>
+                      
+                    </div>
+                    <div class="mb-3">
+                      <label for="state">State</label>
+                    
+                      <select name="" id="state" class="select2 form-control">
+                      {% for state in state %}
+                      <option value="{{state.id}}" {% if state.id == request.user.admin.state.id %}selected{% endif %}>{{state.name}}</option>
+                      {% endfor %}
+                      </select>
+                      
+                    </div>
+                    <div class="mb-3">
+                      <label for="city">City</label>
+                    
+                      <select name="" id="city" class="select2 form-control">
+                      {% for city in city %}
+                      <option value="{{city.name}}" {% if city.id == request.user.admin.city.id %}selected{% endif %}>{{city.name}}</option>
+                      {% endfor %}
+                      </select>
+                      
+                    </div>
+                    <div class="mb-3">
+                      <label for="address">Address</label>
+                    
+                      <input type="text" id="address" class="form-control" value="{{request.user.admin.address}}">
+                      
+                    </div>
+                    <div class="mb-3">
+                      <label for="pincode">Pin Code</label>
+                    
+                      <input type="text" id="pincode" class="form-control" value="{{request.user.admin.pin}}">
+                      
+                    </div>  
+                    <button class="btn btn-primary ms-auto"  id="submit-btn">Update</button>
+                  
+                  </div>
+                </form>
+              </div>
+             
+              
+             
+            </div>
+          </div>
+        </div>
+      
+      </div>
+    </div>
+  </div>
+{% comment %} <h6 id="selected-country" class="fs-4 fw-semibold mb-0">okk</h6> {% endcomment %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('#profile-form').submit(function(e){
+        e.preventDefault(); // Prevent the form from submitting normally
+
+        // Get CSRF token
+        var csrftoken = $('[name=csrfmiddlewaretoken]').val();
+
+        // Get data from input fields
+        var username = $('#username').val();
+        var country = $('#country-name').val();
+        var state = $('#state').val();
+        var city = $('#city').val();
+        var address = $('#address').val();
+        var pincode = $('#pincode').val();
+        
+        
+        // Add more fields as needed
+        
+        // Make AJAX POST request
+        $.ajax({
+            url: '{% url "edit_profile" %}',
+            type: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: {
+                'username': username,
+                'country': country,
+                'state': state,
+                'city': city,
+                'address': address,
+                'pincode': pincode,
+                // Add more fields as needed
+            },
+            dataType: 'json',
+            success: function(response){
+                console.log(response.message);
+                $('#msg').text(response.message);
+                $('#users').text(username);
+                var userAddress = address + ', ' + city + ' - ' + pincode;
+                $('#selected-country').text(userAddress);
+                 
+                // Handle success response
+            },
+            error: function(xhr, errmsg, err){
+                console.log(xhr.status + ": " + xhr.responseText);
+                // Handle error response
+            }
+        });
+    });
+});
+</script>
+
+
+{% endblock main-content %}

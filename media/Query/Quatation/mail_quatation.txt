@@ -1,0 +1,42 @@
+
+# def attach_quotation(request, id):
+#     if request.method == "POST":
+#         enq = request.POST.get("enq_id")
+#         attachments = request.FILES.getlist("attachment")
+
+#         lead = get_object_or_404(Lead, id=enq)
+#         quotation = Quatation.objects.create(lead=lead)
+
+#         for attachment in attachments:
+#             attachment_obj = Attachment.objects.create(file=attachment)
+#             quotation.attachment.add(attachment_obj)
+
+#         lead.lead_status = "Quotation Send"
+#         lead.save()
+#         messages.success(request, "Quotation Added Successfully...")
+
+#         subject = "Quotation Attached"
+#         message = "Dear {},\n\nI hope this email finds you well. Find your dream vacation inside!  We've attached a detailed quotation outlining each package, including destinations, activities, pricing, and more. \nWe look forward to helping you plan your next adventure!".format(lead.name)
+#         email_from = settings.EMAIL_HOST_USER
+#         to_email = lead.email
+
+#         email = EmailMessage(subject, message, email_from, [to_email])
+        
+#         attachments = quotation.attachment.all()
+#         print("Number of attachments:", len(attachments))
+        
+#         for attachment in attachments:
+#             content_type, _ = mimetypes.guess_type(attachment.file.name)
+#             email.attach(attachment.file.name.split("/")[-1], attachment.file.read(), content_type)
+            
+#             # Debugging: Print each attachment name
+#             print("Attachment:", attachment.file.name)
+        
+#         email.send()
+
+#         return redirect("allquerylist")
+#     else:
+#         pass
+
+
+    

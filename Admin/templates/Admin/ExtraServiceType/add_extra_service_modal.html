@@ -1,0 +1,88 @@
+{% load static %}
+<div class="modal fade" id="extraservice" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+aria-labelledby="extraservice" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+        <form action="" id="add-extra-service-form">
+            {% csrf_token %}
+       <div class="modal-content">
+        <div class="modal-header d-flex align-items-center">
+            <h4 class="modal-title" id="exampleModalLabel1">
+                Add Expense Service Type
+            </h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <div class="modal-body">
+             
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label for="country-name" class="control-label">Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Name" hx-post="{% url "checkextraservicename" %}"  hx-target="#post-data-container2" hx-trigger="keyup changed delay:500ms" name="name">
+                                                     
+                    </div> 
+                    <div id="post-data-container2"></div>
+                </div> 
+                
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label for="country-name" class="control-label">Remarks</label>
+                        <textarea class="form-control" name="remarks" id="remarks"></textarea>
+                                                     
+                    </div> 
+                    
+                </div> 
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-danger-subtle text-danger font-medium" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-success" id="save-extra-service-btn">
+                    Save
+                </button>
+            </div>
+       </div>
+    </form>
+    </div>
+ </div>
+
+ 
+ <script>
+    document.getElementById('save-extra-service-btn').addEventListener('click', function() {
+        
+        var form = document.getElementById('add-extra-service-form');
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', "{% url 'extra_service' %}", true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                
+                
+                window.location.href = "{% url 'add_extra_service' %}";
+                // Reload the page
+                {% comment %} window.location.reload();  {% endcomment %}
+                
+            } else if (xhr.status === 400) {
+                // Handle bad request response
+                
+                                                    
+               //document.getElementById('custom-html-alert').style.display = 'block';
+               showCountryExistsAlert("Extra Service");
+            } else {
+                // Handle other error responses
+                alert('Error occurred');
+            }
+        };
+        xhr.send(formData);
+    });
+
+</script>
+
+
+ 
+
+ 
+
+ 
+        

@@ -1,0 +1,100 @@
+{% load static %}
+<div class="modal fade" id="currency" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+aria-labelledby="currency" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+        <form action="" id="add-currency-form">
+            {% csrf_token %}
+       <div class="modal-content">
+        <div class="modal-header d-flex align-items-center">
+            <h4 class="modal-title" id="exampleModalLabel1">
+                Add Currency
+            </h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <div class="modal-body">
+             {% comment %} <img src="{% static "assets/images/small/img-3.jpg" %}" alt="" class="img-fluid"> {% endcomment %}
+            
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label for="country-name" class="control-label">Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Name" hx-post="{% url "checkcurrencyname" %}"  hx-target="#post-data-container2" hx-trigger="keyup changed delay:500ms" name="name">
+                                                     
+                    </div> 
+                    <div id="post-data-container2"></div>
+                </div> 
+                <div class="row mb-3">
+                    
+                    <div class="col-lg-12">
+                        <label for="country-name" class="control-label">Value</label>
+                        <input type="text" class="form-control" placeholder="Enter Value" name="value">
+                                                     
+                    </div> 
+                </div> 
+                <div class="row mb-3">
+                    
+                    <div class="col-lg-12">
+                        <label for="country-name" class="control-label">Base Currency</label>
+                        <select class="select2 form-control" name="base_currency" id="base_currency"
+                         style="width: 100%; height: 36px">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                                                     
+                    </div> 
+                </div> 
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-danger-subtle text-danger font-medium" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-success" id="save-currency-btn">
+                    Save
+                </button>
+            </div>
+       </div>
+    </form>
+    </div>
+ </div>
+
+ 
+ <script>
+    document.getElementById('save-currency-btn').addEventListener('click', function() {
+        
+        var form = document.getElementById('add-currency-form');
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', "{% url 'currency' %}", true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log("workkk")
+                
+                window.location.href = "{% url 'add_currency' %}";
+                // Reload the page
+                {% comment %} window.location.reload();  {% endcomment %}
+                
+            } else if (xhr.status === 400) {
+                // Handle bad request response
+                
+                                                    
+               //document.getElementById('custom-html-alert').style.display = 'block';
+               showCountryExistsAlert("Currency");
+            } else {
+                // Handle other error responses
+                alert('Error occurred');
+            }
+        };
+        xhr.send(formData);
+    });
+
+</script>
+
+
+ 
+
+ 
+
+ 
+        

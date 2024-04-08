@@ -1,0 +1,83 @@
+{% load static %}
+
+ <div class="modal fade" id="samedata-modal" tabindex="-1" aria-labelledby="exampleModalLabel1">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header d-flex align-items-center">
+          <h4 class="modal-title" id="exampleModalLabel1">
+            Add Country
+          </h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="" id="add-country-form">
+                {% csrf_token %}
+            <div class="mb-3">
+              <label for="recipient-name" class="control-label">Name</label>
+              <input type="text" class="form-control" placeholder="Enter Name" hx-post="{% url "checkusername" %}"  hx-target="#post-data-container" hx-trigger="keyup changed delay:500ms" name="country_name">
+              <div id="post-data-container"></div>
+            </div>
+            <div class="mb-3">
+                <label for="recipient-name" class="control-label">Nationality</label>
+                <input type="text" class="form-control" placeholder="Enter Nationality" name="nationality">
+            </div>
+            <div class="mb-3">
+                <label for="recipient-name" class="control-label">Sort Name</label>
+                <input type="text" class="form-control" placeholder="Enter Sort Name" name="sort_name">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn bg-danger-subtle text-danger font-medium" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-success" id="save-country-btn">
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
+<script>
+    document.getElementById('save-country-btn').addEventListener('click', function() {
+        
+        var form = document.getElementById('add-country-form');
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', "{% url 'country' %}", true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log("workkk")
+                
+                window.location.href = "{% url 'add_Country' %}";
+                // Reload the page
+                {% comment %} window.location.reload();  {% endcomment %}
+                
+            } else if (xhr.status === 400) {
+                // Handle bad request response
+                
+                                                    
+                {% comment %} alert('Country name already exists'); {% endcomment %}
+               //document.getElementById('custom-html-alert').style.display = 'block';
+               showCountryExistsAlert("Country");
+            } else {
+                // Handle other error responses
+                alert('Error occurred');
+            }
+        };
+        xhr.send(formData);
+    });
+
+</script>
+
+
+ 
+
+ 
+
+ 
+        
