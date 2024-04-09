@@ -3456,12 +3456,12 @@ def editquery(request,id):
             infants = request.POST.get("infants")
             lead_source_id = request.POST.get("lead_source_id")
             sales_person_id = request.POST.get("sales_person_id")
-            operation_person_id = request.POST.get("operation_person_id")
+            # operation_person_id = request.POST.get("operation_person_id")
             other_information = request.POST.get("other_information")
             service_type = Service_type.objects.get(id=service_type_id)
             lead_source = Lead_source.objects.get(id=lead_source_id)
             sales_person = CustomUser.objects.get(id=sales_person_id)
-            operation_person = CustomUser.objects.get(id=operation_person_id)
+            # operation_person = CustomUser.objects.get(id=operation_person_id)
             destination = Destination.objects.get(id=destination_name)
  
             lead.name=contact_person_name
@@ -3482,7 +3482,7 @@ def editquery(request,id):
             lead.other_information=other_information
             lead.lead_source=lead_source
             lead.sales_person=sales_person
-            lead.operation_person=operation_person
+            # lead.operation_person=operation_person
             lead.save()
             messages.success(request, "Query updated successfully")
             return redirect("allquerylist")
