@@ -184,7 +184,7 @@
 
 
                                 <tbody >
-                                {% for i in all_lead %}
+                                {% for i in book_list %}
                                 <tr>
                                     
                                     <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight" >
@@ -302,7 +302,6 @@
                     <p class="px-2"><b>Time :</b> ${result.time}</p>
                     <p class="px-2"><b>Call Duration :</b> ${result.call_duration}</p>
                     <p class="px-2 mb-2"><b>Answer Seconds :</b> ${result.answered_seconds}</p>
-                   
                     <p> ${result.recording_url ? `<audio controls src="${result.recording_url}"></audio>` : `Call cut from Sales Department`} </p>
                   </div>
                 </div>

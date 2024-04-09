@@ -288,6 +288,7 @@ urlpatterns = [
     path("paymentdonequerylist", paymentdonequerylist, name="paymentdonequerylist"),
     path("completedquery", completedquerylist, name="completedquery"),
     path("lostquery", lostquerylist, name="lostquery"),
+    path("bookinglist", bookinglist, name="bookinglist"),
     path("addquery", addquery, name="addquery"),
     path("editquery/<int:id>/", editquery, name="editquery"),
     path('lead/<int:id>/update/', lead_status_update, name='lead_status_update'),

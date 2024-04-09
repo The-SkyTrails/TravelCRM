@@ -8,6 +8,9 @@
   .btn-outline-secondary:hover svg path {
   stroke: white; 
   }
+  .btn-outline-success:hover svg path {
+   stroke: white; 
+   }
   .custom-iframe {
     background: none transparent;
 }
@@ -277,9 +280,9 @@
            </div>
            <div class="col-md-3">
               <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#attach-attachment-{{i.id}}">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 5V12M12 12V19M12 12H19M12 12H5" stroke="#F6C000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                 </svg>
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 1V8M8 8V15M8 8H15M8 8H1" stroke="#2CD07E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
                  Add Attachment
               </button>
               {% include "Admin/Query/attach-attachment.html" %}
