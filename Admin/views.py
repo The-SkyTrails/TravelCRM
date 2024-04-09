@@ -2869,7 +2869,6 @@ def allquerylist(request):
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
         elif user_type == "Sales Person":
             if from_date and to_date:
                 all_lead = Lead.objects.filter(
@@ -2884,7 +2883,6 @@ def allquerylist(request):
             paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
     else:
         
         new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = []
@@ -2905,8 +2903,7 @@ def allquerylist(request):
         "all_lead": all_lead,
         "lost_list": lost_list,
         "operation": operation,
-        'recording_urls_and_dates': recording_urls_and_dates,
-        "book_list":book_list,
+        'recording_urls_and_dates': recording_urls_and_dates
     }
     return render(request,"Admin/Query/allquery.html",context)
 
@@ -2932,9 +2929,8 @@ def newquerylist(request):
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
         elif user_type == "Sales Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
             if from_date and to_date:
                 new_lead_list = Lead.objects.filter(
                     Q(lead_status="Pending") &
@@ -2948,7 +2944,6 @@ def newquerylist(request):
             paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
     else:
         
         new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = []
@@ -2964,8 +2959,7 @@ def newquerylist(request):
         "all_lead":all_lead,
         "lost_list":lost_list,
         "operation":operation,
-        "recording_urls_and_dates":recording_urls_and_dates,
-        "book_list":book_list,
+        "recording_urls_and_dates":recording_urls_and_dates
 
     }
     return render(request,"Admin/Query/newquery.html",context)
@@ -2991,9 +2985,8 @@ def connectedquerylist(request):
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
         elif user_type == "Sales Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
             new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             if from_date and to_date:
                 lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))&
@@ -3004,7 +2997,6 @@ def connectedquerylist(request):
             paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
     else:
         
         new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = []
@@ -3020,8 +3012,7 @@ def connectedquerylist(request):
         "all_lead":all_lead,
         "lost_list":lost_list,
         "operation":operation,
-        "recording_urls_and_dates":recording_urls_and_dates,
-        "book_list":book_list,
+        "recording_urls_and_dates":recording_urls_and_dates
     }
     return render(request,"Admin/Query/connectedquery.html",context)
 
@@ -3046,9 +3037,8 @@ def quatationquerylist(request):
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
         elif user_type == "Sales Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
             new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             if from_date and to_date:
@@ -3059,7 +3049,6 @@ def quatationquerylist(request):
             paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
     else:
         
         new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = []
@@ -3075,8 +3064,7 @@ def quatationquerylist(request):
         "all_lead":all_lead,
         "lost_list":lost_list,
         "operation":operation,
-        "recording_urls_and_dates":recording_urls_and_dates,
-        "book_list":book_list,
+        "recording_urls_and_dates":recording_urls_and_dates
     }
     return render(request,"Admin/Query/quatationquery-list.html",context)
 
@@ -3105,9 +3093,8 @@ def paymentdonequerylist(request):
                 paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
         elif user_type == "Sales Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
             new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
@@ -3121,7 +3108,6 @@ def paymentdonequerylist(request):
                 paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
     else:
         
         new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = []
@@ -3137,8 +3123,7 @@ def paymentdonequerylist(request):
         "comlead_list":comlead_list,
         "all_lead":all_lead,
         "lost_list":lost_list,
-        "recording_urls_and_dates":recording_urls_and_dates,
-        "book_list":book_list,
+        "recording_urls_and_dates":recording_urls_and_dates
     }
     return render(request,"Admin/Query/paymentdonequery.html",context)
 
@@ -3158,7 +3143,6 @@ def completedquerylist(request):
             lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
             quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
             if from_date and to_date:
                 comlead_list = Lead.objects.filter(
                     lead_status="Completed",
@@ -3169,12 +3153,11 @@ def completedquerylist(request):
                 comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
         elif user_type == "Sales Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
             new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             if from_date and to_date:
                 comlead_list = Lead.objects.filter(
                     Q(lead_status="Completed") &
@@ -3199,8 +3182,7 @@ def completedquerylist(request):
         "all_lead":all_lead,
         "lost_list":lost_list,
         "operation":operation,
-        "recording_urls_and_dates":recording_urls_and_dates,
-        "book_list":book_list,
+        "recording_urls_and_dates":recording_urls_and_dates
     }
     return render(request,"Admin/Query/completedquery.html",context)
 
@@ -3221,7 +3203,6 @@ def lostquerylist(request):
             quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
             if from_date and to_date:
                 lost_list = Lead.objects.filter(lead_status="Lost",
                     from_date__gte=from_date,
@@ -3229,13 +3210,12 @@ def lostquerylist(request):
             else:
                 lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
         elif user_type == "Sales Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
             new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             if from_date and to_date:
                 lost_list = Lead.objects.filter(
                     Q(lead_status="Lost") &
@@ -3260,9 +3240,9 @@ def lostquerylist(request):
         "all_lead":all_lead,
         "lost_list":lost_list,
         "recording_urls_and_dates":recording_urls_and_dates,
-        "book_list":book_list,
     }
     return render(request,"Admin/Query/lostleads.html",context)
+
 
 
 @login_required
@@ -3331,10 +3311,8 @@ def bookinglist(request):
     }
     return render(request,"Admin/Query/bookingconfirmed.html",context)
 
-
-
-
 def getoperationdep():
+    print(CustomUser.objects.filter(user_type = "Operation Person"))
     return CustomUser.objects.filter(user_type = "Operation Person")
 
        
@@ -4021,10 +3999,14 @@ def make_click_to_alternatecall(request,id):
 def edit_user(request,id):
     user = Admin.objects.get(id=id)
     user_type = USER_TYPE_CHOICES
+    reporting = CustomUser.objects.all()
+    country = Country.objects.all()
     
     context = {
         'user':user,
         'user_type':user_type,
+        'reporting':reporting,
+        'countrys':country,
         }
 
     

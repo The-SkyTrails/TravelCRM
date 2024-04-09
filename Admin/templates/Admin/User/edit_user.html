@@ -90,7 +90,7 @@
                                       <label for="example-email-input" class="col-form-label">Reporting To</label>
                                       <select class="select2 form-control" name="reporting_to_id" id="reporting_to_id" style="height: 36px; width: 100%">
                                         {% for i in reporting %}
-                                        <option value="{{i.id}}">{{i.first_name}} {{i.last_name}}</option>
+                                        <option value="{{i.id}}" {% if i.id == user.reporting_to.id %}selected{% endif %}>{{i.first_name}} {{i.last_name}}</option>
                                         {% endfor %}
                                     </select>
                                     </div>
