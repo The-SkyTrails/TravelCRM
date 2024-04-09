@@ -3893,9 +3893,10 @@ def change_psw(request):
 
 def testt(request,id):
     lead = Lead.objects.get(id=id)
-    # print("heloooo")
+   
     destination = lead.mobile_number
     # recording_urls_and_dates = fetch_recording_urls_and_dates()
+    print("numbersss..............",destination)
     recording_urls_and_dates = LeadWiseCallRecords(destination)
     response_data = {"status": "calling","recording_urls_and_dates":recording_urls_and_dates}
 
@@ -4018,5 +4019,13 @@ def make_click_to_alternatecall(request,id):
 
 
 def edit_user(request,id):
+    user = Admin.objects.get(id=id)
+    user_type = USER_TYPE_CHOICES
     
-    return render(request, "Admin/User/edit_user.html")
+    context = {
+        'user':user,
+        'user_type':user_type,
+        }
+
+    
+    return render(request, "Admin/User/edit_user.html",context)
