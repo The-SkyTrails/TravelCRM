@@ -23,6 +23,6 @@ def LeadWiseCallRecords(destination):
     }
 
     response = requests.get(url, headers=headers)
-    # print("okkk gggggggggggggg",response.text)
+    print("okkk gggggggggggggg",response.text)
     data = response.json() if response.status_code == 200 else {}
     return data

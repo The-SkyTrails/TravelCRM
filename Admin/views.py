@@ -3366,12 +3366,12 @@ def editquery(request,id):
             infants = request.POST.get("infants")
             lead_source_id = request.POST.get("lead_source_id")
             sales_person_id = request.POST.get("sales_person_id")
-            operation_person_id = request.POST.get("operation_person_id")
+            # operation_person_id = request.POST.get("operation_person_id")
             other_information = request.POST.get("other_information")
             service_type = Service_type.objects.get(id=service_type_id)
             lead_source = Lead_source.objects.get(id=lead_source_id)
             sales_person = CustomUser.objects.get(id=sales_person_id)
-            operation_person = CustomUser.objects.get(id=operation_person_id)
+            # operation_person = CustomUser.objects.get(id=operation_person_id)
             destination = Destination.objects.get(id=destination_name)
  
             lead.name=contact_person_name
@@ -3392,7 +3392,7 @@ def editquery(request,id):
             lead.other_information=other_information
             lead.lead_source=lead_source
             lead.sales_person=sales_person
-            lead.operation_person=operation_person
+            # lead.operation_person=operation_person
             lead.save()
             messages.success(request, "Query updated successfully")
             return redirect("allquerylist")
@@ -3803,9 +3803,10 @@ def change_psw(request):
 
 def testt(request,id):
     lead = Lead.objects.get(id=id)
-    # print("heloooo")
+   
     destination = lead.mobile_number
     # recording_urls_and_dates = fetch_recording_urls_and_dates()
+    print("numbersss..............",destination)
     recording_urls_and_dates = LeadWiseCallRecords(destination)
     response_data = {"status": "calling","recording_urls_and_dates":recording_urls_and_dates}
 
@@ -3928,5 +3929,13 @@ def make_click_to_alternatecall(request,id):
 
 
 def edit_user(request,id):
+    user = Admin.objects.get(id=id)
+    user_type = USER_TYPE_CHOICES
     
-    return render(request, "Admin/User/edit_user.html")
+    context = {
+        'user':user,
+        'user_type':user_type,
+        }
+
+    
+    return render(request, "Admin/User/edit_user.html",context)

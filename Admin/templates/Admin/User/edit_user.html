@@ -7,7 +7,7 @@
             <div class="card-body px-0">
               <div class="d-flex justify-content-between align-items-center">
                 <div>
-                  <h4 class="font-weight-medium fs-14 mb-0">Add User</h4>
+                  <h4 class="font-weight-medium fs-14 mb-0">Edit User</h4>
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                       <li class="breadcrumb-item">
@@ -40,35 +40,35 @@
                                     
                                     <div class="col-sm-6">
                                         <label for="example-text-input" class="col-form-label">First Name</label>
-                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter FirstName" name="firstname">
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter FirstName" name="firstname" value="{{user.users.first_name}}">
                                     </div>
                                     <div class="col-sm-6">
                                         <label for="example-text-input" class="col-form-label">Last Name</label>
-                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter LastName" name="lastname">
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter LastName" name="lastname" value="{{user.users.last_name}}">
                                     </div>
                                     
                                 </div>
                                 <div class="form-group row">
                                     
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-12">
                                         <label for="example-text-input" class="col-form-label">Email</label>
-                                        <input class="form-control" type="email"  id="example-text-input" placeholder="Enter Email" name="email">
+                                        <input class="form-control" type="email"  id="example-text-input" placeholder="Enter Email" name="email" value="{{user.users.email}}">
                                     </div>
-                                    <div class="col-sm-6">
+                                    {% comment %} <div class="col-sm-6">
                                         <label for="example-text-input" class="col-form-label">Password</label>
                                         <input class="form-control" type="password"  id="example-text-input" placeholder="Enter Password" name="password">
-                                    </div>
+                                    </div> {% endcomment %}
                                     
                                 </div>
                                 <div class="form-group row">
                                     
                                     <div class="col-sm-6">
                                         <label for="example-search-input" class="col-form-label">Code</label>
-                                        <input class="form-control" type="text" name="code" id="" placeholder="+91">
+                                        <input class="form-control" type="text" name="code" id="" placeholder="+91" value="{{user.users.code}}">
                                     </div>
                                     <div class="col-sm-6">
                                       <label for="example-email-input" class="col-form-label">Mobile</label>
-                                      <input class="form-control" type="text" name="contact" id="" placeholder="Enter Mobile">
+                                      <input class="form-control" type="text" name="contact" id="" placeholder="Enter Mobile" value="{{user.users.contact}}">
                                     </div>
                                     
                                 
@@ -79,17 +79,11 @@
                                     <div class="col-sm-6">
                                       <label for="example-email-input" class="col-form-label">User Type</label>
                                       <select class="select2 form-control" name="user_type" id="user_type" style="height: 36px; width: 100%">
-                                        <option value="Admin">Admin</option>
-                                        <option value="Operation Person">Operation Person</option>
-                                        <option value="Sales Person">Sales Person</option>
-                                        <option value="Hotel Reservation Person">Hotel Reservation Person</option>
-                                        <option value="Visa Service">Visa Service</option>
-                                        <option value="Account">Account</option>
-                                        <option value="Ground Operation">Ground Operation</option>
-                                        <option value="Hr">Hr</option>
-                                        <option value="Customer Service">Customer Service</option>
-                                        <option value="Marketing Person">Marketing Person</option>
-                                        <option value="Sales + Marketing Person">Sales + Marketing Person</option>
+                                        {% for usertype in user_type %}
+                                       
+                                        <option value="{{usertype.0}}" {% if usertype.0 == user.users.user_type %}selected{% endif %}>{{usertype.1}}</option>
+                                        {% endfor %}
+                                       
                                     </select>
                                     </div>
                                     <div class="col-sm-6">
