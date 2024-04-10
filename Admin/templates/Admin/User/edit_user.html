@@ -29,7 +29,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-body">
-                  <form action="" method="post" enctype="multipart/form-data">
+                  <form  method="POST" enctype="multipart/form-data">
                    
                       {% csrf_token %}
                         <div class="row">
@@ -96,13 +96,13 @@
                                     </div>
                                 
                                 </div>
-                                <div class="row mb-3">
+                                {% comment %} <div class="row mb-3">
                                     <div class="col-lg-6">
                                         <label for="country-name" class="col-form-label">Country</label>
                                         <select name="country_id" id="country-name" class="select2 form-control" style="width: 100%; height: 36px">
-                                            <option  selected disabled>Select</option>
+                                            <option value="" disabled selected>---SELECT---</option>>
                                             {% for country in countrys %}
-                                            <option value="{{country.id}}">{{country.country_name}}</option>
+                                            <option value="{{country.id}}" {% if country.id == user.country.id %}selected{% endif %}>{{country.country_name}}</option>
                                             
                                             {% endfor %}
                                         </select>
@@ -111,12 +111,13 @@
                                     <div class="col-lg-6">
                                         <label for="state-name" class="col-form-label">State</label>
                                         <select name="state_id" id="state-name" class="select2 form-control" style="width: 100%; height: 36px">
-                                            <option  selected disabled>Select</option>
+                                           
+                                            <option class="text-black" value="" selected disabled> --Select--</option>
                                         </select>
                                                                      
                                     </div> 
-                                </div> 
-                                <div class="row mb-3">
+                                </div>  {% endcomment %}
+                                {% comment %} <div class="row mb-3">
                                     <div class="col-lg-6">
                                         <label for="country-name" class="col-form-label">City</label>
                                         <select name="city_id" id="city-name" class="select2 form-control" style="width: 100%; height: 36px">
@@ -129,7 +130,7 @@
                                         <input type="text" class="form-control" placeholder="Enter Pin"  name="pin">
                                                                      
                                     </div> 
-                                </div> 
+                                </div>  {% endcomment %}
                                     
                                 
                             </div>
@@ -142,7 +143,7 @@
                                       <select name="destination_ids" class="select2 form-control" style="width: 100%; height: 36px">
                                         <option  selected disabled>Select</option>
                                         {% for destination in destinations %}
-                                        <option value="{{destination.id}}">{{destination.name}}</option>
+                                        <option value="{{destination.id}}" {% if destination.id == user.users.destination.id %}selected{% endif %}>{{destination.name}}</option>
                                         {% endfor %}
                                     </select>
                                   </div>
@@ -152,7 +153,7 @@
                                       
                                   <div class="col-sm-12">
                                       <label for="example-text-input" class="col-form-label">Address</label>
-                                      <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Address" name="address">
+                                      <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Address" name="address" value="{{user.address}}">
                                   </div>
                                   
                                 </div>
@@ -176,10 +177,71 @@
     </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
+{% comment %} <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> {% endcomment %}
+{% comment %} <script>
+$(document).ready(function(){
+    $("#country-name").change(function(){
+        
+        var country_id = $(this).val();
+        if (country_id){
+            $.ajax({
+                url: "{% url 'get_user_states' %}",
+                type: "GET",
+                data: {
+                country_id: country_id
+                },
+                dataType: "json",
+                success:function(data){
+                    console.log("dddddddddddd",data)
+
+                    $("#state-name").html("");
+                    $("#state-name").append('<option value="" selected disabled> --Select--</option>');
+                    $.each(data, function(key, value) {
+                        $("#state-name").append('<option class="text-black" value="' + value.id + '">' + value.name + '</option>');
+                    });
+                    
+                    $("#state-name").prop("disabled", false);
+
+
+                }
+            })
+        }
+        else {
+            $("#state-name").prop("disabled", true);
+            $("#state-name").html('<option value="" selected disabled> --Select--</option>');
+        }
+
+    });
+
+    $("#state-name").change(function(){
+        var state_id = $(this).val();
+        if (state_id) {
+            $.ajax({
+                url: "{% url 'get_user_city' %}",
+                type: "GET",
+                data: {
+               state_id: state_id
+             },
+             dataType: "json",
+             success:function(data){
+                $("#city-name").html("");
+                $("#state-name").append('<option value="" selected disabled> --Select--</option>');
+               
+                
+             }
+            })
+        }
+        
+    })
+})
+
+</script> {% endcomment %}
+
+{% comment %} <script>
     $(document).ready(function(){
+        console.log("this log in working ")
         $('#country-name').change(function(){
+           
             var country_id = $(this).val();
             $.ajax({
                 url: '{% url "get_states" %}',
@@ -213,6 +275,6 @@
             });
         });
     });
-</script>
+</script> {% endcomment %}
 
 {% endblock main-content %}
