@@ -4036,19 +4036,19 @@ def edit_user(request,id):
         #     user_type = user_type,
         #     destination = destination
         # )
-       
-        user.users.username=email,
+        print("heloooooooooo",user.users.first_name)
+        # user.users.username=email,
         user.users.first_name=firstname,
-        user.users.last_name=lastname,
-        user.users.email=email,
-        user.users.code=code,
-        user.users.contact=contact,
-        user.users.user_type = user_type,
-        user.users.destination = destination
+        # user.users.last_name=lastname,
+        # user.users.email=email,
+        # user.users.code=code,
+        # user.users.contact=contact,
+        # user.users.user_type = user_type,
+        # user.users.destination = destination
 
-        user.reporting_to = reporting_to
+        # user.reporting_to = reporting_to
        
-        user.address = address
+        # user.address = address
         
         user.save()
         messages.success(
