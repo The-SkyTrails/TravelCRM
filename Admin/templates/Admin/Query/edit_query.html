@@ -165,6 +165,20 @@
                           </div>
                           
                       </div>
+                      <div class="form-group row">
+                        <div class="col-sm-4">
+                          <label for="example-email-input" class="col-sm-6 col-form-label">Complete Package Cost</label>
+                          <input class="form-control" type="text" name="complete_package_cost" id="complete_package_cost" placeholder="Enter Package Cost" value="{{query.complete_package_cost}}">
+                      </div> 
+                        <div class="col-sm-4">
+                          <label for="example-email-input" class="col-sm-6 col-form-label">Received Amount</label>
+                          <input class="form-control" type="text" name="received_package_cost" id="received_package_cost" placeholder="Enter Received Amount" value="{{query.received_package_cost}}">
+                      </div> 
+                        <div class="col-sm-4">
+                          <label for="example-email-input" class="col-sm-6 col-form-label">Balance Amount</label>
+                          <input class="form-control" type="text" name="balance_package_cost" id="balance_package_cost" placeholder="Enter Balance Amount" value="{{query.balance_package_cost}}" readonly>
+                      </div> 
+                      </div>
                         
                          
                     </div>
@@ -223,6 +237,36 @@
   });
 </script>
 
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const completePackageCostInput = document.getElementById("complete_package_cost");
+      const receivedPackageCostInput = document.getElementById("received_package_cost");
+      const balancePackageCostInput = document.getElementById("balance_package_cost");
+
+      function calculateBalance() {
+          const completePackageCost = parseFloat(completePackageCostInput.value) || 0;
+          const receivedPackageCost = parseFloat(receivedPackageCostInput.value) || 0;
+          
+          if (!isNaN(completePackageCost) && !isNaN(receivedPackageCost)) {
+              const balancePackageCost = completePackageCost - receivedPackageCost;
+              balancePackageCostInput.value = balancePackageCost.toFixed(2);
+          } else {
+              balancePackageCostInput.value = '';
+          }
+      }
+
+      completePackageCostInput.addEventListener("input", calculateBalance);
+      completePackageCostInput.addEventListener("change", calculateBalance);
+      completePackageCostInput.addEventListener("keyup", calculateBalance);
+
+      receivedPackageCostInput.addEventListener("input", calculateBalance);
+      receivedPackageCostInput.addEventListener("change", calculateBalance);
+      receivedPackageCostInput.addEventListener("keyup", calculateBalance);
+
+      calculateBalance();
+  });
+</script>
 
 
 {% endblock main-content %}

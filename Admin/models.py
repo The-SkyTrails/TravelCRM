@@ -480,6 +480,9 @@ class Lead(models.Model):
     other_information = models.TextField(blank=True, null=True)
     lead_status = models.CharField(max_length=50,choices=LEAD_STATUS_CHOICES,blank=True, null=True)
     date = models.DateField(auto_now_add=True)
+    complete_package_cost = models.FloatField(blank=True)
+    received_package_cost = models.FloatField(blank=True)
+    balance_package_cost = models.FloatField(blank=True)
     added_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE,blank=True, null=True)
     last_updated_at = models.DateTimeField(auto_now=True)
     
