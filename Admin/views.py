@@ -4051,7 +4051,7 @@ def edit_user(request,id):
         pin = request.POST.get("pin")
         address = request.POST.get("address")
         reporting_to = CustomUser.objects.get(id=reporting_to_id)
-        print("sssssss............",reporting_to)
+        
         destination = Destination.objects.get(id=destination_id)
         # users = CustomUser.objects.get(
         #     username=email,
@@ -4064,19 +4064,29 @@ def edit_user(request,id):
         #     user_type = user_type,
         #     destination = destination
         # )
-       
-        user.users.username=email,
-        user.users.first_name=firstname,
-        user.users.last_name=lastname,
-        user.users.email=email,
-        user.users.code=code,
-        user.users.contact=contact,
-        user.users.user_type = user_type,
-        user.users.destination = destination
+        print("heloooooooooo",user.users.first_name)
+        # user.users.username=email,
+        custom_id = user.users.id
+        customuser = CustomUser.objects.get(id=custom_id)
+        customuser.first_name=firstname
+        customuser.last_name=lastname
+        customuser.email=email
+        customuser.code=code
+        customuser.contact=contact
+        customuser.user_type=user_type
+        customuser.destination=destination
+        customuser.save()
+        # user.users.last_name=lastname,
+        # user.users.email=email,
+        # user.users.code=code,
+        # user.users.contact=contact,
+        # user.users.user_type = user_type,
+        # user.users.destination = destination
 
         user.reporting_to = reporting_to
-       
         user.address = address
+       
+        # user.address = address
         
         user.save()
         messages.success(
@@ -4095,6 +4105,12 @@ def edit_user(request,id):
     
     return render(request, "Admin/User/edit_user.html",context)
 
+
+ 
+def delete_user(request, id):
+    admin = Admin.objects.get(id=id)
+    admin.users.delete()
+    return redirect("user")
 
 
 
