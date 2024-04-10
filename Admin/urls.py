@@ -288,7 +288,6 @@ urlpatterns = [
     path("paymentdonequerylist", paymentdonequerylist, name="paymentdonequerylist"),
     path("completedquery", completedquerylist, name="completedquery"),
     path("lostquery", lostquerylist, name="lostquery"),
-    path("bookinglist", bookinglist, name="bookinglist"),
     path("addquery", addquery, name="addquery"),
     path("editquery/<int:id>/", editquery, name="editquery"),
     path('lead/<int:id>/update/', lead_status_update, name='lead_status_update'),
@@ -326,4 +325,6 @@ urlpatterns = [
    
     path('make_click_to_alternatecall/<int:id>/', make_click_to_alternatecall, name='make_click_to_alternatecall'),
     path("opeditquery/<int:id>/", opeditview, name="opeditquery"),
+    path("get_user_states", get_user_states, name="get_user_states"),
+    path("get_user_city", get_user_city, name="get_user_city"),
 ]

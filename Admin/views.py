@@ -1141,9 +1141,13 @@ def bank(request):
 
 
 def get_states(request):
+   
     country_id = request.GET.get("country_id")
+    print("okkkkk",country_id)
     states = State.objects.filter(country_id=country_id).values_list("id", "name")
+    print("states..........",states)
     return JsonResponse({"states": dict(states)})
+    
 
 
 def get_city(request):
@@ -4030,16 +4034,86 @@ def edit_user(request,id):
     user_type = USER_TYPE_CHOICES
     reporting = CustomUser.objects.all()
     country = Country.objects.all()
+    destination = Destination.objects.all()
+    if request.method == "POST":
+        print("okkkkkkkkkk ggggggggg...........")
+        firstname = request.POST.get("firstname").capitalize()
+        lastname = request.POST.get("lastname").capitalize()
+        email = request.POST.get("email")
+        code = request.POST.get("code")
+        contact = request.POST.get("contact")
+        password = request.POST.get("password")
+        user_type = request.POST.get("user_type")
+        destination_id = request.POST.get('destination_ids')
+        reporting_to_id = request.POST.get("reporting_to_id")
+        country_id = request.POST.get("country_id")
+        state_id = request.POST.get("state_id")
+        city_id = request.POST.get("city_id")
+        pin = request.POST.get("pin")
+        address = request.POST.get("address")
+        reporting_to = CustomUser.objects.get(id=reporting_to_id)
+        print("sssssss............",reporting_to)
+        destination = Destination.objects.get(id=destination_id)
+        # users = CustomUser.objects.get(
+        #     username=email,
+        #     first_name=firstname,
+        #     last_name=lastname,
+        #     email=email,
+        #     password=password,
+        #     code=code,
+        #     contact=contact,
+        #     user_type = user_type,
+        #     destination = destination
+        # )
+       
+        user.users.username=email,
+        user.users.first_name=firstname,
+        user.users.last_name=lastname,
+        user.users.email=email,
+        user.users.code=code,
+        user.users.contact=contact,
+        user.users.user_type = user_type,
+        user.users.destination = destination
+
+        user.reporting_to = reporting_to
+       
+        user.address = address
+        
+        user.save()
+        messages.success(
+            request,
+            "User Updated Successfully...",
+        )
+        return redirect('user')
     
     context = {
         'user':user,
         'user_type':user_type,
         'reporting':reporting,
-        'countrys':country,
+        'destinations':destination,
         }
 
     
     return render(request, "Admin/User/edit_user.html",context)
+
+
+
+
+def get_user_states(request):
+   
+    country_id = request.GET.get("country_id")
+    
+    states = State.objects.filter(country_id=country_id)
+    data = list(states.values("id", "name"))
+    print("dataaa...............",data)
+    return JsonResponse(data, safe=False)
+
+def get_user_city(request):
+    state_id = request.GET.get("state_id")
+    city = City.objects.filter(state=state_id)
+    data = list(city.values("id", "name"))
+    return JsonResponse(data, safe=False)
+    
 
 
 def opeditview(request,id):
