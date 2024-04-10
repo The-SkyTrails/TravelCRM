@@ -324,6 +324,7 @@ urlpatterns = [
     path('attach_attachmnet/<int:id>/', attach_confirmattachmnet, name='attach_attachmnet'),
    
     path('make_click_to_alternatecall/<int:id>/', make_click_to_alternatecall, name='make_click_to_alternatecall'),
+    path("opeditquery/<int:id>/", opeditview, name="opeditquery"),
     path("get_user_states", get_user_states, name="get_user_states"),
     path("get_user_city", get_user_city, name="get_user_city"),
 ]
