@@ -4036,7 +4036,6 @@ def edit_user(request,id):
     country = Country.objects.all()
     destination = Destination.objects.all()
     if request.method == "POST":
-        print("okkkkkkkkkk ggggggggg...........")
         firstname = request.POST.get("firstname").capitalize()
         lastname = request.POST.get("lastname").capitalize()
         email = request.POST.get("email")
