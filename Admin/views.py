@@ -4036,7 +4036,7 @@ def edit_user(request,id):
     country = Country.objects.all()
     destination = Destination.objects.all()
     if request.method == "POST":
-        print("okkkkkkkkkk ggggggggg...........")
+        
         firstname = request.POST.get("firstname").capitalize()
         lastname = request.POST.get("lastname").capitalize()
         email = request.POST.get("email")
@@ -4052,7 +4052,7 @@ def edit_user(request,id):
         pin = request.POST.get("pin")
         address = request.POST.get("address")
         reporting_to = CustomUser.objects.get(id=reporting_to_id)
-        print("sssssss............",reporting_to)
+        
         destination = Destination.objects.get(id=destination_id)
         # users = CustomUser.objects.get(
         #     username=email,
@@ -4067,7 +4067,16 @@ def edit_user(request,id):
         # )
         print("heloooooooooo",user.users.first_name)
         # user.users.username=email,
-        user.users.first_name=firstname,
+        custom_id = user.users.id
+        customuser = CustomUser.objects.get(id=custom_id)
+        customuser.first_name=firstname
+        customuser.last_name=lastname
+        customuser.email=email
+        customuser.code=code
+        customuser.contact=contact
+        customuser.user_type=user_type
+        customuser.destination=destination
+        customuser.save()
         # user.users.last_name=lastname,
         # user.users.email=email,
         # user.users.code=code,
@@ -4075,7 +4084,8 @@ def edit_user(request,id):
         # user.users.user_type = user_type,
         # user.users.destination = destination
 
-        # user.reporting_to = reporting_to
+        user.reporting_to = reporting_to
+        user.address = address
        
         # user.address = address
         
@@ -4096,6 +4106,12 @@ def edit_user(request,id):
     
     return render(request, "Admin/User/edit_user.html",context)
 
+
+ 
+def delete_user(request, id):
+    admin = Admin.objects.get(id=id)
+    admin.users.delete()
+    return redirect("user")
 
 
 
