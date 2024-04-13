@@ -324,76 +324,87 @@
               </button>
               {% include "Admin/Query/attach-attachment.html" %}
            </div>
+           
+          
         </div>
         <div class="card-body" style="padding: 6px 0;">
            <h5 class="card-title mb-0" style="color: black !important;">Lead History</h5>
         </div>
         <div class="timeline">
-           {% for activity in i.activities.all %}
-           <div class="timeline-item">
-              <h5 style="color: black !important;">{{ activity.activity_type }}</h5>
-              {% if activity.activity_type == "Quotation" %}
-              <div class="custom-row">
-                 {% for quotation in i.quotations.all %}
-                 {% if quotation.activity == activity %}
-                 <p>
-                    {% for attachment in quotation.attachment.all %}
-                    <a href="{{ attachment.file.url }}" target="_blank">{{ attachment.file.name|filename }}</a><br>
-                    {% endfor %}
-                 </p>
-                 <p>{{ quotation.date }}</p>
-                 {% endif %}
-                 {% endfor %}
-              </div>
-              {% elif activity.activity_type == "Followup" %}
-              <div class="custom-row">
+         {% for activity in i.activities.all %}
+         <div class="timeline-item">
+             {% if activity.activity_type == "Quotation" %}
+                 <h5 style="color: black !important;">{{ activity.activity_type }}</h5>
+                 <div class="custom-row">
+                     {% for quotation in i.quotations.all %}
+                         {% if quotation.activity == activity %}
+                             <p>
+                                 {% for attachment in quotation.attachment.all %}
+                                     <a href="{{ attachment.file.url }}" target="_blank">{{ attachment.file.name|filename }}</a><br>
+                                 {% endfor %}
+                             </p>
+                             <p>{{ quotation.date }}</p>
+                         {% endif %}
+                     {% endfor %}
+                 </div>
+             {% elif activity.activity_type == "Followup" %}
                  {% for followup in i.followup.all %}
-                 {% if followup.activity == activity %}
-                 <p>{{ followup.note }} - {{ followup.datetime }}</p>
-                 <p>{{ followup.date }}</p>
-                 {% endif %}
+                     {% if followup.activity == activity %}
+                         {% if followup.type == "task" %}
+                             <h5 style="color: black !important;">Task</h5>
+                         {% elif followup.type == "followup" %}
+                             <h5 style="color: black !important;">Followup</h5>
+                         {% endif %}
+                         <div class="custom-row">
+                             <p>{{ followup.note }} - {{ followup.datetime }}</p>
+                             <p>{{ followup.date }}</p>
+                         </div>
+                     {% endif %}
                  {% endfor %}
-              </div>
-              {% elif activity.activity_type == "Note" %}
-              <div class="custom-row">
-                 {% for note in i.notes.all %}
-                 {% if note.activity == activity %}
-                 <p>{{ note.notes }}</p>
-                 <p>{{ note.date }}</p>
-                 {% endif %}
-                 {% endfor %}
-              </div>
-              {% elif activity.activity_type == "Attachment" %}
-              <div class="custom-row">
-                 {% for attach in i.attachment.all %}
-                 {% if attach.activity == activity %}
-                 <p>
-                  {% for attachment in attach.attachment.all %}
-                  <a href="{{ attachment.file.url }}" target="_blank">{{ attachment.file.name|filename }}</a><br>
-                  {% endfor %}
-               </p>
-               <p>{{ attach.date }}</p>
-                 {% endif %}
-                 {% endfor %}
-              </div>
-              {% elif activity.activity_type == "Payment" %}
-              <div class="custom-row">
-                 {% for payment in i.payments.all %}
-                 {% if payment.activity == activity %}
-                 <p><b>Link Id :</b> {{ payment.link_id }}</p>
-                 <p><b>Payment Link :</b> {{ payment.payment_link }}</p>
-                 <p><b>Expiry Date :</b> {{ payment.link_expiry_time }}</p>
-                 <p class="custom-cell"><button type="button" id="status_button_{{ payment.id }}" class="btn d-flex bg-primary-subtle w-100 d-block text-primary font-medium" onclick="checkPaymentStatus({{ payment.id }})">
-                    Check status
-                    </button>
-                    <span id="payment_status_{{ payment.id }}" class="text-success mx-5"></span>
-                 </p>
-                 {% endif %}
-                 {% endfor %}
-              </div>
-              {% endif %}
-           </div>
-           {% endfor %}
+             {% elif activity.activity_type == "Note" %}
+                 <h5 style="color: black !important;">{{ activity.activity_type }}</h5>
+                 <div class="custom-row">
+                     {% for note in i.notes.all %}
+                         {% if note.activity == activity %}
+                             <p>{{ note.notes }}</p>
+                             <p>{{ note.date }}</p>
+                         {% endif %}
+                     {% endfor %}
+                 </div>
+             {% elif activity.activity_type == "Attachment" %}
+                 <h5 style="color: black !important;">{{ activity.activity_type }}</h5>
+                 <div class="custom-row">
+                     {% for attach in i.attachment.all %}
+                         {% if attach.activity == activity %}
+                             <p>
+                                 {% for attachment in attach.attachment.all %}
+                                     <a href="{{ attachment.file.url }}" target="_blank">{{ attachment.file.name|filename }}</a><br>
+                                 {% endfor %}
+                             </p>
+                             <p>{{ attach.date }}</p>
+                         {% endif %}
+                     {% endfor %}
+                 </div>
+             {% elif activity.activity_type == "Payment" %}
+                 <h5 style="color: black !important;">{{ activity.activity_type }}</h5>
+                 <div class="custom-row">
+                     {% for payment in i.payments.all %}
+                         {% if payment.activity == activity %}
+                             <p><b>Link Id :</b> {{ payment.link_id }}</p>
+                             <p><b>Payment Link :</b> {{ payment.payment_link }}</p>
+                             <p><b>Expiry Date :</b> {{ payment.link_expiry_time }}</p>
+                             <p class="custom-cell"><button type="button" id="status_button_{{ payment.id }}" class="btn d-flex bg-primary-subtle w-100 d-block text-primary font-medium" onclick="checkPaymentStatus({{ payment.id }})">
+                                 Check status
+                                 </button>
+                                 <span id="payment_status_{{ payment.id }}" class="text-success mx-5"></span>
+                             </p>
+                         {% endif %}
+                     {% endfor %}
+                 </div>
+             {% endif %}
+         </div>
+     {% endfor %}
+     
         </div>
         {% comment %} ------------------- call History ------------------- {% endcomment %}
         
