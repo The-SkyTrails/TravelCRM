@@ -32,13 +32,15 @@ def index(request):
             quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
-            follow_up = Followup.objects.all().order_by('-id')[:10]
+            follow_up = Followup.objects.filter(type='followup').order_by('-id')[:10]
+            task = Followup.objects.filter(type='task').order_by('-id')[:10]
         elif user_type == "Sales Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
-            follow_up = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__sales_person=request.user)).order_by('-id')[:10]
+            follow_up = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__sales_person=request.user),type = "followup").order_by('-id')[:10]
+            task = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__sales_person=request.user),type = "task").order_by('-id')[:10]
         else:
             pass
         
@@ -47,7 +49,8 @@ def index(request):
         "comlead_list": comlead_list,
         "all_lead": all_lead,
         "lost_list": lost_list,
-        "follow_up":follow_up
+        "follow_up":follow_up,
+        "task":task
     }
     return render(request,"Admin/Base/index2.html", context)
 
@@ -3514,6 +3517,17 @@ def lead_status_update(request,id):
         lead_status = request.POST.get("lead_status")
         lead.lead_status = lead_status
         lead.save()
+        
+        if lead_status == "Booking Confirmed":
+            destination_name = lead.destinations
+            operation_persons = CustomUser.objects.filter(user_type="Operation Person", destination=destination_name)
+
+            if operation_persons.exists():
+                last_assigned_index = cache.get("last_assigned_index") or 0
+                next_index = (last_assigned_index + 1) % operation_persons.count()
+                operation_person = operation_persons[next_index]
+                lead.operation_person = operation_person
+                cache.set("last_assigned_index", next_index)
         return redirect("allquerylist")
     
 
@@ -3733,10 +3747,11 @@ def add_followup(request, id):
         enq = request.POST.get("enq_id")
         note = request.POST.get("note")
         datetime = request.POST.get("datetime")
+        type = request.POST.get("type")
         
         try:
             lead = get_object_or_404(Lead, id=enq)
-            followup = Followup.objects.create(lead=lead,note=note,datetime=datetime)
+            followup = Followup.objects.create(lead=lead,note=note,datetime=datetime , type=type)
             
             activity_history = ActivityHistory.objects.create(lead=lead, activity_type='Followup')
             followup.activity = activity_history
@@ -4120,7 +4135,6 @@ def get_user_states(request):
     
     states = State.objects.filter(country_id=country_id)
     data = list(states.values("id", "name"))
-    print("dataaa...............",data)
     return JsonResponse(data, safe=False)
 
 def get_user_city(request):
@@ -4129,7 +4143,30 @@ def get_user_city(request):
     data = list(city.values("id", "name"))
     return JsonResponse(data, safe=False)
     
+    
+def edit_task(request, id):
+    if request.method == "POST":
+        try:
+            note = request.POST.get("note")
+            datetime = request.POST.get("datetime")
+            
+            task = Followup.objects.get(id=id)
+            task.note = note
+            task.datetime = datetime
+            task.save()
+            return redirect("home")
+        except Exception as e:
+            return redirect("home")
+        
+        
+def closed_task(request,id):
+    instance = get_object_or_404(Followup, id=id)
 
+    instance.archieve = False
+    instance.save()
+
+    return redirect("home")
+        
 
 def opeditview(request,id):
     lead = get_object_or_404(Lead, id=id)

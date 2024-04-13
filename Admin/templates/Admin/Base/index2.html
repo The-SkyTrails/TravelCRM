@@ -246,7 +246,166 @@
             </div>
             
           </div>
+          <div class="row">
+            
 
+            <div class="col-lg-6">
+              <div class="card w-100">
+                <div class="card-body pb-3">
+                  <div class="d-md-flex no-block">
+                    <h4 class="card-title">Latest Task</h4>
+                    
+                  </div>
+                  <div class="month-table">
+                    <div class="table-responsive mt-3">
+                      <table class="table v-middle mb-0 no-wrap">
+                        <thead>
+                          <tr>
+                            <th class="border-0 ps-0">
+                              Enquiry No
+                            </th>
+                            <th class="border-0">Client Name</th>
+                            <th class="border-0">
+                              Query Title
+                            </th>
+                            <th class="border-0">
+                              Followup Note
+                            </th>
+                            <th class="border-0">
+                              Date-Time
+                            </th>
+                            <th class="border-0 text-end">
+                              Action
+                            </th>
+                            
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for i in task %}
+                          {% if i.archieve == True %}
+                          <tr>
+                            <td class="ps-0">
+                              <div class="hstack gap-3">
+                                
+                                <div>
+                                  <p class="mb-0 fs-3">{{i.lead.enquiry_number}}</p>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <p class="mb-0">{{i.lead.name}}</p>
+                            </td>
+                            <td>
+                              <p class="mb-0">{{i.lead.query_title}}</p>
+                            </td>
+                            <td>
+                              <p class="mb-0">{{i.note}}</p>
+                            </td>
+                            
+                            <td>
+                              <p class="mb-0">{{i.datetime}}</p>
+                            </td>
+                            <td>
+                              <p class="mb-0 fs-3">
+                                <!-- <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#add-notes-{{i.id}}"> -->
+                                  <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="modal" data-bs-target="#edit-task{{i.id}}" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                                    <path d="M16 5l3 3" />
+                                  </svg>
+                                  <a href="{% url "closed_task" i.id %}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                      <path d="M4 7h16" />
+                                      <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                      <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                      <path d="M10 12l4 4m0 -4l-4 4" />
+                                    </svg>
+                                </a>
+                                 
+                               <!-- </button> -->
+                               {% include "Admin/Query/edittask.html" %}
+                              </p>
+                            </td>
+                          </tr>
+                          {% endif %}
+                          {% endfor %}
+                          
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card w-100">
+                <div class="card-body pb-3">
+                  <div class="d-md-flex no-block">
+                    <h4 class="card-title">Closed Task</h4>
+                    
+                  </div>
+                  <div class="month-table">
+                    <div class="table-responsive mt-3">
+                      <table class="table v-middle mb-0 no-wrap">
+                        <thead>
+                          <tr>
+                            <th class="border-0 ps-0">
+                              Enquiry No
+                            </th>
+                            <th class="border-0">Client Name</th>
+                            <th class="border-0">
+                              Query Title
+                            </th>
+                            <th class="border-0">
+                              Followup Note
+                            </th>
+                            <th class="border-0">
+                              Date-Time
+                            </th>
+                            
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                          {% for i in task %}
+                          {% if i.archieve == False %}
+                          <tr>
+                            <td class="ps-0">
+                              <div class="hstack gap-3">
+                                
+                                <div>
+                                  <p class="mb-0 fs-3">{{i.lead.enquiry_number}}</p>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <p class="mb-0">{{i.lead.name}}</p>
+                            </td>
+                            <td>
+                              <p class="mb-0">{{i.lead.query_title}}</p>
+                            </td>
+                            <td>
+                              <p class="mb-0">{{i.note}}</p>
+                            </td>
+                            
+                            <td>
+                              <p class="mb-0">{{i.datetime}}</p>
+                            </td>
+                            
+                          </tr>
+                          {% endif %}
+                          {% endfor %}
+                          
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           
         </div>
       </div>

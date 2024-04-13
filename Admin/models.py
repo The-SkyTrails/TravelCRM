@@ -88,6 +88,11 @@ LEAD_STATUS_CHOICES = [
 ]
 
 
+FOLLOWUP_TYPE = [
+    ('followup', 'Follow Up'),
+    ('task', 'Task'),
+]
+
 class Country(models.Model):
     id = models.AutoField(primary_key=True)
     country_name = models.CharField(max_length=100)
@@ -556,9 +561,11 @@ class Notes(models.Model):
 class Followup(models.Model):
     id=models.AutoField(primary_key=True)
     lead = models.ForeignKey(Lead,on_delete=models.CASCADE,related_name='followup')
+    type = models.CharField(max_length=20,choices=FOLLOWUP_TYPE)
     activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='followups')
     datetime = models.DateTimeField(auto_now_add=False)
     note = models.TextField(max_length=100)
+    archieve = models.BooleanField(default="True")
     date = models.DateField(auto_now_add=True)
    
 class File(models.Model):
@@ -578,6 +585,8 @@ class Payment(models.Model):
     link_id = models.CharField(max_length=255)
     payment_link = models.URLField(max_length=200,)
     link_expiry_time = models.DateTimeField()
+    
+    
     
     
 @receiver(post_save, sender=CustomUser)
