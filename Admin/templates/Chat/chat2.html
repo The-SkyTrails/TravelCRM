@@ -66,11 +66,11 @@
                         <ul class="chat-users mb-0" style="max-height: calc(100vh - 100px)" data-simplebar="">
                            {% for i in users  %}
                            <li>
-                              <a href="javascript:void(0)" class="px-4 py-3 bg-hover-light-black d-flex align-items-start justify-content-between chat-user" id="chat_user_5" data-user-id="5">
+                              <a href="javascript:void(0)" class="px-4 py-3 bg-hover-light-black d-flex align-items-start justify-content-between chat-user" id="chat_user_3" data-user-id="3">
                                  <div class="d-flex align-items-center">
                                     <span class="position-relative">
-                                    <img src="{% static "assets/images/profile/user-1.jpg" %}" alt="user1" width="48" height="48" class="rounded-circle">
-                                    <span class="position-absolute bottom-0 end-0 p-1 badge rounded-pill bg-success">
+                                    <img src="{% static "assets/images/profile/user-8.jpg" %}" alt="user-8" width="48" height="48" class="rounded-circle">
+                                    <span class="position-absolute bottom-0 end-0 p-1 badge rounded-pill bg-warning">
                                     <span class="visually-hidden">New alerts</span>
                                     </span>
                                     </span>
@@ -78,10 +78,10 @@
                                        <h6 class="mb-1 fw-semibold chat-title" data-username="James Anderson">
                                           {{i.first_name}} {{i.last_name}}
                                        </h6>
-                                       <span class="fs-3 text-truncate text-dark fw-semibold d-block">Lorem ispusm text ...</span>
+                                       <span class="fs-3 text-truncate text-body-color d-block">Sent a photo</span>
                                     </div>
                                  </div>
-                                 <p class="fs-2 mb-0 text-muted">5 days</p>
+                                 <p class="fs-2 mb-0 text-muted">2 hours</p>
                               </a>
                            </li>
                            {% endfor %}
@@ -173,29 +173,9 @@
                            </div>
                            <div class="d-flex parent-chat-box">
                               <div class="chat-box w-xs-100">
-                                 <div class="p-9" style="height: 550px; max-height: 650px;" data-simplebar="">
+                                 <div class="p-9" style="height: 450px; max-height: 550px;" data-simplebar="">
                                     <div class="chat-list chat active-chat" data-user-id="3">
-                                       <div class="hstack gap-3 align-items-start mb-7 justify-content-start">
-                                          <img src="{% static "assets/images/profile/user-8.jpg" %}" alt="user8" width="40" height="40" class="rounded-circle">
-                                          <div>
-                                             <h6 class="fs-2 text-muted">
-                                                Andrewi, 2 hours agossssss
-                                             </h6>
-                                             <div class="p-2 text-bg-light rounded-1 d-inline-block text-dark fs-3">
-                                                If I donssssssssss’t like something, I’ll stay away
-                                                from it.
-                                             </div>
-                                          </div>
-                                       </div>
-                                       <div class="hstack gap-3 align-items-start mb-7 justify-content-end">
-                                          <div class="text-end">
-                                             <h6 class="fs-2 text-muted">2 hours ago</h6>
-                                             <div class="p-2 bg-info-subtle text-dark rounded-1 d-inline-block fs-3">
-                                                If I don’t like something, I’ll stay away
-                                                from it.
-                                             </div>
-                                          </div>
-                                       </div>
+                                       
                                        <div class="hstack gap-3 align-items-start mb-7 justify-content-start">
                                           <img src="{% static "assets/images/profile/user-8.jpg" %}" alt="user8" width="40" height="40" class="rounded-circle">
                                           <div>
@@ -220,17 +200,7 @@
                                              </div>
                                           </div>
                                        </div>
-                                       <div class="hstack gap-3 align-items-start mb-7 justify-content-start">
-                                          <img src="{% static "assets/images/profile/user-8.jpg" %}" alt="user8" width="40" height="40" class="rounded-circle">
-                                          <div>
-                                             <h6 class="fs-2 text-muted">
-                                                Andrew, 2 hours ago
-                                             </h6>
-                                             <div class="rounded-2 overflow-hidden">
-                                                <img src="{% static "assets/images/products/product-1.jpg" %}" alt="" class="w-100">
-                                             </div>
-                                          </div>
-                                       </div>
+                                       
                                     </div>
                                  </div>
                                  <div class="px-9 py-6 border-top chat-send-message-footer">
@@ -238,7 +208,7 @@
                                        <div class="d-flex align-items-center gap-2 w-85">
                                           <a class="position-relative nav-icon-hover z-index-5" href="javascript:void(0)">
                                           <i class="ti ti-mood-smile text-dark bg-hover-primary fs-7"></i></a>
-                                          <input type="text" class="form-control message-type-box text-muted border-0 p-0 ms-2" placeholder="Type a Message" fdprocessedid="0p3op">
+                                          <input type="text" id="message-box" class="form-control message-type-box text-muted border-0 p-0 ms-2" placeholder="Type a Messagess" fdprocessedid="0p3op">
                                        </div>
                                        <ul class="list-unstyledn mb-0 d-flex align-items-center">
                                           <li>
@@ -274,5 +244,8 @@
       });
    });
 </script>
+
+
+
 
 {% endblock main-content %}

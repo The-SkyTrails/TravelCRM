@@ -4188,3 +4188,7 @@ def chat2(request):
         'users':users
         }
     return render(request,'Chat/chat2.html',context)
+
+def get_user_details(request):
+    print("kkkkkkkkkk")
+    return HttpResponse('hhhhhhhhhh')
