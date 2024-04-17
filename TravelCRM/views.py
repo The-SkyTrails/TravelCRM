@@ -22,6 +22,8 @@ def CustomLoginView(request):
             if check_password(password, user.password):
                 # user_type = user.user_type
                 # if user_type == "Admin":
+                user.is_logged_in = "Yes"
+                user.save()
                 login(request, user)
                 return redirect("home")
             # else:

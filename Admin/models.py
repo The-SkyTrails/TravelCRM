@@ -438,11 +438,15 @@ class Role_Permission(models.Model):
 
     
 class CustomUser(AbstractUser):
+    Login_CHOICES = [
+    ("Yes","Yes"),
+    ("No","No")
+]
     code = models.CharField(max_length=5)
     contact = models.CharField(max_length=15)
     user_type = models.CharField(max_length=50,choices=USER_TYPE_CHOICES,default="Admin")
     destination = models.ForeignKey(Destination,on_delete=models.CASCADE)
-    is_logged_in = models.CharField(max_length=255,null=True,blank=True)
+    is_logged_in = models.CharField(max_length=50,choices=Login_CHOICES,default="No")
     tata_tele_agent_no = models.CharField(max_length=255,null=True,blank=True)
     authorization = models.CharField(max_length=255,null=True,blank=True)
     
