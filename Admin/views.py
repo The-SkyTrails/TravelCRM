@@ -3585,7 +3585,6 @@ def attach_quotation(request, id):
                     "mediaUrl": attachment_url,
                     "mediaType": "image"  
                 })
-                
 
             aisensy_api_url = "https://backend.aisensy.com/campaign/t1/api/v2"
             api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3ZSIsIm5hbWUiOiJ0aGVza3l0cmFpbCA4NDEzIiwiYXBwTmFtZSI6IkFpU2Vuc3kiLCJjbGllbnRJZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3NCIsImFjdGl2ZVBsYW4iOiJCQVNJQ19NT05USExZIiwiaWF0IjoxNzEwODUxMDcxfQ.XnS_3uclP8c0J6drYjBCAQmbE6bHxGuD2IAGPaS4N9Y"
@@ -3691,6 +3690,8 @@ def payment_link(request,id):
 
         unique_link_id = str(uuid.uuid4())    
         print("uniquer:",unique_link_id)  
+        
+        expiry_time = datetime.datetime.now() + datetime.timedelta(days=2)
         data = {
             "customer_details": {
                 "customer_phone": lead.mobile_number,
@@ -3706,7 +3707,7 @@ def payment_link(request,id):
             "link_purpose": "Payment for PlayStation 11",
             "link_id": unique_link_id,
             "returnUrl":"http://127.0.0.1:8000/quatationquerylist",
-            
+            "link_expiry": expiry_time.timestamp()
         }
 
 
