@@ -64,6 +64,7 @@
                      </div>
                      <div class="app-chat">
                         <ul class="chat-users mb-0" style="max-height: calc(100vh - 100px)" data-simplebar="">
+                           {% for i in users  %}
                            <li>
                               <a href="javascript:void(0)" class="px-4 py-3 bg-hover-light-black d-flex align-items-start justify-content-between chat-user" id="chat_user_5" data-user-id="5">
                                  <div class="d-flex align-items-center">
@@ -75,7 +76,7 @@
                                     </span>
                                     <div class="ms-3 d-inline-block w-75">
                                        <h6 class="mb-1 fw-semibold chat-title" data-username="James Anderson">
-                                          Mark, Stoinus & Rishvi..
+                                          {{i.first_name}} {{i.last_name}}
                                        </h6>
                                        <span class="fs-3 text-truncate text-dark fw-semibold d-block">Lorem ispusm text ...</span>
                                     </div>
@@ -83,7 +84,8 @@
                                  <p class="fs-2 mb-0 text-muted">5 days</p>
                               </a>
                            </li>
-                           <li>
+                           {% endfor %}
+                           {% comment %} <li>
                               <a href="javascript:void(0)" class="px-4 py-3 bg-hover-light-black d-flex align-items-start justify-content-between chat-user" id="chat_user_2" data-user-id="2">
                                  <div class="d-flex align-items-center">
                                     <span class="position-relative">
@@ -121,7 +123,7 @@
                                  </div>
                                  <p class="fs-2 mb-0 text-muted">2 hours</p>
                               </a>
-                           </li>
+                           </li> {% endcomment %}
                         </ul>
                      </div>
                   </div>
