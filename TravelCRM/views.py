@@ -8,6 +8,10 @@ from django.contrib import messages
 
 
 def CustomLoginView(request):
+    if request.user.is_authenticated:
+        return redirect("home")
+    # if request.user.user_type == 'Admin':
+    #     return redirect("home")
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")

@@ -333,4 +333,6 @@ urlpatterns = [
         "edit_task/<int:id>/", edit_task, name="edit_task"
     ),
     path("closed_task/<int:id>/", closed_task, name="closed_task"),
+    path("chat/", chat, name="chat"),
+    path("chat2/", chat2, name="chat2"),
 ]
