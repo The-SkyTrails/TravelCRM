@@ -1,5 +1,6 @@
 $(function () {
     var chatarea = $("#chat");
+    console.log("helooooooooooooooooooooooo");
     
 
     $("#chat .message-center a").on("click", function () {
@@ -154,6 +155,7 @@ $(".message-type-box").on("keydown", function (event) {
 // Email Application
 // *******************************************************************
 
+
 $(document).ready(function () {
     $(".back-btn").click(function () {
         $(".app-email-chatting-box").hide();
@@ -167,6 +169,7 @@ $(document).ready(function () {
 // *******************************************************************
 // chat Offcanvas
 // *******************************************************************
+
 
 $("body").on('click', '.chat-menu', function () {
     $(".parent-chat-box").toggleClass('app-chat-right');

@@ -4180,4 +4180,8 @@ def chat(request):
     return render(request,'Chat/chat.html')
 
 def chat2(request):
-    return render(request,'Chat/chat2.html')
+    user = CustomUser.objects.all()
+    context = {
+        'user':user
+        }
+    return render(request,'Chat/chat2.html',context)
