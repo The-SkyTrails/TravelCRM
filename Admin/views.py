@@ -3770,7 +3770,7 @@ def add_followup(request, id):
 def make_click_to_call(request,id):
    
     user = request.user
-    print("hellooooooooo")
+    
    
     lead = Lead.objects.get(id=id)
     url = "https://api-smartflo.tatateleservices.com/v1/click_to_call"

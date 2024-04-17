@@ -5,8 +5,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 
-
-
 def CustomLoginView(request):
     if request.user.is_authenticated:
         return redirect("home")
