@@ -1,7 +1,9 @@
 $(function () {
     var chatarea = $("#chat");
+    
 
     $("#chat .message-center a").on("click", function () {
+        console.log("helooo on click.........");
         var name = $(this).find(".mail-contnet h5").text();
         var img = $(this).find(".user-img img").attr("src");
         var id = $(this).attr("data-user-id");

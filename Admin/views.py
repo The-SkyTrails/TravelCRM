@@ -4120,7 +4120,6 @@ def edit_user(request,id):
     
     return render(request, "Admin/User/edit_user.html",context)
 
-
  
 def delete_user(request, id):
     admin = Admin.objects.get(id=id)
@@ -4174,3 +4173,11 @@ def opeditview(request,id):
         "lead":lead
     }
     return render(request, "Admin/Query/edit_opleads.html",context)
+
+
+
+def chat(request):
+    return render(request,'Chat/chat.html')
+
+def chat2(request):
+    return render(request,'Chat/chat2.html')
