@@ -1,7 +1,7 @@
 $(function () {
     var chatarea = $("#chat");
     console.log("helooooooooooooooooooooooo");
-    
+
 
     $("#chat .message-center a").on("click", function () {
         console.log("helooo on click.........");

@@ -3770,7 +3770,7 @@ def add_followup(request, id):
 def make_click_to_call(request,id):
    
     user = request.user
-    print("hellooooooooo")
+    
    
     lead = Lead.objects.get(id=id)
     url = "https://api-smartflo.tatateleservices.com/v1/click_to_call"
@@ -3848,8 +3848,11 @@ def edit_profile(request):
 
 
 
-
 def userlogout (request):
+    if request.user.is_authenticated:
+        user = request.user
+        user.is_logged_in = "No"
+        user.save()
     logout(request)
     return redirect("/")
 
@@ -4183,7 +4186,7 @@ def chat(request):
 def chat2(request):
     CustomUser = get_user_model()
     users = CustomUser.objects.exclude(id=request.user.id)
-    print("userssss........",users)
+    
     context = {
         'users':users
         }
