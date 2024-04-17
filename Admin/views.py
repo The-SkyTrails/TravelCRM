@@ -21,7 +21,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.template.loader import render_to_string
 from django.contrib.auth.views import PasswordResetConfirmView
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth import get_user_model
 
 @login_required
 def index(request):
@@ -4181,4 +4181,10 @@ def chat(request):
     return render(request,'Chat/chat.html')
 
 def chat2(request):
-    return render(request,'Chat/chat2.html')
+    CustomUser = get_user_model()
+    users = CustomUser.objects.exclude(id=request.user.id)
+    print("userssss........",users)
+    context = {
+        'users':users
+        }
+    return render(request,'Chat/chat2.html',context)
