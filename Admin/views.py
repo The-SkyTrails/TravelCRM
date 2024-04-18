@@ -4196,9 +4196,15 @@ def get_user_details(request):
    
         
     if request.method == "POST":
-        user = request.user
-        print("usersssssssss",user)
-        abc = request.POST.get('user_id')
+        user = request.user.id
+        receiver_id = request.POST.get('user_id')
+        sender = CustomUser.objects.get(id=user)
+        receiver = CustomUser.objects.get(id=receiver_id)
+
+        print("receiverrrr........",receiver.first_name,"sender_id",sender.username)
+        messages = Messages.objects.create(sender=sender,receiver=receiver)
+       
+        
         print("abccccccc",abc)
-    print("kkkkkkkkkk")
+    
     return HttpResponse('hhhhhhhhhh')
