@@ -92,11 +92,11 @@
                         </ul>
                      </div>
                   </div>
-                  <div class="w-70 w-xs-100 chat-container" id="blank-chat">
+                  {% comment %} <div class="w-70 w-xs-100 chat-container" id="blank-chat">
                      
-                  </div>
-                  <div class="w-70 w-xs-100 chat-container" id="user-chat" style="display:none;">
-                     <div class="chat-box-inner-part h-100">
+                  </div> {% endcomment %}
+                  <div class="w-70 w-xs-100 chat-container" id="user-chat">
+                     {% comment %} <div class="chat-box-inner-part h-100">
                         <div class="chat-not-selected h-100 d-none">
                            <div class="d-flex align-items-center justify-content-center h-100 p-5">
                               <div class="text-center">
@@ -193,7 +193,7 @@
                               </div>
                            </div>
                         </div>
-                     </div>
+                     </div> {% endcomment %}
                   </div>
                </div>
             </div>
@@ -203,14 +203,47 @@
    
 </div>
 
-<script>
+{% comment %} <script>
    document.querySelectorAll('.chat-user').forEach(item => {
       item.addEventListener('click', event => {
          document.getElementById('blank-chat').style.display = 'none';
          document.getElementById('user-chat').style.display = 'block';
       });
    });
+</script> {% endcomment %}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.chat-user').click(function () {
+            var groupId = $(this).data('user-id');
+
+            // Check if the clicked group is already active
+            if (!$(this).hasClass('active')) {
+                // Deactivate all groups
+                $('.chat-user').removeClass('active');
+
+                // Activate the clicked group
+                $(this).addClass('active');
+
+                // Load chat messages for the selected group using AJAX
+                loadGroupChat(groupId);
+            }
+        });
+    });
+
+    function loadGroupChat(groupId) {
+        // Fetch chat messages for the selected group using AJAX
+        $.ajax({
+            url: `/get_chat_messages/?user_id=${groupId}`,
+            success: function (data) {
+                $('#user-chat').html(data);
+            }
+        });
+    }
 </script>
+
 
 
 
