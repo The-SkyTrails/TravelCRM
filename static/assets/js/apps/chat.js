@@ -115,29 +115,18 @@ $(".search-chat").on("keyup", function () {
 
 $(".app-chat .chat-user").on("click", function(event) {
     var $this = $(this);
-    console.log("hellllloooooooooooooooooooooo");
+    
     if ($this.hasClass("active")) {
         return false;
     } else {
         var findChat = $this.attr("data-user-id");
-        console.log("demoooooo",findChat);
+        var findChat2 = $this.attr("user-name");
+        console.log("demoooooo",findChat2);
         $(".message-type-box").attr("data-user-id", findChat);
         var personName = $this.find(".chat-title").text();
+        
         var personImage = $this.find("img").attr("src");
-
-        var csrftoken = getCookie('csrftoken');
-
-        $.ajax({
-            url: "/get_user_details/", 
-            method: "POST", 
-            headers: {
-                "X-CSRFToken": csrftoken 
-            },
-            data: { user_id: findChat },
-            success: function(response) {
-                console.log("Response:", response);
-               
-                if (window.innerWidth <= 767) {
+        if (window.innerWidth <= 767) {
                     $(".chat-container .current-chat-user-name .name").html(
                         personName.split(" ")[0]
                     );
@@ -145,16 +134,8 @@ $(".app-chat .chat-user").on("click", function(event) {
                     $(".chat-container .current-chat-user-name .name").html(personName);
                 }
                 $(".chat-container .current-chat-user-name img").attr("src", personImage);
-                $(".chat").removeClass("active-chat");
-                $(".user-chat-box .chat-user").removeClass("bg-light");
-                $this.addClass("bg-light");
-                $(".chat[data-user-id=" + findChat + "]").addClass("active-chat");
 
-            },
-            error: function(xhr, status, error) {
-                console.error("Error:", error);
-            }
-        });
+        
     }
     if ($this.parents(".user-chat-box").hasClass("user-list-box-show")) {
         $this.parents(".user-chat-box").removeClass("user-list-box-show");
@@ -171,8 +152,8 @@ $(".message-type-box").on("keydown", function (event) {
     if (event.key === "Enter") {
         var $this = $(this);
        
-        var id = $(this).attr("data-user-id");
-        console.log("ssssss",id)
+        var user_id = $(this).attr("data-user-id");
+        console.log("ssssss",user_id)
         var csrftoken = getCookie('csrftoken');
         $.ajax({
             url: "/get_user_details/", 
@@ -180,7 +161,7 @@ $(".message-type-box").on("keydown", function (event) {
             headers: {
                 "X-CSRFToken": csrftoken 
             },
-           data: { user_id: "hello" },
+           data: { user_id: user_id },
            
             success: function(response) {
                 console.log("Response:", response);
