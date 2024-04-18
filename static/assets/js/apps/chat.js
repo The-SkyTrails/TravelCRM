@@ -121,6 +121,7 @@ $(".app-chat .chat-user").on("click", function(event) {
     } else {
         var findChat = $this.attr("data-user-id");
         console.log("demoooooo",findChat);
+        $(".message-type-box").attr("data-user-id", findChat);
         var personName = $this.find(".chat-title").text();
         var personImage = $this.find("img").attr("src");
 
@@ -170,10 +171,8 @@ $(".message-type-box").on("keydown", function (event) {
     if (event.key === "Enter") {
         var $this = $(this);
        
-        console.log("enterrrrrrrrr");
         var id = $(this).attr("data-user-id");
         console.log("ssssss",id)
-        //console.log(findChat);
         var csrftoken = getCookie('csrftoken');
         $.ajax({
             url: "/get_user_details/", 
@@ -193,6 +192,7 @@ $(".message-type-box").on("keydown", function (event) {
                 console.error("Error:", error);
             }
         });
+
         // Start getting time
         var now = new Date();
         var hh = now.getHours();
