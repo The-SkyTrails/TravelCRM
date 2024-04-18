@@ -150,10 +150,11 @@ $(".app-chat .chat-user").on("click", function(event) {
 // Send Messages
 $(".message-type-box").on("keydown", function (event) {
     if (event.key === "Enter") {
+        var message = $(this).val(); 
+
         var $this = $(this);
        
         var user_id = $(this).attr("data-user-id");
-        console.log("ssssss",user_id)
         var csrftoken = getCookie('csrftoken');
         $.ajax({
             url: "/get_user_details/", 

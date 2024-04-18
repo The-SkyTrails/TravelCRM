@@ -4204,7 +4204,5 @@ def get_user_details(request):
         print("receiverrrr........",receiver.first_name,"sender_id",sender.username)
         messages = Messages.objects.create(sender=sender,receiver=receiver)
        
-        
-        print("abccccccc",abc)
     
     return HttpResponse('hhhhhhhhhh')
