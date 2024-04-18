@@ -170,7 +170,7 @@ $(".message-type-box").on("keydown", function (event) {
     if (event.key === "Enter") {
         var $this = $(this);
        
-        console.log("enterrrrrrrrr",test);
+        console.log("enterrrrrrrrr");
         var id = $(this).attr("data-user-id");
         console.log("ssssss",id)
         //console.log(findChat);
