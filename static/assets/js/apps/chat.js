@@ -120,39 +120,40 @@ $(".app-chat .chat-user").on("click", function(event) {
         return false;
     } else {
         var findChat = $this.attr("data-user-id");
+        console.log("demoooooo",findChat);
         var personName = $this.find(".chat-title").text();
         var personImage = $this.find("img").attr("src");
 
         var csrftoken = getCookie('csrftoken');
 
-        $.ajax({
-            url: "/get_user_details/", 
-            method: "POST", 
-            headers: {
-                "X-CSRFToken": csrftoken 
-            },
-            data: { user_id: findChat },
-            success: function(response) {
-                console.log("Response:", response);
+        // $.ajax({
+        //     url: "/get_user_details/", 
+        //     method: "POST", 
+        //     headers: {
+        //         "X-CSRFToken": csrftoken 
+        //     },
+        //     data: { user_id: findChat },
+        //     success: function(response) {
+        //         console.log("Response:", response);
                
-                if (window.innerWidth <= 767) {
-                    $(".chat-container .current-chat-user-name .name").html(
-                        personName.split(" ")[0]
-                    );
-                } else if (window.innerWidth > 767) {
-                    $(".chat-container .current-chat-user-name .name").html(personName);
-                }
-                $(".chat-container .current-chat-user-name img").attr("src", personImage);
-                $(".chat").removeClass("active-chat");
-                $(".user-chat-box .chat-user").removeClass("bg-light");
-                $this.addClass("bg-light");
-                $(".chat[data-user-id=" + findChat + "]").addClass("active-chat");
+        //         if (window.innerWidth <= 767) {
+        //             $(".chat-container .current-chat-user-name .name").html(
+        //                 personName.split(" ")[0]
+        //             );
+        //         } else if (window.innerWidth > 767) {
+        //             $(".chat-container .current-chat-user-name .name").html(personName);
+        //         }
+        //         $(".chat-container .current-chat-user-name img").attr("src", personImage);
+        //         $(".chat").removeClass("active-chat");
+        //         $(".user-chat-box .chat-user").removeClass("bg-light");
+        //         $this.addClass("bg-light");
+        //         $(".chat[data-user-id=" + findChat + "]").addClass("active-chat");
 
-            },
-            error: function(xhr, status, error) {
-                console.error("Error:", error);
-            }
-        });
+        //     },
+        //     error: function(xhr, status, error) {
+        //         console.error("Error:", error);
+        //     }
+        // });
     }
     if ($this.parents(".user-chat-box").hasClass("user-list-box-show")) {
         $this.parents(".user-chat-box").removeClass("user-list-box-show");
@@ -162,27 +163,36 @@ $(".app-chat .chat-user").on("click", function(event) {
 });
 
 
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-
 
 
 // Send Messages
 $(".message-type-box").on("keydown", function (event) {
     if (event.key === "Enter") {
+        var $this = $(this);
+       
+        console.log("enterrrrrrrrr",test);
+        var id = $(this).attr("data-user-id");
+        console.log("ssssss",id)
+        //console.log(findChat);
+        var csrftoken = getCookie('csrftoken');
+        $.ajax({
+            url: "/get_user_details/", 
+            method: "POST", 
+            headers: {
+                "X-CSRFToken": csrftoken 
+            },
+           data: { user_id: "hello" },
+           
+            success: function(response) {
+                console.log("Response:", response);
+                
+               
+                
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", error);
+            }
+        });
         // Start getting time
         var now = new Date();
         var hh = now.getHours();
@@ -215,6 +225,21 @@ $(".message-type-box").on("keydown", function (event) {
         var clearChatInput = chatInput.val("");
     }
 });
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
 
 

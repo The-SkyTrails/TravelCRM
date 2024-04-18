@@ -582,6 +582,12 @@ class ConfirmAttachment(models.Model):
     activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='attachments')
     attachment = models.ManyToManyField(File)
     date = models.DateField(auto_now_add=True)
+
+class Messages(models.Model):
+    sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sent_messages')
+    receiver = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='received_messages')
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
     
 class Payment(models.Model):
     leads = models.ForeignKey(Lead,on_delete=models.CASCADE,related_name='payments')
@@ -589,7 +595,6 @@ class Payment(models.Model):
     link_id = models.CharField(max_length=255)
     payment_link = models.URLField(max_length=200,)
     link_expiry_time = models.DateTimeField()
-    
     
     
     

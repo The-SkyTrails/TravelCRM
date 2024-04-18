@@ -4193,5 +4193,12 @@ def chat2(request):
     return render(request,'Chat/chat2.html',context)
 
 def get_user_details(request):
+   
+        
+    if request.method == "POST":
+        user = request.user
+        print("usersssssssss",user)
+        abc = request.POST.get('user_id')
+        print("abccccccc",abc)
     print("kkkkkkkkkk")
     return HttpResponse('hhhhhhhhhh')
