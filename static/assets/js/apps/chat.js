@@ -127,34 +127,34 @@ $(".app-chat .chat-user").on("click", function(event) {
 
         var csrftoken = getCookie('csrftoken');
 
-        // $.ajax({
-        //     url: "/get_user_details/", 
-        //     method: "POST", 
-        //     headers: {
-        //         "X-CSRFToken": csrftoken 
-        //     },
-        //     data: { user_id: findChat },
-        //     success: function(response) {
-        //         console.log("Response:", response);
+        $.ajax({
+            url: "/get_user_details/", 
+            method: "POST", 
+            headers: {
+                "X-CSRFToken": csrftoken 
+            },
+            data: { user_id: findChat },
+            success: function(response) {
+                console.log("Response:", response);
                
-        //         if (window.innerWidth <= 767) {
-        //             $(".chat-container .current-chat-user-name .name").html(
-        //                 personName.split(" ")[0]
-        //             );
-        //         } else if (window.innerWidth > 767) {
-        //             $(".chat-container .current-chat-user-name .name").html(personName);
-        //         }
-        //         $(".chat-container .current-chat-user-name img").attr("src", personImage);
-        //         $(".chat").removeClass("active-chat");
-        //         $(".user-chat-box .chat-user").removeClass("bg-light");
-        //         $this.addClass("bg-light");
-        //         $(".chat[data-user-id=" + findChat + "]").addClass("active-chat");
+                if (window.innerWidth <= 767) {
+                    $(".chat-container .current-chat-user-name .name").html(
+                        personName.split(" ")[0]
+                    );
+                } else if (window.innerWidth > 767) {
+                    $(".chat-container .current-chat-user-name .name").html(personName);
+                }
+                $(".chat-container .current-chat-user-name img").attr("src", personImage);
+                $(".chat").removeClass("active-chat");
+                $(".user-chat-box .chat-user").removeClass("bg-light");
+                $this.addClass("bg-light");
+                $(".chat[data-user-id=" + findChat + "]").addClass("active-chat");
 
-        //     },
-        //     error: function(xhr, status, error) {
-        //         console.error("Error:", error);
-        //     }
-        // });
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", error);
+            }
+        });
     }
     if ($this.parents(".user-chat-box").hasClass("user-list-box-show")) {
         $this.parents(".user-chat-box").removeClass("user-list-box-show");
