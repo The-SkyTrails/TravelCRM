@@ -4223,3 +4223,19 @@ def get_chat_history(request,id):
     message= Messages.objects.filter(receiver=id)
     print(message)
     return HttpResponse('demooooo')
+
+
+from django.template import loader
+def get_chat_messages(request):
+    group_id = request.GET.get("user_id")
+
+    chat_group = CustomUser.objects.get(id=group_id)
+    group_name = f"{chat_group.first_name} {chat_group.last_name}"
+
+    context = {
+        "chat_group": chat_group,
+        "group_name": group_name,
+    }
+
+    chat_content = loader.render_to_string("Chat/chat.html",context)
+    return HttpResponse(chat_content)
