@@ -4184,11 +4184,17 @@ def chat(request):
     return render(request,'Chat/chat.html')
 
 def chat2(request):
+   
     CustomUser = get_user_model()
     users = CustomUser.objects.exclude(id=request.user.id)
+    abc = request.GET.get('user_id')
+    msg = Messages.objects.filter(receiver=abc)
+    
     
     context = {
-        'users':users
+        'users':users,
+        'msg':msg,
+        'abc':abc
         }
     return render(request,'Chat/chat2.html',context)
 
@@ -4198,13 +4204,20 @@ def get_user_details(request):
     if request.method == "POST":
         user = request.user.id
         receiver_id = request.POST.get('user_id')
+        content = request.POST.get('content')
         sender = CustomUser.objects.get(id=user)
         receiver = CustomUser.objects.get(id=receiver_id)
 
-        print("receiverrrr........",receiver.first_name,"sender_id",sender.username)
-        messages = Messages.objects.create(sender=sender,receiver=receiver)
+        print("receiverrrr........",receiver.first_name,"sender_id",sender.username,"message:",content)
+        messages = Messages.objects.create(sender=sender,receiver=receiver,content=content)
        
         
-        print("abccccccc",abc)
+       
     
     return HttpResponse('hhhhhhhhhh')
+
+
+def get_chat_history(request,id):
+    message= Messages.objects.filter(receiver=id)
+    print(message)
+    return HttpResponse('demooooo')

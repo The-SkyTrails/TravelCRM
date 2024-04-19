@@ -336,5 +336,6 @@ urlpatterns = [
     path("chat/", chat, name="chat"),
     path("chat2/", chat2, name="chat2"),
     path("get_user_details/", get_user_details, name="get_user_details"),
+    path("get_chat_history/<int:id>/", get_chat_history, name="get_chat_history"),
     
 ]
