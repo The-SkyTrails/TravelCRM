@@ -1,6 +1,6 @@
-// $(function () {
-//     var chatarea = $("#chat");
-//     console.log("helooooooooooooooooooooooo");
+$(function () {
+    var chatarea = $("#chat");
+    console.log("helooooooooooooooooooooooo");
 
 
 //     $("#chat .message-center a").on("click", function () {
@@ -84,6 +84,15 @@ $(".app-chat .chat-user").on("click", function(event) {
         var personName = $this.find(".chat-title").text();
         
         var personImage = $this.find("img").attr("src");
+
+
+        $.ajax({
+        url: "/get_chat_history/" + findChat + "/",
+        method: "GET",
+        data: { user_id: findChat },
+
+
+        });
         if (window.innerWidth <= 767) {
                     $(".chat-container .current-chat-user-name .name").html(
                         personName.split(" ")[0]
@@ -111,6 +120,7 @@ $(".message-type-box").on("keydown", function (event) {
         var message = $(this).val(); 
         var $this = $(this);
         var user_id = $(this).attr("data-user-id");
+        console.log("ssssss",user_id)
         var csrftoken = getCookie('csrftoken');
         $.ajax({
             url: "/get_user_details/", 
@@ -118,7 +128,8 @@ $(".message-type-box").on("keydown", function (event) {
             headers: {
                 "X-CSRFToken": csrftoken 
             },
-            data: { user_id: user_id },
+           data: { user_id: user_id },
+           
             success: function(response) {
                 console.log("Response:", response);
             },
