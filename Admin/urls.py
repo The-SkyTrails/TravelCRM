@@ -338,4 +338,10 @@ urlpatterns = [
     path("get_user_details/", get_user_details, name="get_user_details"),
     path("get_chat_history/<int:id>/", get_chat_history, name="get_chat_history"),
     
+    path(
+            "get_chat_messages/",
+            get_chat_messages,
+            name="get_chat_messages",
+        ),
+
 ]

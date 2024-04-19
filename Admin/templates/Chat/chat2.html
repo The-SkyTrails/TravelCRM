@@ -88,53 +88,15 @@
                               </a>
                            </li>
                            {% endfor %}
-                           {% comment %} <li>
-                              <a href="javascript:void(0)" class="px-4 py-3 bg-hover-light-black d-flex align-items-start justify-content-between chat-user" id="chat_user_2" data-user-id="2">
-                                 <div class="d-flex align-items-center">
-                                    <span class="position-relative">
-                                    <img src="{% static "assets/images/profile/user-2.jpg" %}" alt="user-2" width="48" height="48" class="rounded-circle">
-                                    <span class="position-absolute bottom-0 end-0 p-1 badge rounded-pill bg-danger">
-                                    <span class="visually-hidden">New alerts</span>
-                                    </span>
-                                    </span>
-                                    <div class="ms-3 d-inline-block w-75">
-                                       <h6 class="mb-1 fw-semibold chat-title" data-username="James Anderson">
-                                          Bianca Anderson
-                                       </h6>
-                                       <span class="fs-3 text-truncate text-dark fw-semibold d-block">Nice looking dress
-                                       you...</span>
-                                    </div>
-                                 </div>
-                                 <p class="fs-2 mb-0 text-muted">30 mins</p>
-                              </a>
-                           </li>
-                           <li>
-                              <a href="javascript:void(0)" class="px-4 py-3 bg-hover-light-black d-flex align-items-start justify-content-between chat-user" id="chat_user_3" data-user-id="3">
-                                 <div class="d-flex align-items-center">
-                                    <span class="position-relative">
-                                    <img src="{% static "assets/images/profile/user-8.jpg" %}" alt="user-8" width="48" height="48" class="rounded-circle">
-                                    <span class="position-absolute bottom-0 end-0 p-1 badge rounded-pill bg-warning">
-                                    <span class="visually-hidden">New alerts</span>
-                                    </span>
-                                    </span>
-                                    <div class="ms-3 d-inline-block w-75">
-                                       <h6 class="mb-1 fw-semibold chat-title" data-username="James Anderson">
-                                          Andrew Johnson
-                                       </h6>
-                                       <span class="fs-3 text-truncate text-body-color d-block">Sent a photo</span>
-                                    </div>
-                                 </div>
-                                 <p class="fs-2 mb-0 text-muted">2 hours</p>
-                              </a>
-                           </li> {% endcomment %}
+                           
                         </ul>
                      </div>
                   </div>
-                  <div class="w-70 w-xs-100 chat-container" id="blank-chat">
+                  {% comment %} <div class="w-70 w-xs-100 chat-container" id="blank-chat">
                      
-                  </div>
-                  <div class="w-70 w-xs-100 chat-container" id="user-chat" style="display:none;">
-                     <div class="chat-box-inner-part h-100">
+                  </div> {% endcomment %}
+                  <div class="w-70 w-xs-100 chat-container" id="user-chat">
+                     {% comment %} <div class="chat-box-inner-part h-100">
                         <div class="chat-not-selected h-100 d-none">
                            <div class="d-flex align-items-center justify-content-center h-100 p-5">
                               <div class="text-center">
@@ -231,7 +193,7 @@
                               </div>
                            </div>
                         </div>
-                     </div>
+                     </div> {% endcomment %}
                   </div>
                </div>
             </div>
@@ -241,14 +203,47 @@
    
 </div>
 
-<script>
+{% comment %} <script>
    document.querySelectorAll('.chat-user').forEach(item => {
       item.addEventListener('click', event => {
          document.getElementById('blank-chat').style.display = 'none';
          document.getElementById('user-chat').style.display = 'block';
       });
    });
+</script> {% endcomment %}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.chat-user').click(function () {
+            var groupId = $(this).data('user-id');
+
+            // Check if the clicked group is already active
+            if (!$(this).hasClass('active')) {
+                // Deactivate all groups
+                $('.chat-user').removeClass('active');
+
+                // Activate the clicked group
+                $(this).addClass('active');
+
+                // Load chat messages for the selected group using AJAX
+                loadGroupChat(groupId);
+            }
+        });
+    });
+
+    function loadGroupChat(groupId) {
+        // Fetch chat messages for the selected group using AJAX
+        $.ajax({
+            url: `/get_chat_messages/?user_id=${groupId}`,
+            success: function (data) {
+                $('#user-chat').html(data);
+            }
+        });
+    }
 </script>
+
 
 
 
