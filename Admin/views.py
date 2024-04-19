@@ -2811,6 +2811,7 @@ def add_user(request):
         city_id = request.POST.get("city_id")
         pin = request.POST.get("pin")
         address = request.POST.get("address")
+        ai_sensy_username = request.POST.get("ai_sensy_username")
         reporting_to = CustomUser.objects.get(id=reporting_to_id)
         country = Country.objects.get(id=country_id)
         state = State.objects.get(id=state_id)
@@ -2825,7 +2826,8 @@ def add_user(request):
             code=code,
             contact=contact,
             user_type = user_type,
-            destination = destination
+            destination = destination,
+            ai_sensy_username=ai_sensy_username
         )
 
         user.admin.reporting_to = reporting_to

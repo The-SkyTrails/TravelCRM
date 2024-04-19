@@ -448,6 +448,7 @@ class CustomUser(AbstractUser):
     destination = models.ForeignKey(Destination,on_delete=models.CASCADE)
     is_logged_in = models.CharField(max_length=50,choices=Login_CHOICES,default="No")
     tata_tele_agent_no = models.CharField(max_length=255,null=True,blank=True)
+    ai_sensy_username = models.CharField(max_length=50)
     authorization = models.CharField(max_length=255,null=True,blank=True)
     
     
