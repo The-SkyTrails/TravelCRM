@@ -4017,7 +4017,6 @@ def bulk_lead_upload(request):
                     logger.warning(f"No salespersons found for destination: {destination}")
                     continue
                 
-                # Round-robin assignment of salespersons
                 sales_person = salespersons[index % len(salespersons)]
               
               
