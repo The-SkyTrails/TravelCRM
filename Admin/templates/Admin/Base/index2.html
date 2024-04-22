@@ -2,6 +2,20 @@
 {% load static %}
 {% block main-content %}
 
+
+<style>
+  .whatsapp-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+
+</style>
+
       <div class="body-wrapper">
         <div class="container-fluid">
           <!-- -------------------------------------------------------------- -->
@@ -246,168 +260,268 @@
             </div>
             
           </div>
+          
           <div class="row">
-            
-
-            <div class="col-lg-6">
-              <div class="card w-100">
-                <div class="card-body pb-3">
-                  <div class="d-md-flex no-block">
-                    <h4 class="card-title">Latest Task</h4>
+            <div class="col-lg-7 col-xl-8">
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="card-title">My Task</h3>
+                  
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs profile-tab nav-justified gap-9 my-7" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active vstack gap-6 align-items-center text-center" data-bs-toggle="tab" href="#profile" role="tab">
+                        <iconify-icon icon="solar:sort-by-time-linear" class="fs-7"></iconify-icon>
+                        <span class="d-none d-md-inline-block fw-normal">Opened Task</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link vstack gap-6 align-items-center text-center" data-bs-toggle="tab" href="#home" role="tab">
+                        <iconify-icon icon="solar:checklist-minimalistic-linear" class="fs-7"></iconify-icon>
+                        <span class="d-none d-md-inline-block fw-normal">Closed Task</span>
+                      </a>
+                    </li>
                     
-                  </div>
-                  <div class="month-table">
-                    <div class="table-responsive mt-3">
-                      <table class="table v-middle mb-0 no-wrap">
-                        <thead>
-                          <tr>
-                            <th class="border-0 ps-0">
-                              Enquiry No
-                            </th>
-                            <th class="border-0">Client Name</th>
-                            <th class="border-0">
-                              Query Title
-                            </th>
-                            <th class="border-0">
-                              Note
-                            </th>
-                            <th class="border-0">
-                              Date-Time
-                            </th>
-                            <th class="border-0 text-end">
-                              Action
-                            </th>
-                            
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% for i in task %}
-                          {% if i.archieve == True %}
-                          <tr>
-                            <td class="ps-0">
-                              <div class="hstack gap-3">
+                  </ul>
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="profile" role="tabpanel">
+                      <div class="card-body">
+                        <div class="month-table">
+                          <div class="table-responsive mt-3">
+                            <table class="table v-middle mb-0 no-wrap">
+                              <thead>
+                                <tr>
+                                  <th class="border-0 ps-0">
+                                    Enquiry No
+                                  </th>
+                                  <th class="border-0">Client Name</th>
+                                  <th class="border-0">
+                                    Query Title
+                                  </th>
+                                  <th class="border-0">
+                                    Note
+                                  </th>
+                                  <th class="border-0">
+                                    Date-Time
+                                  </th>
+                                  <th class="border-0 text-end">
+                                    Action
+                                  </th>
+                                  
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for i in task %}
+                                {% if i.archieve == True %}
+                                <tr>
+                                  <td class="ps-0">
+                                    <div class="hstack gap-3">
+                                      
+                                      <div>
+                                        <p class="mb-0 fs-3">{{i.lead.enquiry_number}}</p>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <p class="mb-0">{{i.lead.name}}</p>
+                                  </td>
+                                  <td>
+                                    <p class="mb-0">{{i.lead.query_title}}</p>
+                                  </td>
+                                  <td>
+                                    <p class="mb-0">{{i.note}}</p>
+                                  </td>
+                                  
+                                  <td>
+                                    <p class="mb-0">{{i.datetime}}</p>
+                                  </td>
+                                  <td>
+                                    <p class="mb-0 fs-3">
+                                      <!-- <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#add-notes-{{i.id}}"> -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="modal" data-bs-target="#edit-task{{i.id}}" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                          <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                                          <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                                          <path d="M16 5l3 3" />
+                                        </svg>
+                                        <a href="{% url "closed_task" i.id %}">
+                                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M4 7h16" />
+                                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                            <path d="M10 12l4 4m0 -4l-4 4" />
+                                          </svg>
+                                      </a>
+                                       
+                                     <!-- </button> -->
+                                     {% include "Admin/Query/edittask.html" %}
+                                    </p>
+                                  </td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
                                 
-                                <div>
-                                  <p class="mb-0 fs-3">{{i.lead.enquiry_number}}</p>
-                                </div>
-                              </div>
-                            </td>
-                            <td>
-                              <p class="mb-0">{{i.lead.name}}</p>
-                            </td>
-                            <td>
-                              <p class="mb-0">{{i.lead.query_title}}</p>
-                            </td>
-                            <td>
-                              <p class="mb-0">{{i.note}}</p>
-                            </td>
-                            
-                            <td>
-                              <p class="mb-0">{{i.datetime}}</p>
-                            </td>
-                            <td>
-                              <p class="mb-0 fs-3">
-                                <!-- <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#add-notes-{{i.id}}"> -->
-                                  <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="modal" data-bs-target="#edit-task{{i.id}}" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-                                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
-                                    <path d="M16 5l3 3" />
-                                  </svg>
-                                  <a href="{% url "closed_task" i.id %}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                      <path d="M4 7h16" />
-                                      <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                      <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                                      <path d="M10 12l4 4m0 -4l-4 4" />
-                                    </svg>
-                                </a>
-                                 
-                               <!-- </button> -->
-                               {% include "Admin/Query/edittask.html" %}
-                              </p>
-                            </td>
-                          </tr>
-                          {% endif %}
-                          {% endfor %}
-                          
-                        </tbody>
-                      </table>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+                    <div class="tab-pane" id="home" role="tabpanel">
+                      <div class="card-body">
+                        <div class="month-table">
+                          <div class="table-responsive mt-3">
+                            <table class="table v-middle mb-0 no-wrap">
+                              <thead>
+                                <tr>
+                                  <th class="border-0 ps-0">
+                                    Enquiry No
+                                  </th>
+                                  <th class="border-0">Client Name</th>
+                                  <th class="border-0">
+                                    Query Title
+                                  </th>
+                                  <th class="border-0">
+                                    Note
+                                  </th>
+                                  <th class="border-0">
+                                    Date-Time
+                                  </th>
+                                  
+                                </tr>
+                              </thead>
+                              <tbody>
+                                
+                                {% for i in task %}
+                                {% if i.archieve == False %}
+                                <tr>
+                                  <td class="ps-0">
+                                    <div class="hstack gap-3">
+                                      
+                                      <div>
+                                        <p class="mb-0 fs-3">{{i.lead.enquiry_number}}</p>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <p class="mb-0">{{i.lead.name}}</p>
+                                  </td>
+                                  <td>
+                                    <p class="mb-0">{{i.lead.query_title}}</p>
+                                  </td>
+                                  <td>
+                                    <p class="mb-0">{{i.note}}</p>
+                                  </td>
+                                  
+                                  <td>
+                                    <p class="mb-0">{{i.datetime}}</p>
+                                  </td>
+                                  
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                                
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-lg-6">
-              <div class="card w-100">
-                <div class="card-body pb-3">
-                  <div class="d-md-flex no-block">
-                    <h4 class="card-title">Closed Task</h4>
+            <div class="col-lg-5 col-xl-4">
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="card-title">User</h3>
+                  
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs profile-tab nav-justified gap-9 my-7" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active vstack gap-6 align-items-center text-center" data-bs-toggle="tab" href="#activeuser" role="tab">
+                        <iconify-icon icon="solar:user-circle-linear" class="fs-7"></iconify-icon>
+                        <span class="d-none d-md-inline-block fw-normal">Active User</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link vstack gap-6 align-items-center text-center" data-bs-toggle="tab" href="#inactiveuser" role="tab">
+                        <iconify-icon icon="solar:user-circle-linear" class="fs-7"></iconify-icon>
+                        <span class="d-none d-md-inline-block fw-normal">Inactive User</span>
+                      </a>
+                    </li>
                     
-                  </div>
-                  <div class="month-table">
-                    <div class="table-responsive mt-3">
-                      <table class="table v-middle mb-0 no-wrap">
-                        <thead>
-                          <tr>
-                            <th class="border-0 ps-0">
-                              Enquiry No
-                            </th>
-                            <th class="border-0">Client Name</th>
-                            <th class="border-0">
-                              Query Title
-                            </th>
-                            <th class="border-0">
-                              Note
-                            </th>
-                            <th class="border-0">
-                              Date-Time
-                            </th>
-                            
-                          </tr>
-                        </thead>
-                        <tbody>
+                  </ul>
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="activeuser" role="tabpanel">
+                      <div class="card-body">
+                        <ul>
+                          {% for user in active_user %}
                           
-                          {% for i in task %}
-                          {% if i.archieve == False %}
-                          <tr>
-                            <td class="ps-0">
-                              <div class="hstack gap-3">
-                                
-                                <div>
-                                  <p class="mb-0 fs-3">{{i.lead.enquiry_number}}</p>
-                                </div>
-                              </div>
-                            </td>
-                            <td>
-                              <p class="mb-0">{{i.lead.name}}</p>
-                            </td>
-                            <td>
-                              <p class="mb-0">{{i.lead.query_title}}</p>
-                            </td>
-                            <td>
-                              <p class="mb-0">{{i.note}}</p>
-                            </td>
+                          <li style="margin-bottom:5px;">
+                          <div class="d-flex align-items-center">
+                            <span class="position-relative">
+                            <img src="{% static "assets/images/profile/user-1.jpg" %}" alt="user1" width="28" height="28" class="rounded-circle">
+                           <span class="position-absolute bottom-0 end-0 p-1 badge rounded-pill bg-success"> 
                             
-                            <td>
-                              <p class="mb-0">{{i.datetime}}</p>
-                            </td>
-                            
-                          </tr>
-                          {% endif %}
+                            </span>
+                            </span>
+                            <div class="ms-3 d-inline-block w-75">
+                               <h6 class="mb-1 fw-semibold chat-title">
+                                  {{user.first_name}} {{user.last_name}}
+                               </h6>
+                               
+                            </div>
+                         </div>
+                        </li>
                           {% endfor %}
-                          
-                        </tbody>
-                      </table>
+                        </ul>
+                      </div>
                     </div>
+                    <div class="tab-pane" id="inactiveuser" role="tabpanel">
+                      <div class="card-body">
+                        <ul>
+                          {% for user in inactive_user %}
+                          
+                          <li style="margin-bottom:5px;">
+                          <div class="d-flex align-items-center">
+                            <span class="position-relative">
+                            <img src="{% static "assets/images/profile/user-1.jpg" %}" alt="user1" width="28" height="28" class="rounded-circle">
+                           <span class="position-absolute bottom-0 end-0 p-1 badge rounded-pill bg-danger"> 
+                            
+                            </span>
+                            </span>
+                            <div class="ms-3 d-inline-block w-75">
+                               <h6 class="mb-1 fw-semibold chat-title">
+                                  {{user.first_name}} {{user.last_name}}
+                               </h6>
+                               
+                            </div>
+                         </div>
+                        </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                    
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
         </div>
+        <a href="https://www.app.aisensy.com/login" class="whatsapp-icon" target="_blank_">
+          <img src="{% static "assets/images/backgrounds/whatsapp-icon.svg" %}" width="32" height="32" alt="" srcset="">
+        </a>
+        
+        
       </div>
+
+
+      
 
 {% endblock main-content %}

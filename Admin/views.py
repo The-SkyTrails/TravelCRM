@@ -34,13 +34,26 @@ def index(request):
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
             follow_up = Followup.objects.filter(type='followup').order_by('-id')[:10]
             task = Followup.objects.filter(type='task').order_by('-id')[:10]
+            active_user = CustomUser.objects.filter(is_logged_in="Yes")
+            inactive_user = CustomUser.objects.filter(is_logged_in="No")
         elif user_type == "Sales Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
-            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             follow_up = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__sales_person=request.user),type = "followup").order_by('-id')[:10]
             task = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__sales_person=request.user),type = "task").order_by('-id')[:10]
+            active_user = CustomUser.objects.filter(is_logged_in="Yes")
+            inactive_user = CustomUser.objects.filter(is_logged_in="No")
+        elif user_type == "Operation Person":
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-id")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user)) ).order_by("-id")
+            follow_up = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__operation_person=request.user),type = "followup").order_by('-id')[:10]
+            task = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__operation_person=request.user),type = "task").order_by('-id')[:10]
+            active_user = CustomUser.objects.filter(is_logged_in="Yes")
+            inactive_user = CustomUser.objects.filter(is_logged_in="No")
         else:
             pass
         
@@ -50,7 +63,9 @@ def index(request):
         "all_lead": all_lead,
         "lost_list": lost_list,
         "follow_up":follow_up,
-        "task":task
+        "task":task,
+        "active_user":active_user,
+        "inactive_user":inactive_user
     }
     return render(request,"Admin/Base/index2.html", context)
 
@@ -3591,11 +3606,13 @@ def attach_quotation(request, id):
             aisensy_api_url = "https://backend.aisensy.com/campaign/t1/api/v2"
             api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3ZSIsIm5hbWUiOiJ0aGVza3l0cmFpbCA4NDEzIiwiYXBwTmFtZSI6IkFpU2Vuc3kiLCJjbGllbnRJZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3NCIsImFjdGl2ZVBsYW4iOiJCQVNJQ19NT05USExZIiwiaWF0IjoxNzEwODUxMDcxfQ.XnS_3uclP8c0J6drYjBCAQmbE6bHxGuD2IAGPaS4N9Y"
 
+            ai_sensy_username = request.user.ai_sensy_username
+            
             payload = {
                 "apiKey": api_key,
                 "campaignName": "qq",
                 "destination": lead.mobile_number, 
-                "userName": "theskytrail 8413",
+                "userName": ai_sensy_username,
                 "templateParams": [],
                 "source": "new-landing-page form",
                 "media": {
@@ -3943,6 +3960,11 @@ def demo(request):
 
 
 import pandas as pd
+from collections import defaultdict
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 def bulk_lead_upload(request):
     if request.method == "POST":
@@ -3954,6 +3976,14 @@ def bulk_lead_upload(request):
 
         try:
             df = pd.read_excel(file)
+            
+            destinations = list(df["destinations"].unique())
+            print(destinations)
+            destination = Destination.objects.filter(name__in=destinations)
+            print(destination)
+            salespersons_by_destination = defaultdict(list)
+            for user in CustomUser.objects.filter(user_type="Salesperson", destination__name__in=destinations):
+                salespersons_by_destination[user.destination.name].append(user)
 
             for index, row in df.iterrows():
                 
@@ -3967,6 +3997,7 @@ def bulk_lead_upload(request):
                 inter_domes = row["inter_domes"]
                 destination_name = row["destinations"]
                 destination = Destination.objects.get(name=destination_name)
+                print(destination)
                 from_date = row["from_date"]
                 to_date = row["to_date"]
                 purpose_of_travel = row["purpose_of_travel"]
@@ -3980,6 +4011,15 @@ def bulk_lead_upload(request):
                 lead_source_name = row["lead_source"]
                 lead_sources = Lead_source.objects.get(name=lead_source_name)
                 other_information = row["other_information"]
+                
+                salespersons = salespersons_by_destination[destination]
+                if not salespersons:
+                    logger.warning(f"No salespersons found for destination: {destination}")
+                    continue
+                
+                # Round-robin assignment of salespersons
+                sales_person = salespersons[index % len(salespersons)]
+              
               
                 lead, created = Lead.objects.get_or_create(
                     name=name,
@@ -3999,11 +4039,14 @@ def bulk_lead_upload(request):
                     lead_source=lead_sources,
                     other_information=other_information,
                     lead_status="Pending",
-                    added_by=request.user
+                    added_by=request.user,
+                    sales_person=sales_person,
                 )
-                
-                if created:
-                    lead.save()
+                try:
+                    if created:
+                        lead.save()
+                except Exception as e:
+                    logger.error(f"Error saving lead: {str(e)}")
 
             messages.success(request, "Data Imported Successfully!!")
 
@@ -4071,22 +4114,11 @@ def edit_user(request,id):
         city_id = request.POST.get("city_id")
         pin = request.POST.get("pin")
         address = request.POST.get("address")
+        ai_sensy_username = request.POST.get("ai_sensy_username")
+        
         reporting_to = CustomUser.objects.get(id=reporting_to_id)
         
         destination = Destination.objects.get(id=destination_id)
-        # users = CustomUser.objects.get(
-        #     username=email,
-        #     first_name=firstname,
-        #     last_name=lastname,
-        #     email=email,
-        #     password=password,
-        #     code=code,
-        #     contact=contact,
-        #     user_type = user_type,
-        #     destination = destination
-        # )
-        print("heloooooooooo",user.users.first_name)
-        # user.users.username=email,
         custom_id = user.users.id
         customuser = CustomUser.objects.get(id=custom_id)
         customuser.first_name=firstname
@@ -4096,18 +4128,11 @@ def edit_user(request,id):
         customuser.contact=contact
         customuser.user_type=user_type
         customuser.destination=destination
+        customuser.ai_sensy_username=ai_sensy_username
         customuser.save()
-        # user.users.last_name=lastname,
-        # user.users.email=email,
-        # user.users.code=code,
-        # user.users.contact=contact,
-        # user.users.user_type = user_type,
-        # user.users.destination = destination
 
         user.reporting_to = reporting_to
         user.address = address
-       
-        # user.address = address
         
         user.save()
         messages.success(
@@ -4239,3 +4264,22 @@ def get_chat_messages(request):
 
     chat_content = loader.render_to_string("Chat/chat.html",context)
     return HttpResponse(chat_content)
+
+def assign_leads(request):
+    if request.method == 'POST':
+        lead_ids = request.POST.getlist('lead_ids')
+        sales_person_id = request.POST.get('sales_person_id')
+        if not lead_ids or not sales_person_id:
+            return redirect('allquerylist')
+
+        try:
+            sales_person = CustomUser.objects.get(pk=sales_person_id)
+        except CustomUser.DoesNotExist:
+            return redirect('allquerylist')
+        for lead_id in lead_ids:
+            lead = Lead.objects.get(pk=lead_id)
+            lead.sales_person = sales_person  
+            lead.save()
+            # messages.success(request, "Leads Assign Successfully...")
+
+        return redirect('allquerylist') 

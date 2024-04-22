@@ -57,6 +57,22 @@
             </div>
         </div>
     </form>
+    <form action="{% url 'assign_leads' %}" method="post">
+      {% csrf_token %}
+    <div class="row">
+      <div class="col-sm-4" style="margin-bottom: 1%;">
+        <label for="example-email-input" class="col-form-label">Sales Person</label>
+        <select class="select2 form-control" name="sales_person_id" id="sales_person_id" style="height: 36px; width: 100%">
+            {% for sale in operation %}
+            <option value="{{sale.id}}">{{sale.first_name}} {{sale.last_name}}</option>
+             {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-primary" style="margin-top: 20%;">Assign</button>
+  </div>
+    </div>
+    
     
         {% include "Login/messages.html" %}
       <div class="datatables">
@@ -166,6 +182,7 @@
                   <table id="file_export" class="table border table-striped table-bordered display text-nowrap">
                     <thead>
                                 <tr>
+                                  <th></th>
                                     <th>Id</th>
                                     <th>Title</th>
                                     <th>Destination</th>
@@ -184,17 +201,17 @@
                                 <tbody >
                                 {% for i in all_lead %}
                                 <tr>
-                                    
-                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight" >
+                                    <td><input type="checkbox" name="lead_ids" value="{{ i.id }}"></td>
+                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
                                         {{i.enquiry_number}}
                                     </td>
-                                      {% include "Admin/Query/detailsquery.html" %}
-                                    <td>{{i.query_title}}
+                                      
+                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.query_title}}
                                     </td>
-                                    <td>{{i.destinations.name}}</td>
-                                    <td>{{i.from_date}}</td>
-                                    <td>{{i.to_date}}</td>
-                                    <td>{% if i.lead_status == "Pending" %}
+                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.destinations.name}}</td>
+                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.from_date}}</td>
+                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.to_date}}</td>
+                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{% if i.lead_status == "Pending" %}
                                       <span class="mb-1 badge rounded-pill text-bg-warning">{{ i.lead_status }}</span>
                                   {% elif i.lead_status == "Connected" %}
                                       <span class="mb-1 badge rounded-pill text-bg-danger">{{ i.lead_status }}</span>
@@ -220,14 +237,14 @@
 
                                     
                                     
-                                    <td><span class="mb-1 badge rounded-pill text-bg-dark">{{i.sales_person.first_name}} {{i.sales_person.last_name}}</span>
+                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight"><span class="mb-1 badge rounded-pill text-bg-dark">{{i.sales_person.first_name}} {{i.sales_person.last_name}}</span>
                                       <button type="button" class="btn d-flex bg-primary-subtle w-100 d-block text-primary font-medium" data-bs-toggle="modal" data-bs-target="#update_op{{i.id}}">
                                         Update 
                                       </button>
                                     </td>
                                     {% include "Admin/Query/update_op.html" %}
                                     
-                                    <td>
+                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
                                         <a href="{% url "editquery" i.id %}">
                                           <button type="button" class="btn mb-1 bg-success-subtle text-success px-4 fs-4 font-medium">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -239,7 +256,7 @@
                                             </button>
                                         </a>                                                    
                                       </td>
-                                    <td>
+                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
                                         <a href="{% url "opeditquery" i.id %}">
                                           <button type="button" class="btn mb-1 bg-success-subtle text-success px-4 fs-4 font-medium">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-filter-edit">
@@ -250,7 +267,7 @@
                                             </button>
                                         </a>                                                    
                                       </td>
-                                    
+                                      {% include "Admin/Query/detailsquery.html" %}
                                 </tr>
                                 {% endfor %}
                                
@@ -265,6 +282,7 @@
 
 
     </div> <!-- end container -->
+  </form>
 </div>
 
 </div>

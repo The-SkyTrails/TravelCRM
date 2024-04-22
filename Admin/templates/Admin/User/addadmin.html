@@ -40,11 +40,11 @@
                                     
                                     <div class="col-sm-6">
                                         <label for="example-text-input" class="col-form-label">First Name</label>
-                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter FirstName" name="firstname">
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter FirstName" name="firstname" required>
                                     </div>
                                     <div class="col-sm-6">
                                         <label for="example-text-input" class="col-form-label">Last Name</label>
-                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter LastName" name="lastname">
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter LastName" name="lastname" required>
                                     </div>
                                     
                                 </div>
@@ -52,11 +52,11 @@
                                     
                                     <div class="col-sm-6">
                                         <label for="example-text-input" class="col-form-label">Email</label>
-                                        <input class="form-control" type="email"  id="example-text-input" placeholder="Enter Email" name="email">
+                                        <input class="form-control" type="email"  id="example-text-input" placeholder="Enter Email" name="email" required>
                                     </div>
                                     <div class="col-sm-6">
                                         <label for="example-text-input" class="col-form-label">Password</label>
-                                        <input class="form-control" type="password"  id="example-text-input" placeholder="Enter Password" name="password">
+                                        <input class="form-control" type="password"  id="example-text-input" placeholder="Enter Password" name="password" required>
                                     </div>
                                     
                                 </div>
@@ -64,11 +64,11 @@
                                     
                                     <div class="col-sm-6">
                                         <label for="example-search-input" class="col-form-label">Code</label>
-                                        <input class="form-control" type="text" name="code" id="" placeholder="+91">
+                                        <input class="form-control" type="text" name="code" id="" placeholder="+91" required>
                                     </div>
                                     <div class="col-sm-6">
                                       <label for="example-email-input" class="col-form-label">Mobile</label>
-                                      <input class="form-control" type="text" name="contact" id="" placeholder="Enter Mobile">
+                                      <input class="form-control" type="text" name="contact" id="" placeholder="Enter Mobile" required>
                                     </div>
                                     
                                 
@@ -78,7 +78,7 @@
                                     
                                     <div class="col-sm-6">
                                       <label for="example-email-input" class="col-form-label">User Type</label>
-                                      <select class="select2 form-control" name="user_type" id="user_type" style="height: 36px; width: 100%">
+                                      <select class="select2 form-control" name="user_type" id="user_type" style="height: 36px; width: 100%" required>
                                         <option value="Admin">Admin</option>
                                         <option value="Operation Person">Operation Person</option>
                                         <option value="Sales Person">Sales Person</option>
@@ -94,7 +94,7 @@
                                     </div>
                                     <div class="col-sm-6">
                                       <label for="example-email-input" class="col-form-label">Reporting To</label>
-                                      <select class="select2 form-control" name="reporting_to_id" id="reporting_to_id" style="height: 36px; width: 100%">
+                                      <select class="select2 form-control" name="reporting_to_id" id="reporting_to_id" style="height: 36px; width: 100%" required>
                                         {% for i in reporting %}
                                         <option value="{{i.id}}">{{i.first_name}} {{i.last_name}}</option>
                                         {% endfor %}
@@ -105,7 +105,7 @@
                                 <div class="row mb-3">
                                     <div class="col-lg-6">
                                         <label for="country-name" class="col-form-label">Country</label>
-                                        <select name="country_id" id="country-name" class="select2 form-control" style="width: 100%; height: 36px">
+                                        <select name="country_id" id="country-name" class="select2 form-control" style="width: 100%; height: 36px" required>
                                             <option  selected disabled>Select</option>
                                             {% for country in countrys %}
                                             <option value="{{country.id}}">{{country.country_name}}</option>
@@ -116,7 +116,7 @@
                                     </div> 
                                     <div class="col-lg-6">
                                         <label for="state-name" class="col-form-label">State</label>
-                                        <select name="state_id" id="state-name" class="select2 form-control" style="width: 100%; height: 36px">
+                                        <select name="state_id" id="state-name" class="select2 form-control" style="width: 100%; height: 36px" required>
                                             <option  selected disabled>Select</option>
                                         </select>
                                                                      
@@ -125,14 +125,14 @@
                                 <div class="row mb-3">
                                     <div class="col-lg-6">
                                         <label for="country-name" class="col-form-label">City</label>
-                                        <select name="city_id" id="city-name" class="select2 form-control" style="width: 100%; height: 36px">
+                                        <select name="city_id" id="city-name" class="select2 form-control" style="width: 100%; height: 36px" required>
                                             <option  selected disabled>Select</option>
                                         </select>
                                                                      
                                     </div> 
                                     <div class="col-lg-6">
                                         <label for="state-name" class="col-form-label">Pin</label>
-                                        <input type="text" class="form-control" placeholder="Enter Pin"  name="pin">
+                                        <input type="text" class="form-control" placeholder="Enter Pin"  name="pin" required>
                                                                      
                                     </div> 
                                 </div> 
@@ -145,7 +145,7 @@
                                       
                                   <div class="col-sm-12">
                                       <label for="example-text-input" class="col-form-label">Destination</label>
-                                      <select name="destination_ids" class="select2 form-control" style="width: 100%; height: 36px">
+                                      <select name="destination_ids" class="select2 form-control" style="width: 100%; height: 36px" required>
                                         <option  selected disabled>Select</option>
                                         {% for destination in destinations %}
                                         <option value="{{destination.id}}">{{destination.name}}</option>
@@ -158,7 +158,7 @@
                                       
                                   <div class="col-sm-12">
                                       <label for="example-text-input" class="col-form-label">Address</label>
-                                      <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Address" name="address">
+                                      <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Address" name="address" required>
                                   </div>
                                   
                                 </div>
@@ -166,7 +166,7 @@
                                       
                                   <div class="col-sm-12">
                                       <label for="example-text-input" class="col-form-label">AI Sensy Username</label>
-                                      <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Username" name="ai_sensy_username">
+                                      <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Username" name="ai_sensy_username" required>
                                   </div>
                                   
                                 </div>

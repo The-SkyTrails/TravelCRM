@@ -343,5 +343,7 @@ urlpatterns = [
             get_chat_messages,
             name="get_chat_messages",
         ),
+    
+    path('assign_leads/', assign_leads, name='assign_leads'),
 
 ]
