@@ -3978,12 +3978,11 @@ def bulk_lead_upload(request):
             df = pd.read_excel(file)
             
             destinations = list(df["destinations"].unique())
-            print(destinations)
-            destination = Destination.objects.filter(name__in=destinations)
-            print(destination)
+            
             salespersons_by_destination = defaultdict(list)
-            for user in CustomUser.objects.filter(user_type="Salesperson", destination__name__in=destinations):
-                salespersons_by_destination[user.destination.name].append(user)
+            for destination_name in destinations:
+                salespersons = CustomUser.objects.filter(user_type="Sales Person", destination__name=destination_name)
+                salespersons_by_destination[destination_name].extend(salespersons)
 
             for index, row in df.iterrows():
                 
@@ -3997,7 +3996,6 @@ def bulk_lead_upload(request):
                 inter_domes = row["inter_domes"]
                 destination_name = row["destinations"]
                 destination = Destination.objects.get(name=destination_name)
-                print(destination)
                 from_date = row["from_date"]
                 to_date = row["to_date"]
                 purpose_of_travel = row["purpose_of_travel"]
@@ -4012,10 +4010,11 @@ def bulk_lead_upload(request):
                 lead_sources = Lead_source.objects.get(name=lead_source_name)
                 other_information = row["other_information"]
                 
-                salespersons = salespersons_by_destination[destination]
+                salespersons = salespersons_by_destination[destination_name]
                 if not salespersons:
-                    logger.warning(f"No salespersons found for destination: {destination}")
+                    logger.warning(f"No salespersons found for destination: {destination_name}")
                     continue
+                
                 
                 sales_person = salespersons[index % len(salespersons)]
               
