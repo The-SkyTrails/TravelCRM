@@ -172,23 +172,20 @@
                                     <th>To Date</th>
                                   <th>Lead Status</th>
                                   <th>Sales Person</th>
-                                  <!-- <th>Link Id</th>
-                                  <th>payment Link</th>
-                                  <th>Expiry Time</th> -->
-                                  <!-- <th>Payment Status</th> -->
+                   
                                  
                                 </tr>
                                 </thead>
 
                                 <tbody >
                                {% for i in paydonelead_list %}
-                                <tr>
+                                <tr data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
 
                                     
-                                  <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
+                                  <td>
                                      {{i.enquiry_number}}
                                   </td>
-                                  {% include "Admin/Query/detailsquery.html" %}
+                                  
                                   <td>{{i.query_title}}</td>
                                   <td>{{i.destinations.name}}</td>
                                     <td>{{i.from_date}}</td>
@@ -197,21 +194,10 @@
                                   
                                   <td><span class="mb-1 badge rounded-pill text-bg-dark">{{i.sales_person.first_name}} {{i.sales_person.last_name}}</span></td>
                                   
-                                  <!-- <td> {{i.payment.link_id}}</td>
-                                    
-                                  <td>{{i.payment.payment_link}}
-                                  </td>
-                                  <td>{{i.link_expiry_time}}</td>
-                                  <td>
                                   
-                                     <button type="button" id="status_button_{{ i.id }}" class="btn d-flex bg-primary-subtle w-100 d-block text-primary font-medium" onclick="checkPaymentStatus({{ i.id }})">
-                                        Check status
-                                    </button>
-                                     <span id="status_{{ i.id }}" class="text-success mx-5"></span>
-                                  </td> -->
                                  
                               </tr>
-
+                              {% include "Admin/Query/detailsquery.html" %}
                               {% endfor %}
                                
                                

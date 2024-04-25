@@ -181,12 +181,12 @@
 
                                 <tbody >
                                 {% for i in lead_list %}
-                                <tr>
+                                <tr data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
                                     
-                                  <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
+                                  <td>
                                       {{i.enquiry_number}}
                                   </td>
-                                    {% include "Admin/Query/detailsquery.html" %}
+                                    
                                   <td>{{i.query_title}}
                                   </td>
                                   <td>{{i.destinations.name}}</td>
@@ -213,6 +213,7 @@
                                     </td>
                                     {% endif %}
                               </tr>
+                              {% include "Admin/Query/detailsquery.html" %}
                                 {% endfor %}
                                
                             

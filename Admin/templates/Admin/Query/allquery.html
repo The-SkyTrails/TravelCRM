@@ -25,6 +25,15 @@
             <div>
               <div class="d-sm-flex d-none gap-3 no-block justify-content-end align-items-center">
                 <div class="d-flex gap-2">
+                  <button type="button" class="btn mb-1 bg-primary-subtle text-primary px-4 fs-4 font-medium" onclick="exportLeadData()">
+                    Export
+                  </button>
+                  
+                  
+                  
+                 
+                </div>
+                <div class="d-flex gap-2">
                   <button type="button" class="btn mb-1 bg-primary-subtle text-primary px-4 fs-4 font-medium" data-bs-toggle="modal" data-bs-target="#bulkleads">
                     Import
                   </button>
@@ -391,6 +400,16 @@ function formatDate(dateString) {
 }
 
 </script>
+
+<script>
+  // Function to redirect to the export URL
+  function exportLeadData() {
+    // Replace 'YOUR_EXPORT_URL' with the actual URL for exporting lead data
+    var exportUrl = '/export-lead-data/';
+    window.location.href = exportUrl;
+  }
+  </script>
+
 {{ message|json_script:"room-name" }}
 
 {% endblock main-content %} 

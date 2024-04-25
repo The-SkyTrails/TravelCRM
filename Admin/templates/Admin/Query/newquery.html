@@ -57,6 +57,21 @@
             </div>
         </div>
     </form>
+    <form action="{% url 'assign_leads' %}" method="post">
+      {% csrf_token %}
+    <div class="row">
+      <div class="col-sm-4" style="margin-bottom: 1%;">
+        <label for="example-email-input" class="col-form-label">Sales Person</label>
+        <select class="select2 form-control" name="sales_person_id" id="sales_person_id" style="height: 36px; width: 100%">
+            {% for sale in operation %}
+            <option value="{{sale.id}}">{{sale.first_name}} {{sale.last_name}}</option>
+             {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-primary" style="margin-top: 20%;">Assign</button>
+  </div>
+    </div>
 {% include "Login/messages.html" %}
       <div class="datatables">
         <div class="row">
@@ -165,6 +180,7 @@
                   <table id="file_export" class="table border table-striped table-bordered display text-nowrap">
                     <thead>
                                 <tr>
+                                  <th></th>
                                   <th>Id</th>
                                   <th>Title</th>
                                   <th>Destination</th>
@@ -182,23 +198,23 @@
                                 <tbody >
                                 {% for i in new_lead_list %}
                                 <tr>
-                                    
+                                  <td><input type="checkbox" name="lead_ids" value="{{ i.id }}"></td>
                                   <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
                                       {{i.enquiry_number}}
                                   </td>
-                                    {% include "Admin/Query/detailsquery.html" %}
-                                  <td>{{i.query_title}}
+                                    
+                                  <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.query_title}}
                                   </td>
-                                  <td>{{i.destinations.name}}</td>
-                                    <td>{{i.from_date}}</td>
-                                    <td>{{i.to_date}}</td>
+                                  <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.destinations.name}}</td>
+                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.from_date}}</td>
+                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.to_date}}</td>
                                   
-                                  <td><span class="mb-1 badge rounded-pill text-bg-warning">{{i.lead_status}}</span>
+                                  <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight"><span class="mb-1 badge rounded-pill text-bg-warning">{{i.lead_status}}</span>
                                     <button type="button" class="btn d-flex bg-primary-subtle w-100 d-block text-primary font-medium" data-bs-toggle="modal" data-bs-target="#update_status{{i.id}}">
                                       Update 
                                     </button></td>
                                     {% include "Admin/Query/status_update.html" %}
-                                  <td><span class="mb-1 badge rounded-pill text-bg-dark">{{i.sales_person.first_name}} {{i.sales_person.last_name}}</span></td>
+                                  <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight"><span class="mb-1 badge rounded-pill text-bg-dark">{{i.sales_person.first_name}} {{i.sales_person.last_name}}</span></td>
                                   {% if request.user.user_type == "Admin" %}
                                   <td>
                                       <a href="{% url "editquery" i.id %}">
@@ -213,6 +229,7 @@
                                       </a>                                                    
                                     </td>
                                     {% endif %}
+                                    {% include "Admin/Query/detailsquery.html" %}
                               </tr>
                                 {% endfor %}
                                
@@ -227,6 +244,7 @@
 
 
     </div> <!-- end container -->
+  </form>
 </div>
 
 </div>

@@ -22,6 +22,8 @@ from django.template.loader import render_to_string
 from django.contrib.auth.views import PasswordResetConfirmView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.http import HttpResponse
+import csv
 
 @login_required
 def index(request):
@@ -31,6 +33,10 @@ def index(request):
             all_lead = Lead.objects.all().order_by("-id")
             quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
+            pending_list = Lead.objects.filter(lead_status="Pending").order_by("-id")
+            connected_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
+            payment_list = Lead.objects.filter(lead_status="Payment Done").order_by("-id")
+            booking_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
             follow_up = Followup.objects.filter(type='followup').order_by('-id')[:10]
             task = Followup.objects.filter(type='task').order_by('-id')[:10]
@@ -40,6 +46,10 @@ def index(request):
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            pending_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            connected_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            payment_list = Lead.objects.filter(Q(lead_status="Payment Done") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            booking_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             follow_up = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__sales_person=request.user),type = "followup").order_by('-id')[:10]
             task = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__sales_person=request.user),type = "task").order_by('-id')[:10]
@@ -49,6 +59,10 @@ def index(request):
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-id")
             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            pending_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            connected_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            payment_list = Lead.objects.filter(Q(lead_status="Payment Done") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            booking_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user)) ).order_by("-id")
             follow_up = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__operation_person=request.user),type = "followup").order_by('-id')[:10]
             task = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__operation_person=request.user),type = "task").order_by('-id')[:10]
@@ -65,7 +79,12 @@ def index(request):
         "follow_up":follow_up,
         "task":task,
         "active_user":active_user,
-        "inactive_user":inactive_user
+        "inactive_user":inactive_user,
+        "pending_list":pending_list,
+        "connected_list":connected_list,
+        "payment_list":payment_list,
+        "booking_list":booking_list
+        
     }
     return render(request,"Admin/Base/index2.html", context)
 
@@ -2690,20 +2709,7 @@ def edit_document(request, id):
         print("documents added:", documents)
     
         return HttpResponseRedirect(reverse('documents'))
-    # print("heloooooooooooooooooooooo")
-    # print("folder idddd",folder)
-    # if request.method == 'POST':
-    #     documents = request.FILES.getlist("documents")
-    #     if documents:
-    #         # If new documents are being uploaded, create new Document objects
-    #         for document_file in documents:
-    #             Document.objects.create(folder=folder, file=document_file)
-    #         return HttpResponseRedirect(reverse('documents'))
-    #     else:
-           
-    #         pass
-    # else:
-    #     pass
+
 
 def delete_document(request, folder_id, document_id):
     document = get_object_or_404(Document, id=document_id)
@@ -3610,7 +3616,7 @@ def attach_quotation(request, id):
             
             payload = {
                 "apiKey": api_key,
-                "campaignName": "qq",
+                "campaignName": "documenqua",
                 "destination": lead.mobile_number, 
                 "userName": ai_sensy_username,
                 "templateParams": [],
@@ -3798,8 +3804,8 @@ def make_click_to_call(request,id):
     payload = {"agent_number": "0503637080052", "destination_number": lead.mobile_number}
     headers = {
         "accept": "application/json",
-        "Authorization": lead.added_by.authorization,
-        # "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjM3MDgiLCJpc3MiOiJodHRwczovL2Nsb3VkcGhvbmUudGF0YXRlbGVzZXJ2aWNlcy5jb20vdG9rZW4vZ2VuZXJhdGUiLCJpYXQiOjE3MDIyNzE2NzAsImV4cCI6MjAwMjI3MTY3MCwibmJmIjoxNzAyMjcxNjcwLCJqdGkiOiJCa0xPV05hcVNNVkZabm4wIn0.w76qiqkkFZpcb9sjIg_J9MG__iw7m0yZ-rlAoOGKab4",
+        # "Authorization": lead.added_by.authorization,
+        "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjM3MDgiLCJpc3MiOiJodHRwczovL2Nsb3VkcGhvbmUudGF0YXRlbGVzZXJ2aWNlcy5jb20vdG9rZW4vZ2VuZXJhdGUiLCJpYXQiOjE3MDIyNzE2NzAsImV4cCI6MjAwMjI3MTY3MCwibmJmIjoxNzAyMjcxNjcwLCJqdGkiOiJCa0xPV05hcVNNVkZabm4wIn0.w76qiqkkFZpcb9sjIg_J9MG__iw7m0yZ-rlAoOGKab4",
         "content-type": "application/json",
     }
 
@@ -3815,6 +3821,9 @@ def make_click_to_call(request,id):
        
         response_data = {"status": "calling"}
 
+        if lead.lead_status == "Pending":
+            lead.lead_status = "Connected"
+            lead.save()
         return JsonResponse(response_data)
 
    
@@ -4281,3 +4290,193 @@ def assign_leads(request):
             # messages.success(request, "Leads Assign Successfully...")
 
         return redirect('allquerylist') 
+    
+    
+from datetime import datetime
+
+def export_lead_data(request):
+    leads = Lead.objects.all()
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="lead_data.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow([
+        'Enquiry Number',
+        'Name',
+        'Email',
+        'Mobile Number',
+        'Alternate Mobile Number',
+        'Internation/Domestic',
+        'Destination',
+        'FromDate',
+        'ToDate',
+        'Purpose of Travel',
+        'Service Type',
+        'Query Title',
+        'Budget',
+        'Adult',
+        'Child',
+        'Infants',
+        'Lead Source',
+        'Operation Person',
+        'Sales person',
+        'Other Information',
+        'Lead Status',
+        'Date',
+        'Complete Package Cost',
+        'Receiver Package Cost',
+        'Balance Package Cost',
+        'Added By',
+        'Quotation',
+        'Quotation Date',
+        'Notes',
+        'Notes Date',
+        'FollowUp Type',
+        'FollowUp DateTime',
+        'FollowUp Note',
+        'FollowUp date',
+        'Attachment',
+        'Attachment Date',
+        'Payment Link Id',
+        'Payment Payment Link',
+        'Payment Link Expiry Date'    
+    ])
+
+    # for lead in leads:
+    #     quotations_data = []
+    #     notes_data = []
+    #     followups_data = []
+    #     attachments_data = []
+    #     payments_data = []
+
+    #     for quotation in lead.quotations.all():
+    #         attachments = ", ".join([attachment.file.name for attachment in quotation.attachment.all()])
+    #         quotations_data.extend([attachments, quotation.date])
+
+    #     for note in lead.notes.all():
+    #         notes_data.extend([note.notes, note.date])
+
+    #     for followup in lead.followup.all():
+    #         followups_data.extend([followup.type, followup.datetime, followup.note, followup.date])
+
+    #     for attachment in lead.attachment.all():
+    #         attachments_data.extend([attachment.attachment, attachment.date])
+
+    #     for payment in lead.payments.all():
+    #         payments_data.extend([payment.link_id, payment.payment_link, payment.link_expiry_time])
+
+    #     writer.writerow([
+    #         lead.enquiry_number,
+    #         lead.name,
+    #         lead.email,
+    #         lead.mobile_number,
+    #         lead.alternate_mobile_number,
+    #         lead.inter_domes,
+    #         lead.destinations.name,
+    #         lead.from_date,
+    #         lead.to_date,
+    #         lead.purpose_of_travel,
+    #         lead.service_type.name,
+    #         lead.query_title,
+    #         lead.budget,
+    #         lead.adult,
+    #         lead.child,
+    #         lead.infants,
+    #         lead.lead_source.name,
+    #         lead.operation_person,
+    #         lead.sales_person,
+    #         lead.other_information,
+    #         lead.lead_status,
+    #         lead.date,
+    #         lead.complete_package_cost,
+    #         lead.received_package_cost,
+    #         lead.balance_package_cost,
+    #         lead.added_by,
+    #         *quotations_data,
+    #         *notes_data,
+    #         *followups_data,
+    #         *attachments_data,
+    #         *payments_data
+    #     ])
+    
+
+    for lead in leads:
+        # Initialize lists to store data for each section
+        quotations_data = []
+        notes_data = []
+        followups_data = []
+        attachments_data = []
+        payments_data = []
+
+        # Gather data for quotations
+        for quotation in lead.quotations.all():
+            attachments = ", ".join([attachment.file.name for attachment in quotation.attachment.all()])
+            quotations_data.append((attachments, quotation.date))
+
+        # Gather data for notes
+        for note in lead.notes.all():
+            notes_data.append((note.notes, note.date))
+
+        # Gather data for follow-ups
+        for followup in lead.followup.all():
+            followups_data.append((followup.type, followup.datetime, followup.note, followup.date))
+
+        # Gather data for attachments
+        for attachment in lead.attachment.all():
+            files = ", ".join([file.file.name for file in attachment.attachment.all()])
+            attachments_data.append((files, attachment.date))
+
+        # Gather data for payments
+        for payment in lead.payments.all():
+            payments_data.append((payment.link_id, payment.payment_link, payment.link_expiry_time))
+
+        # Construct the row, joining multiple data with commas
+        writer.writerow([
+            lead.enquiry_number,
+            lead.name,
+            lead.email,
+            lead.mobile_number,
+            lead.alternate_mobile_number,
+            lead.inter_domes,
+            lead.destinations.name,
+            lead.from_date,
+            lead.to_date,
+            lead.purpose_of_travel,
+            lead.service_type.name,
+            lead.query_title,
+            lead.budget,
+            lead.adult,
+            lead.child,
+            lead.infants,
+            lead.lead_source.name,
+            lead.operation_person,
+            lead.sales_person,
+            lead.other_information,
+            lead.lead_status,
+            lead.date,
+            lead.complete_package_cost,
+            lead.received_package_cost,
+            lead.balance_package_cost,
+            lead.added_by,
+            # Unpack and join data for each section
+            ','.join([str(item[0]) for item in quotations_data]),  # Quotations
+            ','.join([item[1].strftime('%Y-%m-%d') for item in quotations_data]),  # Quotations dates
+            ','.join([str(item[0]) for item in notes_data]),       # Notes
+            ','.join([item[1].strftime('%Y-%m-%d') for item in notes_data]),       # Notes dates
+            ','.join([str(item[0]) for item in followups_data]),   # Follow-ups type
+            ','.join([item[1].strftime('%Y-%m-%d %H:%M:%S') for item in followups_data]),   # Follow-ups date time
+            ','.join([str(item[2]) for item in followups_data]),   # Follow-ups note
+            ','.join([item[3].strftime('%Y-%m-%d') for item in followups_data]),   # Follow-ups date
+            ','.join([str(item[0]) for item in attachments_data]), # Attachments
+            ','.join([item[1].strftime('%Y-%m-%d') for item in attachments_data]), # Attachments dates
+            ','.join([str(item[0]) for item in payments_data]),    # Payments link id
+            ','.join([str(item[1]) for item in payments_data]),    # Payments link
+            ','.join([item[2].strftime('%Y-%m-%d %H:%M:%S') if item[2] is not None else '' for item in payments_data])     # Payments link expiry date 
+
+        ])
+
+
+
+    return response
+

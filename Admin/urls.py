@@ -345,5 +345,5 @@ urlpatterns = [
         ),
     
     path('assign_leads/', assign_leads, name='assign_leads'),
-
+    path('export-lead-data/', export_lead_data, name='export_lead_data'),
 ]
