@@ -39,6 +39,7 @@ SERVICE_TYPE = [
     ("Ferry","Ferry"),
     ("Boat","Boat"),
     ("Insurance","Insurance"),
+    ("Others","Others"),
 ]
 
 TRANSFER_TYPE = [
@@ -91,6 +92,12 @@ LEAD_STATUS_CHOICES = [
 FOLLOWUP_TYPE = [
     ('followup', 'Follow Up'),
     ('task', 'Task'),
+]
+
+COLOUR_CHOICES = [
+    ('Red', 'Red'),
+    ('Green', 'Green'),
+    ('Blue', 'Blue')
 ]
 
 class Country(models.Model):
@@ -487,14 +494,24 @@ class Lead(models.Model):
     lead_source = models.ForeignKey(Lead_source,on_delete=models.CASCADE,blank=True, null=True)
     operation_person = models.ForeignKey(CustomUser,on_delete = models.CASCADE,related_name="operation_person",blank=True, null=True)
     sales_person = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="sales_person")
+    assigning_date = models.DateTimeField(auto_now=False)
     other_information = models.TextField(blank=True, null=True)
     lead_status = models.CharField(max_length=50,choices=LEAD_STATUS_CHOICES,blank=True, null=True)
     date = models.DateField(auto_now_add=True)
     complete_package_cost = models.FloatField(blank=True)
     received_package_cost = models.FloatField(blank=True)
     balance_package_cost = models.FloatField(blank=True)
+    colour_code = models.CharField(max_length=20,choices=COLOUR_CHOICES)
     added_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE,blank=True, null=True)
+    net_cost = models.FloatField()
+    markup = models.FloatField()
+    tcs = models.FloatField()
+    gst = models.FloatField()
+    pg_card = models.FloatField()
+    total = models.FloatField()
+    booking_card_notes = models.TextField()
     last_updated_at = models.DateTimeField(auto_now=True)
+    last_updated_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="last_update")
     
     
     def generate_case_id(self):
@@ -596,6 +613,20 @@ class Payment(models.Model):
     link_id = models.CharField(max_length=255)
     payment_link = models.URLField(max_length=200,)
     link_expiry_time = models.DateTimeField()
+    
+    
+class BookingCard(models.Model):
+    leads = models.ForeignKey(Lead,on_delete=models.CASCADE)
+    product = models.CharField(max_length=30,choices=SERVICE_TYPE)
+    name = models.CharField(max_length=100)
+    supplier = models.CharField(max_length=100)
+    netcost = models.FloatField()
+    source = models.CharField(max_length=100)
+    source_details = models.CharField(max_length=200,blank=True)
+    status = models.CharField(max_length=50)
+    vendor_payment = models.CharField(max_length=100)
+    holding_date = models.DateField(auto_now=False,blank=True)
+    updated_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     
     
     

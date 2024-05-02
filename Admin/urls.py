@@ -326,7 +326,6 @@ urlpatterns = [
     path('attach_attachmnet/<int:id>/', attach_confirmattachmnet, name='attach_attachmnet'),
    
     path('make_click_to_alternatecall/<int:id>/', make_click_to_alternatecall, name='make_click_to_alternatecall'),
-    path("opeditquery/<int:id>/", opeditview, name="opeditquery"),
     path("get_user_states", get_user_states, name="get_user_states"),
     path("get_user_city", get_user_city, name="get_user_city"),
     path(
@@ -346,4 +345,9 @@ urlpatterns = [
     
     path('assign_leads/', assign_leads, name='assign_leads'),
     path('export-lead-data/', export_lead_data, name='export_lead_data'),
+    
+    path('colour_code/<int:id>/update/', update_colourcode, name='update_colourcode'),
+    path("create_booking_cards/<int:id>/", create_booking_cards, name="create_booking_cards"),
+    path("update_booking_cards/<int:id>/", update_booking_cards, name="update_booking_cards"),
+    path("view_booking_cards/<int:id>/", view_booking_cards, name="view_booking_cards"),
 ]

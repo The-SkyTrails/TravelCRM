@@ -829,7 +829,7 @@
   --bs-highlight-bg: #fdf2cc;
   --bs-border-width: 1px;
   --bs-border-style: solid;
-  --bs-border-color: #ebf1f6;
+  --bs-border-color: #a4a8ac;
   --bs-border-color-translucent: rgba(0, 0, 0, 0.175);
   --bs-border-radius: 8px;
   --bs-border-radius-sm: 5px;
@@ -2800,11 +2800,11 @@ progress {
   --bs-table-bg-type: initial;
   --bs-table-color-state: initial;
   --bs-table-bg-state: initial;
-  --bs-table-color: #768B9E;
+  --bs-table-color: black;
   --bs-table-bg: transparent;
   --bs-table-border-color: #ebf1f6;
   --bs-table-accent-bg: transparent;
-  --bs-table-striped-color: #768B9E;
+  --bs-table-striped-color: black;
   --bs-table-striped-bg: #e9ecef;
   --bs-table-active-color: #768B9E;
   --bs-table-active-bg: rgba(var(--bs-emphasis-color-rgb), 0.1);
@@ -3069,7 +3069,7 @@ progress {
           appearance: none;
   background-color: #fff;
   background-clip: padding-box;
-  border: var(--bs-border-width) solid #ebf1f6;
+  border: var(--bs-border-width) solid #A4A8AC;
   border-radius: 8px;
   box-shadow: var(--bs-box-shadow-inset);
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -18542,9 +18542,9 @@ body div.dt-buttons > div.dt-button-split .dt-button:hover {
   border: 1px solid var(--bs-primary) !important;
   color: #fff !important;
 }
-body table.dataTable.table-striped > tbody > tr:nth-of-type(2n+1) > * {
+/* body table.dataTable.table-striped > tbody > tr:nth-of-type(2n+1) > * {
   box-shadow: inset 0 0 0 9999px var(--bs-light);
-}
+} */
 body table.dataTable > tbody > tr.selected > * {
   box-shadow: inset 0 0 0 9999px var(--bs-primary);
 }

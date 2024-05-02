@@ -1,0 +1,37 @@
+{% load static %}
+<div class="modal fade" id="update_colourcode{{i.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="update_colourcode" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <form action="{% url 'update_colourcode' i.id %}" method="post" id="update_colourcode-form-{{ i.id }}">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center">
+                    <h4 class="modal-title" id="exampleModalLabel1">
+                        Update Colour Code
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-lg-12">
+                            <label for="country-name" class="control-label">Colour Code</label>
+                            <select class="form-control" name="colour_code" id="colour_code" style="height: 36px; width: 100%">
+                                <option value="Red" {% if i.colour_code == "Red" %}selected{% endif %} >Red</option>
+                                <option value="Green" {% if i.colour_code == "Green" %}selected{% endif %} >Green</option>
+                                <option value="Blue" {% if i.colour_code == "Blue" %}selected{% endif %} >Blue</option>
+                            </select>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-danger-subtle text-danger font-medium" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

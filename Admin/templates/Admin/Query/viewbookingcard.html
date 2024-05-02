@@ -1,0 +1,114 @@
+{% extends "Admin/Base/base.html" %}
+{% load static %}
+{% block main-content %}
+
+<div class="body-wrapper">
+    <div class="container-fluid">
+        <div class="font-weight-medium shadow-none position-relative overflow-hidden mb-7">
+            <div class="card-body px-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="font-weight-medium fs-14 mb-0">Booking Card</h4>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a class="text-muted text-decoration-none" href="{% url "home" %}">Home</a>
+                                </li>
+                                <li class="breadcrumb-item text-muted" aria-current="page">
+                                    <a class="text-muted text-decoration-none" href="{% url "allquerylist" %}">All Query</a>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="mt-0 header-title">Booking Card</h4>
+                        <hr>
+                            
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Name</th>
+                                            <th>Supplier</th>
+                                            <th>Net Cost</th>
+                                            <th>Source</th>
+                                            <th>Booking Refrence No</th>
+                                            <th>Status</th>
+                                            <th>Holding Date</th>
+                                            <th>Vendor Payment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="productRows">
+                                        {% for booking_card in booking_cards %}
+                                        <tr class="product-row">
+                                            <td><input type="text" class="form-control" name="product" id="product" value="{{booking_card.product}}" readonly></td>
+                                               
+                                            </td>
+                                            <td><input type="text" class="form-control" name="name" id="name" value="{{booking_card.name}}" readonly></td>
+                                            <td><input type="text" class="form-control" name="supplier" id="supplier" value="{{booking_card.supplier}}" readonly></td>
+                                            <td><input type="text" class="form-control" name="net_cost" id="net_cost" value="{{booking_card.netcost}}" readonly></td>
+                                            <td><input type="text" class="form-control" name="source" id="source" value="{{booking_card.source}}" readonly></td>
+                                            <td><input type="text" class="form-control" name="source_details" id="source_details" value="{{booking_card.source_details}}" readonly></td>
+                                            <td><input type="text" class="form-control" name="status" id="status" value="{{booking_card.status}}" readonly></td>
+                                            <td><input type="date" class="form-control" name="holding_date" id="holding_date" value="{{booking_card.holding_date|date:'Y-m-d' }}" readonly></td>
+                                            <td><input type="text" class="form-control" name="vendor_payment" id="vendor_payment" value="{{booking_card.vendor_payment}}" readonly></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <p style="font-size: 1.125rem; font-weight:500; color:black;">
+                                Costing
+                            </p>
+                            <hr>
+                            <div class="row">
+                                
+                                <div class="col-md-2">
+                                    <label class="control-label" for="">Total NetCost</label>
+                                    <input type="text" class="form-control" id="totalNetCost" name="total_net_cost" value="{{lead.net_cost}}" readonly>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label" for="">MarkUp</label>
+                                    <input type="text" class="form-control" name="markup" value="{{lead.markup}}" readonly>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label" for="">TCS</label>
+                                    <input type="text" class="form-control" name="tcs" value="{{lead.tcs}}" readonly>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label" for="">GST</label>
+                                    <input type="text" class="form-control" name="gst" value="{{lead.gst}}" readonly>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label" for="">PG Cards</label>
+                                    <input type="text" class="form-control" name="pg_card" value="{{lead.pg_card}}" readonly>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label" for="">Total</label>
+                                    <input type="text" class="form-control" name="total" value="{{lead.total}}" readonly>
+                                </div>
+                             
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock main-content %}
