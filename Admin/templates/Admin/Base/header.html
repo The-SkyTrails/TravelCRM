@@ -6,7 +6,7 @@
     <nav class="navbar navbar-expand-lg px-lg-0 px-3 py-0">
       <div class="d-none d-lg-block">
         <div class="brand-logo d-flex align-items-center justify-content-between">
-          <a href="index.html" class="text-nowrap logo-img">
+          <a href="{% url "home" %}" class="text-nowrap logo-img">
             <b class="logo-icon">
               <img src="{% static "assets/images/logos/full-logo.svg" %}" alt="homepage" class="dark-logo" style="width:18%;">
               
@@ -181,7 +181,7 @@
         </li>
         <li class="nav-item d-none d-xl-block">
           <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="index.html" class="text-nowrap logo-img">
+            <a href="{% url "home" %}" class="text-nowrap logo-img">
               <span class="logo-text">  
                 <img src="{% static "assets/images/logos/full-logo.svg" %}" alt="homepage" class="dark-logo ps-2" style="width:18%;">
               </span>

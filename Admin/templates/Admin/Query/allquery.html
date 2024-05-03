@@ -3,6 +3,18 @@
 {% load static %}
 {% block main-content %} 
 
+
+<style>
+
+  .dataTables_wrapper .dataTables_info {
+      display: none !important;
+  }
+
+  .dataTables_wrapper .dataTables_paginate {
+      display: none !important;
+  }
+</style>
+
 <div id="querylist">
 <div class="body-wrapper">
     <div class="container-fluid">
@@ -24,6 +36,15 @@
             </div>
             <div>
               <div class="d-sm-flex d-none gap-3 no-block justify-content-end align-items-center">
+                <div class="d-flex gap-2">
+                  <button type="button" class="btn mb-1 bg-primary-subtle text-primary px-4 fs-4 font-medium" onclick="exportLeadData()">
+                    Export
+                  </button>
+                  
+                  
+                  
+                 
+                </div>
                 <div class="d-flex gap-2">
                   <button type="button" class="btn mb-1 bg-primary-subtle text-primary px-4 fs-4 font-medium" data-bs-toggle="modal" data-bs-target="#bulkleads">
                     Import
@@ -185,22 +206,26 @@
                                   <th></th>
                                     <th>Id</th>
                                     <th>Title</th>
+                                    <th>Contact Details</th>
                                     <th>Destination</th>
                                     <th>From Date</th>
                                     <th>To Date</th>
                                     <th>Status</th>
                                     <th>Sales</th>
-                                    <th>Action</th>
-                                    {% if user.user_type != "Sales Person"%}
-                                    <th>For OP</th>
+                                    <th>Colour Code</th>
+                                    <th>Booking Card</th>
+                                    {% if request.user.user_type != "Sales Person" %}
+                                    <th>Update Booking Card</th>
                                     {% endif %}
+                                    <th>Last Updated</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
 
 
                                 <tbody >
-                                {% for i in all_lead %}
-                                <tr>
+                                {% for i in page %}
+                                <tr style="background-color: {% if user.user_type == 'Admin' or user.user_type == 'Operation Person' %}{% if i.colour_code == 'Red' %}#ff9090{% elif i.colour_code == 'Blue' %}#89CFF0{% elif i.colour_code == 'Green' %}#9cc599{% endif %}{% else %}Transparent{% endif %};">
                                     <td><input type="checkbox" name="lead_ids" value="{{ i.id }}"></td>
                                     <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
                                         {{i.enquiry_number}}
@@ -208,10 +233,14 @@
                                       
                                     <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.query_title}}
                                     </td>
+                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">Name: {{i.name}} <br>
+                                      Email: {{i.email}} <br>
+                                      Contact No: {{i.mobile_number}}
+                                    </td>
                                     <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.destinations.name}}</td>
                                     <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.from_date}}</td>
                                     <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.to_date}}</td>
-                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{% if i.lead_status == "Pending" %}
+                                    <td>{% if i.lead_status == "Pending" %}
                                       <span class="mb-1 badge rounded-pill text-bg-warning">{{ i.lead_status }}</span>
                                   {% elif i.lead_status == "Connected" %}
                                       <span class="mb-1 badge rounded-pill text-bg-danger">{{ i.lead_status }}</span>
@@ -237,14 +266,56 @@
 
                                     
                                     
-                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight"><span class="mb-1 badge rounded-pill text-bg-dark">{{i.sales_person.first_name}} {{i.sales_person.last_name}}</span>
+                                    <td><span class="mb-1 badge rounded-pill text-bg-dark">{{i.sales_person.first_name}} {{i.sales_person.last_name}}</span>
                                       <button type="button" class="btn d-flex bg-primary-subtle w-100 d-block text-primary font-medium" data-bs-toggle="modal" data-bs-target="#update_op{{i.id}}">
+                                        Update 
+                                      </button> <br>
+                                      Assigning Date: {{i.assigning_date}}
+                                    </td>
+                                    {% include "Admin/Query/update_op.html" %}
+                                    <td><span class="mb-1 badge rounded-pill text-bg-primary">{{i.colour_code}}</span>
+                                      <button type="button" class="btn d-flex bg-primary-subtle w-100 d-block text-primary font-medium" data-bs-toggle="modal" data-bs-target="#update_colourcode{{i.id}}">
                                         Update 
                                       </button>
                                     </td>
-                                    {% include "Admin/Query/update_op.html" %}
+                                    {% include "Admin/Query/update_colourcode.html" %}
                                     
-                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
+                                   
+                                    <td>
+                                      {% if i.bookingcard_set.exists %}
+                                        <a href="{% url "view_booking_cards" i.id %}">
+                                          <button type="button" class="btn mb-1 bg-success-subtle text-success px-4 fs-4 font-medium">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" style="color: #2CD07E;"><g fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M10 22c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 18.771 2 15m20 0c0 3.771 0 4.657-1.172 5.828C19.657 22 17.771 22 14 22m0-20c3.771 0 5.657 0 6.828 1.172C22 4.343 22 5.229 22 9M10 2C6.229 2 4.343 2 3.172 3.172C2 4.343 2 5.229 2 9"/><path d="M5.892 14.06C5.297 13.37 5 13.025 5 12c0-1.025.297-1.37.892-2.06C7.08 8.562 9.072 7 12 7c2.927 0 4.92 1.562 6.108 2.94c.595.69.892 1.035.892 2.06c0 1.025-.297 1.37-.892 2.06C16.92 15.438 14.928 17 12 17c-2.927 0-4.92-1.562-6.108-2.94Z"/><circle cx="12" cy="12" r="2"/></g></svg>
+                                        </a>  
+                                        {% else %}
+                                        <a href="{% url "create_booking_cards" i.id %}">
+                                            <button type="button" class="btn mb-1 bg-success-subtle text-success px-4 fs-4 font-medium">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
+                                                    <g fill="none" stroke="currentColor" stroke-width="2">
+                                                        <path d="m18.18 8.04l.463-.464a1.966 1.966 0 1 1 2.781 2.78l-.463.464M18.18 8.04s.058.984.927 1.853s1.854.927 1.854.927M18.18 8.04l-4.26 4.26c-.29.288-.434.433-.558.592c-.146.188-.271.39-.374.606c-.087.182-.151.375-.28.762l-.413 1.24l-.134.401m8.8-5.081l-4.26 4.26c-.29.29-.434.434-.593.558c-.188.146-.39.271-.606.374c-.182.087-.375.151-.762.28l-1.24.413l-.401.134m0 0l-.401.134a.53.53 0 0 1-.67-.67l.133-.402m.938.938l-.938-.938"/><path stroke-linecap="round" d="M8 13h2.5M8 9h6.5M8 17h1.5M19.828 3.172C18.657 2 16.771 2 13 2h-2C7.229 2 5.343 2 4.172 3.172C3 4.343 3 6.229 3 10v4c0 3.771 0 5.657 1.172 6.828C5.343 22 7.229 22 11 22h2c3.771 0 5.657 0 6.828-1.172c.944-.943 1.127-2.348 1.163-4.828"/></g></svg>
+                                            </button>
+                                        </a>
+                                    {% endif %}
+                                      </td>
+                                      {% if request.user.user_type != "Sales Person" %}
+                                    <td>
+                                        <a href="{% url "update_booking_cards" i.id %}">
+                                          <button type="button" class="btn mb-1 bg-success-subtle text-success px-4 fs-4 font-medium">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-filter-edit">
+                                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                              <path d="M10.97 20.344l-1.97 .656v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v1.5" />
+                                              <path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z" />
+                                            </svg>
+                                            </button>
+                                        </a>                                                    
+                                      </td>
+                                      {% endif %}
+                                      <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
+                                        Added By: {{i.added_by}} <br>
+                                        Last UpdatedBy: {{i.last_updated_by}} <br>
+                                        Last UpdatedAt: {{i.last_updated_at}}
+                                      </td>
+                                      <td>
                                         <a href="{% url "editquery" i.id %}">
                                           <button type="button" class="btn mb-1 bg-success-subtle text-success px-4 fs-4 font-medium">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -256,24 +327,63 @@
                                             </button>
                                         </a>                                                    
                                       </td>
-                                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
-                                        <a href="{% url "opeditquery" i.id %}">
-                                          <button type="button" class="btn mb-1 bg-success-subtle text-success px-4 fs-4 font-medium">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-filter-edit">
-                                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                              <path d="M10.97 20.344l-1.97 .656v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v1.5" />
-                                              <path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z" />
-                                            </svg>
-                                            </button>
-                                        </a>                                                    
-                                      </td>
                                       {% include "Admin/Query/detailsquery.html" %}
                                 </tr>
                                 {% endfor %}
                                
                             
                                 </tbody>
+                                
                             </table>
+                            <div class="pagination" style="display: flex;justify-content:space-between;margin:0 10px;">
+                             
+                              <div class="showing-info">
+                                Showing {{ page.start_index }} to {{ page.end_index }} of {{ page.paginator.count }} entries
+                              </div>
+
+                              <div class="next">
+                                  <span class="step-links" style="margin: 4px;">
+                                      {% if enquiry.has_previous %}
+                  
+                                      <a href="?page={{ enquiry.previous_page_number }}"><svg xmlns="http://www.w3.org/2000/svg"
+                                              width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                              <path
+                                                  d="M12.2109 16.3334C11.9168 16.3333 11.6348 16.2105 11.4269 15.992L6.99141 11.3311C6.78353 11.1125 6.66675 10.8162 6.66675 10.5072C6.66675 10.1983 6.78353 9.90193 6.99141 9.68342L11.4269 5.02248C11.5292 4.91119 11.6516 4.82242 11.7869 4.76135C11.9222 4.70028 12.0677 4.66814 12.2149 4.66679C12.3621 4.66545 12.5082 4.69493 12.6444 4.75352C12.7807 4.81211 12.9045 4.89863 13.0086 5.00804C13.1127 5.11744 13.1951 5.24755 13.2508 5.39075C13.3066 5.53395 13.3347 5.68739 13.3334 5.84211C13.3321 5.99683 13.3015 6.14973 13.2434 6.29189C13.1853 6.43406 13.1008 6.56263 12.9949 6.67012L9.34335 10.5072L12.9949 14.3444C13.1499 14.5073 13.2555 14.7149 13.2983 14.9409C13.341 15.1669 13.3191 15.4012 13.2352 15.6141C13.1512 15.827 13.0092 16.0089 12.8268 16.137C12.6445 16.265 12.4302 16.3334 12.2109 16.3334Z"
+                                                  fill="#6B7280" />
+                                          </svg></a>
+                                      {% endif %}
+                  
+                                     
+                                      <nav aria-label="Page navigation example">
+                                          <ul class="pagination">
+                                              {% if page.has_previous %}
+                                              <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                                              <li class="page-item"><a class="page-link"
+                                                      href="?page={{ page.previous_page_number }}">Previous</a></li>
+                                              {% endif %}
+                                              {% for num in page.paginator.page_range|slice:":3" %}
+                                              <li class="page-item{% if page.number == num %} active{% endif %}">
+                                                  <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                              </li>
+                                              {% endfor %}
+                                              {% if page.paginator.num_pages > 3 %}
+                                              <li class="page-item"><span class="page-link">...</span></li>
+                                              <li class="page-item"><a class="page-link" href="?page={{ page.paginator.num_pages }}">{{
+                                                      page.paginator.num_pages }}</a></li>
+                                              {% endif %}
+                                              {% if page.has_next %}
+                                              <li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}">Next</a>
+                                              </li>
+                                              <li class="page-item"><a class="page-link"
+                                                      href="?page={{ page.paginator.num_pages }}">Last</a></li>
+                                              <!-- Added "Last" button -->
+                                              {% endif %}
+                                          </ul>
+                                      </nav>
+                                  </span>
+                              </div>
+                  
+                          </div>
                         </div>           
                     </div>
                 </div>
@@ -286,6 +396,8 @@
 </div>
 
 </div>
+
+
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -391,6 +503,16 @@ function formatDate(dateString) {
 }
 
 </script>
+
+<script>
+  // Function to redirect to the export URL
+  function exportLeadData() {
+    // Replace 'YOUR_EXPORT_URL' with the actual URL for exporting lead data
+    var exportUrl = '/export-lead-data/';
+    window.location.href = exportUrl;
+  }
+  </script>
+
 {{ message|json_script:"room-name" }}
 
 {% endblock main-content %} 

@@ -45,159 +45,249 @@
           <!-- -------------------------------------------------------------- -->
           <!-- Breadcrumb End -->
           <!-- -------------------------------------------------------------- -->
-          <div class="row">
-            <!-- Column -->
-            <div class="col-lg-3 col-md-6">
-              <div class="card">
-                <div class="card-body p-9">
-                  <div class="hstack gap-9">
-                    <div>
-                      <img src="{% static "assets/images/gallery/allquery.svg" %}" alt="" srcset="">
-                      
-                    </div>
-                    <div class="align-self-center">
-                      <h3 class="mb-1 fs-6">{{all_lead.count}}</h3>
-                      <span class="text-muted">Total Query</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Column -->
-            <!-- Column -->
-            <div class="col-lg-3 col-md-6">
-              <div class="card">
-                <div class="card-body p-9">
-                  <div class="hstack gap-9">
-                    <div>
-                      <img src="{% static "assets/images/gallery/quotation.svg" %}" alt="" srcset="">
-                      
-                    </div>
-                    <div class="align-self-center">
-                      <h3 class="mb-1 fs-6">{{quatation_lead_list.count}}</h3>
-                      <span class="text-muted">Quotation Send</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Column -->
-            <!-- Column -->
-            <div class="col-lg-3 col-md-6">
-              <div class="card">
-                <div class="card-body p-9">
-                  <div class="hstack gap-9">
-                    <div>
-                      <img src="{% static "assets/images/gallery/completed.svg" %}" alt="" srcset="">
-                      
-                    </div>
-                    <div class="align-self-center">
-                      <h3 class="mb-1 fs-6">{{comlead_list.count}}</h3>
-                      <span class="text-muted">Completed Query</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Column -->
-            <!-- Column -->
-            <div class="col-lg-3 col-md-6">
-              <div class="card">
-                <div class="card-body p-9">
-                  <div class="hstack gap-9">
-                    <div>
-                      <img src="{% static "assets/images/gallery/lost.svg" %}" alt="" srcset="">
-                      
-                    </div>
-                    <div class="align-self-center">
-                      <h3 class="mb-1 fs-6">{{lost_list.count}}</h3>
-                      <span class="text-muted">Lost Query</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Column -->
-          </div>
+
+          
 
           <div class="row">
-            <div class="col-lg-6">
-              <div class="card w-100">
-                <div class="card-body pb-3">
-                  <div class="d-md-flex no-block">
-                    <h4 class="card-title">Latest Query</h4>
-                    
-                  </div>
-                  <div class="month-table">
-                    <div class="table-responsive mt-3">
-                      <table class="table v-middle mb-0 no-wrap">
-                        <thead>
-                          <tr>
-                            <th class="border-0 ps-0">
-                              Enquiry No
-                            </th>
-                            <th class="border-0">Client Name</th>
-                            <th class="border-0">
-                              Query Title
-                            </th>
-                            <th class="border-0">
-                              Status
-                            </th>
-                            <th class="border-0 text-end">
-                              Operation Head
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% for i in all_lead  %}
-                          <tr>
-                            <td class="ps-0">
-                              <div class="hstack gap-3">
-                                
-                                <div>
-                                  <p class="mb-0 fs-3">{{i.enquiry_number}}</p>
-                                </div>
-                              </div>
-                            </td>
-                            <td>
-                              <p class="mb-0">{{i.name}}</p>
-                            </td>
-                            <td>
-                              <p class="mb-0">{{i.query_title}}</p>
-                            </td>
-                            <td>
-                              {% if i.lead_status == "Pending" %}
-                                  <p class="mb-0 badge rounded-pill text-bg-warning">{{ i.lead_status }}</p>
-                              {% elif i.lead_status == "Connected" %}
-                                  <p class="mb-0 badge rounded-pill text-bg-danger">{{ i.lead_status }}</p>
-                              {% elif i.lead_status == "Quotation Send" %}
-                                  <p class="mb-0 badge rounded-pill text-bg-primary">{{ i.lead_status }}</p>
-                              {% elif i.lead_status == "Payment Processing" %}
-                                  <p class="mb-0 badge rounded-pill text-bg-secondary">{{ i.lead_status }}</p>
-                              {% elif i.lead_status == "Payment Done" %}
-                                  <p class="mb-0 badge rounded-pill text-bg-info">{{ i.lead_status }}</p>
-                              {% elif i.lead_status == "Lost" %}
-                                  <p class="mb-0 badge rounded-pill text-bg-dark">{{ i.lead_status }}</p>
-                              {% elif i.lead_status == "Completed" %}
-                                  <p class="mb-0 badge rounded-pill text-bg-success">{{ i.lead_status }}</p>
-                              {% else %}
-                                  <p class="mb-0 badge rounded-pill">{{ i.lead_status }}</p>
-                              {% endif %}
-                          </td>
-                            
-                            <td class="text-end">
-                              <p class="mb-0 fs-3">{{i.operation_person}}</p>
-                            </td>
-                          </tr>
-                          {% endfor %}
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-lg-6 col-md-6">
+                  <a href="{% url "allquerylist" %}">
+                  <div class="card">
+                    <div class="card-body p-9">
+                      <div class="hstack gap-9">
+                        <div>
+                          <img src="{% static "assets/images/gallery/allquery.svg" %}" alt="" srcset="">
                           
-                        </tbody>
-                      </table>
+                        </div>
+                        <div class="align-self-center">
+                          <h3 class="mb-1 fs-6">{{all_lead.count}}</h3>
+                          <span class="text-muted">Total Query</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                </a>
                 </div>
+                
+                <div class="col-lg-6 col-md-6">
+                  <a href="{% url "newquerylist" %}">
+                  <div class="card">
+                    <div class="card-body p-9">
+                      <div class="hstack gap-9">
+                        <div>
+                          <img src="{% static "assets/images/gallery/Pending.svg" %}" alt="" srcset="">
+                          
+                        </div>
+                        <div class="align-self-center">
+                          <h3 class="mb-1 fs-6">{{pending_list.count}}</h3>
+                          <span class="text-muted">Pending Query</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                  <a href="{% url "connectedquerylist" %}">
+                  <div class="card">
+                    <div class="card-body p-9">
+                      <div class="hstack gap-9">
+                        <div>
+                          <img src="{% static "assets/images/gallery/Connected.svg" %}" alt="" srcset="">
+                          
+                        </div>
+                        <div class="align-self-center">
+                          <h3 class="mb-1 fs-6">{{connected_list.count}}</h3>
+                          <span class="text-muted">Connected Query</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                  <a href="{% url "quatationquerylist" %}">
+                  <div class="card">
+                    <div class="card-body p-9">
+                      <div class="hstack gap-9">
+                        <div>
+                          <img src="{% static "assets/images/gallery/quotation.svg" %}" alt="" srcset="">
+                          
+                        </div>
+                        <div class="align-self-center">
+                          <h3 class="mb-1 fs-6">{{quatation_lead_list.count}}</h3>
+                          <span class="text-muted">Quotation Send</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                  <a href="{% url "paymentdonequerylist" %}">
+                  <div class="card">
+                    <div class="card-body p-9">
+                      <div class="hstack gap-9">
+                        <div>
+                          <img src="{% static "assets/images/gallery/Payment.svg" %}" alt="" srcset="">
+                          
+                        </div>
+                        <div class="align-self-center">
+                          <h3 class="mb-1 fs-6">{{payment_list.count}}</h3>
+                          <span class="text-muted">Payment Done</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                  <a href="{% url "bookinglist" %}">
+                  <div class="card">
+                    <div class="card-body p-9">
+                      <div class="hstack gap-9">
+                        <div>
+                          <img src="{% static "assets/images/gallery/BookingConfirmed.svg" %}" alt="" srcset="">
+                          
+                        </div>
+                        <div class="align-self-center">
+                          <h3 class="mb-1 fs-6">{{booking_list.count}}</h3>
+                          <span class="text-muted">Booking Confirmed</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                  <a href="{% url "completedquery" %}">
+                  <div class="card">
+                    <div class="card-body p-9">
+                      <div class="hstack gap-9">
+                        <div>
+                          <img src="{% static "assets/images/gallery/completed.svg" %}" alt="" srcset="">
+                          
+                        </div>
+                        <div class="align-self-center">
+                          <h3 class="mb-1 fs-6">{{comlead_list.count}}</h3>
+                          <span class="text-muted">Completed Query</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                  <a href="{% url "lostquery" %}">
+                  <div class="card">
+                    <div class="card-body p-9">
+                      <div class="hstack gap-9">
+                        <div>
+                          <img src="{% static "assets/images/gallery/lost.svg" %}" alt="" srcset="">
+                          
+                        </div>
+                        <div class="align-self-center">
+                          <h3 class="mb-1 fs-6">{{lost_list.count}}</h3>
+                          <span class="text-muted">Lost Query</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                </div>
+                
               </div>
             </div>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="card w-100">
+                      <div class="card-body">
+                        <h4 class="card-title">Latest Query</h4>
+                        <div class="chat-box w-100" data-simplebar="" style="height: 382px">
+                          <!--chat Row -->
+                          <div class="table-responsive mt-3">
+                            <table class="table v-middle mb-0 no-wrap">
+                              <thead>
+                                <tr>
+                                  <th class="border-0 ps-0">
+                                    Enquiry No
+                                  </th>
+                                  <th class="border-0">Client Name</th>
+                                  <th class="border-0">
+                                    Query Title
+                                  </th>
+                                  <th class="border-0">
+                                    Status
+                                  </th>
+                                  <th class="border-0 text-end">
+                                    Operation Head
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for i in all_lead  %}
+                                <tr>
+                                  <td class="ps-0">
+                                    <div class="hstack gap-3">
+                                      
+                                      <div>
+                                        <p class="mb-0 fs-3">{{i.enquiry_number}}</p>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <p class="mb-0">{{i.name}}</p>
+                                  </td>
+                                  <td>
+                                    <p class="mb-0">{{i.query_title}}</p>
+                                  </td>
+                                  <td>
+                                    {% if i.lead_status == "Pending" %}
+                                        <p class="mb-0 badge rounded-pill text-bg-warning">{{ i.lead_status }}</p>
+                                    {% elif i.lead_status == "Connected" %}
+                                        <p class="mb-0 badge rounded-pill text-bg-danger">{{ i.lead_status }}</p>
+                                    {% elif i.lead_status == "Quotation Send" %}
+                                        <p class="mb-0 badge rounded-pill text-bg-primary">{{ i.lead_status }}</p>
+                                    {% elif i.lead_status == "Payment Processing" %}
+                                        <p class="mb-0 badge rounded-pill text-bg-secondary">{{ i.lead_status }}</p>
+                                    {% elif i.lead_status == "Payment Done" %}
+                                        <p class="mb-0 badge rounded-pill text-bg-info">{{ i.lead_status }}</p>
+                                    {% elif i.lead_status == "Lost" %}
+                                        <p class="mb-0 badge rounded-pill text-bg-dark">{{ i.lead_status }}</p>
+                                    {% elif i.lead_status == "Completed" %}
+                                        <p class="mb-0 badge rounded-pill text-bg-success">{{ i.lead_status }}</p>
+                                    {% else %}
+                                        <p class="mb-0 badge rounded-pill">{{ i.lead_status }}</p>
+                                    {% endif %}
+                                </td>
+                                  
+                                  <td class="text-end">
+                                    <p class="mb-0 fs-3">{{i.operation_person}}</p>
+                                  </td>
+                                </tr>
+                                {% endfor %}
+                                
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                    
+                  </div>
+               
+              
+            </div>
+            <!-- Column -->
+            
+            <!-- Column -->
+          
+
+          <div class="row">
+            
             <div class="col-lg-6">
               <div class="card w-100">
                 <div class="card-body pb-3">

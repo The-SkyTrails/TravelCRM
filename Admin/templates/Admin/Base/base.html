@@ -114,11 +114,13 @@
   }
 </script>
 
-
 <script>
   $(document).ready(function() {
     // Add click event listener to all buttons with ID starting with 'triggerAjax_'
-    $('[id^="triggerAjax_"]').on('click', function() {
+    $('[id^="triggerAjax_"]').on('click', function(event) {
+      // Prevent default behavior of the button click event
+      event.preventDefault();
+      
       // Get the ID of the button
       var buttonId = $(this).attr('id');
       // Extract the lead ID from the button ID
@@ -151,10 +153,12 @@
   });
 </script>
 
+
 <script>
   $(document).ready(function() {
     // Add click event listener to all buttons with ID starting with 'triggerAjax_'
-    $('[id^="triggeredAjax_"]').on('click', function() {
+    $('[id^="triggeredAjax_"]').on('click', function(event) {
+      event.preventDefault();
       // Get the ID of the button
       var buttonId = $(this).attr('id');
       // Extract the lead ID from the button ID

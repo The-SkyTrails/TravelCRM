@@ -33,7 +33,7 @@
                     <div class="card-body">
                         <h4 class="mt-0 header-title">Booking Card</h4>
                         <hr>
-                        <form action="" method="post" enctype="multipart/form-data">
+                        <form id="noteForm" action="" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             
 
@@ -53,31 +53,33 @@
                                         </tr>
                                     </thead>
                                     <tbody id="productRows">
+                                        {% for booking_card in booking_cards %}
                                         <tr class="product-row">
                                             <td>
                                                 <select class="form-control product-select" name="product" id="product">
-                                                    <option value="Hotel">Hotel</option>
-                                                    <option value="Flight">Flight</option>
-                                                    <option value="Travel Insurance">Travel Insurance</option>
-                                                    <option value="Visa Service">Visa Service</option>
-                                                    <option value="Transfer">Transfer</option>
-                                                    <option value="Sightseeing">Sightseeing</option>
-                                                    <option value="Meals">Meals</option>
-                                                    <option value="Activity">Activity</option>
-                                                    <option value="Ferry">Ferry</option>
-                                                    <option value="Boat">Boat</option>
-                                                    <option value="Others">Others</option>
+                                                    <option value="Hotel" {% if booking_card.product == "Hotel" %}selected{% endif %}>Hotel</option>
+                                                    <option value="Flight" {% if booking_card.product == "Flight" %}selected{% endif %}>Flight</option>
+                                                    <option value="Travel Insurance" {% if booking_card.product == "Travel Insurance" %}selected{% endif %}>Travel Insurance</option>
+                                                    <option value="Visa Service" {% if booking_card.product == "Visa Service" %}selected{% endif %}>Visa Service</option>
+                                                    <option value="Transfer" {% if booking_card.product == "Transfer" %}selected{% endif %}>Transfer</option>
+                                                    <option value="Sightseeing" {% if booking_card.product == "Sightseeing" %}selected{% endif %}>Sightseeing</option>
+                                                    <option value="Meals" {% if booking_card.product == "Meals" %}selected{% endif %}>Meals</option>
+                                                    <option value="Activity" {% if booking_card.product == "Activity" %}selected{% endif %}>Activity</option>
+                                                    <option value="Ferry" {% if booking_card.product == "Ferry" %}selected{% endif %}>Ferry</option>
+                                                    <option value="Boat" {% if booking_card.product == "Boat" %}selected{% endif %}>Boat</option>
+                                                    <option value="Others" {% if booking_card.product == "Others" %}selected{% endif %}>Others</option>
                                                 </select>
                                             </td>
-                                            <td><input type="text" class="form-control" name="supplier" id="supplier"></td>
-                                            <td><input type="text" class="form-control" name="name" id="name"></td>
-                                            <td><input type="text" class="form-control" name="net_cost" id="net_cost"></td>
-                                            <td><input type="text" class="form-control" name="source" id="source"></td>
-                                            <td><input type="text" class="form-control" name="source_details" id="source_details"></td>
-                                            <td><input type="text" class="form-control" name="status" id="status"></td>
-                                            <td><input type="date" class="form-control" name="holding_date" id="holding_date"></td>
-                                            <td><input type="text" class="form-control" name="vendor_payment" id="vendor_payment"></td>
+                                            <td><input type="text" class="form-control" name="name" id="name" value="{{booking_card.name}}"></td>
+                                            <td><input type="text" class="form-control" name="supplier" id="supplier" value="{{booking_card.supplier}}"></td>
+                                            <td><input type="text" class="form-control" name="net_cost" id="net_cost" value="{{booking_card.netcost}}"></td>
+                                            <td><input type="text" class="form-control" name="source" id="source" value="{{booking_card.source}}"></td>
+                                            <td><input type="text" class="form-control" name="source_details" id="source_details" value="{{booking_card.source_details}}"></td>
+                                            <td><input type="text" class="form-control" name="status" id="status" value="{{booking_card.status}}"></td>
+                                            <td><input type="date" class="form-control" name="holding_date" id="holding_date" value="{{booking_card.holding_date|date:'Y-m-d' }}"></td>
+                                            <td><input type="text" class="form-control" name="vendor_payment" id="vendor_payment" value="{{booking_card.vendor_payment}}"></td>
                                         </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -87,35 +89,55 @@
                             </p>
                             <hr>
                             <div class="row">
+                                
                                 <div class="col-md-2">
                                     <label class="control-label" for="">Total NetCost</label>
-                                    <input type="text" class="form-control" id="totalNetCost" name="total_net_cost" readonly>
+                                    <input type="text" class="form-control" id="totalNetCost" name="total_net_cost" value="{{lead.net_cost}}" readonly>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="control-label" for="">MarkUp</label>
-                                    <input type="text" class="form-control" name="markup">
+                                    <input type="text" class="form-control" name="markup" value="{{lead.markup}}">
                                 </div>
                                 <div class="col-md-2">
                                     <label class="control-label" for="">TCS</label>
-                                    <input type="text" class="form-control" name="tcs">
+                                    <input type="text" class="form-control" name="tcs" value="{{lead.tcs}}">
                                 </div>
                                 <div class="col-md-2">
                                     <label class="control-label" for="">GST</label>
-                                    <input type="text" class="form-control" name="gst">
+                                    <input type="text" class="form-control" name="gst" value="{{lead.gst}}">
                                 </div>
                                 <div class="col-md-2">
                                     <label class="control-label" for="">PG Cards</label>
-                                    <input type="text" class="form-control" name="pg_card">
+                                    <input type="text" class="form-control" name="pg_card" value="{{lead.pg_card}}">
                                 </div>
                                 <div class="col-md-2">
                                     <label class="control-label" for="">Total</label>
-                                    <input type="text" class="form-control" name="total">
+                                    <input type="text" class="form-control" name="total" value="{{lead.total}}" readonly>
                                 </div>
+                             
                             </div>
-
                             <button type="button" class="btn btn-primary add-row" style="margin-top: 10px;">Add More</button>
 
-                            <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Submit</button>
+                            <button id="submitBtn" type="button" class="btn btn-primary" style="margin-top: 10px;">Submit</button>
+
+                            <div class="modal fade" id="notesModal" tabindex="-1" aria-labelledby="notesModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="notesModalLabel">Add Note</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <textarea id="noteInput" class="form-control" rows="4" name="note" placeholder="Enter your note here..." required></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                      <button id="submitWithNote" type="button" class="btn btn-primary">Update</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
                         </form>
                     </div>
                 </div>
@@ -182,6 +204,22 @@
     });
 </script>
 
-
+<script>
+    $(document).ready(function() {
+      $('#submitBtn').click(function() {
+        $('#notesModal').modal('show');
+      });
+  
+      // Submit with note button click event
+      $('#submitWithNote').click(function() {
+        var note = $('#noteInput').val();
+        if (note.trim() === '') {
+          alert('Please provide a note.');
+        } else {
+          $('#noteForm').submit(); // Submit the form
+        }
+      });
+    });
+  </script>
 
 {% endblock main-content %}
