@@ -2835,6 +2835,7 @@ def add_user(request):
         pin = request.POST.get("pin")
         address = request.POST.get("address")
         ai_sensy_username = request.POST.get("ai_sensy_username")
+        autorization_key = request.POST.get("autorization_key")
         reporting_to = CustomUser.objects.get(id=reporting_to_id)
         country = Country.objects.get(id=country_id)
         state = State.objects.get(id=state_id)
@@ -2850,7 +2851,8 @@ def add_user(request):
             contact=contact,
             user_type = user_type,
             destination = destination,
-            ai_sensy_username=ai_sensy_username
+            ai_sensy_username=ai_sensy_username,
+            authorization=autorization_key
         )
 
         user.admin.reporting_to = reporting_to
@@ -4436,8 +4438,8 @@ def make_click_to_call(request,id):
     payload = {"agent_number": "0503637080052", "destination_number": lead.mobile_number}
     headers = {
         "accept": "application/json",
-        # "Authorization": lead.added_by.authorization,
-        "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjM3MDgiLCJpc3MiOiJodHRwczovL2Nsb3VkcGhvbmUudGF0YXRlbGVzZXJ2aWNlcy5jb20vdG9rZW4vZ2VuZXJhdGUiLCJpYXQiOjE3MDIyNzE2NzAsImV4cCI6MjAwMjI3MTY3MCwibmJmIjoxNzAyMjcxNjcwLCJqdGkiOiJCa0xPV05hcVNNVkZabm4wIn0.w76qiqkkFZpcb9sjIg_J9MG__iw7m0yZ-rlAoOGKab4",
+        "Authorization": request.user.authorization,
+        # "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjM3MDgiLCJpc3MiOiJodHRwczovL2Nsb3VkcGhvbmUudGF0YXRlbGVzZXJ2aWNlcy5jb20vdG9rZW4vZ2VuZXJhdGUiLCJpYXQiOjE3MDIyNzE2NzAsImV4cCI6MjAwMjI3MTY3MCwibmJmIjoxNzAyMjcxNjcwLCJqdGkiOiJCa0xPV05hcVNNVkZabm4wIn0.w76qiqkkFZpcb9sjIg_J9MG__iw7m0yZ-rlAoOGKab4",
         "content-type": "application/json",
     }
 
@@ -4754,6 +4756,7 @@ def edit_user(request,id):
         pin = request.POST.get("pin")
         address = request.POST.get("address")
         ai_sensy_username = request.POST.get("ai_sensy_username")
+        autorization_key = request.POST.get("autorization_key")
         
         reporting_to = CustomUser.objects.get(id=reporting_to_id)
         
@@ -4768,6 +4771,7 @@ def edit_user(request,id):
         customuser.user_type=user_type
         customuser.destination=destination
         customuser.ai_sensy_username=ai_sensy_username
+        customuser.authorization=autorization_key
         customuser.save()
 
         user.reporting_to = reporting_to

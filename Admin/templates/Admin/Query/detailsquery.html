@@ -209,7 +209,7 @@
            <div class="row">
               <div class="col-md-12">
                  <div class="form-group row">
-                    <label class="form-label text-start col-md-4">Alternate Mobile Number :</label>
+                    <label class="form-label text-start col-md-4">Alternate No. :</label>
                     <div class="col-md-8">
                        <p class="form-control-static">{{i.alternate_mobile_number}}</p>
                     </div>
@@ -288,21 +288,21 @@
          
       </div>
         <div class="row" style="margin-bottom: 24px;">
-           <div class="col-md-4">
+           <div class="col-md-5">
               <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#add-followup-{{i.id}}">
                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path d="M8 1V8M8 8V15M8 8H15M8 8H1" stroke="#1B84FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                  </svg>
-                 Add FollowUp/Task
+                 FollowUp/Task
               </button>
               {% include "Admin/Query/addfollowup.html" %}
            </div>
-           <div class="col-md-4">
+           <div class="col-md-3">
               <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#add-notes-{{i.id}}">
                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path d="M8 1V8M8 8V15M8 8H15M8 8H1" stroke="#43CED7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                  </svg>
-                 Add Notes
+                 Notes
               </button>
               {% include "Admin/Query/addnotes.html" %}
            </div>
@@ -311,7 +311,7 @@
                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path d="M12 5V12M12 12V19M12 12H19M12 12H5" stroke="#F6C000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                  </svg>
-                 Add Quotation
+                 Quotation
               </button>
               {% include "Admin/Query/attach-quatation.html" %}
            </div>
@@ -320,7 +320,7 @@
                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M8 1V8M8 8V15M8 8H15M8 8H1" stroke="#2CD07E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                 Add Attachment
+                Attachment
               </button>
               {% include "Admin/Query/attach-attachment.html" %}
            </div>
