@@ -17087,7 +17087,7 @@ html[data-layout=horizontal] .reverse-mode .left-part.dashboard-right-part {
     padding: 20px 10px;
   }
 }
-@media (min-width: 100%) {
+@media (min-width: 1300px) {
   html[data-layout=horizontal] .app-header {
     transition: 0s;
   }
