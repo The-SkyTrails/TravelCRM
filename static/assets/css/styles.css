@@ -17087,7 +17087,7 @@ html[data-layout=horizontal] .reverse-mode .left-part.dashboard-right-part {
     padding: 20px 10px;
   }
 }
-@media (min-width: 1300px) {
+@media (min-width: 100%) {
   html[data-layout=horizontal] .app-header {
     transition: 0s;
   }
@@ -17103,7 +17103,7 @@ html[data-layout=horizontal] .reverse-mode .left-part.dashboard-right-part {
   html[data-layout=horizontal] .body-wrapper > .container-xl,
   html[data-layout=horizontal] .body-wrapper > .container-xxl {
     position: relative;
-    max-width: 100vw;
+    max-width: 100%;
     margin: 0 auto;
   }
   html[data-layout=horizontal] .sidebar-nav #sidebarnav {
