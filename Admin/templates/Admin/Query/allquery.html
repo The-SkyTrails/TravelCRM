@@ -75,14 +75,14 @@
                 <input class="form-control" type="date" name="to" id="to">
             </div>
             <div class="col-md-4">
-                <button type="submit" class="btn btn-primary" style="margin-top: 10%;">Search</button>
+                <button type="submit" class="btn btn-primary" style="margin-top: 2.5rem;">Search</button>
             </div>
         </div>
     </form>
     <form action="{% url 'assign_leads' %}" method="post">
       {% csrf_token %}
     <div class="row">
-      <div class="col-sm-4" style="margin-bottom: 1%;">
+      <div class="col-md-4" style="margin-bottom: 1%;">
         <label for="example-email-input" class="col-form-label">Sales Person</label>
         <select class="select2 form-control" name="sales_person_id" id="sales_person_id" style="height: 36px; width: 100%">
             {% for sale in operation %}
@@ -91,7 +91,7 @@
         </select>
     </div>
     <div class="col-md-2">
-      <button type="submit" class="btn btn-primary" style="margin-top: 20%;">Assign</button>
+      <button type="submit" class="btn btn-primary" style="margin-top: 2.5rem;">Assign</button>
   </div>
     </div>
     
