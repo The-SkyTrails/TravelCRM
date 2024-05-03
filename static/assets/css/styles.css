@@ -17103,7 +17103,7 @@ html[data-layout=horizontal] .reverse-mode .left-part.dashboard-right-part {
   html[data-layout=horizontal] .body-wrapper > .container-xl,
   html[data-layout=horizontal] .body-wrapper > .container-xxl {
     position: relative;
-    max-width: 1600px;
+    max-width: 1300px;
     margin: 0 auto;
   }
   html[data-layout=horizontal] .sidebar-nav #sidebarnav {
