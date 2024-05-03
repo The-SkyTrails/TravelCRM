@@ -4248,8 +4248,8 @@ def attach_quotation(request, id):
                 "apiKey": api_key,
                 "campaignName": "Document Quataion",
                 "destination": lead.mobile_number, 
-                # "userName": ai_sensy_username,
-                "userName": "theskytrail 8413",
+                "userName": ai_sensy_username,
+                # "userName": "theskytrail 8413",
                 "templateParams": [],
                 "source": "new-landing-page form",
                 "media": {

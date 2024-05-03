@@ -29215,4 +29215,8 @@ html[dir=rtl] .page-item:last-child .page-link {
   color: #fff;
 }
 
-
+.scrollable-container {
+  overflow-x: auto;
+  white-space: nowrap; 
+  width: 100%; 
+}

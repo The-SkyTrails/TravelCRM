@@ -42,13 +42,14 @@
               <div class="card-body">
                 
                 <div class="table-responsive">
+
                     <a href="{% url "add_user" %}">
                         <button type="button" class="btn mb-1 bg-primary-subtle text-primary px-4 fs-4 font-medium" >
                             Add User
                           </button>
     
                     </a>
-                  
+                  <div class="scrollable-container">
                   <table id="file_export" class="table border table-striped table-bordered display text-nowrap">
                     <thead>
                                 <tr>
@@ -110,6 +111,7 @@
                             
                                 </tbody>
                             </table>
+                            
                             <div class="pagination" style="display: flex;justify-content:space-between;margin:0 10px;">
                              
                               <div class="showing-info">
@@ -159,6 +161,7 @@
                               </div>
                   
                           </div>
+                        </div>
                         </div>           
                     </div>
                 </div>
