@@ -2906,7 +2906,7 @@ def allquerylist(request):
         if user_type == "Admin":
             if from_date and to_date:
                 all_lead = Lead.objects.filter(from_date__gte=from_date, to_date__lte=to_date)
-                paginator = Paginator(all_lead, 10)
+                paginator = Paginator(all_lead, 4)
                 page_number = request.GET.get('page')
                 
 
@@ -2918,7 +2918,7 @@ def allquerylist(request):
                     page = paginator.page(paginator.num_pages)
             else:
                 all_lead = Lead.objects.all().order_by("-id")
-                paginator = Paginator(all_lead, 10)
+                paginator = Paginator(all_lead, 4)
                 page_number = request.GET.get('page')
                 
 
@@ -2941,7 +2941,7 @@ def allquerylist(request):
                     Q(added_by=request.user) | Q(sales_person=request.user),
                     Q(from_date__gte=from_date, to_date__lte=to_date),
                 ).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
-                paginator = Paginator(all_lead, 10)
+                paginator = Paginator(all_lead, 4)
                 page_number = request.GET.get('page')
                 
 
@@ -2953,7 +2953,7 @@ def allquerylist(request):
                     page = paginator.page(paginator.num_pages)
             else:
                 all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user),).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
-                paginator = Paginator(all_lead, 10)
+                paginator = Paginator(all_lead, 4)
                 page_number = request.GET.get('page')
                 
 
@@ -2976,7 +2976,7 @@ def allquerylist(request):
                     Q(added_by=request.user) | Q(operation_person=request.user),
                     Q(from_date__gte=from_date, to_date__lte=to_date),
                 ).order_by("-id")
-                paginator = Paginator(all_lead, 10)
+                paginator = Paginator(all_lead, 4)
                 page_number = request.GET.get('page')
                 
 
@@ -2988,7 +2988,7 @@ def allquerylist(request):
                     page = paginator.page(paginator.num_pages)
             else:
                 all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-id")
-                paginator = Paginator(all_lead, 10)
+                paginator = Paginator(all_lead, 4)
                 page_number = request.GET.get('page')
                 
 
