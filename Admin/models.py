@@ -174,9 +174,9 @@ class Expense_servive_type(models.Model):
 class Extra_Meal_Price(models.Model):
     id=models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    adult = models.FloatField()
-    child = models.FloatField()
-    infant = models.FloatField()
+    adult = models.FloatField(default=0.0)
+    child = models.FloatField(default=0.0)
+    infant = models.FloatField(default=0.0)
     date = models.DateField(auto_now_add=True)
     
     
@@ -190,7 +190,7 @@ class Flight(models.Model):
 class Currency(models.Model):
     id=models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    value = models.FloatField()
+    value = models.FloatField(default=0.0)
     base_currency = models.CharField(max_length=20,choices=BASE_CURRENCY)
     date = models.DateField(auto_now_add=True)
     
@@ -271,9 +271,9 @@ class Visa(models.Model):
     id=models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
-    adult_cost = models.FloatField()
-    child_cost = models.FloatField()
-    infant_cost = models.FloatField()
+    adult_cost = models.FloatField(default=0.0)
+    child_cost = models.FloatField(default=0.0)
+    infant_cost = models.FloatField(default=0.0)
     date = models.DateField(auto_now_add=True)
 
 
@@ -449,13 +449,13 @@ class CustomUser(AbstractUser):
     ("Yes","Yes"),
     ("No","No")
 ]
-    code = models.CharField(max_length=5)
-    contact = models.CharField(max_length=15)
+    code = models.CharField(max_length=5,null=True,blank=True)
+    contact = models.CharField(max_length=15,null=True,blank=True)
     user_type = models.CharField(max_length=50,choices=USER_TYPE_CHOICES,default="Admin")
-    destination = models.ForeignKey(Destination,on_delete=models.CASCADE)
+    destination = models.ForeignKey(Destination,on_delete=models.CASCADE,null=True,blank=True)
     is_logged_in = models.CharField(max_length=50,choices=Login_CHOICES,default="No")
     tata_tele_agent_no = models.CharField(max_length=255,null=True,blank=True)
-    ai_sensy_username = models.CharField(max_length=50)
+    ai_sensy_username = models.CharField(max_length=50,null=True,blank=True)
     authorization = models.CharField(max_length=255,null=True,blank=True)
     
     
@@ -463,14 +463,14 @@ class Admin(models.Model):
     id=models.AutoField(primary_key=True)
     users = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     # role = models.ForeignKey(Role_Permission,on_delete=models.CASCADE)
-    reporting_to = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="reporting_to")
-    country = models.ForeignKey(Country,on_delete=models.CASCADE)
-    state = models.ForeignKey(State, on_delete=models.CASCADE)
-    city = models.ForeignKey(City,on_delete=models.CASCADE)
-    pin = models.CharField(max_length=10)
-    address  = models.CharField(max_length=100)
+    reporting_to = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="reporting_to",null=True,blank=True)
+    country = models.ForeignKey(Country,on_delete=models.CASCADE,null=True,blank=True)
+    state = models.ForeignKey(State, on_delete=models.CASCADE,null=True,blank=True)
+    city = models.ForeignKey(City,on_delete=models.CASCADE,null=True,blank=True)
+    pin = models.CharField(max_length=10,null=True,blank=True)
+    address  = models.CharField(max_length=100,null=True,blank=True)
     # email_signature = models.TextField()
-    registered_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="register_by")
+    registered_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="register_by",null=True,blank=True)
        
     
 class Lead(models.Model):
@@ -494,24 +494,24 @@ class Lead(models.Model):
     lead_source = models.ForeignKey(Lead_source,on_delete=models.CASCADE,blank=True, null=True)
     operation_person = models.ForeignKey(CustomUser,on_delete = models.CASCADE,related_name="operation_person",blank=True, null=True)
     sales_person = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="sales_person")
-    assigning_date = models.DateTimeField(auto_now=False)
+    assigning_date = models.DateTimeField(auto_now=True)
     other_information = models.TextField(blank=True, null=True)
     lead_status = models.CharField(max_length=50,choices=LEAD_STATUS_CHOICES,blank=True, null=True)
     date = models.DateField(auto_now_add=True)
-    complete_package_cost = models.FloatField(blank=True)
-    received_package_cost = models.FloatField(blank=True)
-    balance_package_cost = models.FloatField(blank=True)
+    complete_package_cost = models.FloatField(default=0.0)
+    received_package_cost = models.FloatField(default=0.0)
+    balance_package_cost = models.FloatField(default=0.0)
     colour_code = models.CharField(max_length=20,choices=COLOUR_CHOICES)
     added_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE,blank=True, null=True)
-    net_cost = models.FloatField()
-    markup = models.FloatField()
-    tcs = models.FloatField()
-    gst = models.FloatField()
-    pg_card = models.FloatField()
-    total = models.FloatField()
+    net_cost = models.FloatField(default=0.0)
+    markup = models.FloatField(default=0.0)
+    tcs = models.FloatField(default=0.0)
+    gst = models.FloatField(default=0.0)
+    pg_card = models.FloatField(default=0.0)
+    total = models.FloatField(default=0.0)
     booking_card_notes = models.TextField()
     last_updated_at = models.DateTimeField(auto_now=True)
-    last_updated_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="last_update")
+    last_updated_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE,blank=True, null=True,related_name="last_update")
     
     
     def generate_case_id(self):
@@ -620,7 +620,7 @@ class BookingCard(models.Model):
     product = models.CharField(max_length=30,choices=SERVICE_TYPE)
     name = models.CharField(max_length=100)
     supplier = models.CharField(max_length=100)
-    netcost = models.FloatField()
+    netcost = models.FloatField(default=0.0)
     source = models.CharField(max_length=100)
     source_details = models.CharField(max_length=200,blank=True)
     status = models.CharField(max_length=50)

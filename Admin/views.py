@@ -3999,6 +3999,7 @@ def getoperationdep():
        
 @login_required
 def addquery(request):
+    
     servicess = Service_type.objects.all()
     destinations = Destination.objects.all()
     lead_sources = Lead_source.objects.all()
@@ -4058,6 +4059,7 @@ def addquery(request):
             infants=infants,
             lead_source=lead_source,
             other_information=other_information,
+            last_updated_by=request.user,
             sales_person=sales_person)
         operation_persons=CustomUser.objects.filter(user_type = "Operation Person",destination=destination_name)
 
@@ -4069,6 +4071,7 @@ def addquery(request):
             cache.set("last_assigned_index", next_index)
         lead.lead_status = "Pending"
         lead.added_by = request.user
+        
         lead.save()
         return redirect("allquerylist")
         
@@ -4619,6 +4622,7 @@ def bulk_lead_upload(request):
 
         try:
             df = pd.read_excel(file)
+            print(df)
             
             destinations = list(df["destinations"].unique())
             
@@ -4681,6 +4685,7 @@ def bulk_lead_upload(request):
                     other_information=other_information,
                     lead_status="Pending",
                     added_by=request.user,
+                    last_updated_by=request.user,
                     sales_person=sales_person,
                 )
                 try:
