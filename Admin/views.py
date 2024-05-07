@@ -26,6 +26,11 @@ from django.http import HttpResponse
 import csv
 from django.utils.dateparse import parse_date
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.mail import EmailMultiAlternatives
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 
 @login_required
 def index(request):
@@ -2836,6 +2841,7 @@ def add_user(request):
         address = request.POST.get("address")
         ai_sensy_username = request.POST.get("ai_sensy_username")
         autorization_key = request.POST.get("autorization_key")
+        zoho_password = request.POST.get("zoho_password")
         reporting_to = CustomUser.objects.get(id=reporting_to_id)
         country = Country.objects.get(id=country_id)
         state = State.objects.get(id=state_id)
@@ -2852,7 +2858,8 @@ def add_user(request):
             user_type = user_type,
             destination = destination,
             ai_sensy_username=ai_sensy_username,
-            authorization=autorization_key
+            authorization=autorization_key,
+            zoho_password=zoho_password
         )
 
         user.admin.reporting_to = reporting_to
@@ -2906,7 +2913,7 @@ def allquerylist(request):
         if user_type == "Admin":
             if from_date and to_date:
                 all_lead = Lead.objects.filter(from_date__gte=from_date, to_date__lte=to_date)
-                paginator = Paginator(all_lead, 4)
+                paginator = Paginator(all_lead, 10)
                 page_number = request.GET.get('page')
                 
 
@@ -2918,7 +2925,7 @@ def allquerylist(request):
                     page = paginator.page(paginator.num_pages)
             else:
                 all_lead = Lead.objects.all().order_by("-id")
-                paginator = Paginator(all_lead, 4)
+                paginator = Paginator(all_lead, 10)
                 page_number = request.GET.get('page')
                 
 
@@ -2941,7 +2948,7 @@ def allquerylist(request):
                     Q(added_by=request.user) | Q(sales_person=request.user),
                     Q(from_date__gte=from_date, to_date__lte=to_date),
                 ).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
-                paginator = Paginator(all_lead, 4)
+                paginator = Paginator(all_lead, 10)
                 page_number = request.GET.get('page')
                 
 
@@ -2953,7 +2960,7 @@ def allquerylist(request):
                     page = paginator.page(paginator.num_pages)
             else:
                 all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user),).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
-                paginator = Paginator(all_lead, 4)
+                paginator = Paginator(all_lead, 10)
                 page_number = request.GET.get('page')
                 
 
@@ -2976,7 +2983,7 @@ def allquerylist(request):
                     Q(added_by=request.user) | Q(operation_person=request.user),
                     Q(from_date__gte=from_date, to_date__lte=to_date),
                 ).order_by("-id")
-                paginator = Paginator(all_lead, 4)
+                paginator = Paginator(all_lead, 10)
                 page_number = request.GET.get('page')
                 
 
@@ -2988,7 +2995,7 @@ def allquerylist(request):
                     page = paginator.page(paginator.num_pages)
             else:
                 all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-id")
-                paginator = Paginator(all_lead, 4)
+                paginator = Paginator(all_lead, 10)
                 page_number = request.GET.get('page')
                 
 
@@ -4197,7 +4204,7 @@ def op_update(request,id):
         lead.save()
         return redirect("allquerylist")
     
-    
+
 def attach_quotation(request, id):
     if request.method == "POST":
         enq = request.POST.get("enq_id")
@@ -4218,31 +4225,37 @@ def attach_quotation(request, id):
             quotation.activity = activity_history
             quotation.save()
             
-
             messages.success(request, "Quotation Added Successfully...")
+
+            user_email = request.user.email
+            app_password = request.user.zoho_password
             subject = "Travel Packages Quotation Attached"
             message = "Dear {},\n\nI hope this email finds you well. Find your dream vacation inside!  We've attached a detailed quotation outlining each package, including destinations, activities, pricing, and more. \nWe look forward to helping you plan your next adventure!".format(lead.name)
-            email_from = settings.EMAIL_HOST_USER
+            email_from = user_email
             to_email = lead.email
 
             email = EmailMessage(subject, message, email_from, [to_email])
-            
+
             for attachment in quotation.attachment.all():
                 content_type, _ = mimetypes.guess_type(attachment.file.name)
                 if content_type is None:
                     content_type = 'application/octet-stream' 
-                email.attach(attachment.file.name, attachment.file.read(), content_type)
+                with open(attachment.file.path, 'rb') as f:
+                    email.attach(attachment.file.name, f.read(), content_type)
             
-            email.send()
+            try:
+                email.send(fail_silently=False)
+                messages.success(request, "Email sent successfully!")
+            except Exception as e:
+                messages.error(request, f"An error occurred while sending email: {str(e)}")
             
             media_attachments = []
             for attachment in quotation.attachment.all():
-                attachment_url =   request.build_absolute_uri(attachment.file.url)
-                print(attachment_url)
-                # media_attachments.append({
-                #     "url": attachment_url,
-                #     "filename": attachment.file.name 
-                # })
+                attachment_url = request.build_absolute_uri(attachment.file.url)
+                media_attachments.append({
+                    "url": attachment_url,
+                    "filename": attachment.file.name 
+                })
 
             aisensy_api_url = "https://backend.aisensy.com/campaign/t1/api/v2"
             api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3ZSIsIm5hbWUiOiJ0aGVza3l0cmFpbCA4NDEzIiwiYXBwTmFtZSI6IkFpU2Vuc3kiLCJjbGllbnRJZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3NCIsImFjdGl2ZVBsYW4iOiJCQVNJQ19NT05USExZIiwiaWF0IjoxNzEwODUxMDcxfQ.XnS_3uclP8c0J6drYjBCAQmbE6bHxGuD2IAGPaS4N9Y"
@@ -4762,6 +4775,7 @@ def edit_user(request,id):
         address = request.POST.get("address")
         ai_sensy_username = request.POST.get("ai_sensy_username")
         autorization_key = request.POST.get("autorization_key")
+        zoho_password = request.POST.get("zoho_password")
         
         reporting_to = CustomUser.objects.get(id=reporting_to_id)
         
@@ -4777,6 +4791,7 @@ def edit_user(request,id):
         customuser.destination=destination
         customuser.ai_sensy_username=ai_sensy_username
         customuser.authorization=autorization_key
+        customuser.zoho_password=zoho_password
         customuser.save()
 
         user.reporting_to = reporting_to

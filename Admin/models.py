@@ -457,6 +457,8 @@ class CustomUser(AbstractUser):
     tata_tele_agent_no = models.CharField(max_length=255,null=True,blank=True)
     ai_sensy_username = models.CharField(max_length=50,null=True,blank=True)
     authorization = models.CharField(max_length=255,null=True,blank=True)
+    zoho_password = models.CharField(max_length=30,blank=True, null=True)
+    
     
     
 class Admin(models.Model):
@@ -568,14 +570,14 @@ class Attachment(models.Model):
 class Quatation(models.Model):
     id=models.AutoField(primary_key=True)
     lead = models.ForeignKey(Lead,on_delete=models.CASCADE,related_name='quotations')
-    activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='quotation')
+    activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='quotation',null=True,blank=True)
     attachment = models.ManyToManyField(Attachment)
     date = models.DateField(auto_now_add=True)
 
 class Notes(models.Model):
     id=models.AutoField(primary_key=True)
     lead = models.ForeignKey(Lead,on_delete=models.CASCADE,related_name='notes')
-    activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='note')
+    activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='note',null=True,blank=True)
     notes = models.TextField()
     date = models.DateField(auto_now_add=True)
     
@@ -584,7 +586,7 @@ class Followup(models.Model):
     id=models.AutoField(primary_key=True)
     lead = models.ForeignKey(Lead,on_delete=models.CASCADE,related_name='followup')
     type = models.CharField(max_length=20,choices=FOLLOWUP_TYPE)
-    activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='followups')
+    activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='followups',null=True,blank=True)
     datetime = models.DateTimeField(auto_now_add=False)
     note = models.TextField(max_length=100)
     archieve = models.BooleanField(default="True")
@@ -597,7 +599,7 @@ class File(models.Model):
 class ConfirmAttachment(models.Model):
     id=models.AutoField(primary_key=True)
     lead = models.ForeignKey(Lead,on_delete=models.CASCADE,related_name='attachment')
-    activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='attachments')
+    activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='attachments',null=True,blank=True)
     attachment = models.ManyToManyField(File)
     date = models.DateField(auto_now_add=True)
 
@@ -609,7 +611,7 @@ class Messages(models.Model):
     
 class Payment(models.Model):
     leads = models.ForeignKey(Lead,on_delete=models.CASCADE,related_name='payments')
-    activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='payment')
+    activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='payment',null=True,blank=True)
     link_id = models.CharField(max_length=255)
     payment_link = models.URLField(max_length=200,)
     link_expiry_time = models.DateTimeField()
@@ -622,10 +624,10 @@ class BookingCard(models.Model):
     supplier = models.CharField(max_length=100)
     netcost = models.FloatField(default=0.0)
     source = models.CharField(max_length=100)
-    source_details = models.CharField(max_length=200,blank=True)
+    source_details = models.CharField(max_length=200,null=True,blank=True)
     status = models.CharField(max_length=50)
     vendor_payment = models.CharField(max_length=100)
-    holding_date = models.DateField(auto_now=False,blank=True)
+    holding_date = models.DateField(auto_now=False,null=True,blank=True)
     updated_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     
     
