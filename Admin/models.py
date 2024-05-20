@@ -103,8 +103,6 @@ COLOUR_CHOICES = [
 class Country(models.Model):
     id = models.AutoField(primary_key=True)
     country_name = models.CharField(max_length=100)
-    sort_name = models.CharField(max_length=4)
-    nationality = models.CharField(max_length=100)
     date = models.DateField(auto_now_add=True)
 
 

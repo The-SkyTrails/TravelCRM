@@ -114,13 +114,11 @@ def country(request):
     if request.method == "POST":
 
         country_name = request.POST.get("country_name").capitalize()
-        sort_name = request.POST.get("sort_name").capitalize()
-        nationality = request.POST.get("nationality").capitalize()
 
         if Country.objects.filter(country_name=country_name):
             return HttpResponseBadRequest("WRONG")
         country = Country.objects.create(
-            country_name=country_name, sort_name=sort_name, nationality=nationality
+            country_name=country_name
         )
         country.save()
     context = {"country_list": country_list}
@@ -144,12 +142,8 @@ def edit_Country(request, id):
     if request.method == "POST": 
         try:
             country_name = request.POST.get("country_name").capitalize()
-            nationality = request.POST.get("nationality").capitalize()
-            sort_name = request.POST.get("sort_name").capitalize()
             country = Country.objects.get(id=id)
             country.country_name = country_name
-            country.nationality = nationality
-            country.sort_name = sort_name
             country.save()
             messages.success(request, "Country updated successfully")
             return redirect("add_Country")
