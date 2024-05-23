@@ -176,7 +176,6 @@ def state(request):
         "country": country
         
     }
-
     return render(request, "Admin/State/state.html", context)
 
 @login_required
