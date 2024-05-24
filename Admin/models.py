@@ -454,7 +454,7 @@ class CustomUser(AbstractUser):
     is_logged_in = models.CharField(max_length=50,choices=Login_CHOICES,default="No")
     tata_tele_agent_no = models.CharField(max_length=255,null=True,blank=True)
     ai_sensy_username = models.CharField(max_length=50,null=True,blank=True)
-    authorization = models.CharField(max_length=255,null=True,blank=True)
+    # authorization = models.CharField(max_length=255,null=True,blank=True)
     zoho_password = models.CharField(max_length=30,blank=True, null=True)
     
     

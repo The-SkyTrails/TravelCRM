@@ -2833,7 +2833,7 @@ def add_user(request):
         pin = request.POST.get("pin")
         address = request.POST.get("address")
         ai_sensy_username = request.POST.get("ai_sensy_username")
-        autorization_key = request.POST.get("autorization_key")
+        tata_tele_agent_no = request.POST.get("tata_tele_agent_no")
         zoho_password = request.POST.get("zoho_password")
         reporting_to = CustomUser.objects.get(id=reporting_to_id)
         country = Country.objects.get(id=country_id)
@@ -2851,7 +2851,7 @@ def add_user(request):
             user_type = user_type,
             destination = destination,
             ai_sensy_username=ai_sensy_username,
-            authorization=autorization_key,
+            tata_tele_agent_no=tata_tele_agent_no,
             zoho_password=zoho_password
         )
 
@@ -3011,8 +3011,7 @@ def allquerylist(request):
 
 
     operation = CustomUser.objects.filter(user_type="Sales Person")
-    user = request.user
-    authorizations = user.authorization
+
     # lead_authorization = Lead.objects.get(added_by__authorization=authorizations)
     recording_urls_and_dates = fetch_recording_urls_and_dates()
 
@@ -4444,13 +4443,14 @@ def make_click_to_call(request,id):
     url = "https://api-smartflo.tatateleservices.com/v1/click_to_call"
 
     # Define your payload and headers
-    payload = {"agent_number": "0503637080052", "destination_number": lead.mobile_number}
+    payload = {"agent_number": request.user.tata_tele_agent_no, "destination_number": lead.mobile_number}
     headers = {
         "accept": "application/json",
-        "Authorization": request.user.authorization,
-        # "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjM3MDgiLCJpc3MiOiJodHRwczovL2Nsb3VkcGhvbmUudGF0YXRlbGVzZXJ2aWNlcy5jb20vdG9rZW4vZ2VuZXJhdGUiLCJpYXQiOjE3MDIyNzE2NzAsImV4cCI6MjAwMjI3MTY3MCwibmJmIjoxNzAyMjcxNjcwLCJqdGkiOiJCa0xPV05hcVNNVkZabm4wIn0.w76qiqkkFZpcb9sjIg_J9MG__iw7m0yZ-rlAoOGKab4",
+        # "Authorization": request.user.authorization,
+        "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjM3MDgiLCJpc3MiOiJodHRwczovL2Nsb3VkcGhvbmUudGF0YXRlbGVzZXJ2aWNlcy5jb20vdG9rZW4vZ2VuZXJhdGUiLCJpYXQiOjE3MDIyNzE2NzAsImV4cCI6MjAwMjI3MTY3MCwibmJmIjoxNzAyMjcxNjcwLCJqdGkiOiJCa0xPV05hcVNNVkZabm4wIn0.w76qiqkkFZpcb9sjIg_J9MG__iw7m0yZ-rlAoOGKab4",
         "content-type": "application/json",
     }
+    print(payload,"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP")
 
     # Make the POST request
     response = requests.post(url, json=payload, headers=headers)
@@ -4767,7 +4767,7 @@ def edit_user(request,id):
         pin = request.POST.get("pin")
         address = request.POST.get("address")
         ai_sensy_username = request.POST.get("ai_sensy_username")
-        autorization_key = request.POST.get("autorization_key")
+        tata_tele_agent_no = request.POST.get("tata_tele_agent_no")
         zoho_password = request.POST.get("zoho_password")
         
         reporting_to = CustomUser.objects.get(id=reporting_to_id)
@@ -4783,7 +4783,7 @@ def edit_user(request,id):
         customuser.user_type=user_type
         customuser.destination=destination
         customuser.ai_sensy_username=ai_sensy_username
-        customuser.authorization=autorization_key
+        customuser.tata_tele_agent_no=tata_tele_agent_no
         customuser.zoho_password=zoho_password
         customuser.save()
 
