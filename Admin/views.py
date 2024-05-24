@@ -2867,6 +2867,32 @@ def add_user(request):
             request,
             f"{email} Created Successfully !!!",
         )
+        aisensy_api_url = "https://backend.aisensy.com/campaign/t1/api/v2"
+        api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3ZSIsIm5hbWUiOiJ0aGVza3l0cmFpbCA4NDEzIiwiYXBwTmFtZSI6IkFpU2Vuc3kiLCJjbGllbnRJZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3NCIsImFjdGl2ZVBsYW4iOiJCQVNJQ19NT05USExZIiwiaWF0IjoxNzEwODUxMDcxfQ.XnS_3uclP8c0J6drYjBCAQmbE6bHxGuD2IAGPaS4N9Y"
+
+        ai_sensy_username = request.user.ai_sensy_username
+        
+        payload = {
+            "apiKey": api_key,
+            "campaignName": "trave_Login_Credential",
+            "destination": contact, 
+            "userName": ai_sensy_username,
+            # "userName": "theskytrail 8413",
+            "templateParams": [user_type, email, password],
+            "source": "new-landing-page form",
+            "media": {},
+            "buttons": [],
+            "carouselCards": [],
+            "location": {}
+        }
+
+        response = requests.post(aisensy_api_url, json=payload)
+        if response.status_code == 200:
+            print("WhatsApp message sent successfully!")
+        else:
+            print("Failed to send WhatsApp message:", response.text)
+        
+        
         return redirect("user")
     return render(request, "Admin/User/addadmin.html",context)
 
