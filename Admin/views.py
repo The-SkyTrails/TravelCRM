@@ -2798,6 +2798,7 @@ def delete_role(request, id):
 # ---------------------------------------- USER -------------------------------------
 
 
+
 @login_required
 def add_user(request):
     roles = Role_Permission.objects.all()
