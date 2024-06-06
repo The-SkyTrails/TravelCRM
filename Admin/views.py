@@ -2820,6 +2820,7 @@ def add_user(request):
         firstname = request.POST.get("firstname").capitalize()
         lastname = request.POST.get("lastname").capitalize()
         email = request.POST.get("email")
+        
         code = request.POST.get("code")
         if not code:
             code = "+91"
@@ -2840,61 +2841,70 @@ def add_user(request):
         country = Country.objects.get(id=country_id)
         state = State.objects.get(id=state_id)
         city = City.objects.get(id=city_id)
-        destination = Destination.objects.get(id=destination_id)
-        user = CustomUser.objects.create_user(
-            username=email,
-            first_name=firstname,
-            last_name=lastname,
-            email=email,
-            password=password,
-            code=code,
-            contact=contact,
-            user_type = user_type,
-            destination = destination,
-            ai_sensy_username=ai_sensy_username,
-            tata_tele_agent_no=tata_tele_agent_no,
-            zoho_password=zoho_password
-        )
-
-        user.admin.reporting_to = reporting_to
-        user.admin.country = country
-        user.admin.state = state
-        user.admin.city = city
-        user.admin.pin = pin
-        user.admin.address = address
-        user.admin.registered_by = logged_in_user
-        user.save()
-        messages.success(
-            request,
-            f"{email} Created Successfully !!!",
-        )
-        aisensy_api_url = "https://backend.aisensy.com/campaign/t1/api/v2"
-        api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3ZSIsIm5hbWUiOiJ0aGVza3l0cmFpbCA4NDEzIiwiYXBwTmFtZSI6IkFpU2Vuc3kiLCJjbGllbnRJZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3NCIsImFjdGl2ZVBsYW4iOiJCQVNJQ19NT05USExZIiwiaWF0IjoxNzEwODUxMDcxfQ.XnS_3uclP8c0J6drYjBCAQmbE6bHxGuD2IAGPaS4N9Y"
-
-        ai_sensy_username = request.user.ai_sensy_username
         
-        payload = {
-            "apiKey": api_key,
-            "campaignName": "trave_Login_Credential",
-            "destination": contact, 
-            "userName": ai_sensy_username,
-            # "userName": "theskytrail 8413",
-            "templateParams": [user_type, email, password],
-            "source": "new-landing-page form",
-            "media": {},
-            "buttons": [],
-            "carouselCards": [],
-            "location": {}
-        }
+        try:
+            user = CustomUser.objects.create_user(
+                username=email,
+                first_name=firstname,
+                last_name=lastname,
+                email=email,
+                password=password,
+                code=code,
+                contact=contact,
+                user_type = user_type,
+                
+                ai_sensy_username=ai_sensy_username,
+                tata_tele_agent_no=tata_tele_agent_no,
+                zoho_password=zoho_password
+            )
+            if destination_id:
+                
+                destination = Destination.objects.get(id=destination_id)
+                user.destination = destination
+            
 
-        response = requests.post(aisensy_api_url, json=payload)
-        if response.status_code == 200:
-            print("WhatsApp message sent successfully!")
-        else:
-            print("Failed to send WhatsApp message:", response.text)
-        
-        
-        return redirect("user")
+            user.admin.reporting_to = reporting_to
+            user.admin.country = country
+            user.admin.state = state
+            user.admin.city = city
+            user.admin.pin = pin
+            user.admin.address = address
+            user.admin.registered_by = logged_in_user
+            user.save()
+            messages.success(
+                request,
+                f"{email} Created Successfully !!!",
+            )
+            aisensy_api_url = "https://backend.aisensy.com/campaign/t1/api/v2"
+            api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3ZSIsIm5hbWUiOiJ0aGVza3l0cmFpbCA4NDEzIiwiYXBwTmFtZSI6IkFpU2Vuc3kiLCJjbGllbnRJZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3NCIsImFjdGl2ZVBsYW4iOiJCQVNJQ19NT05USExZIiwiaWF0IjoxNzEwODUxMDcxfQ.XnS_3uclP8c0J6drYjBCAQmbE6bHxGuD2IAGPaS4N9Y"
+
+            ai_sensy_username = request.user.ai_sensy_username
+            
+            payload = {
+                "apiKey": api_key,
+                "campaignName": "trave_Login_Credential",
+                "destination": contact, 
+                "userName": ai_sensy_username,
+                # "userName": "theskytrail 8413",
+                "templateParams": [user_type, email, password],
+                "source": "new-landing-page form",
+                "media": {},
+                "buttons": [],
+                "carouselCards": [],
+                "location": {}
+            }
+
+            response = requests.post(aisensy_api_url, json=payload)
+            if response.status_code == 200:
+                print("WhatsApp message sent successfully!")
+            else:
+                print("Failed to send WhatsApp message:", response.text)
+            
+            
+            return redirect("user")
+        except Exception as e:
+            messages.error(request, f"Error occurred: {e}")
+            return redirect("user")
     return render(request, "Admin/User/addadmin.html",context)
 
 
