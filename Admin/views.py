@@ -4952,6 +4952,7 @@ def get_chat_messages(request):
     return HttpResponse(chat_content)
 
 def assign_leads(request):
+   
     if request.method == 'POST':
         lead_ids = request.POST.getlist('lead_ids')
         sales_person_id = request.POST.get('sales_person_id')
