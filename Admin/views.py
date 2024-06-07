@@ -2930,14 +2930,16 @@ def user(request):
 
 
 # ------------------------------------ Query ---------------------------------------------
+
 @login_required
 def allquerylist(request):
     context = {} 
-    
+    # from_date = None
+    # to_date = None
     if request.method == "GET":
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')
-        print(from_date,to_date,"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+       
     
     if request.user.is_authenticated:
         user_type = request.user.user_type  
