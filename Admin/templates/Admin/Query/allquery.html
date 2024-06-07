@@ -79,21 +79,21 @@
             </div>
         </div>
     </form>
-    <form method="post" id="assignForm">
-      {% csrf_token %} 
+    <form action="{% url 'assign_leads' %}" method="post">
+      {% csrf_token %}
     <div class="row">
-  <div class="col-md-4" style="margin-bottom: 1%;">
-    <label for="example-email-input" class="col-form-label">Sales Person</label>
-    <select class="select2 form-control" name="sales_person_id" id="sales_person_id" style="height: 36px; width: 100%">
-      {% for sale in operation %}
-      <option value="{{ sale.id }}">{{ sale.first_name }} {{ sale.last_name }}</option>
-      {% endfor %}
-    </select>
+      <div class="col-md-4" style="margin-bottom: 1%;">
+        <label for="example-email-input" class="col-form-label">Sales Person</label>
+        <select class="select2 form-control" name="sales_person_id" id="sales_person_id" style="height: 36px; width: 100%">
+            {% for sale in operation %}
+            <option value="{{sale.id}}">{{sale.first_name}} {{sale.last_name}}</option>
+             {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-primary" style="margin-top: 2.5rem;">Assign</button>
   </div>
-  <div class="col-md-2">
-    <button type="button" id="assignButton" class="btn btn-primary" style="margin-top: 2.5rem;">Assign</button>
-  </div>
-</div>
+    </div>
     
     
         {% include "Login/messages.html" %}
@@ -227,7 +227,7 @@
                                 <tbody >
                                 {% for i in page %}
                                 <tr style="background-color: {% if user.user_type == 'Admin' or user.user_type == 'Operation Person' %}{% if i.colour_code == 'Red' %}#ff9090{% elif i.colour_code == 'Blue' %}#89CFF0{% elif i.colour_code == 'Green' %}#9cc599{% endif %}{% else %}Transparent{% endif %};">
-                                    <td><input type="checkbox" name="lead_ids" value="{{ i.id }}" id="leads_ids"></td>
+                                    <td><input type="checkbox" name="lead_ids" value="{{ i.id }}"></td>
                                     <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
                                         {{i.enquiry_number}}
                                     </td>
@@ -334,7 +334,7 @@
                                 {% include "Admin/Query/status_update.html" %}
                                 {% endfor %}
                                
-                            
+                        
                                 </tbody>
                                 
                             </table>
@@ -517,13 +517,6 @@ function formatDate(dateString) {
   }
   </script>
 
-  <script>
-    document.getElementById('assignButton').addEventListener('click', function() {
-        var form = document.getElementById('assignForm');
-        form.action = "{% url 'assign_leads' %}";
-        form.submit();
-    });
-</script>
 
 
 {{ message|json_script:"room-name" }}
