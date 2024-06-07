@@ -2937,6 +2937,7 @@ def allquerylist(request):
     if request.method == "GET":
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')
+        print(from_date,to_date,"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
     
     if request.user.is_authenticated:
         user_type = request.user.user_type  
@@ -4204,9 +4205,10 @@ def editquery(request,id):
 
 
 def lead_status_update(request,id):
-    print("status updated")
+    print("sssssssssssssssssssssssssssssssssssssssssss")
+    
     lead = Lead.objects.get(id=id)
-    print(lead,"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP")
+    
     if request.method == "POST":
         lead_status = request.POST.get("lead_status")
         lead.lead_status = lead_status
@@ -4954,10 +4956,12 @@ def get_chat_messages(request):
     return HttpResponse(chat_content)
 
 def assign_leads(request):
-   
+    print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
     if request.method == 'POST':
         lead_ids = request.POST.getlist('lead_ids')
+        print(lead_ids,"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP")
         sales_person_id = request.POST.get('sales_person_id')
+        print(sales_person_id,"IIIIIIIIIIIIIIIIIIIIIIIII")
         if not lead_ids or not sales_person_id:
             return redirect('allquerylist')
 
