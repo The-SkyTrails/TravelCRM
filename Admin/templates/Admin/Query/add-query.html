@@ -76,7 +76,7 @@
                             
                           <div class="col-sm-2">
                             <label for="destination_id" class="col-form-label">Destination</label>
-                            <select class="form-control" name="destination_id" id="destination_id"  style="height: 36px; width: 100%">
+                            <select class="select2 form-control" name="destination_id" id="destination_id"  style="height: 36px; width: 100%">
                               <option  selected disabled>Select</option>
                                 {% for dest in destinations %}
                                     <option value="{{dest.id}}" data-country="{{dest.country.country_name}}">{{dest.name}}</option>
@@ -186,7 +186,7 @@
       var selectElement = document.getElementById("destination_id");
       var options = selectElement.getElementsByTagName("option");
 
-      // Function to show/hide options based on country
+      
       function toggleOptions(country) {
           for (var i = 0; i < options.length; i++) {
               if (country === "Domestic") {
