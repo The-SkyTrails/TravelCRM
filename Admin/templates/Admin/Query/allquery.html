@@ -227,7 +227,7 @@
                                 <tbody >
                                 {% for i in page %}
                                 <tr style="background-color: {% if user.user_type == 'Admin' or user.user_type == 'Operation Person' %}{% if i.colour_code == 'Red' %}#ff9090{% elif i.colour_code == 'Blue' %}#89CFF0{% elif i.colour_code == 'Green' %}#9cc599{% endif %}{% else %}Transparent{% endif %};">
-                                    <td><input type="checkbox" name="lead_ids" value="{{ i.id }}"></td>
+                                    <td><input type="checkbox" name="lead_ids" value="{{ i.id }}" onclick='handleClick(this);'></td>
                                     <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
                                         {{i.enquiry_number}}
                                     </td>
@@ -517,6 +517,14 @@ function formatDate(dateString) {
   </script>
 
 {{ message|json_script:"room-name" }}
+
+<script>
+function handleClick(cb) {
+            if (cb.checked) {
+                console.log("ID = " + cb.value);
+            }
+        }
+</script>
 
 {% endblock main-content %} 
 
