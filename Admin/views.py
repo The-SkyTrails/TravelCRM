@@ -4232,8 +4232,7 @@ def editquery(request,id):
 
 
 def lead_status_update(request,id):
-    print("sssssssssssssssssssssssssssssssssssssssssss")
-    
+   
     lead = Lead.objects.get(id=id)
     
     if request.method == "POST":

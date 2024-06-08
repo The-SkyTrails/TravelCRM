@@ -58,11 +58,14 @@
                             <label for="example-email-input" class="col-sm-6 col-form-label"></label>
                             <div class="col-md-8 col-xl-9">
                               <div class="form-check form-check-inline">
-                                <input class="form-check-input success" type="radio" name="inter_domes" id="International" value="International" {% if inter_domes == International %} checked {% endif %}>
+                                <input  type="radio" name="inter_domes" id="International" value="International"  {% if query.inter_domes == "International" %} checked {% endif %}>
+                                {% comment %} <input class="form-check-input success" type="radio" name="inter_domes" id="International" value="International" {% if query.inter_domes == International %} checked {% endif %}> {% endcomment %}
+                                
                                 <label class="form-check-label" for="International">International</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input success" type="radio" name="inter_domes" id="Domestic" value="Domestic" {% if inter_domes == Domestic %} checked {% endif %}>
+                                {% comment %} <input class="form-check-input success" type="radio" name="inter_domes" id="Domestic" value="Domestic" {% if inter_domes == Domestic %} checked {% endif %}> {% endcomment %}
+                                <input type="radio" name="inter_domes" id="Domestic" value="Domestic" {% if query.inter_domes == "Domestic" %} checked {% endif %}>
                                 <label class="form-check-label" for="Domestic">Domestic</label>
                             </div>
                             </div>
