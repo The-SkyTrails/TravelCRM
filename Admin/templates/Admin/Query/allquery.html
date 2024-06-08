@@ -213,16 +213,17 @@
                                  </thead>
                                  <tbody>
                                     {% for i in page %}
-                                    <tr
+                                    <tr class="pointer-cursor"
                                        style="background-color: {% if user.user_type == 'Admin' or user.user_type == 'Operation Person' %}{% if i.colour_code == 'Red' %}#ff9090{% elif i.colour_code == 'Blue' %}#89CFF0{% elif i.colour_code == 'Green' %}#9cc599{% endif %}{% else %}Transparent{% endif %};">
                                        <td><input type="checkbox" name="lead_ids" value="{{ i.id }}" ></td>
                                        <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}"
                                           aria-controls="offcanvasRight">
                                           {{i.enquiry_number}}
                                        </td>
-                                       <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}"
-                                          aria-controls="offcanvasRight">{{i.query_title}}
-                                       </td>
+                                       <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
+                                        {{i.query_title}}
+                                    </td>
+                                    
                                        <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}"
                                           aria-controls="offcanvasRight">Name: {{i.name}} <br>
                                           Email: {{i.email}} <br>
@@ -280,7 +281,7 @@
                                        {% include "Admin/Query/update_colourcode.html" %}
                                        <td>
                                           {% if i.bookingcard_set.exists %}
-                                          <a href="{% url " view_booking_cards" i.id %}">
+                                          <a href="{% url "view_booking_cards" i.id %}">
                                           <button type="button"
                                              class="btn mb-1 bg-success-subtle text-success px-4 fs-4 font-medium">
                                              <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em"
