@@ -29220,3 +29220,8 @@ html[dir=rtl] .page-item:last-child .page-link {
   white-space: nowrap; 
   width: 100%; 
 }
+
+
+.pointer-cursor {
+  cursor: pointer;
+}

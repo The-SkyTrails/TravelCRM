@@ -4719,15 +4719,15 @@ def bulk_lead_upload(request):
                 from_date = row["from_date"]
                 to_date = row["to_date"]
                 purpose_of_travel = row["purpose_of_travel"]
-                service_type_name = row["service_type"]
-                service = Service_type.objects.get(name=service_type_name)
+                # service_type_name = row["service_type"]
+                # service = Service_type.objects.get(name=service_type_name)
                 query_title = row["query_title"]
                 budget = row["budget"]
                 adult = row["adult"]
                 child = row["child"]
                 infants = row["infants"]
-                lead_source_name = row["lead_source"]
-                lead_sources = Lead_source.objects.get(name=lead_source_name)
+                # lead_source_name = row["lead_source"]
+                # lead_sources = Lead_source.objects.get(name=lead_source_name)
                 other_information = row["other_information"]
                 
                 salespersons = salespersons_by_destination[destination_name]
@@ -4748,13 +4748,13 @@ def bulk_lead_upload(request):
                     from_date=from_date,
                     to_date=to_date,
                     purpose_of_travel=purpose_of_travel,
-                    service_type=service,
+                    # service_type=service,
                     query_title=query_title,
                     budget=budget,
                     adult=adult,
                     child=child,
                     infants=infants,
-                    lead_source=lead_sources,
+                    # lead_source=lead_sources,
                     other_information=other_information,
                     lead_status="Pending",
                     added_by=request.user,
@@ -4770,6 +4770,7 @@ def bulk_lead_upload(request):
             messages.success(request, "Data Imported Successfully!!")
 
         except Exception as e:
+            messages.error(request,e)
             print(f"Error occurred in iteration {index}: {str(e)}")
             
     return redirect("newquerylist")
