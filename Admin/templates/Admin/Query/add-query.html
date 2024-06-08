@@ -76,20 +76,30 @@
                             
                           <div class="col-sm-2">
                             <label for="destination_id" class="col-form-label">Destination</label>
-                            <select class="select2 form-control" name="destination_id" id="destination_id"  style="height: 36px; width: 100%">
-                              <option  selected disabled>Select</option>
-                                {% for dest in destinations %}
-                                    <option value="{{dest.id}}" data-country="{{dest.country.country_name}}">{{dest.name}}</option>
-                                {% endfor %}
-                            </select>
-                          </div>
+                            <div id="destination_select">
+                                <select class="form-control" name="destination_id" id="destination_id" style="height: 36px; width: 100%;">
+                                    <option selected disabled>Select</option>
+                                    {% for dest in destinations %}
+                                        <option value="{{ dest.id }}" data-country="{{ dest.country.country_name }}">{{ dest.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div id="country_select" style="display: none;">
+                                <select class="form-control" style="height: 36px; width: 100%;" id="country_id" name="country_id">
+                                    <option selected disabled>Select</option>
+                                    {% for cntry in country %}
+                                        <option value="{{ cntry.id }}" data-country="{{ cntry.country_name }}">{{ cntry.country_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
                           <div class="col-sm-2">
                               <label for="from" class="col-form-label">From Date</label>
-                              <input class="form-control" type="date" name="from" id="from">
+                              <input class="form-control" type="date" name="from" id="from" required>
                           </div>
                           <div class="col-sm-2">
                               <label for="to" class="col-form-label">To Date</label>
-                              <input class="form-control" type="date" name="to" id="to">
+                              <input class="form-control" type="date" name="to" id="to" required>
                           </div>
                           <div class="col-sm-2">
                             <label for="example-email-input" class="col-form-label">Adult</label>
@@ -127,7 +137,7 @@
                        </div>
                             <div class="col-sm-6">
                                 <label for="example-email-input" class="col-sm-6 col-form-label">Query Title</label>
-                                <input class="form-control" type="text" name="query_title" placeholder="Enter Title">
+                                <input class="form-control" type="text" name="query_title" placeholder="Enter Title" required>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -180,6 +190,8 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+
+<!-- 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
       // Get reference to select element and options
@@ -214,6 +226,49 @@
       // Initially show all destinations
       toggleOptions("International");
   });
+</script> -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const domesticRadio = document.getElementById("Domestic");
+    const internationalRadio = document.getElementById("International");
+    const destinationSelect = document.getElementById("destination_select");
+    const countrySelect = document.getElementById("country_select");
+    const destinationOptions = document.querySelectorAll("#destination_id option");
+    const countryOptions = document.querySelectorAll("#country_id option");
+
+    function filterOptions() {
+        if (domesticRadio.checked) {
+            destinationSelect.style.display = "block";
+            countrySelect.style.display = "none";
+            
+            destinationOptions.forEach(option => {
+                if (option.dataset.country === "India" || option.value === "") {
+                    option.style.display = "block";
+                } else {
+                    option.style.display = "none";
+                }
+            });
+        } else if (internationalRadio.checked) {
+            destinationSelect.style.display = "none";
+            countrySelect.style.display = "block";
+            
+            countryOptions.forEach(option => {
+                if (option.dataset.country === "India") {
+                    option.style.display = "none";
+                } else {
+                    option.style.display = "block";
+                }
+            });
+        }
+    }
+
+    domesticRadio.addEventListener("change", filterOptions);
+    internationalRadio.addEventListener("change", filterOptions);
+
+    filterOptions();
+});
+
 </script>
 
 

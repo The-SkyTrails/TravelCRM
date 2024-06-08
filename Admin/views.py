@@ -4040,6 +4040,7 @@ def addquery(request):
     servicess = Service_type.objects.all()
     destinations = Destination.objects.all()
     lead_sources = Lead_source.objects.all()
+    country = Country.objects.all()
     operation = CustomUser.objects.filter(user_type = "Operation Person")
     sales = CustomUser.objects.filter(user_type = "Sales Person")
     context = {
@@ -4048,6 +4049,7 @@ def addquery(request):
         "lead_sources":lead_sources,
         "operation":operation,
         "sales":sales,
+        "country":country,
     }
     if request.method == "POST":
         contact_person_name = request.POST.get("contact_person_name").capitalize()
@@ -4060,6 +4062,7 @@ def addquery(request):
             alternate_mobile_number = '+91' + alternate_mobile_number
         inter_domes = request.POST.get("inter_domes")
         destination_name = request.POST.get('destination_id')
+        country_name = request.POST.get('country_id')
         from_date = request.POST.get('from')
         to_date = request.POST.get('to')
         purpose_of_travel = request.POST.get('purpose_of_travel')
@@ -4075,7 +4078,6 @@ def addquery(request):
         service_type = Service_type.objects.get(id=service_type_id)
         lead_source = Lead_source.objects.get(id=lead_source_id)
         sales_person = CustomUser.objects.get(id=sales_person_id)
-        destination = Destination.objects.get(id=destination_name)
         
         
         lead = Lead.objects.create(
@@ -4084,7 +4086,6 @@ def addquery(request):
             mobile_number=mobile_number,
             alternate_mobile_number=alternate_mobile_number,
             inter_domes=inter_domes,
-            destinations=destination,
             from_date=from_date,
             to_date=to_date,
             purpose_of_travel=purpose_of_travel,
@@ -4098,6 +4099,19 @@ def addquery(request):
             other_information=other_information,
             last_updated_by=request.user,
             sales_person=sales_person)
+        
+        
+        
+        
+        if destination_name:
+                
+                destination = Destination.objects.get(id=destination_name)
+                lead.destinations=destination
+        if country_name:
+                
+                country = Country.objects.get(id=country_name)
+                lead.countrys=country
+        
         operation_persons=CustomUser.objects.filter(user_type = "Operation Person",destination=destination_name)
 
         if operation_persons.exists():
@@ -4123,6 +4137,7 @@ def editquery(request,id):
     operation = CustomUser.objects.filter(user_type = "Operation Person")
     sales = CustomUser.objects.filter(user_type = "Sales Person")
     lead = get_object_or_404(Lead, id=id)
+    country = Country.objects.all()
     context = {
         "servicess":servicess,
         "destinations":destinations,
@@ -4130,6 +4145,7 @@ def editquery(request,id):
         "operation":operation,
         "sales":sales,
         "query":lead,
+        "country":country,
     }
     
     if request.method == "POST":
@@ -4144,6 +4160,7 @@ def editquery(request,id):
                 alternate_mobile_number = '+91' + alternate_mobile_number
             inter_domes = request.POST.get("inter_domes")
             destination_name = request.POST.get('destination_id')
+            country_name = request.POST.get('country_id')
             from_date = request.POST.get('from')
             to_date = request.POST.get('to')
             purpose_of_travel = request.POST.get('purpose_of_travel')
@@ -4166,14 +4183,13 @@ def editquery(request,id):
             lead_source = Lead_source.objects.get(id=lead_source_id)
             sales_person = CustomUser.objects.get(id=sales_person_id)
             # operation_person = CustomUser.objects.get(id=operation_person_id)
-            destination = Destination.objects.get(id=destination_name)
+            
  
             lead.name=contact_person_name
             lead.email=contact_person_email
             lead.inter_domes=inter_domes
             lead.mobile_number=mobile_number
             lead.alternate_mobile_number=alternate_mobile_number
-            lead.destinations=destination
             lead.from_date=from_date
             lead.to_date=to_date
             lead.purpose_of_travel=purpose_of_travel
@@ -4192,6 +4208,14 @@ def editquery(request,id):
             
             # lead.operation_person=operation_person
             lead.save()
+            if destination_name:
+                
+                destination = Destination.objects.get(id=destination_name)
+                lead.destinations=destination
+            if country_name:
+                
+                country = Country.objects.get(id=country_name)
+                lead.countrys=country
             messages.success(request, "Query updated successfully")
             return redirect("allquerylist")
         except Exception as e:
@@ -4813,7 +4837,7 @@ def edit_user(request,id):
         
         reporting_to = CustomUser.objects.get(id=reporting_to_id)
         
-        destination = Destination.objects.get(id=destination_id)
+        
         custom_id = user.users.id
         customuser = CustomUser.objects.get(id=custom_id)
         customuser.first_name=firstname
@@ -4822,11 +4846,15 @@ def edit_user(request,id):
         customuser.code=code
         customuser.contact=contact
         customuser.user_type=user_type
-        customuser.destination=destination
+        
         customuser.ai_sensy_username=ai_sensy_username
         customuser.tata_tele_agent_no=tata_tele_agent_no
         customuser.zoho_password=zoho_password
         customuser.save()
+        if destination_id:
+                
+            destination = Destination.objects.get(id=destination_id)
+            customuser.destination = destination
 
         user.reporting_to = reporting_to
         user.address = address
@@ -4956,12 +4984,12 @@ def get_chat_messages(request):
     return HttpResponse(chat_content)
 
 def assign_leads(request):
-    print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+    
     if request.method == 'POST':
         lead_ids = request.POST.getlist('lead_ids')
-        print(lead_ids,"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP")
+        
         sales_person_id = request.POST.get('sales_person_id')
-        print(sales_person_id,"IIIIIIIIIIIIIIIIIIIIIIIII")
+        
         if not lead_ids or not sales_person_id:
             return redirect('allquerylist')
 

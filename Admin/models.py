@@ -482,6 +482,7 @@ class Lead(models.Model):
     alternate_mobile_number = models.CharField(max_length=15,blank=True, null=True)
     inter_domes = models.CharField(max_length=20,choices=INTER_DOMES_CHOICES,blank=True, null=True)
     destinations = models.ForeignKey(Destination,on_delete=models.SET_NULL,blank=True,null=True)
+    countrys = models.ForeignKey(Country,on_delete=models.SET_NULL,blank=True,null=True)
     from_date = models.DateField(auto_now_add=False)
     to_date = models.DateField(auto_now_add=False)   
     purpose_of_travel = models.CharField(max_length=100,blank=True, null=True)
@@ -626,7 +627,7 @@ class BookingCard(models.Model):
     status = models.CharField(max_length=50)
     vendor_payment = models.CharField(max_length=100)
     holding_date = models.DateField(auto_now=False,null=True,blank=True)
-    updated_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    updated_by = models.ForeignKey(CustomUser,on_delete=models.SET_NULL,null=True,blank=True)
     
     
     
