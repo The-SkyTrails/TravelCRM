@@ -4164,6 +4164,7 @@ def editquery(request,id):
             inter_domes = request.POST.get("inter_domes")
             destination_name = request.POST.get('destination_id')
             country_name = request.POST.get('country_id')
+            print(country_name,destination_name)
             from_date = request.POST.get('from')
             to_date = request.POST.get('to')
             purpose_of_travel = request.POST.get('purpose_of_travel')

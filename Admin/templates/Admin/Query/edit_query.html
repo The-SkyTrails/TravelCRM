@@ -261,50 +261,46 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-      const domesticRadio = document.getElementById("Domestic");
-      const internationalRadio = document.getElementById("International");
-      const destinationSelect = document.getElementById("destination_select");
-      const countrySelect = document.getElementById("country_select");
-      const destinationDropdown = document.getElementById("destination_id");
-      const countryDropdown = document.getElementById("country_id");
-  
-      function filterOptions() {
-          const selectedDestinationId = destinationDropdown.value;
-          const selectedCountryId = countryDropdown.value;
-  
-          if (domesticRadio.checked) {
-              destinationSelect.style.display = "block";
-              countrySelect.style.display = "none";
-  
-              for (let i = 0; i < destinationDropdown.options.length; i++) {
-                  let option = destinationDropdown.options[i];
-                  if (option.dataset.country === "India" || option.value === "" || option.value === selectedDestinationId) {
-                      option.style.display = "block";
-                  } else {
-                      option.style.display = "none";
-                  }
-              }
-          } else if (internationalRadio.checked) {
-              destinationSelect.style.display = "none";
-              countrySelect.style.display = "block";
-  
-              for (let i = 0; i < countryDropdown.options.length; i++) {
-                  let option = countryDropdown.options[i];
-                  if (option.dataset.country === "India" && option.value !== selectedCountryId) {
-                      option.style.display = "none";
-                  } else {
-                      option.style.display = "block";
-                  }
-              }
-          }
-      }
-  
-      domesticRadio.addEventListener("change", filterOptions);
-      internationalRadio.addEventListener("change", filterOptions);
-  
-      filterOptions();
-  });
-  </script>
+    const domesticRadio = document.getElementById("Domestic");
+    const internationalRadio = document.getElementById("International");
+    const destinationSelect = document.getElementById("destination_select");
+    const countrySelect = document.getElementById("country_select");
+    const destinationOptions = document.querySelectorAll("#destination_id option");
+    const countryOptions = document.querySelectorAll("#country_id option");
+
+    function filterOptions() {
+        if (domesticRadio.checked) {
+            destinationSelect.style.display = "block";
+            countrySelect.style.display = "none";
+            
+            destinationOptions.forEach(option => {
+                if (option.dataset.country === "India" || option.value === "") {
+                    option.style.display = "block";
+                } else {
+                    option.style.display = "none";
+                }
+            });
+        } else if (internationalRadio.checked) {
+            destinationSelect.style.display = "none";
+            countrySelect.style.display = "block";
+            
+            countryOptions.forEach(option => {
+                if (option.dataset.country === "India") {
+                    option.style.display = "none";
+                } else {
+                    option.style.display = "block";
+                }
+            });
+        }
+    }
+
+    domesticRadio.addEventListener("change", filterOptions);
+    internationalRadio.addEventListener("change", filterOptions);
+
+    filterOptions();
+});
+
+</script>
   
 
 
