@@ -3068,6 +3068,7 @@ def allquerylist(request):
         "book_list":book_list,
         "page":page
     }
+    
     return render(request,"Admin/Query/allquery.html",context)
 
 
