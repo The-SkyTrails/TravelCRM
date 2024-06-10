@@ -4866,14 +4866,14 @@ def bulk_lead_upload(request):
                 
                 sales_person = None
                 
-                # Check for salespersons by destination first
+               
                 salespersons = salespersons_by_destination.get(destination_name, [])
                 if salespersons:
                     sales_person = salespersons[index % len(salespersons)]
                 else:
                     logger.warning(f"No salespersons found for destination: {destination_name}")
                     
-                    # If no salespersons by destination, check for salespersons by country
+                   
                     salespersons = salespersons_by_country.get(country_name, [])
                     if salespersons:
                         sales_person = salespersons[index % len(salespersons)]
