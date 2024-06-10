@@ -513,6 +513,7 @@ class Lead(models.Model):
     booking_card_notes = models.TextField()
     departure_City = models.CharField(max_length=100,null=True,blank=True)
     date_of_journey = models.CharField(max_length=100)
+    source = models.CharField(max_length=100,null=True,blank=True)
     last_updated_at = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(CustomUser,on_delete=models.SET_NULL,blank=True, null=True,related_name="last_update")
     
