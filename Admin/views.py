@@ -4747,6 +4747,8 @@ def bulk_lead_upload(request):
                 lead_source_name = row["lead_source"]
                 lead_sources = Lead_source.objects.get(name=lead_source_name)
                 other_information = row["other_information"]
+                departure_City = row["departure_City"]
+                date_of_journey = row["date_of_journey"]
                 
                 # salespersons = salespersons_by_destination[destination_name]
                 # if not salespersons:
@@ -4781,6 +4783,8 @@ def bulk_lead_upload(request):
                     added_by=request.user,
                     last_updated_by=request.user,
                     sales_person=sales_person,
+                    departure_City=departure_City,
+                    date_of_journey=date_of_journey,
                 )
                 try:
                     if created:
