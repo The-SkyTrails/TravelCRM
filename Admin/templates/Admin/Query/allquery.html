@@ -210,7 +210,6 @@
                                        <th>Update Booking Card</th>
                                        {% endif %}
                                        <th>Last Updated</th>
-                                       <th>Source</th>
                                        <th>Action</th>
                                     </tr>
                                  </thead>
@@ -226,7 +225,7 @@
                                        <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
                                         {{i.query_title}}
                                     </td>
-                                       <td>{{i.departure_City}}</td>
+                                       <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.departure_City}}</td>
                                     
                                        <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}"
                                           aria-controls="offcanvasRight">Name: {{i.name}} <br>
@@ -342,7 +341,6 @@
                                           Last UpdatedBy: {{i.last_updated_by}} <br>
                                           Last UpdatedAt: {{i.last_updated_at}}
                                        </td>
-                                       <td>{% if i.source == "facebook" %}{% endif %}</td>
                                        <td>
                                           <a href="{% url "editquery" i.id %}">
                                           <button type="button"
