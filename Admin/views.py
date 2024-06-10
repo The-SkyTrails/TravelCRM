@@ -4164,7 +4164,7 @@ def editquery(request,id):
             inter_domes = request.POST.get("inter_domes")
             destination_name = request.POST.get('destination_id')
             country_name = request.POST.get('country_id')
-            print("destination nameee",destination_name)
+            print("country_name",country_name)
             from_date = request.POST.get('from')
             to_date = request.POST.get('to')
             purpose_of_travel = request.POST.get('purpose_of_travel')
@@ -4219,6 +4219,7 @@ def editquery(request,id):
             if country_name:
                 
                 country = Country.objects.get(id=country_name)
+                print(country)
                 lead.countrys=country
             lead.save()
             messages.success(request, "Query updated successfully")

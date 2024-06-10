@@ -86,10 +86,11 @@
                                 </select>
                             </div>
                             <div id="country_select" style="display: none;">
+                              
                                 <select class="form-control" style="height: 36px; width: 100%;" id="country_id" name="country_id">
                                     
                                     {% for cntry in country %}
-                                        <option value="{{ cntry.id }}" data-country="{{ cntry.country_name }}" {% if cntry.id == query.country_id %} selected {% endif %}>{{ cntry.country_name }}</option>
+                                        <option value="{{ cntry.id }}" data-country="{{ cntry.country_name }}" {% if cntry.id == query.countrys.id %} selected {% endif %}>{{ cntry.country_name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
