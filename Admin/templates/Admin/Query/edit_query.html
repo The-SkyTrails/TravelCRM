@@ -223,9 +223,10 @@
     const countrySelect = document.getElementById("country_select");
     const destinationOptions = document.querySelectorAll("#destination_id option");
     const countryOptions = document.querySelectorAll("#country_id option");
-
+   
     function filterOptions() {
         if (domesticRadio.checked) {
+            console.log("domestic checked")
             destinationSelect.style.display = "block";
             countrySelect.style.display = "none";
             
@@ -237,11 +238,13 @@
                 }
             });
         } else if (internationalRadio.checked) {
+            console.log("International checked")
             destinationSelect.style.display = "none";
             countrySelect.style.display = "block";
             
             countryOptions.forEach(option => {
                 if (option.dataset.country === "India") {
+                
                     option.style.display = "none";
                 } else {
                     option.style.display = "block";
