@@ -81,7 +81,7 @@
                                 <select class="form-control" name="destination_id" id="destination_id" style="height: 36px; width: 100%;">
                                     
                                     {% for dest in destinations %}
-                                        <option value="{{ dest.id }}" data-country="{{ dest.country.country_name }}"{% if dest.id == query.destinations_id %} selected {% endif %}>{{ dest.name }}</option>
+                                        <option value="{{ dest.id }}" data-country="{{ dest.country.country_name }}"{% if dest.id == query.destinations.id %} selected {% endif %}>{{ dest.name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>

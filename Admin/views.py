@@ -4164,7 +4164,7 @@ def editquery(request,id):
             inter_domes = request.POST.get("inter_domes")
             destination_name = request.POST.get('destination_id')
             country_name = request.POST.get('country_id')
-            print(country_name,destination_name)
+            print("destination nameee",destination_name)
             from_date = request.POST.get('from')
             to_date = request.POST.get('to')
             purpose_of_travel = request.POST.get('purpose_of_travel')
@@ -4211,7 +4211,7 @@ def editquery(request,id):
             lead.balance_package_cost=balance_package_cost
             
             # lead.operation_person=operation_person
-            lead.save()
+           
             if destination_name:
                 
                 destination = Destination.objects.get(id=destination_name)
@@ -4220,6 +4220,7 @@ def editquery(request,id):
                 
                 country = Country.objects.get(id=country_name)
                 lead.countrys=country
+            lead.save()
             messages.success(request, "Query updated successfully")
             return redirect("allquerylist")
         except Exception as e:
