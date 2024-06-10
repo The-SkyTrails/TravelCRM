@@ -4688,37 +4688,153 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+# def bulk_lead_upload(request):
+#     if request.method == "POST":
+#         file = request.FILES.get("excel_file")
+#         if not file:
+#             messages.error(request, "No file uploaded.")
+#             return redirect("allquerylist")
+            
+
+#         try:
+#             df = pd.read_excel(file)
+#             print(df)
+            
+#             destinations = list(df["destinations"].unique())
+            
+#             salespersons_by_destination = defaultdict(list)
+#             for destination_name in destinations:
+#                 salespersons = CustomUser.objects.filter(user_type="Sales Person", destination__name=destination_name)
+#                 salespersons_by_destination[destination_name].extend(salespersons)
+
+#             for index, row in df.iterrows():
+                
+                
+#                 name = row["name"].capitalize()
+#                 email = row["email"]
+#                 mobile_number = row["mobile_number"]
+#                 if mobile_number:
+#                     if not str(mobile_number).startswith('+91'):
+#                         mobile_number = '+91' + str(mobile_number)
+#                 inter_domes = row["inter_domes"]
+#                 destination_name = row["destinations"]
+#                 # destination = Destination.objects.get(name=destination_name)
+#                 destination = None
+#                 if pd.notna(destination_name):
+#                     try:
+#                         destination = Destination.objects.get(name=destination_name)
+#                     except Destination.DoesNotExist:
+#                         logger.warning(f"Destination {destination_name} does not exist in row {index}. Setting destination to None.")
+                
+#                 country_name = row["countrys"]
+#                 # country = Country.objects.get(country_name=country_name)
+#                 country = None
+#                 if pd.notna(country_name):
+#                     try:
+#                         country = Country.objects.get(country_name=country_name)
+#                     except Country.DoesNotExist:
+#                         logger.warning(f"Country {country_name} does not exist in row {index}. Setting country to None.")
+                
+                
+#                 purpose_of_travel = row["purpose_of_travel"]
+#                 # service_type_name = row["service_type"]
+#                 # service = Service_type.objects.get(name=service_type_name)
+#                 query_title = row["query_title"]
+#                 budget = row["budget"]
+#                 adult = row["adult"]
+#                 child = row["child"]
+#                 infants = row["infants"]
+#                 lead_source_name = row["lead_source"]
+#                 lead_sources = Lead_source.objects.get(name=lead_source_name)
+#                 other_information = row["other_information"]
+#                 departure_City = row["departure_City"]
+#                 date_of_journey = row["date_of_journey"]
+                
+#                 # salespersons = salespersons_by_destination[destination_name]
+#                 # if not salespersons:
+#                 #     logger.warning(f"No salespersons found for destination: {destination_name}")
+#                 #     continue
+                
+                
+#                 # sales_person = salespersons[index % len(salespersons)]
+                
+#                 salespersons = salespersons_by_destination.get(destination_name, [])
+#                 sales_person = salespersons[index % len(salespersons)] if salespersons else None
+              
+              
+#                 lead, created = Lead.objects.get_or_create(
+#                     name=name,
+#                     email=email,
+#                     mobile_number=mobile_number,
+#                     inter_domes=inter_domes,
+#                     destinations=destination,
+#                     countrys=country,
+                    
+#                     purpose_of_travel=purpose_of_travel,
+#                     # service_type=service,
+#                     query_title=query_title,
+#                     budget=budget,
+#                     adult=adult,
+#                     child=child,
+#                     infants=infants,
+#                     lead_source=lead_sources,
+#                     other_information=other_information,
+#                     lead_status="Pending",
+#                     added_by=request.user,
+#                     last_updated_by=request.user,
+#                     sales_person=sales_person,
+#                     departure_City=departure_City,
+#                     date_of_journey=date_of_journey,
+#                 )
+#                 try:
+#                     if created:
+#                         lead.save()
+#                 except Exception as e:
+#                     logger.error(f"Error saving lead: {str(e)}")
+
+#             messages.success(request, "Data Imported Successfully!!")
+
+#         except Exception as e:
+#             messages.error(request,e)
+#             print(f"Error occurred in iteration {index}: {str(e)}")
+            
+#     return redirect("newquerylist")
+
+
+
 def bulk_lead_upload(request):
     if request.method == "POST":
         file = request.FILES.get("excel_file")
         if not file:
             messages.error(request, "No file uploaded.")
             return redirect("allquerylist")
-            
-
+        
         try:
             df = pd.read_excel(file)
-            print(df)
-            
             destinations = list(df["destinations"].unique())
             
             salespersons_by_destination = defaultdict(list)
             for destination_name in destinations:
                 salespersons = CustomUser.objects.filter(user_type="Sales Person", destination__name=destination_name)
                 salespersons_by_destination[destination_name].extend(salespersons)
+                
+            countrys = list(df["countrys"].unique())
+            
+            salespersons_by_country = defaultdict(list)
+            for country_name in countrys:
+                salespersons = CustomUser.objects.filter(user_type="Sales Person", destination__country__country_name=country_name)
+                salespersons_by_country[country_name].extend(salespersons)
 
             for index, row in df.iterrows():
-                
-                
                 name = row["name"].capitalize()
                 email = row["email"]
                 mobile_number = row["mobile_number"]
-                if mobile_number:
-                    if not str(mobile_number).startswith('+91'):
-                        mobile_number = '+91' + str(mobile_number)
+                if mobile_number and not str(mobile_number).startswith('+91'):
+                    mobile_number = '+91' + str(mobile_number)
+                
                 inter_domes = row["inter_domes"]
                 destination_name = row["destinations"]
-                # destination = Destination.objects.get(name=destination_name)
+                
                 destination = None
                 if pd.notna(destination_name):
                     try:
@@ -4727,7 +4843,7 @@ def bulk_lead_upload(request):
                         logger.warning(f"Destination {destination_name} does not exist in row {index}. Setting destination to None.")
                 
                 country_name = row["countrys"]
-                # country = Country.objects.get(country_name=country_name)
+                
                 country = None
                 if pd.notna(country_name):
                     try:
@@ -4735,33 +4851,35 @@ def bulk_lead_upload(request):
                     except Country.DoesNotExist:
                         logger.warning(f"Country {country_name} does not exist in row {index}. Setting country to None.")
                 
-                
                 purpose_of_travel = row["purpose_of_travel"]
-                # service_type_name = row["service_type"]
-                # service = Service_type.objects.get(name=service_type_name)
                 query_title = row["query_title"]
                 budget = row["budget"]
                 adult = row["adult"]
                 child = row["child"]
                 infants = row["infants"]
                 lead_source_name = row["lead_source"]
+                
                 lead_sources = Lead_source.objects.get(name=lead_source_name)
                 other_information = row["other_information"]
                 departure_City = row["departure_City"]
                 date_of_journey = row["date_of_journey"]
                 
-                # salespersons = salespersons_by_destination[destination_name]
-                # if not salespersons:
-                #     logger.warning(f"No salespersons found for destination: {destination_name}")
-                #     continue
+                sales_person = None
                 
-                
-                # sales_person = salespersons[index % len(salespersons)]
-                
+               
                 salespersons = salespersons_by_destination.get(destination_name, [])
-                sales_person = salespersons[index % len(salespersons)] if salespersons else None
-              
-              
+                if salespersons:
+                    sales_person = salespersons[index % len(salespersons)]
+                else:
+                    logger.warning(f"No salespersons found for destination: {destination_name}")
+                    
+                   
+                    salespersons = salespersons_by_country.get(country_name, [])
+                    if salespersons:
+                        sales_person = salespersons[index % len(salespersons)]
+                    else:
+                        logger.warning(f"No salespersons found for country: {country_name}")
+
                 lead, created = Lead.objects.get_or_create(
                     name=name,
                     email=email,
@@ -4769,9 +4887,7 @@ def bulk_lead_upload(request):
                     inter_domes=inter_domes,
                     destinations=destination,
                     countrys=country,
-                    
                     purpose_of_travel=purpose_of_travel,
-                    # service_type=service,
                     query_title=query_title,
                     budget=budget,
                     adult=adult,
@@ -4786,19 +4902,18 @@ def bulk_lead_upload(request):
                     departure_City=departure_City,
                     date_of_journey=date_of_journey,
                 )
-                try:
-                    if created:
-                        lead.save()
-                except Exception as e:
-                    logger.error(f"Error saving lead: {str(e)}")
+                
+                if created:
+                    lead.save()
 
             messages.success(request, "Data Imported Successfully!!")
 
         except Exception as e:
-            messages.error(request,e)
-            print(f"Error occurred in iteration {index}: {str(e)}")
+            messages.error(request, str(e))
+            logger.error(f"Error occurred during lead upload: {str(e)}")
             
     return redirect("newquerylist")
+
 
 
 def make_click_to_alternatecall(request,id):
