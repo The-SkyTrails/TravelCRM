@@ -4718,9 +4718,24 @@ def bulk_lead_upload(request):
                         mobile_number = '+91' + str(mobile_number)
                 inter_domes = row["inter_domes"]
                 destination_name = row["destinations"]
-                destination = Destination.objects.get(name=destination_name)
-                from_date = row["from_date"]
-                to_date = row["to_date"]
+                # destination = Destination.objects.get(name=destination_name)
+                destination = None
+                if pd.notna(destination_name):
+                    try:
+                        destination = Destination.objects.get(name=destination_name)
+                    except Destination.DoesNotExist:
+                        logger.warning(f"Destination {destination_name} does not exist in row {index}. Setting destination to None.")
+                
+                country_name = row["countrys"]
+                # country = Country.objects.get(country_name=country_name)
+                country = None
+                if pd.notna(country_name):
+                    try:
+                        country = Country.objects.get(country_name=country_name)
+                    except Country.DoesNotExist:
+                        logger.warning(f"Country {country_name} does not exist in row {index}. Setting country to None.")
+                
+                
                 purpose_of_travel = row["purpose_of_travel"]
                 # service_type_name = row["service_type"]
                 # service = Service_type.objects.get(name=service_type_name)
@@ -4729,17 +4744,20 @@ def bulk_lead_upload(request):
                 adult = row["adult"]
                 child = row["child"]
                 infants = row["infants"]
-                # lead_source_name = row["lead_source"]
-                # lead_sources = Lead_source.objects.get(name=lead_source_name)
+                lead_source_name = row["lead_source"]
+                lead_sources = Lead_source.objects.get(name=lead_source_name)
                 other_information = row["other_information"]
                 
-                salespersons = salespersons_by_destination[destination_name]
-                if not salespersons:
-                    logger.warning(f"No salespersons found for destination: {destination_name}")
-                    continue
+                # salespersons = salespersons_by_destination[destination_name]
+                # if not salespersons:
+                #     logger.warning(f"No salespersons found for destination: {destination_name}")
+                #     continue
                 
                 
-                sales_person = salespersons[index % len(salespersons)]
+                # sales_person = salespersons[index % len(salespersons)]
+                
+                salespersons = salespersons_by_destination.get(destination_name, [])
+                sales_person = salespersons[index % len(salespersons)] if salespersons else None
               
               
                 lead, created = Lead.objects.get_or_create(
@@ -4748,8 +4766,8 @@ def bulk_lead_upload(request):
                     mobile_number=mobile_number,
                     inter_domes=inter_domes,
                     destinations=destination,
-                    from_date=from_date,
-                    to_date=to_date,
+                    countrys=country,
+                    
                     purpose_of_travel=purpose_of_travel,
                     # service_type=service,
                     query_title=query_title,
@@ -4757,7 +4775,7 @@ def bulk_lead_upload(request):
                     adult=adult,
                     child=child,
                     infants=infants,
-                    # lead_source=lead_sources,
+                    lead_source=lead_sources,
                     other_information=other_information,
                     lead_status="Pending",
                     added_by=request.user,
