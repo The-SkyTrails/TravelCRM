@@ -210,7 +210,6 @@
                                        <th>Update Booking Card</th>
                                        {% endif %}
                                        <th>Last Updated</th>
-                                       <th>Source</th>
                                        <th>Action</th>
                                     </tr>
                                  </thead>
@@ -342,7 +341,6 @@
                                           Last UpdatedBy: {{i.last_updated_by}} <br>
                                           Last UpdatedAt: {{i.last_updated_at}}
                                        </td>
-                                       <td>{% if i.source == "facebook" %}{% endif %}</td>
                                        <td>
                                           <a href="{% url "editquery" i.id %}">
                                           <button type="button"
