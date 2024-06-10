@@ -694,7 +694,6 @@ def save_user_profile(sender, instance, **kwargs):
         instance.admin.save()
     if instance.user_type == "Sales + Marketing Person":
         instance.admin.save()
-        
 
 
     
