@@ -489,7 +489,7 @@ class Lead(models.Model):
     service_type = models.ForeignKey(Service_type,on_delete=models.SET_NULL,blank=True, null=True)
     query_title = models.CharField(max_length=100)
     budget = models.CharField(max_length=50,blank=True, null=True)
-    adult = models.CharField(max_length=100)
+    adult = models.CharField(max_length=255)
     child = models.CharField(max_length=50,blank=True, null=True)
     infants = models.CharField(max_length=50,blank=True, null=True)
     lead_source = models.ForeignKey(Lead_source,on_delete=models.SET_NULL,blank=True, null=True)
