@@ -137,17 +137,22 @@
                             <div class="col-xl-6">
                                 
                                 <div class="form-group row">
-                                      
-                                  <div class="col-sm-12">
-                                      <label for="example-text-input" class="col-form-label">Destination</label>
-                                      <select name="destination_ids" class="select2 form-control" style="width: 100%; height: 36px">
-                                        <option  selected disabled>Select</option>
-                                        {% for destination in destinations %}
-                                        <option value="{{destination.id}}" {% if destination.id == user.users.destination.id %}selected{% endif %}>{{destination.name}}</option>
-                                        {% endfor %}
-                                    </select>
-                                  </div>
-                                  
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">Domestic Destination</label>
+                                        <select name="destination_ids" class="select2 form-control" style="width: 100%; height: 36px" multiple>
+                                            {% for destination in destinations %}
+                                            <option value="{{ destination.id }}" {% if destination.id in selected_destination_ids %}selected{% endif %}>{{ destination.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">International Destination</label>
+                                        <select name="international_destination_ids" class="select2 form-control" style="width: 100%; height: 36px" multiple>
+                                            {% for cntry in international_destination %}
+                                            <option value="{{ cntry.id }}" {% if cntry.id in selected_international_destination_ids %}selected{% endif %}>{{ cntry.country_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group row">
                                       

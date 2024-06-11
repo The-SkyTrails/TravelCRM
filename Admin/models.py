@@ -216,6 +216,7 @@ class Destination(models.Model):
     name = models.CharField(max_length=100)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
+    
 
 
 class Restaurent_location(models.Model):
@@ -450,7 +451,8 @@ class CustomUser(AbstractUser):
     code = models.CharField(max_length=5,null=True,blank=True)
     contact = models.CharField(max_length=15,null=True,blank=True)
     user_type = models.CharField(max_length=50,choices=USER_TYPE_CHOICES,default="Admin")
-    destination = models.ForeignKey(Destination,on_delete=models.SET_NULL,null=True,blank=True)
+    destination = models.ManyToManyField(Destination,null=True,blank=True)
+    international_destination = models.ManyToManyField(Country,null=True,blank=True)
     is_logged_in = models.CharField(max_length=50,choices=Login_CHOICES,default="No")
     tata_tele_agent_no = models.CharField(max_length=255,null=True,blank=True)
     ai_sensy_username = models.CharField(max_length=50,null=True,blank=True)

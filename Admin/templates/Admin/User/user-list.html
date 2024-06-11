@@ -75,7 +75,11 @@
                                     <td>{{i.users.email}}</td>
                                     <td>{{i.users.code}}{{i.users.contact}}</td>
                                     <td>{{i.users.user_type}}</td>
-                                    <td>{{i.users.destination.name}}</td>
+                                    <td>{% for dest in i.users.destination.all %}
+                                      {{dest.name}} , {% endfor %}
+                                      {% for cnty in i.users.international_destination.all %}
+                                      {{cnty.country_name}} , {% endfor %}
+                                    </td>
                                     <td>{{i.reporting_to}}</td>
                                     <td>{% for user in i.users.reporting_to.all %}
                                         <span class="mb-1 badge rounded-pill text-bg-danger">{{ user.users.first_name }} {{ user.users.last_name }} </span> <br> {% if not forloop.last %}{% endif %}
