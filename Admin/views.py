@@ -4245,13 +4245,19 @@ def lead_status_update(request,id):
         
         if lead_status == "Booking Confirmed":
             destination_name = lead.destinations
+            print(destination_name,"destination_name")
             operation_persons = CustomUser.objects.filter(user_type="Operation Person", destination=destination_name)
+            print(operation_persons,"operation_persons")
+            # elif lead.countrys :
+            #     country_name = lead.countrys
+            #     operation_persons = CustomUser.objects.filter(user_type = "Operation Person" , destination__country__country_name = country_name)
 
             if operation_persons.exists():
                 last_assigned_index = cache.get("last_assigned_index") or 0
                 next_index = (last_assigned_index + 1) % operation_persons.count()
                 operation_person = operation_persons[next_index]
                 lead.operation_person = operation_person
+                print(operation_person,"leadoperation_person")
                 cache.set("last_assigned_index", next_index)
         return redirect("allquerylist")
     
