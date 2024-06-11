@@ -4993,11 +4993,11 @@ def edit_user(request,id):
         customuser.ai_sensy_username=ai_sensy_username
         customuser.tata_tele_agent_no=tata_tele_agent_no
         customuser.zoho_password=zoho_password
-        customuser.save()
         if destination_id:
                 
             destination = Destination.objects.get(id=destination_id)
             customuser.destination = destination
+        customuser.save()
 
         user.reporting_to = reporting_to
         user.address = address
