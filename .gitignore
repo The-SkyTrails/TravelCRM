@@ -163,3 +163,4 @@ cython_debug/
 Admin/__pycache__/
 TravelCRM/urls.py
 backup/
+scheduler/
