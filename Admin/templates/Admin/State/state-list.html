@@ -87,8 +87,8 @@
                                             <path d="M16 5l3 3" />
                                           </svg>
                                         </button>
-                                    
-                                        <button class="btn mb-1 bg-danger-subtle text-danger px-4 fs-4 font-medium" hx-delete="{% url "delete_state" i.id %}" hx-target="#statelist" id="alertify-success" hx-confirm="Do you want to delete ?">
+                                    <a href="{% url "delete_state" i.id %}">
+                                        <button class="btn mb-1 bg-danger-subtle text-danger px-4 fs-4 font-medium">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                             <path d="M4 7h16" />
@@ -96,7 +96,7 @@
                                             <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
                                             <path d="M10 12l4 4m0 -4l-4 4" />
                                           </svg></button>
-                                        
+                                        </a>
                                           {% include "Admin/State/edit_state_modal.html" %}
                                         </td>  
                                       
