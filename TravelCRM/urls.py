@@ -9,6 +9,7 @@ from django.urls import re_path
 from .views import CustomLoginView
 
 
+
 urlpatterns = [
     re_path("media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
     re_path("static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT}),
