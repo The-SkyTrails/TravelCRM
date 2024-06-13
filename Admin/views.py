@@ -4881,14 +4881,14 @@ def bulk_lead_upload(request):
                 if salespersons:
                     sales_person = salespersons[index % len(salespersons)]
                 else:
-                    logger.warning(f"No salespersons found for destination: {destination_name}")
+                    pass
                     
                    
                     salespersons = salespersons_by_country.get(country_name, [])
                     if salespersons:
                         sales_person = salespersons[index % len(salespersons)]
                     else:
-                        logger.warning(f"No salespersons found for country: {country_name}")
+                        pass
 
                 lead, created = Lead.objects.get_or_create(
                     name=name,
@@ -4915,6 +4915,9 @@ def bulk_lead_upload(request):
                 
                 if created:
                     lead.save()
+                    
+                    notification_message = f"New lead assigned: {lead.name}"
+                    Notification.objects.create(user=sales_person, message=notification_message)
             
             aisensy_api_url = "https://backend.aisensy.com/campaign/t1/api/v2"
             api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3ZSIsIm5hbWUiOiJ0aGVza3l0cmFpbCA4NDEzIiwiYXBwTmFtZSI6IkFpU2Vuc3kiLCJjbGllbnRJZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3NCIsImFjdGl2ZVBsYW4iOiJCQVNJQ19NT05USExZIiwiaWF0IjoxNzEwODUxMDcxfQ.XnS_3uclP8c0J6drYjBCAQmbE6bHxGuD2IAGPaS4N9Y"

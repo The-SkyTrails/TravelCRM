@@ -634,6 +634,16 @@ class BookingCard(models.Model):
     updated_by = models.ForeignKey(CustomUser,on_delete=models.SET_NULL,null=True,blank=True)
     
     
+class Notification(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    message = models.TextField()
+    read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Notification for {self.user.username} - {self.message}"
+    
+    
     
 @receiver(post_save, sender=CustomUser)
 def create_admin_profile(sender, instance, created, **kwargs):
