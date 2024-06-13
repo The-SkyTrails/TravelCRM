@@ -2958,12 +2958,12 @@ def allquerylist(request):
                     page = paginator.page(paginator.num_pages)
             else:
                 all_lead = Lead.objects.all().order_by("-id")
-                paginator = Paginator(all_lead, 10)
+                paginator = Paginator(all_lead,2)
                 page_number = request.GET.get('page')
                 
 
                 try:
-                    page = paginator.page(page_number)
+                    page = paginator.get_page(page_number)
                 except PageNotAnInteger:
                     page = paginator.page(1)
                 except EmptyPage:
