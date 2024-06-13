@@ -4916,34 +4916,31 @@ def bulk_lead_upload(request):
                 if created:
                     lead.save()
             
-            # aisensy_api_url = "https://backend.aisensy.com/campaign/t1/api/v2"
-            # api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3ZSIsIm5hbWUiOiJ0aGVza3l0cmFpbCA4NDEzIiwiYXBwTmFtZSI6IkFpU2Vuc3kiLCJjbGllbnRJZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3NCIsImFjdGl2ZVBsYW4iOiJCQVNJQ19NT05USExZIiwiaWF0IjoxNzEwODUxMDcxfQ.XnS_3uclP8c0J6drYjBCAQmbE6bHxGuD2IAGPaS4N9Y"
+            aisensy_api_url = "https://backend.aisensy.com/campaign/t1/api/v2"
+            api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3ZSIsIm5hbWUiOiJ0aGVza3l0cmFpbCA4NDEzIiwiYXBwTmFtZSI6IkFpU2Vuc3kiLCJjbGllbnRJZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3NCIsImFjdGl2ZVBsYW4iOiJCQVNJQ19NT05USExZIiwiaWF0IjoxNzEwODUxMDcxfQ.XnS_3uclP8c0J6drYjBCAQmbE6bHxGuD2IAGPaS4N9Y"
 
-            # sales_person_name = f"{sales_person.first_name} {sales_person.last_name} "
-            # print(sales_person_name,"sales_person_name")
-            # print(salespersons,"salespersons")
-            # print(sales_person,"sales_person")
-            # print(sales_person.contact,"sales_person.contact")
+            sales_person_name = f"{sales_person.first_name} {sales_person.last_name} "
             
-            # payload = {
-            #     "apiKey": api_key,
-            #     "campaignName": "leadsfinal",
-            #     "destination": sales_person.contact, 
-            #     # "userName": ai_sensy_username,
-            #     "userName": "theskytrail 8413",
-            #     "templateParams": [sales_person_name],
-            #     "source": "new-landing-page form",
-            #     "media": {},
-            #     "buttons": [],
-            #     "carouselCards": [],
-            #     "location": {}
-            # }
+            
+            payload = {
+                "apiKey": api_key,
+                "campaignName": "leads",
+                "destination": sales_person.contact, 
+                # "userName": ai_sensy_username,
+                "userName": "theskytrail 8413",
+                "templateParams": [sales_person_name],
+                "source": "new-landing-page form",
+                "media": {},
+                "buttons": [],
+                "carouselCards": [],
+                "location": {}
+            }
 
-            # response = requests.post(aisensy_api_url, json=payload)
-            # if response.status_code == 200:
-            #     print("WhatsApp message sent successfully!")
-            # else:
-            #     print("Failed to send WhatsApp message:", response.text)
+            response = requests.post(aisensy_api_url, json=payload)
+            if response.status_code == 200:
+                print("WhatsApp message sent successfully!")
+            else:
+                print("Failed to send WhatsApp message:", response.text)
             
             
 
