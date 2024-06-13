@@ -216,6 +216,7 @@ class Destination(models.Model):
     name = models.CharField(max_length=100)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
+    
 
 
 class Restaurent_location(models.Model):
@@ -450,7 +451,8 @@ class CustomUser(AbstractUser):
     code = models.CharField(max_length=5,null=True,blank=True)
     contact = models.CharField(max_length=15,null=True,blank=True)
     user_type = models.CharField(max_length=50,choices=USER_TYPE_CHOICES,default="Admin")
-    destination = models.ForeignKey(Destination,on_delete=models.SET_NULL,null=True,blank=True)
+    destination = models.ManyToManyField(Destination)
+    international_destination = models.ManyToManyField(Country)
     is_logged_in = models.CharField(max_length=50,choices=Login_CHOICES,default="No")
     tata_tele_agent_no = models.CharField(max_length=255,null=True,blank=True)
     ai_sensy_username = models.CharField(max_length=50,null=True,blank=True)
@@ -630,6 +632,16 @@ class BookingCard(models.Model):
     vendor_payment = models.CharField(max_length=100)
     holding_date = models.DateField(auto_now=False,null=True,blank=True)
     updated_by = models.ForeignKey(CustomUser,on_delete=models.SET_NULL,null=True,blank=True)
+    
+    
+class Notification(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    message = models.TextField()
+    read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Notification for {self.user.username} - {self.message}"
     
     
     

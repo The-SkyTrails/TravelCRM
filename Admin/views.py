@@ -1180,9 +1180,7 @@ def bank(request):
 def get_states(request):
    
     country_id = request.GET.get("country_id")
-    print("okkkkk",country_id)
     states = State.objects.filter(country_id=country_id).values_list("id", "name")
-    print("states..........",states)
     return JsonResponse({"states": dict(states)})
     
 
@@ -2150,7 +2148,7 @@ def addamenities(request):
     if request.method == "POST":
 
         ammenities_name = request.POST.get("ametinies_name").capitalize()
-        print("ssss", ammenities_name)
+   
 
         if Amenities.objects.filter(name=ammenities_name).exists():
 
@@ -2397,7 +2395,6 @@ def edit_extra_meal(request, id):
         duration = request.POST.get("duration")
         destination_id = request.POST.get("destination_id")
         restaurant_location_id = request.POST.get("restaurant_location_id")
-        print("restaurant locatinn idddd::", restaurant_location_id)
         restaurant_id = request.POST.get("restaurant_id")
         short_description = request.POST.get("short_description")
         description = request.POST.get("description")
@@ -2645,7 +2642,7 @@ def itinerary(request):
 
             destination = Destination.objects.get(id=destination_id)
             previous_destination = Destination.objects.get(id=previous_destination_id)
-            print(request.POST)
+            
 
             itinerary = Itinerary.objects.create(
                 title=title,
@@ -2706,7 +2703,7 @@ def edit_document(request, id):
             document.document.add(doc)
         
         document.save()
-        print("documents added:", documents)
+        
     
         return HttpResponseRedirect(reverse('documents'))
 
@@ -2806,7 +2803,8 @@ def add_user(request):
     countrys = Country.objects.all()
     states = State.objects.all()
     citys = City.objects.all()
-    destinations = Destination.objects.all()
+    destinations = Destination.objects.filter(country__country_name='India')
+    international_destination = Country.objects.all().exclude(country_name='India')
     logged_in_user = request.user
     context = {
         'roles':roles,
@@ -2814,7 +2812,9 @@ def add_user(request):
         'countrys':countrys,
         'states':states,
         'citys':citys,
-        'destinations':destinations
+        'destinations':destinations,
+        'international_destination':international_destination
+        
     }
     if request.method == "POST":
         firstname = request.POST.get("firstname").capitalize()
@@ -2827,7 +2827,8 @@ def add_user(request):
         contact = request.POST.get("contact")
         password = request.POST.get("password")
         user_type = request.POST.get("user_type")
-        destination_id = request.POST.get('destination_ids')
+        destination_id = request.POST.getlist('destination_ids')
+        international_destination_id = request.POST.getlist('international_destination_ids')
         reporting_to_id = request.POST.get("reporting_to_id")
         country_id = request.POST.get("country_id")
         state_id = request.POST.get("state_id")
@@ -2858,9 +2859,16 @@ def add_user(request):
                 zoho_password=zoho_password
             )
             if destination_id:
-                
-                destination = Destination.objects.get(id=destination_id)
-                user.destination = destination
+                for dest_id in destination_id:
+                    destination = Destination.objects.get(id=dest_id)
+                    user.destination.add(destination)
+                    
+
+            if international_destination_id:
+                for int_dest_id in international_destination_id:
+                    international_destination = Country.objects.get(id=int_dest_id)
+                    user.international_destination.add(international_destination)
+                    
             
 
             user.admin.reporting_to = reporting_to
@@ -4033,7 +4041,6 @@ def bookinglist(request):
     return render(request,"Admin/Query/bookingconfirmed.html",context)
 
 def getoperationdep():
-    print(CustomUser.objects.filter(user_type = "Operation Person"))
     return CustomUser.objects.filter(user_type = "Operation Person")
 
        
@@ -4164,7 +4171,6 @@ def editquery(request,id):
             inter_domes = request.POST.get("inter_domes")
             destination_name = request.POST.get('destination_id')
             country_name = request.POST.get('country_id')
-            print("country_name",country_name)
             from_date = request.POST.get('from')
             to_date = request.POST.get('to')
             purpose_of_travel = request.POST.get('purpose_of_travel')
@@ -4219,7 +4225,6 @@ def editquery(request,id):
             if country_name:
                 
                 country = Country.objects.get(id=country_name)
-                print(country)
                 lead.countrys=country
             lead.save()
             messages.success(request, "Query updated successfully")
@@ -4245,20 +4250,23 @@ def lead_status_update(request,id):
         
         if lead_status == "Booking Confirmed":
             destination_name = lead.destinations
-            print(destination_name,"destination_name")
-            operation_persons = CustomUser.objects.filter(user_type="Operation Person", destination=destination_name)
-            print(operation_persons,"operation_persons")
-            # elif lead.countrys :
-            #     country_name = lead.countrys
-            #     operation_persons = CustomUser.objects.filter(user_type = "Operation Person" , destination__country__country_name = country_name)
-
+            international_destination_name = lead.countrys
+            
+           
+            operation_persons = CustomUser.objects.filter(
+                Q(user_type="Operation Person") &
+                (Q(destination=destination_name) | Q(international_destination=international_destination_name))
+            )
+            
+            
             if operation_persons.exists():
                 last_assigned_index = cache.get("last_assigned_index") or 0
                 next_index = (last_assigned_index + 1) % operation_persons.count()
                 operation_person = operation_persons[next_index]
                 lead.operation_person = operation_person
-                print(operation_person,"leadoperation_person")
+                
                 cache.set("last_assigned_index", next_index)
+                lead.save()
         return redirect("allquerylist")
     
 
@@ -4432,7 +4440,7 @@ def payment_link(request,id):
         }
 
         unique_link_id = str(uuid.uuid4())    
-        print("uniquer:",unique_link_id)  
+        
         
         expiry_time = datetime.datetime.now() + datetime.timedelta(days=2)
         data = {
@@ -4526,15 +4534,13 @@ def make_click_to_call(request,id):
         "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjM3MDgiLCJpc3MiOiJodHRwczovL2Nsb3VkcGhvbmUudGF0YXRlbGVzZXJ2aWNlcy5jb20vdG9rZW4vZ2VuZXJhdGUiLCJpYXQiOjE3MDIyNzE2NzAsImV4cCI6MjAwMjI3MTY3MCwibmJmIjoxNzAyMjcxNjcwLCJqdGkiOiJCa0xPV05hcVNNVkZabm4wIn0.w76qiqkkFZpcb9sjIg_J9MG__iw7m0yZ-rlAoOGKab4",
         "content-type": "application/json",
     }
-    print(payload,"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP")
+    
 
     # Make the POST request
     response = requests.post(url, json=payload, headers=headers)
     json_text = response.text
     data_dict = json.loads(json_text)
-    # print(type(data_dict)) 
-    # print(data_dict['success'])
-
+   
     # student_details = json.loads(jsonString)
     if data_dict['success'] == True:
        
@@ -4677,9 +4683,7 @@ def testt(request,id):
     recording_urls_and_dates = LeadWiseCallRecords(destination)
     response_data = {"status": "calling","recording_urls_and_dates":recording_urls_and_dates}
 
-    # response_data = {"recording_urls_and_dates": recording_urls_and_dates}
-    # print("response data.....")
-
+   
 
     return JsonResponse(response_data)
 
@@ -4828,7 +4832,7 @@ def bulk_lead_upload(request):
             
             salespersons_by_country = defaultdict(list)
             for country_name in countrys:
-                salespersons = CustomUser.objects.filter(user_type="Sales Person", destination__country__country_name=country_name)
+                salespersons = CustomUser.objects.filter(user_type="Sales Person", international_destination__country_name=country_name)
                 salespersons_by_country[country_name].extend(salespersons)
 
             for index, row in df.iterrows():
@@ -4877,14 +4881,14 @@ def bulk_lead_upload(request):
                 if salespersons:
                     sales_person = salespersons[index % len(salespersons)]
                 else:
-                    logger.warning(f"No salespersons found for destination: {destination_name}")
+                    pass
                     
                    
                     salespersons = salespersons_by_country.get(country_name, [])
                     if salespersons:
                         sales_person = salespersons[index % len(salespersons)]
                     else:
-                        logger.warning(f"No salespersons found for country: {country_name}")
+                        pass
 
                 lead, created = Lead.objects.get_or_create(
                     name=name,
@@ -4911,8 +4915,40 @@ def bulk_lead_upload(request):
                 
                 if created:
                     lead.save()
+                    
+                    notification_message = f"New lead assigned: {lead.name}"
+                    Notification.objects.create(user=sales_person, message=notification_message)
+            
+            aisensy_api_url = "https://backend.aisensy.com/campaign/t1/api/v2"
+            api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3ZSIsIm5hbWUiOiJ0aGVza3l0cmFpbCA4NDEzIiwiYXBwTmFtZSI6IkFpU2Vuc3kiLCJjbGllbnRJZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3NCIsImFjdGl2ZVBsYW4iOiJCQVNJQ19NT05USExZIiwiaWF0IjoxNzEwODUxMDcxfQ.XnS_3uclP8c0J6drYjBCAQmbE6bHxGuD2IAGPaS4N9Y"
+
+            sales_person_name = f"{sales_person.first_name} {sales_person.last_name} "
+            
+            
+            payload = {
+                "apiKey": api_key,
+                "campaignName": "leads",
+                "destination": sales_person.contact, 
+                # "userName": ai_sensy_username,
+                "userName": "theskytrail 8413",
+                "templateParams": [sales_person_name],
+                "source": "new-landing-page form",
+                "media": {},
+                "buttons": [],
+                "carouselCards": [],
+                "location": {}
+            }
+
+            response = requests.post(aisensy_api_url, json=payload)
+            if response.status_code == 200:
+                print("WhatsApp message sent successfully!")
+            else:
+                print("Failed to send WhatsApp message:", response.text)
+            
+            
 
             messages.success(request, "Data Imported Successfully!!")
+            
 
         except Exception as e:
             messages.error(request, str(e))
@@ -4942,8 +4978,7 @@ def make_click_to_alternatecall(request,id):
     response = requests.post(url, json=payload, headers=headers)
     json_text = response.text
     data_dict = json.loads(json_text)
-    # print(type(data_dict)) 
-    # print(data_dict['success'])
+    
 
     # student_details = json.loads(jsonString)
     if data_dict['success'] == True:
@@ -4964,7 +4999,8 @@ def edit_user(request,id):
     user_type = USER_TYPE_CHOICES
     reporting = CustomUser.objects.all()
     country = Country.objects.all()
-    destination = Destination.objects.all()
+    destinations = Destination.objects.filter(country__country_name='India')
+    international_destination = Country.objects.all().exclude(country_name='India')
     if request.method == "POST":
         firstname = request.POST.get("firstname").capitalize()
         lastname = request.POST.get("lastname").capitalize()
@@ -4973,7 +5009,8 @@ def edit_user(request,id):
         contact = request.POST.get("contact")
         password = request.POST.get("password")
         user_type = request.POST.get("user_type")
-        destination_id = request.POST.get('destination_ids')
+        destination_id = request.POST.getlist('destination_ids')
+        international_destination_id = request.POST.getlist('international_destination_ids')
         reporting_to_id = request.POST.get("reporting_to_id")
         country_id = request.POST.get("country_id")
         state_id = request.POST.get("state_id")
@@ -4999,10 +5036,18 @@ def edit_user(request,id):
         customuser.ai_sensy_username=ai_sensy_username
         customuser.tata_tele_agent_no=tata_tele_agent_no
         customuser.zoho_password=zoho_password
-        if destination_id:
-                
-            destination = Destination.objects.get(id=destination_id)
-            customuser.destination = destination
+
+                    
+        customuser.destination.clear()  
+        for dest_id in destination_id:
+            destination = Destination.objects.get(id=dest_id)
+            customuser.destination.add(destination)
+            
+        customuser.international_destination.clear()  
+        for int_dest_id in international_destination_id:
+            int_destination = Country.objects.get(id=int_dest_id)
+            customuser.international_destination.add(int_destination)
+        
         customuser.save()
 
         user.reporting_to = reporting_to
@@ -5019,7 +5064,10 @@ def edit_user(request,id):
         'user':user,
         'user_type':user_type,
         'reporting':reporting,
-        'destinations':destination,
+        'destinations':destinations,
+        'international_destination':international_destination,
+        'selected_destination_ids': user.users.destination.values_list('id', flat=True),
+        'selected_international_destination_ids': user.users.international_destination.values_list('id', flat=True),
         }
 
     
@@ -5102,7 +5150,7 @@ def get_user_details(request):
         sender = CustomUser.objects.get(id=user)
         receiver = CustomUser.objects.get(id=receiver_id)
 
-        print("receiverrrr........",receiver.first_name,"sender_id",sender.username,"message:",content)
+        
         messages = Messages.objects.create(sender=sender,receiver=receiver,content=content)
        
         
@@ -5113,7 +5161,7 @@ def get_user_details(request):
 
 def get_chat_history(request,id):
     message= Messages.objects.filter(receiver=id)
-    print(message)
+    
     return HttpResponse('demooooo')
 
 

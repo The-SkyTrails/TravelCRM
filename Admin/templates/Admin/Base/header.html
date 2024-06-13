@@ -91,6 +91,25 @@
                     {% endif %}
                   {% endfor %}
                 </div>
+                <div class="message-body" data-simplebar="">
+                  {% for notification in notifications_processor %}
+                    {% if not notification.closed %}
+                        <div class="p-3 d-flex align-items-center dropdown-item gap-3 border-bottom" data-notification-id="{{ notification.id }}">
+                            <span class="flex-shrink-0 bg-primary-subtle rounded-circle round-40 d-flex align-items-center justify-content-center fs-6 text-primary">
+                                <iconify-icon icon="solar:widget-3-line-duotone"></iconify-icon>
+                            </span>
+                            <div class="w-80 d-inline-block v-middle">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h6 class="mb-1">{{notification.message}}</h6>
+                                    <button class="btn-close" data-followup-id="{{ notification.id }}"></button>
+                                </div>
+                                <span class="fs-2 text-nowrap d-block text-muted">{{ notification.created_at|date:"d-m-Y H:i A" }}</span>
+                               
+                            </div>
+                        </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
              
 
               </div>
@@ -239,6 +258,26 @@
                               </div>
                               <span class="fs-2 text-nowrap d-block text-muted">{{ followup.datetime|date:"d-m-Y H:i A" }}</span>
                               <span class="fs-2 d-block text-truncate text-muted">{{ followup.note }}</span>
+                          </div>
+                      </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+
+              <div class="message-body" data-simplebar="">
+                {% for notification in notifications_processor %}
+                  {% if not notification.closed %}
+                      <div class="p-3 d-flex align-items-center dropdown-item gap-3 border-bottom" data-notification-id="{{ notification.id }}">
+                          <span class="flex-shrink-0 bg-primary-subtle rounded-circle round-40 d-flex align-items-center justify-content-center fs-6 text-primary">
+                              <iconify-icon icon="solar:widget-3-line-duotone"></iconify-icon>
+                          </span>
+                          <div class="w-80 d-inline-block v-middle">
+                              <div class="d-flex align-items-center justify-content-between">
+                                  <h6 class="mb-1">{{notification.message}}</h6>
+                                  <button class="btn-close" data-followup-id="{{ notification.id }}"></button>
+                              </div>
+                              <span class="fs-2 text-nowrap d-block text-muted">{{ notification.created_at|date:"d-m-Y H:i A" }}</span>
+                             
                           </div>
                       </div>
                   {% endif %}
@@ -604,6 +643,39 @@
       // Hide notifications that are permanently closed
       closedNotifications.forEach(closedId => {
           const closedNotification = document.querySelector(`[data-followup-id="${closedId}"]`);
+          if (closedNotification) {
+              closedNotification.remove();
+          }
+      });
+  });
+</script>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const closedNotifications = JSON.parse(localStorage.getItem('closedNotifications')) || [];
+
+      const closeButtons = document.querySelectorAll('.btn-close');
+      closeButtons.forEach(button => {
+          button.addEventListener('click', function() {
+              const notificationId = button.getAttribute('data-notification-id');
+              closeNotification(notificationId);
+              button.closest('.dropdown-item').remove();
+          });
+      });
+
+      function closeNotification(notificationId) {
+          // Store the ID of the closed notification in local storage
+          if (!closedNotifications.includes(notificationId)) {
+              closedNotifications.push(notificationId);
+              localStorage.setItem('closedNotifications', JSON.stringify(closedNotifications));
+          }
+      }
+
+      // Hide notifications that are permanently closed
+      closedNotifications.forEach(closedId => {
+          const closedNotification = document.querySelector(`[data-notification-id="${closedId}"]`);
           if (closedNotification) {
               closedNotification.remove();
           }
