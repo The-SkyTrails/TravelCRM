@@ -4611,7 +4611,7 @@ def userlogout (request):
 
 
 def forgot_psw(request):
-   
+    print("forgottttttttt")
     if request.method == "POST":
         email = request.POST.get('email')
         if CustomUser.objects.filter(email=email):
