@@ -79,6 +79,7 @@ USER_TYPE_CHOICES = [
 
 LEAD_STATUS_CHOICES = [
     ("Pending","Pending"),
+    ("No Answer","No Answer"),
     ("Connected","Connected"),
     ("Quotation Send","Quotation Send"),
     ("Payment Processing","Payment Processing"),
