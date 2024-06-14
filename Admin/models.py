@@ -576,14 +576,14 @@ class Quatation(models.Model):
     lead = models.ForeignKey(Lead,on_delete=models.CASCADE,related_name='quotations')
     activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='quotation',null=True,blank=True)
     attachment = models.ManyToManyField(Attachment)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
 
 class Notes(models.Model):
     id=models.AutoField(primary_key=True)
     lead = models.ForeignKey(Lead,on_delete=models.CASCADE,related_name='notes')
     activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='note',null=True,blank=True)
     notes = models.TextField()
-    date = models.DateField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
     
     
 class Followup(models.Model):
@@ -594,7 +594,7 @@ class Followup(models.Model):
     datetime = models.DateTimeField(auto_now_add=False)
     note = models.TextField(max_length=100)
     archieve = models.BooleanField(default="True")
-    date = models.DateField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
    
 class File(models.Model):
     id=models.AutoField(primary_key=True)
@@ -605,7 +605,7 @@ class ConfirmAttachment(models.Model):
     lead = models.ForeignKey(Lead,on_delete=models.CASCADE,related_name='attachment')
     activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='attachments',null=True,blank=True)
     attachment = models.ManyToManyField(File)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
 
 class Messages(models.Model):
     sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sent_messages')

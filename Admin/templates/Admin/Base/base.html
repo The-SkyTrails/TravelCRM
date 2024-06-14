@@ -136,6 +136,11 @@
         headers: {
                   "X-CSRFToken": csrftoken  // Include CSRF token in the headers
         },
+        beforeSend: function() {
+          // Show the processing indicator before sending the request
+
+          $("#status_" + leadId).text("Ringing....");
+        },
         success: function(data) {
           if (data.status === "calling") {
                 $("#status_" + leadId).text("Connected....");
@@ -173,6 +178,11 @@
         method: "POST",
         headers: {
                   "X-CSRFToken": csrftoken  // Include CSRF token in the headers
+        },
+        beforeSend: function() {
+          // Show the processing indicator before sending the request
+
+          $("#alternatestatus_" + leadId).text("Ringing....");
         },
         success: function(data) {
           if (data.status === "calling") {
