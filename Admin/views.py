@@ -3396,7 +3396,7 @@ def quatationquerylist(request):
             lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             if from_date and to_date:
-                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user)) & Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-id")
                 paginator = Paginator(quatation_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3408,8 +3408,7 @@ def quatationquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))&
-                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-id")
+                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
                 paginator = Paginator(quatation_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3429,7 +3428,7 @@ def quatationquerylist(request):
             lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
             if from_date and to_date:
-                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user)) & Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-id")
                 paginator = Paginator(quatation_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3441,8 +3440,7 @@ def quatationquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))&
-                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-id")
+                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
                 paginator = Paginator(quatation_lead_list, 10)
                 page_number = request.GET.get('page')
                 
