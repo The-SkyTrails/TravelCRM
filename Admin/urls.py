@@ -304,19 +304,13 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('Edit/profile/', edit_profile, name='edit_profile'),
     path('Logout/', userlogout, name='logout'),
-    # path("Accounts/Admin/Change/Password",admin_reset_psw,name="admin_reset_psw"),
-    
-    path('ForgotPassword/', forgot_psw, name='forgot_psw'),
-    # path('forgot-password/', forgot_psw, name='forgot_password'),  # Include your forgot password view here
-    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
-    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
-    # path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_change_form.html'), name='password_reset_confirm'),
-    path('reset/<uidb64>/<token>/set-password/', CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
-    path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
-    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
-
+   
     # -------------------------------------------- Change Password ------------------ 
+    
+    path('password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/done/', CustomPasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', CustomPasswordResetCompleteView.as_view(), name='password_reset_complete'),
     
     path("Change/Password",change_psw,name="change_psw"),
     path("testt/<int:id>",testt,name="testt"),

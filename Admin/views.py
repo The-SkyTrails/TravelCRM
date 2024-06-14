@@ -3396,7 +3396,7 @@ def quatationquerylist(request):
             lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
             if from_date and to_date:
-                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user)) & Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-id")
+                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
                 paginator = Paginator(quatation_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3408,7 +3408,8 @@ def quatationquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))&
+                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-id")
                 paginator = Paginator(quatation_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3428,7 +3429,7 @@ def quatationquerylist(request):
             lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
             if from_date and to_date:
-                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user)) & Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-id")
+                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
                 paginator = Paginator(quatation_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3440,7 +3441,8 @@ def quatationquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))&
+                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-id")
                 paginator = Paginator(quatation_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -4608,8 +4610,35 @@ def userlogout (request):
     return redirect("/")
 
 
+
+
+
+
+
+
+
+
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView    
+from django.urls import reverse_lazy
+
+class CustomPasswordResetView(PasswordResetView):
+    email_template_name = 'password_reset_email.html'
+    success_url = reverse_lazy('password_reset_done')
+    template_name = 'password_reset_form.html'
+
+    
+
+
+
+class CustomPasswordResetDoneView(PasswordResetDoneView):
+   
+    template_name = 'password_reset_done.html'
+
+
+
+
 def forgot_psw(request):
-    print("forgottttttttt")
+   
     if request.method == "POST":
         email = request.POST.get('email')
         if CustomUser.objects.filter(email=email):
@@ -4638,10 +4667,15 @@ def resetpsw(request):
 def forgot_psw_success(request):
     return render(request,'forgot_psw.html')
 
-
+from django.urls import reverse_lazy
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    success_url = reverse_lazy('password_reset_complete')
     template_name = 'password_change_form.html'  
 
+
+
+class CustomPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'password_reset_complete.html'
 
 def change_psw(request):
     user = request.user
