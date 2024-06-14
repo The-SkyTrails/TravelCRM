@@ -55,7 +55,7 @@
                                     <tbody id="productRows">
                                         <tr class="product-row">
                                             <td>
-                                                <select class="form-control product-select" name="product" id="product">
+                                                <select class="form-control product-select" name="product" id="product" required>
                                                     <option value="Hotel">Hotel</option>
                                                     <option value="Flight">Flight</option>
                                                     <option value="Travel Insurance">Travel Insurance</option>
@@ -69,14 +69,14 @@
                                                     <option value="Others">Others</option>
                                                 </select>
                                             </td>
-                                            <td><input type="text" class="form-control" name="supplier" id="supplier" required></td>
-                                            <td><input type="text" class="form-control" name="name" id="name" required></td>
-                                            <td><input type="text" class="form-control" name="net_cost" id="net_cost" required></td>
-                                            <td><input type="text" class="form-control" name="source" id="source" required></td>
-                                            <td><input type="text" class="form-control" name="source_details" id="source_details" required></td>
-                                            <td><input type="text" class="form-control" name="status" id="status" required></td>
+                                            <td><input type="text" class="form-control" name="supplier" id="supplier" placeholder="AirIndia" required></td>
+                                            <td><input type="text" class="form-control" name="name" id="name" placeholder="Indigo" required></td>
+                                            <td><input type="text" class="form-control" name="net_cost" id="net_cost" placeholder="100.00" required></td>
+                                            <td><input type="text" class="form-control" name="source" id="source" placeholder="Refrence" required></td>
+                                            <td><input type="text" class="form-control" name="source_details" id="source_details" placeholder="Online" required></td>
+                                            <td><input type="text" class="form-control" name="status" id="status" placeholder="Pending" required></td>
                                             <td><input type="date" class="form-control" name="holding_date" id="holding_date" required></td>
-                                            <td><input type="text" class="form-control" name="vendor_payment" id="vendor_payment" required></td>
+                                            <td><input type="text" class="form-control" name="vendor_payment" id="vendor_payment" placeholder="Pending" required></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -93,23 +93,23 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="control-label" for="">MarkUp</label>
-                                    <input type="text" class="form-control" name="markup" required>
+                                    <input type="text" class="form-control" name="markup" placeholder="10.00" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="control-label" for="">TCS</label>
-                                    <input type="text" class="form-control" name="tcs" required>
+                                    <input type="text" class="form-control" name="tcs" placeholder="10.00" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="control-label" for="">GST</label>
-                                    <input type="text" class="form-control" name="gst" required>
+                                    <input type="text" class="form-control" name="gst" placeholder="10.00" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="control-label" for="">PG Cards</label>
-                                    <input type="text" class="form-control" name="pg_card" required>
+                                    <input type="text" class="form-control" name="pg_card" placeholder="10.00" required>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="control-label" for="">Total</label>
-                                    <input type="text" class="form-control" name="total" required>
+                                    <input type="text" class="form-control" name="total" placeholder="200.00" required>
                                 </div>
                             </div>
 
