@@ -20,6 +20,7 @@
                             <label for="country-name" class="control-label">Status</label>
                             <select class="form-control" name="lead_status" id="lead_status" style="height: 36px; width: 100%">
                                 <option value="Pending" {% if i.lead_status == "Pending" %}selected{% endif %}>Pending</option>
+                                <option value="No Answer" {% if i.lead_status == "No Answer" %}selected{% endif %}>No Answer</option>
                                 <option value="Connected" {% if i.lead_status == "Connected" %}selected{% endif %}>Connected</option>
                                 <option value="Quotation Send" {% if i.lead_status == "Quotation Send" %}selected{% endif %}>Quotation Send</option>
                                 <option value="Payment Processing" {% if i.lead_status == "Payment Processing" %}selected{% endif %}>Payment Processing</option>

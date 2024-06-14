@@ -214,6 +214,8 @@
                                       <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.to_date}}</td>
                                       <td>{% if i.lead_status == "Pending" %}
                                         <span class="mb-1 badge rounded-pill text-bg-warning">{{ i.lead_status }}</span>
+                                        {% elif i.lead_status == "No Answer" %}
+                                          <span class="mb-1 badge rounded-pill text-bg-danger">{{ i.lead_status }}</span>
                                     {% elif i.lead_status == "Connected" %}
                                         <span class="mb-1 badge rounded-pill text-bg-danger">{{ i.lead_status }}</span>
                                     {% elif i.lead_status == "Quotation Send" %}
