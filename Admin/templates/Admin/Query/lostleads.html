@@ -81,6 +81,24 @@
               </a>
             </div>
             {% endif %}
+            {% if user.user_type == "Sales Person" %}
+            <div class="col-lg-2">
+              <a href="{% url "noanswerquerylist" %}">
+                <div class="card"
+                  style="background: linear-gradient(90deg, rgba(5,172,33,1) 26%, rgba(6,103,33,1) 65%);">
+                  <div class="card-body p-4 d-flex align-items-center gap-3">
+                    <div>
+                      <h5 class="fw-semibold mb-0">{{no_answer_list.count}}</h5>
+                      <span class="fs-2 d-flex align-items-center" style="color: white;"><i
+                          class="ti ti-map-pin text-dark fs-3 me-1"></i>
+                        NoAnswer</span>
+                    </div>
+
+                  </div>
+                </div>
+              </a>
+            </div>
+            {% endif %}
             <div class="col-lg-2">
               <a href="{% url "connectedquerylist" %}">
               <div class="card" style="background: linear-gradient(90deg, rgba(120,144,126,1) 26%, rgba(55,73,51,1) 69%);">
