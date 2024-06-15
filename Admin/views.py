@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
 import requests
-from datetime import date
+from datetime import datetime
 import json
 from django.core.mail import EmailMessage
 import mimetypes 
@@ -2965,7 +2965,7 @@ def allquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                all_lead = Lead.objects.all().order_by("-id")
+                all_lead = Lead.objects.all().order_by("-last_updated_at")
                 paginator = Paginator(all_lead,10)
                 page_number = request.GET.get('page')
                 
@@ -2976,20 +2976,20 @@ def allquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-id")
-            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
-            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-id")
-            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
-            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
-            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
+            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
+            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
         elif user_type == "Sales Person":
             if from_date and to_date:
                 all_lead = Lead.objects.filter(
                     Q(added_by=request.user) | Q(sales_person=request.user),
                     Q(from_date__gte=from_date, to_date__lte=to_date),
-                ).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
+                ).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-last_updated_at")
                 paginator = Paginator(all_lead, 10)
                 page_number = request.GET.get('page')
                 
@@ -3001,7 +3001,7 @@ def allquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user),).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
+                all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user),).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-last_updated_at")
                 paginator = Paginator(all_lead, 10)
                 page_number = request.GET.get('page')
                 
@@ -3012,20 +3012,20 @@ def allquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
         elif user_type == "Operation Person":
             if from_date and to_date:
                 all_lead = Lead.objects.filter(
                     Q(added_by=request.user) | Q(operation_person=request.user),
                     Q(from_date__gte=from_date, to_date__lte=to_date),
-                ).order_by("-id")
+                ).order_by("-last_updated_at")
                 paginator = Paginator(all_lead, 10)
                 page_number = request.GET.get('page')
                 
@@ -3037,7 +3037,7 @@ def allquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-id")
+                all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
                 paginator = Paginator(all_lead, 10)
                 page_number = request.GET.get('page')
                 
@@ -3048,14 +3048,14 @@ def allquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
     else:
         
         new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = []
@@ -3095,9 +3095,9 @@ def newquerylist(request):
     if request.user.is_authenticated:
         user_type = request.user.user_type  
         if user_type == "Admin":
-            all_lead = Lead.objects.all().order_by("-id")
+            all_lead = Lead.objects.all().order_by("-last_updated_at")
             if from_date and to_date:
-                new_lead_list = Lead.objects.filter(lead_status="Pending", from_date__gte=from_date, to_date__lte=to_date).order_by("-id")
+                new_lead_list = Lead.objects.filter(lead_status="Pending", from_date__gte=from_date, to_date__lte=to_date).order_by("-last_updated_at")
                 paginator = Paginator(new_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3110,7 +3110,7 @@ def newquerylist(request):
                     page = paginator.page(paginator.num_pages)
                     
             else:
-                new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-id")
+                new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
                 paginator = Paginator(new_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3121,21 +3121,21 @@ def newquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
-            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-id")
-            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
-            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
-            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
+            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
+            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
         elif user_type == "Sales Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
             if from_date and to_date:
                 new_lead_list = Lead.objects.filter(
                     Q(lead_status="Pending") &
                     (Q(added_by=request.user) | Q(sales_person=request.user)) &
                     Q(from_date__gte=from_date, to_date__lte=to_date)
-                ).order_by("-id")
+                ).order_by("-last_updated_at")
                 paginator = Paginator(new_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3147,7 +3147,7 @@ def newquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+                new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(new_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3158,21 +3158,21 @@ def newquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
         elif user_type == "Operation Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
             if from_date and to_date:
                 new_lead_list = Lead.objects.filter(
                     Q(lead_status="Pending") &
                     (Q(added_by=request.user) | Q(operation_person=request.user)) &
                     Q(from_date__gte=from_date, to_date__lte=to_date)
-                ).order_by("-id")
+                ).order_by("-last_updated_at")
                 paginator = Paginator(new_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3184,7 +3184,7 @@ def newquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+                new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(new_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3195,13 +3195,13 @@ def newquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
 
     else:
         
@@ -3237,10 +3237,10 @@ def connectedquerylist(request):
     if request.user.is_authenticated:
         user_type = request.user.user_type  
         if user_type == "Admin":
-            all_lead = Lead.objects.all().order_by("-id")
-            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-id")
+            all_lead = Lead.objects.all().order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
             if from_date and to_date:
-                lead_list = Lead.objects.filter(lead_status="Connected",from_date__gte=from_date, to_date__lte=to_date).order_by("-id")
+                lead_list = Lead.objects.filter(lead_status="Connected",from_date__gte=from_date, to_date__lte=to_date).order_by("-last_updated_at")
                 paginator = Paginator(lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3252,7 +3252,7 @@ def connectedquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
+                lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
                 paginator = Paginator(lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3263,18 +3263,18 @@ def connectedquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-id")
-            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
-            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
-            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
+            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
+            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
         elif user_type == "Sales Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))&
-                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-id")
+                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-last_updated_at")
                 paginator = Paginator(lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3286,7 +3286,7 @@ def connectedquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+                lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3297,18 +3297,18 @@ def connectedquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
         elif user_type == "Operation Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-id")
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))&
-                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-id")
+                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-last_updated_at")
                 paginator = Paginator(lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3320,7 +3320,7 @@ def connectedquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+                lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3331,12 +3331,12 @@ def connectedquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
 
     else:
         
@@ -3371,13 +3371,13 @@ def quatationquerylist(request):
     if request.user.is_authenticated:
         user_type = request.user.user_type  
         if user_type == "Admin":
-            all_lead = Lead.objects.all().order_by("-id")
-            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-id")
-            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
-            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-id")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
+            all_lead = Lead.objects.all().order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
+            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
             if from_date and to_date:
-                quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send",from_date__gte=from_date, to_date__lte=to_date).order_by("-id")
+                quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send",from_date__gte=from_date, to_date__lte=to_date).order_by("-last_updated_at")
                 paginator = Paginator(quatation_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3389,7 +3389,7 @@ def quatationquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
+                quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
                 paginator = Paginator(quatation_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3400,17 +3400,17 @@ def quatationquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
-            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
-            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
+            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
         elif user_type == "Sales Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
-                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user)) & Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-id")
+                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user)) & Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-last_updated_at")
                 paginator = Paginator(quatation_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3422,7 +3422,7 @@ def quatationquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(quatation_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3433,18 +3433,18 @@ def quatationquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
         elif user_type == "Operation Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-id")
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user)) &
-                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-id")
+                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-last_updated_at")
                 paginator = Paginator(quatation_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3456,7 +3456,7 @@ def quatationquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(quatation_lead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3467,9 +3467,9 @@ def quatationquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
 
     else:
         
@@ -3505,17 +3505,17 @@ def paymentdonequerylist(request):
     if request.user.is_authenticated:
         user_type = request.user.user_type  
         if user_type == "Admin":
-            all_lead = Lead.objects.all().order_by("-id")
-            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-id")
-            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
-            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-id")
-            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
+            all_lead = Lead.objects.all().order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
+            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
             if from_date and to_date:
                 paydonelead_list = Lead.objects.filter(
                     Q(lead_status="Payment Done") | Q(lead_status="Payment Processing"),
                     Q(from_date__gte=from_date, to_date__lte=to_date)
-                ).order_by("-id")
+                ).order_by("-last_updated_at")
                 paginator = Paginator(paydonelead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3527,7 +3527,7 @@ def paymentdonequerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
+                paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
                 paginator = Paginator(paydonelead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3538,21 +3538,21 @@ def paymentdonequerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
-            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
+            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
         elif user_type == "Sales Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 paydonelead_list = Lead.objects.filter(
                     (Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) &
                     (Q(added_by=request.user) | Q(sales_person=request.user)),
                     Q(from_date__gte=from_date, to_date__lte=to_date)
-                ).order_by("-id")
+                ).order_by("-last_updated_at")
                 paginator = Paginator(paydonelead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3564,7 +3564,7 @@ def paymentdonequerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+                paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(paydonelead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3575,21 +3575,21 @@ def paymentdonequerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
     elif user_type == "Operation Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-id")
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 paydonelead_list = Lead.objects.filter(
                     (Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) &
                     (Q(added_by=request.user) | Q(operation_person=request.user)),
                     Q(from_date__gte=from_date, to_date__lte=to_date)
-                ).order_by("-id")
+                ).order_by("-last_updated_at")
                 paginator = Paginator(paydonelead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3601,7 +3601,7 @@ def paymentdonequerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+                paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(paydonelead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3612,8 +3612,8 @@ def paymentdonequerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
 
     else:
         
@@ -3648,19 +3648,19 @@ def completedquerylist(request):
     if request.user.is_authenticated:
         user_type = request.user.user_type  
         if user_type == "Admin":
-            all_lead = Lead.objects.all().order_by("-id")
-            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-id")
-            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
-            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-id")
-            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
+            all_lead = Lead.objects.all().order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
             if from_date and to_date:
                 comlead_list = Lead.objects.filter(
                     lead_status="Completed",
                     from_date__gte=from_date,
                     to_date__lte=to_date
-                ).order_by("-id")
+                ).order_by("-last_updated_at")
                 paginator = Paginator(comlead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3672,7 +3672,7 @@ def completedquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
+                comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
                 paginator = Paginator(comlead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3683,21 +3683,21 @@ def completedquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
+            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
         elif user_type == "Sales Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 comlead_list = Lead.objects.filter(
                     Q(lead_status="Completed") &
                     (Q(added_by=request.user) | Q(sales_person=request.user)) &
                     Q(from_date__gte=from_date, to_date__lte=to_date)
-                ).order_by("-id")
+                ).order_by("-last_updated_at")
                 paginator = Paginator(comlead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3709,7 +3709,7 @@ def completedquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+                comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(comlead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3720,21 +3720,21 @@ def completedquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
         elif user_type == "Operation Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-id")
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 comlead_list = Lead.objects.filter(
                     Q(lead_status="Completed") &
                     (Q(added_by=request.user) | Q(operation_person=request.user)) &
                     Q(from_date__gte=from_date, to_date__lte=to_date)
-                ).order_by("-id")
+                ).order_by("-last_updated_at")
                 paginator = Paginator(comlead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3746,7 +3746,7 @@ def completedquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+                comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(comlead_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3757,7 +3757,7 @@ def completedquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
 
     else:
         
@@ -3792,18 +3792,18 @@ def lostquerylist(request):
     if request.user.is_authenticated:
         user_type = request.user.user_type  
         if user_type == "Admin":
-            all_lead = Lead.objects.all().order_by("-id")
-            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-id")
-            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
-            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-id")
-            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
-            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
+            all_lead = Lead.objects.all().order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
+            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
             if from_date and to_date:
                 lost_list = Lead.objects.filter(lead_status="Lost",
                     from_date__gte=from_date,
-                    to_date__lte=to_date).order_by("-id")
+                    to_date__lte=to_date).order_by("-last_updated_at")
                 paginator = Paginator(lost_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3815,7 +3815,7 @@ def lostquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
+                lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
                 paginator = Paginator(lost_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3827,20 +3827,20 @@ def lostquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
         elif user_type == "Sales Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 lost_list = Lead.objects.filter(
                     Q(lead_status="Lost") &
                     (Q(added_by=request.user) | Q(sales_person=request.user)) &
                     Q(from_date__gte=from_date, to_date__lte=to_date)
-                ).order_by("-id")
+                ).order_by("-last_updated_at")
                 paginator = Paginator(lost_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3852,7 +3852,7 @@ def lostquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+                lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(lost_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3864,20 +3864,20 @@ def lostquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
         elif user_type == "Operation Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-id")
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 lost_list = Lead.objects.filter(
                     Q(lead_status="Lost") &
                     (Q(added_by=request.user) | Q(operation_person=request.user)) &
                     Q(from_date__gte=from_date, to_date__lte=to_date)
-                ).order_by("-id")
+                ).order_by("-last_updated_at")
                 paginator = Paginator(lost_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3889,7 +3889,7 @@ def lostquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+                lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(lost_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3936,18 +3936,18 @@ def bookinglist(request):
         user_type = request.user.user_type  
         if user_type == "Admin":
 
-            all_lead = Lead.objects.all().order_by("-id")
-            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-id")
-            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
-            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-id")
-            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
-            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
-            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
+            all_lead = Lead.objects.all().order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
             if from_date and to_date:
                 book_list = Lead.objects.filter(lead_status="Booking Confirmed",
                     from_date__gte=from_date,
-                    to_date__lte=to_date).order_by("-id")
+                    to_date__lte=to_date).order_by("-last_updated_at")
                 paginator = Paginator(book_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3959,7 +3959,7 @@ def bookinglist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
+                book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
                 paginator = Paginator(book_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3971,20 +3971,20 @@ def bookinglist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
         elif user_type == "Sales Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user),).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user),).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 book_list = Lead.objects.filter(
                     Q(lead_status="Booking Confirmed") &
                     (Q(added_by=request.user) | Q(sales_person=request.user)) &
                     Q(from_date__gte=from_date, to_date__lte=to_date)
-                ).order_by("-id")
+                ).order_by("-last_updated_at")
                 paginator = Paginator(book_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3996,7 +3996,7 @@ def bookinglist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+                book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(book_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -4008,20 +4008,20 @@ def bookinglist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
         elif user_type == "Operation Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user),).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-id")
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user),).exclude(lead_status='Booking Confirmed').exclude(lead_status='Completed').order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 book_list = Lead.objects.filter(
                     Q(lead_status="Booking Confirmed") &
                     (Q(added_by=request.user) | Q(operation_person=request.user)) &
                     Q(from_date__gte=from_date, to_date__lte=to_date)
-                ).order_by("-id")
+                ).order_by("-last_updated_at")
                 paginator = Paginator(book_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -4033,7 +4033,7 @@ def bookinglist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+                book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(book_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -4051,7 +4051,7 @@ def bookinglist(request):
 
     operation = CustomUser.objects.filter(user_type="Sales Person")
     user = request.user
-    authorizations = user.authorization
+    # authorizations = user.authorization
     # lead_authorization = Lead.objects.get(added_by__authorization=authorizations)
     recording_urls_and_dates = fetch_recording_urls_and_dates()
 
@@ -4084,11 +4084,11 @@ def noanswerquerylist(request):
     if request.user.is_authenticated:
         user_type = request.user.user_type  
         if user_type == "Admin":
-            all_lead = Lead.objects.all().order_by("-id")
-            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-id")
-            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
+            all_lead = Lead.objects.all().order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
             if from_date and to_date:
-                no_answer_list = Lead.objects.filter(lead_status="No Answer",from_date__gte=from_date, to_date__lte=to_date).order_by("-id")
+                no_answer_list = Lead.objects.filter(lead_status="No Answer",from_date__gte=from_date, to_date__lte=to_date).order_by("-last_updated_at")
                 paginator = Paginator(no_answer_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -4100,7 +4100,7 @@ def noanswerquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-id")
+                no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
                 paginator = Paginator(no_answer_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -4111,17 +4111,17 @@ def noanswerquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
-            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-id")
-            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
-            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
+            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
+            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
         elif user_type == "Sales Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-id")
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
-                no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))& Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-id")
+                no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))& Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-last_updated_at")
                 paginator = Paginator(no_answer_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -4133,7 +4133,7 @@ def noanswerquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+                no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(no_answer_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -4144,18 +4144,18 @@ def noanswerquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
         elif user_type == "Operation Person":
-            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-id")
-            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))&
-                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-id")
+                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-last_updated_at")
                 paginator = Paginator(no_answer_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -4167,7 +4167,7 @@ def noanswerquerylist(request):
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
             else:
-                no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+                no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
                 paginator = Paginator(no_answer_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -4178,11 +4178,11 @@ def noanswerquerylist(request):
                     page = paginator.page(1)
                 except EmptyPage:
                     page = paginator.page(paginator.num_pages)
-            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
-            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
 
     else:
         
@@ -4417,6 +4417,24 @@ def lead_status_update(request,id):
         lead.lead_status = lead_status
         lead.save()
         
+        if lead_status == "Pending":
+            return redirect("newquerylist")
+        elif lead_status == "No Answer":
+            return redirect("noanswerquerylist")
+        elif lead_status == "Connected":
+            return redirect("connectedquerylist")
+        elif lead_status == "Quotation Send":
+            return redirect("quatationquerylist")
+        elif lead_status == "Payment Processing":
+            return redirect("paymentdonequerylist")
+        elif lead_status == "Payment Done":
+            return redirect("paymentdonequerylist")
+        elif lead_status == "Lost":
+            return redirect("lostquery")
+        elif lead_status == "Completed":
+            return redirect("completedquery")
+        
+        
         if lead_status == "Booking Confirmed":
             destination_name = lead.destinations
             international_destination_name = lead.countrys
@@ -4436,6 +4454,7 @@ def lead_status_update(request,id):
                 
                 cache.set("last_assigned_index", next_index)
                 lead.save()
+                return redirect("bookinglist")
         return redirect("allquerylist")
     
 
@@ -4447,7 +4466,25 @@ def op_update(request,id):
         lead.sales_person = sales_person
         lead.assigning_date = timezone.now()
         lead.save()
-        return redirect("allquerylist")
+        redirect_to = request.POST.get("redirect_to")
+        if redirect_to == "newquerylist":
+            return HttpResponseRedirect(reverse("newquerylist"))
+        elif redirect_to == "lostquery":
+            return HttpResponseRedirect(reverse("lostquery"))
+        elif redirect_to == "connectedquerylist":
+            return HttpResponseRedirect(reverse("connectedquerylist"))
+        elif redirect_to == "noanswerquerylist":
+            return HttpResponseRedirect(reverse("noanswerquerylist"))
+        elif redirect_to == "quatationquerylist":
+            return HttpResponseRedirect(reverse("quatationquerylist"))
+        elif redirect_to == "paymentdonequerylist":
+            return HttpResponseRedirect(reverse("paymentdonequerylist"))
+        elif redirect_to == "completedquery":
+            return HttpResponseRedirect(reverse("completedquery"))
+        elif redirect_to == "bookinglist":
+            return HttpResponseRedirect(reverse("bookinglist"))
+        else:
+            return HttpResponseRedirect(reverse("allquerylist"))
     
 
 def attach_quotation(request, id):
@@ -4589,30 +4626,24 @@ def attach_confirmattachmnet(request, id):
     else:
         pass
 
-
 def payment_link(request,id): 
     if request.method == "POST":
         
         email = request.POST.get("email")
         amount = request.POST.get("amount")
         lead = Lead.objects.get(id=id)
+       
         
         # url = "https://api.cashfree.com/pg/orders"
         url = "https://sandbox.cashfree.com/pg/links"
                 
-        headers = {
-            "accept": "application/json",
-            "content-type": "application/json",
-            "x-api-version": "2023-08-01",
-            "x-client-id": "17792263f8ad3b41a90673b52f229771",
-            "x-client-secret": "00f09ad3074140b18466ebbb092f8e6066917028"
-        }
-
+        
         unique_link_id = str(uuid.uuid4())    
+         
         
-        
-        expiry_time = datetime.datetime.now() + datetime.timedelta(days=2)
-        data = {
+        url = "https://sandbox.cashfree.com/pg/links"
+
+        payload = {
             "customer_details": {
                 "customer_phone": lead.mobile_number,
                 "customer_email": email,
@@ -4622,16 +4653,21 @@ def payment_link(request,id):
                 "send_sms": True,
                 "send_email": True
             },
-            "link_amount": amount,
-            "link_currency": "INR",
-            "link_purpose": "Payment for PlayStation 11",
             "link_id": unique_link_id,
-            "returnUrl":"http://127.0.0.1:8000/quatationquerylist",
-            "link_expiry": expiry_time.timestamp()
+            "link_amount": amount,
+            "link_purpose": "payment for travel",
+            "link_currency": "INR"
+        }
+        headers = {
+            "accept": "application/json",
+            "x-api-version": "2023-08-01",
+            "content-type": "application/json",
+            "x-client-id": "17792263f8ad3b41a90673b52f229771",
+            "x-client-secret": "00f09ad3074140b18466ebbb092f8e6066917028"
         }
 
 
-        response = requests.post(url, headers=headers, json=data)
+        response = requests.post(url, json=payload, headers=headers)
         data = response.json()
         link_url = response.json().get('link_url')
         link_expiry_time = response.json().get('link_expiry_time')
@@ -4643,9 +4679,8 @@ def payment_link(request,id):
         payment.activity = activity_history
         payment.save()
         messages.success(request, "Payment Link Generated Successfully...")
-        return redirect("quatationquerylist")
-
-
+        return redirect("bookinglist")
+    
 def payment_status(request,id):
     payment = Payment.objects.get(id=id)
     link_id=payment.link_id
@@ -5599,7 +5634,25 @@ def update_colourcode(request,id):
         colour = request.POST.get("colour_code")
         lead.colour_code = colour
         lead.save()
-        return redirect("allquerylist")
+        redirect_to = request.POST.get("redirect_to")
+        if redirect_to == "newquerylist":
+            return HttpResponseRedirect(reverse("newquerylist"))
+        elif redirect_to == "lostquery":
+            return HttpResponseRedirect(reverse("lostquery"))
+        elif redirect_to == "connectedquerylist":
+            return HttpResponseRedirect(reverse("connectedquerylist"))
+        elif redirect_to == "noanswerquerylist":
+            return HttpResponseRedirect(reverse("noanswerquerylist"))
+        elif redirect_to == "quatationquerylist":
+            return HttpResponseRedirect(reverse("quatationquerylist"))
+        elif redirect_to == "paymentdonequerylist":
+            return HttpResponseRedirect(reverse("paymentdonequerylist"))
+        elif redirect_to == "completedquery":
+            return HttpResponseRedirect(reverse("completedquery"))
+        elif redirect_to == "bookinglist":
+            return HttpResponseRedirect(reverse("bookinglist"))
+        else:
+            return HttpResponseRedirect(reverse("allquerylist"))
     
     
     

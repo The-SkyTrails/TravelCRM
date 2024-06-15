@@ -205,6 +205,7 @@
                           <th>Status</th>
                           <th>Sales</th>
                           <th>Colour Code</th>
+                          <th>Payment Link</th>
                           {% if request.user.user_type != "Sales Person" %}
                           <th>Update Booking Card</th>
                           {% endif %}
@@ -274,7 +275,13 @@
                                       </td>
                                       {% include "Admin/Query/update_colourcode.html" %}
                                       
-                                     
+                                      <td>
+                                      
+                                        <button type="button" class="btn d-flex bg-secondary-subtle w-100 d-block text-secondary font-medium" data-bs-toggle="modal" data-bs-target="#payment{{i.id}}">
+                                          Generate Payment Link
+                                         </button>
+                                         {% include "Admin/Query/payment_link.html" %}
+                                      </td>
                                       
                                         {% if request.user.user_type != "Sales Person" %}
                                       <td>

@@ -396,8 +396,7 @@
                                  <div class="pagination"
                                     style="display: flex;justify-content:space-between;margin:0 10px;">
                                     <div class="showing-info">
-                                       Showing {{ page.start_index }} to {{ page.end_index }} of {{ page.paginator.count
-                                       }} entries
+                                       Showing {{ page.start_index }} to {{ page.end_index }} of {{ page.paginator.count }} entries
                                     </div>
                                     <div class="next">
                                        <span class="step-links" style="margin: 4px;">
@@ -426,8 +425,7 @@
                                                 {% if page.paginator.num_pages > 3 %}
                                                 <li class="page-item"><span class="page-link">...</span></li>
                                                 <li class="page-item"><a class="page-link"
-                                                      href="?page={{ page.paginator.num_pages }}">{{
-                                                      page.paginator.num_pages }}</a>
+                                                      href="?page={{ page.paginator.num_pages }}">{{ page.paginator.num_pages }}</a>
                                                 </li>
                                                 {% endif %}
                                                 {% if page.has_next %}
