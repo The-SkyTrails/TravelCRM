@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import *
+from .Accountviews import *
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -345,4 +346,19 @@ urlpatterns = [
     path("create_booking_cards/<int:id>/", create_booking_cards, name="create_booking_cards"),
     path("update_booking_cards/<int:id>/", update_booking_cards, name="update_booking_cards"),
     path("view_booking_cards/<int:id>/", view_booking_cards, name="view_booking_cards"),
+    
+    path('add_paymentattachment/<int:id>/', add_paymentattachment, name='add_paymentattachment'),
+    
+    
+    
+    
+    ##################################### ACCOUNT ################################################
+    
+    path("Accountdashboard", accountindex , name="accounthome"),
+    path("paymentreceivelist", paymentreceivelist , name="paymentreceivelist"),
+    path("approvepayment/<int:id>/", approvepayment, name="approvepayment"),
+    
+    
+    
+    
 ]

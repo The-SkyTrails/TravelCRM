@@ -1,0 +1,209 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme" data-layout="horizontal">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Favicon icon-->
+  <link rel="shortcut icon" type="image/png" href="{% static "assets/images/logos/logo.svg" %}">
+
+  <!-- Core Css -->
+  <link rel="stylesheet" href="{% static "assets/css/styles.css" %}">
+  <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+
+
+  <title>TheSkytrails-Travel CRM</title>
+  <link rel="stylesheet" href="{% static "assets/libs/jvectormap/jquery-jvectormap.css" %}">
+  <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+  <link rel="stylesheet" href="{% static "assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" %}">
+  <link rel="stylesheet" href="{% static "assets/buttons/2.4.2/css/buttons.dataTables.min.css" %}">
+  <link rel="stylesheet" href="{% static "assets/libs/select2/dist/css/select2.min.css" %}">
+</head>
+
+  <!-- Preloader -->
+  <div class="preloader">
+    <img src="{% static "assets/images/logos/logo-icon.svg" %}" alt="loader" class="lds-ripple img-fluid">
+  </div>
+
+  <div id="main-wrapper">
+    {% include "Account/Base/Navbar.html" %}
+    
+    
+    <!--  Sidebar End -->
+    <div class="page-wrapper">
+      <!--  Header Start -->
+      {% include "Account/Base/header.html" %}
+      <!--  Header End -->
+      
+
+      <div id="main">
+          {% block main-content %}
+          {% endblock main-content %}
+        </div>
+
+
+    </div>
+ 
+
+</div>
+<div class="dark-transparent sidebartoggler"></div>
+<!-- Import Js Files -->
+
+<script src="{% static "assets/libs/jquery/dist/jquery.min.js" %}"></script>
+<script src="{% static "assets/js/app.min.js" %}"></script>
+<script src="{% static "assets/js/app.horizontal.init.js" %}"></script>
+<script src="{% static "assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js" %}"></script>
+<script src="{% static "assets/libs/simplebar/dist/simplebar.min.js" %}"></script>
+<script src="{% static "npm/iconify-icon/dist/iconify-icon.min.js" %}"></script>
+<script src="{% static "assets/js/sidebarmenu.js" %}"></script>
+<script src="{% static "assets/js/theme.js" %}"></script>
+<script src="{% static "assets/js/feather.min.js" %}"></script>
+<script src="{% static "assets/js/breadcrumb/breadcrumb/Chart.js" %}"></script>
+<script src="{% static "assets/libs/apexcharts/dist/apexcharts.min.js" %}"></script>
+<script src="{% static "assets/js/dashboards/dashboard2.js" %}"></script>
+<script src="{% static "assets/libs/jvectormap/jquery-jvectormap.min.js" %}"></script>
+<script src="{% static "assets/js/extra-libs/jvectormap/jquery-jvectormap-us-aea-en.js" %}"></script>
+<script src="{% static "assets/libs/datatables.net/js/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "assets/buttons/2.4.2/js/dataTables.buttons.min.js" %}"></script>
+<script src="{% static "assets/ajax/libs/jszip/3.10.1/jszip.min.js" %}"></script>
+<script src="{% static "assets/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" %}"></script>
+<script src="{% static "assets/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" %}"></script>
+<script src="{% static "assets/buttons/2.4.2/js/buttons.html5.min.js" %}"></script>
+<script src="{% static "assets/buttons/2.4.2/js/buttons.print.min.js" %}"></script>
+
+<script src="{% static "assets/js/datatable/datatable-advanced.init.js" %}"></script>
+<script src="{% static "assets/libs/select2/dist/js/select2.full.min.js" %}"></script>
+<script src="{% static "assets/libs/select2/dist/js/select2.min.js" %}"></script>
+<script src="{% static "assets/js/forms/select2.init.js" %}"></script>
+<script src="{% static "assets/js/apps/chat.js" %}"></script>
+<script>
+  document.body.addEventListener('htmx:configRequest', function(event) {
+  event.detail.headers['X-CSRFToken'] = '{{csrf_token}}'; // add a new parameter into the mix
+});
+</script>
+
+
+
+<script>
+   
+  function checkPaymentStatus(paymentId) {
+      
+      var button = $('#status_button_' + paymentId);
+     
+      button.prop('disabled', true);
+      button.text('Loading...');
+      $.ajax({
+          url: "{% url 'payment_status' id=0 %}".replace('0', paymentId),
+          type: 'GET',
+          success: function(response) {
+          console.log("okkkkk")
+              button.text('Check status');
+              button.prop('disabled', false);
+              console.log("showingggg")
+              $('#payment_status_' + paymentId).text(response.link_status);
+          },
+          error: function(xhr, status, error) {
+              button.text('Check status');
+              button.prop('disabled', false);
+              console.error(error);
+          }
+      });
+  }
+</script>
+
+<script>
+  $(document).ready(function() {
+    // Add click event listener to all buttons with ID starting with 'triggerAjax_'
+    $('[id^="triggerAjax_"]').on('click', function(event) {
+      // Prevent default behavior of the button click event
+      event.preventDefault();
+      
+      // Get the ID of the button
+      var buttonId = $(this).attr('id');
+      // Extract the lead ID from the button ID
+      var leadId = buttonId.split('_')[1];
+      var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+          
+
+      // Make the AJAX request using the extracted ID
+      $.ajax({
+        url: "/make_click_to_call/" + leadId + "/",
+        //type: "GET",
+        method: "POST",
+        headers: {
+                  "X-CSRFToken": csrftoken  // Include CSRF token in the headers
+        },
+        beforeSend: function() {
+          // Show the processing indicator before sending the request
+
+          $("#status_" + leadId).text("Ringing....");
+        },
+        success: function(data) {
+          if (data.status === "calling") {
+                $("#status_" + leadId).text("Connected....");
+          }else {
+              $("#status_" + leadId).text("Error: " + data.error);
+          }
+          // Handle success response if needed
+        },
+        error: function(xhr, status, error) {
+          console.error("Error:", error);
+          // Handle error if needed
+        }
+      });
+    });
+  });
+</script>
+
+
+<script>
+  $(document).ready(function() {
+    // Add click event listener to all buttons with ID starting with 'triggerAjax_'
+    $('[id^="triggeredAjax_"]').on('click', function(event) {
+      event.preventDefault();
+      // Get the ID of the button
+      var buttonId = $(this).attr('id');
+      // Extract the lead ID from the button ID
+      var leadId = buttonId.split('_')[1];
+      var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+          
+
+      // Make the AJAX request using the extracted ID
+      $.ajax({
+        url: "/make_click_to_alternatecall/" + leadId + "/",
+        //type: "GET",
+        method: "POST",
+        headers: {
+                  "X-CSRFToken": csrftoken  // Include CSRF token in the headers
+        },
+        beforeSend: function() {
+          // Show the processing indicator before sending the request
+
+          $("#alternatestatus_" + leadId).text("Ringing....");
+        },
+        success: function(data) {
+          if (data.status === "calling") {
+                $("#alternatestatus" + leadId).text("Connected....");
+          }else {
+              $("#alternatestatus" + leadId).text("Error: " + data.error);
+          }
+          // Handle success response if needed
+        },
+        error: function(xhr, status, error) {
+          console.error("Error:", error);
+          // Handle error if needed
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+
+</html>
+
+<body>

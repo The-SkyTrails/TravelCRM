@@ -324,6 +324,15 @@
               </button>
               {% include "Admin/Query/attach-attachment.html" %}
            </div>
+           <div class="col-md-4">
+              <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#attach-paymentattachment-{{i.id}}">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 1V8M8 8V15M8 8H15M8 8H1" stroke="#2CD07E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Payment File
+              </button>
+              {% include "Admin/Query/attach-paymentfile.html" %}
+           </div>
            
           
         </div>
@@ -398,6 +407,21 @@
                                  </button>
                                  <span id="payment_status_{{ payment.id }}" class="text-success mx-5"></span>
                              </p>
+                         {% endif %}
+                     {% endfor %}
+                 </div>
+                 {% elif activity.activity_type == "Payment Attachment" %}
+                 <h5 style="color: black !important;">{{ activity.activity_type }}</h5>
+                 <div class="custom-row">
+                     {% for paymentattachments in i.paymentattchment.all %}
+                         {% if paymentattachments.activity == activity %}
+                             <p>
+                                 
+                                     <a href="{{ paymentattachments.file.url }}" target="_blank">{{ paymentattachments.file.name|filename }}</a><br>
+                              <p><b>Amount</b> : {{  paymentattachments.amount }}</p>
+                             <p><b>Note</b> : {{ paymentattachments.note }}</p>
+                             <p>{{ paymentattachments.created_at }} - {{paymentattachments.created_by}} </p>
+                             
                          {% endif %}
                      {% endfor %}
                  </div>

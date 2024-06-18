@@ -4585,6 +4585,8 @@ def add_notes(request, id):
             note = Notes.objects.create(lead=lead,notes=notes)
             activity_history = ActivityHistory.objects.create(lead=lead, activity_type='Note')
             note.activity = activity_history
+            lead.last_updated_at = timezone.now()
+            lead.save()
             note.save()
 
 
@@ -4614,6 +4616,8 @@ def attach_confirmattachmnet(request, id):
             activity_history = ActivityHistory.objects.create(lead=lead, activity_type='Attachment')
 
             attach.activity = activity_history
+            lead.last_updated_at = timezone.now()
+            lead.save()
             attach.save()
             
 
@@ -4677,6 +4681,8 @@ def payment_link(request,id):
         payment = Payment.objects.create(leads=lead,link_id=unique_link_id,payment_link=link_url,link_expiry_time=link_expiry_time)
         activity_history = ActivityHistory.objects.create(lead=lead, activity_type='Payment')
         payment.activity = activity_history
+        lead.last_updated_at = timezone.now()
+        lead.save()
         payment.save()
         messages.success(request, "Payment Link Generated Successfully...")
         return redirect("bookinglist")
@@ -4711,6 +4717,8 @@ def add_followup(request, id):
             
             activity_history = ActivityHistory.objects.create(lead=lead, activity_type='Followup')
             followup.activity = activity_history
+            lead.last_updated_at = timezone.now()
+            lead.save()
             followup.save()
 
             messages.success(request, "Followup Added Successfully...")
@@ -5491,63 +5499,6 @@ def export_lead_data(request):
         'Payment Link Expiry Date'    
     ])
 
-    # for lead in leads:
-    #     quotations_data = []
-    #     notes_data = []
-    #     followups_data = []
-    #     attachments_data = []
-    #     payments_data = []
-
-    #     for quotation in lead.quotations.all():
-    #         attachments = ", ".join([attachment.file.name for attachment in quotation.attachment.all()])
-    #         quotations_data.extend([attachments, quotation.date])
-
-    #     for note in lead.notes.all():
-    #         notes_data.extend([note.notes, note.date])
-
-    #     for followup in lead.followup.all():
-    #         followups_data.extend([followup.type, followup.datetime, followup.note, followup.date])
-
-    #     for attachment in lead.attachment.all():
-    #         attachments_data.extend([attachment.attachment, attachment.date])
-
-    #     for payment in lead.payments.all():
-    #         payments_data.extend([payment.link_id, payment.payment_link, payment.link_expiry_time])
-
-    #     writer.writerow([
-    #         lead.enquiry_number,
-    #         lead.name,
-    #         lead.email,
-    #         lead.mobile_number,
-    #         lead.alternate_mobile_number,
-    #         lead.inter_domes,
-    #         lead.destinations.name,
-    #         lead.from_date,
-    #         lead.to_date,
-    #         lead.purpose_of_travel,
-    #         lead.service_type.name,
-    #         lead.query_title,
-    #         lead.budget,
-    #         lead.adult,
-    #         lead.child,
-    #         lead.infants,
-    #         lead.lead_source.name,
-    #         lead.operation_person,
-    #         lead.sales_person,
-    #         lead.other_information,
-    #         lead.lead_status,
-    #         lead.date,
-    #         lead.complete_package_cost,
-    #         lead.received_package_cost,
-    #         lead.balance_package_cost,
-    #         lead.added_by,
-    #         *quotations_data,
-    #         *notes_data,
-    #         *followups_data,
-    #         *attachments_data,
-    #         *payments_data
-    #     ])
-    
 
     for lead in leads:
         # Initialize lists to store data for each section
@@ -5582,22 +5533,25 @@ def export_lead_data(request):
         # Construct the row, joining multiple data with commas
         writer.writerow([
             lead.enquiry_number,
-            lead.name,
-            lead.email,
-            lead.mobile_number,
+            lead.name if lead.name else '',
+            lead.email if lead.email else '',
+            lead.mobile_number if lead.mobile_number else '',
             lead.alternate_mobile_number,
             lead.inter_domes,
-            lead.destinations.name,
+            lead.destinations.name if lead.destinations else '',
+            lead.countrys.country_name if lead.countrys else '',
             lead.from_date,
             lead.to_date,
             lead.purpose_of_travel,
-            lead.service_type.name,
+            lead.service_type.name if lead.service_type else '',
             lead.query_title,
+            lead.departure_City,
+            lead.date_of_journey,
             lead.budget,
             lead.adult,
             lead.child,
             lead.infants,
-            lead.lead_source.name,
+            lead.lead_source.name if lead.lead_source else '',
             lead.operation_person,
             lead.sales_person,
             lead.other_information,
@@ -5787,4 +5741,36 @@ def view_booking_cards(request, id):
         'booking_cards': booking_cards,
     }
     return render(request, 'Admin/Query/viewbookingcard.html',context)
+    
+    
+    
+def add_paymentattachment(request, id):
+    if request.method == "POST":
+        enq = request.POST.get("enq_id")
+        note = request.POST.get("note")
+        file = request.FILES.get("file")
+        amount = request.POST.get("amount")
+        
+        try:
+            lead = get_object_or_404(Lead, id=enq)
+            payment_attachment = PaymentAttachment.objects.create(lead=lead,note=note,file=file,amount=amount,status=False,created_by=request.user)
+            activity_history = ActivityHistory.objects.create(lead=lead, activity_type='Payment Attachment')
+            payment_attachment.activity = activity_history
+            lead.last_updated_at = timezone.now()
+            account_persons = CustomUser.objects.filter(user_type="Account")
+            if account_persons.exists():
+                lead.account_person = account_persons.first()
+            else:
+                lead.account_person = None
+
+            lead.save()
+            payment_attachment.save()
+
+            messages.success(request, "PaymentAttachment Added Successfully...")
+        except Lead.DoesNotExist:
+            pass
+        
+        return redirect("allquerylist")
+    else:
+        pass
     

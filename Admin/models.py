@@ -498,6 +498,7 @@ class Lead(models.Model):
     lead_source = models.ForeignKey(Lead_source,on_delete=models.SET_NULL,blank=True, null=True)
     operation_person = models.ForeignKey(CustomUser,on_delete = models.SET_NULL,related_name="operation_person",blank=True, null=True)
     sales_person = models.ForeignKey(CustomUser,on_delete=models.SET_NULL,related_name="sales_person",blank=True, null=True)
+    account_person = models.ForeignKey(CustomUser,on_delete = models.SET_NULL,related_name="account_person",blank=True, null=True)
     assigning_date = models.DateTimeField(auto_now=True)
     other_information = models.TextField(blank=True, null=True)
     lead_status = models.CharField(max_length=50,choices=LEAD_STATUS_CHOICES,blank=True, null=True)
@@ -557,7 +558,8 @@ class ActivityHistory(models.Model):
         ('Followup', 'Followup Added'),
         ('Quotation', 'Quotation Added'),
         ('Payment', 'Payment Added'),
-        ('Attachment', 'Attachment Added')
+        ('Attachment', 'Attachment Added'),
+        ('Payment Attachment','Payment Attachment')
     )
     lead = models.ForeignKey(Lead, on_delete=models.CASCADE, related_name='activities')
     activity_type = models.CharField(max_length=20, choices=activity_type_choices)
@@ -643,6 +645,18 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification for {self.user.username} - {self.message}"
+    
+    
+class PaymentAttachment(models.Model):
+    id=models.AutoField(primary_key=True)
+    lead = models.ForeignKey(Lead,on_delete=models.CASCADE,related_name='paymentattchment')
+    activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='paymentattachments',null=True,blank=True)
+    file = models.FileField(upload_to="Query/PaymentAttchment/")
+    amount = models.CharField(max_length=50)
+    note = models.TextField()
+    status = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(CustomUser,on_delete=models.SET_NULL,blank=True, null=True)
     
     
     
