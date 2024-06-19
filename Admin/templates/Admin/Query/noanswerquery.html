@@ -55,15 +55,21 @@
       </div>
       <form method="GET">
         <div class="row mb-3">
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label for="from" class="col-form-label">From Date</label>
             <input class="form-control" type="date" name="from" id="from">
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label for="to" class="col-form-label">To Date</label>
             <input class="form-control" type="date" name="to" id="to">
           </div>
-          <div class="col-md-4">
+          {% if user.user_type != "Sales Person" %}
+               <div class="col-md-3">
+                  <label for="to" class="col-form-label">Sales Person</label>
+                  <input class="form-control" type="input" name="salesperson" id="salesperson">
+               </div>
+               {% endif %}
+          <div class="col-md-3">
             <button type="submit" class="btn btn-primary" style="margin-top: 2.5rem;">Search</button>
           </div>
         </div>

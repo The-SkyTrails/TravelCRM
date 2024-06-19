@@ -2947,35 +2947,38 @@ def allquerylist(request):
     if request.method == "GET":
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')
+        sales_person = request.GET.get('salesperson')
+        page_number = request.GET.get('page')
        
     
     if request.user.is_authenticated:
-        user_type = request.user.user_type  
-        if user_type == "Admin":
-            if from_date and to_date:
-                all_lead = Lead.objects.filter(from_date__gte=from_date, to_date__lte=to_date)
-                paginator = Paginator(all_lead, 10)
-                page_number = request.GET.get('page')
-                
+        user_type = request.user.user_type
+        filters = Q()
 
-                try:
-                    page = paginator.page(page_number)
-                except PageNotAnInteger:
-                    page = paginator.page(1)
-                except EmptyPage:
-                    page = paginator.page(paginator.num_pages)
+        if from_date and to_date:
+            filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
+        
+        if sales_person:
+            sales_person_parts = sales_person.split()
+            if len(sales_person_parts) == 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) | Q(sales_person__last_name__icontains=sales_person_parts[0])
+            elif len(sales_person_parts) > 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) & Q(sales_person__last_name__icontains=sales_person_parts[1])
+
+        if user_type == "Admin":
+            if filters:
+                all_lead = Lead.objects.filter(filters).order_by("-last_updated_at")
             else:
                 all_lead = Lead.objects.all().order_by("-last_updated_at")
-                paginator = Paginator(all_lead,10)
-                page_number = request.GET.get('page')
-                
 
-                try:
-                    page = paginator.get_page(page_number)
-                except PageNotAnInteger:
-                    page = paginator.page(1)
-                except EmptyPage:
-                    page = paginator.page(paginator.num_pages)
+            paginator = Paginator(all_lead, 10)
+            try:
+                page = paginator.page(page_number)
+            except PageNotAnInteger:
+                page = paginator.page(1)
+            except EmptyPage:
+                page = paginator.page(paginator.num_pages)
+
             new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
             lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
             no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
@@ -3091,43 +3094,45 @@ def newquerylist(request):
     if request.method == "GET":
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')
-        
+        sales_person = request.GET.get('salesperson')
+        page_number = request.GET.get('page')
+
     if request.user.is_authenticated:
-        user_type = request.user.user_type  
+        user_type = request.user.user_type
+        filters = Q()
+
+        if from_date and to_date:
+            filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
+
+        if sales_person:
+            sales_person_parts = sales_person.split()
+            if len(sales_person_parts) == 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) | Q(sales_person__last_name__icontains=sales_person_parts[0])
+            elif len(sales_person_parts) > 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) & Q(sales_person__last_name__icontains=sales_person_parts[1])
+
         if user_type == "Admin":
             all_lead = Lead.objects.all().order_by("-last_updated_at")
-            if from_date and to_date:
-                new_lead_list = Lead.objects.filter(lead_status="Pending", from_date__gte=from_date, to_date__lte=to_date).order_by("-last_updated_at")
-                paginator = Paginator(new_lead_list, 10)
-                page_number = request.GET.get('page')
-                
-
-                try:
-                    page = paginator.page(page_number)
-                except PageNotAnInteger:
-                    page = paginator.page(1)
-                except EmptyPage:
-                    page = paginator.page(paginator.num_pages)
-                    
+            if filters:
+                new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & filters).order_by("-last_updated_at")
             else:
                 new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
-                paginator = Paginator(new_lead_list, 10)
-                page_number = request.GET.get('page')
-                
+            
+            paginator = Paginator(new_lead_list, 10)
+            try:
+                page = paginator.page(page_number)
+            except PageNotAnInteger:
+                page = paginator.page(1)
+            except EmptyPage:
+                page = paginator.page(paginator.num_pages)
 
-                try:
-                    page = paginator.page(page_number)
-                except PageNotAnInteger:
-                    page = paginator.page(1)
-                except EmptyPage:
-                    page = paginator.page(paginator.num_pages)
             lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
             no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
             quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
-            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
+            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")        
         elif user_type == "Sales Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
             if from_date and to_date:
@@ -3233,36 +3238,39 @@ def connectedquerylist(request):
     if request.method == "GET":
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')
-        
+        sales_person = request.GET.get('salesperson')
+        page_number = request.GET.get('page')
+
     if request.user.is_authenticated:
-        user_type = request.user.user_type  
+        user_type = request.user.user_type
+        filters = Q()
+
+        if from_date and to_date:
+            filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
+
+        if sales_person:
+            sales_person_parts = sales_person.split()
+            if len(sales_person_parts) == 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) | Q(sales_person__last_name__icontains=sales_person_parts[0])
+            elif len(sales_person_parts) > 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) & Q(sales_person__last_name__icontains=sales_person_parts[1])
+
         if user_type == "Admin":
             all_lead = Lead.objects.all().order_by("-last_updated_at")
             new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
-            if from_date and to_date:
-                lead_list = Lead.objects.filter(lead_status="Connected",from_date__gte=from_date, to_date__lte=to_date).order_by("-last_updated_at")
-                paginator = Paginator(lead_list, 10)
-                page_number = request.GET.get('page')
-                
-
-                try:
-                    page = paginator.page(page_number)
-                except PageNotAnInteger:
-                    page = paginator.page(1)
-                except EmptyPage:
-                    page = paginator.page(paginator.num_pages)
+            
+            if filters:
+                lead_list = Lead.objects.filter(Q(lead_status="Connected") & filters).order_by("-last_updated_at")
             else:
                 lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
-                paginator = Paginator(lead_list, 10)
-                page_number = request.GET.get('page')
-                
-
-                try:
-                    page = paginator.page(page_number)
-                except PageNotAnInteger:
-                    page = paginator.page(1)
-                except EmptyPage:
-                    page = paginator.page(paginator.num_pages)
+            
+            paginator = Paginator(lead_list, 10)
+            try:
+                page = paginator.page(page_number)
+            except PageNotAnInteger:
+                page = paginator.page(1)
+            except EmptyPage:
+                page = paginator.page(paginator.num_pages)
             no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
             quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
@@ -3367,39 +3375,43 @@ def quatationquerylist(request):
     if request.method == "GET":
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')
-        
+        sales_person = request.GET.get('salesperson')
+        page_number = request.GET.get('page')
+
     if request.user.is_authenticated:
-        user_type = request.user.user_type  
+        user_type = request.user.user_type
+        filters = Q()
+
+        if from_date and to_date:
+            filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
+
+        if sales_person:
+            sales_person_parts = sales_person.split()
+            if len(sales_person_parts) == 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) | Q(sales_person__last_name__icontains=sales_person_parts[0])
+            elif len(sales_person_parts) > 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) & Q(sales_person__last_name__icontains=sales_person_parts[1])
+
         if user_type == "Admin":
             all_lead = Lead.objects.all().order_by("-last_updated_at")
             new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
             lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
             no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
             book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
-            if from_date and to_date:
-                quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send",from_date__gte=from_date, to_date__lte=to_date).order_by("-last_updated_at")
-                paginator = Paginator(quatation_lead_list, 10)
-                page_number = request.GET.get('page')
-                
 
-                try:
-                    page = paginator.page(page_number)
-                except PageNotAnInteger:
-                    page = paginator.page(1)
-                except EmptyPage:
-                    page = paginator.page(paginator.num_pages)
+            if filters:
+                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & filters).order_by("-last_updated_at")
             else:
                 quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
-                paginator = Paginator(quatation_lead_list, 10)
-                page_number = request.GET.get('page')
-                
 
-                try:
-                    page = paginator.page(page_number)
-                except PageNotAnInteger:
-                    page = paginator.page(1)
-                except EmptyPage:
-                    page = paginator.page(paginator.num_pages)
+            paginator = Paginator(quatation_lead_list, 10)
+            try:
+                page = paginator.page(page_number)
+            except PageNotAnInteger:
+                page = paginator.page(1)
+            except EmptyPage:
+                page = paginator.page(paginator.num_pages)
+
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
@@ -3502,8 +3514,24 @@ def paymentdonequerylist(request):
     if request.method == "GET":
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')
+        sales_person = request.GET.get('salesperson')
+        page_number = request.GET.get('page')
+
     if request.user.is_authenticated:
-        user_type = request.user.user_type  
+        user_type = request.user.user_type
+        filters = Q()
+
+        if from_date and to_date:
+            filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
+
+        if sales_person:
+            sales_person_parts = sales_person.split()
+            if len(sales_person_parts) == 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) | Q(sales_person__last_name__icontains=sales_person_parts[0])
+            elif len(sales_person_parts) > 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) & Q(sales_person__last_name__icontains=sales_person_parts[1])
+
+        
         if user_type == "Admin":
             all_lead = Lead.objects.all().order_by("-last_updated_at")
             new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
@@ -3511,10 +3539,10 @@ def paymentdonequerylist(request):
             no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
             quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
             book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
-            if from_date and to_date:
+            if filters:
                 paydonelead_list = Lead.objects.filter(
-                    Q(lead_status="Payment Done") | Q(lead_status="Payment Processing"),
-                    Q(from_date__gte=from_date, to_date__lte=to_date)
+                    Q(lead_status="Payment Done") | Q(lead_status="Payment Processing") 
+                    & filters
                 ).order_by("-last_updated_at")
                 paginator = Paginator(paydonelead_list, 10)
                 page_number = request.GET.get('page')
@@ -3645,8 +3673,23 @@ def completedquerylist(request):
     if request.method == "GET":
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')
+        sales_person = request.GET.get('salesperson')
+        page_number = request.GET.get('page')
+
     if request.user.is_authenticated:
-        user_type = request.user.user_type  
+        user_type = request.user.user_type
+        filters = Q()
+
+        if from_date and to_date:
+            filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
+
+        if sales_person:
+            sales_person_parts = sales_person.split()
+            if len(sales_person_parts) == 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) | Q(sales_person__last_name__icontains=sales_person_parts[0])
+            elif len(sales_person_parts) > 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) & Q(sales_person__last_name__icontains=sales_person_parts[1])
+
         if user_type == "Admin":
             all_lead = Lead.objects.all().order_by("-last_updated_at")
             new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
@@ -3655,11 +3698,9 @@ def completedquerylist(request):
             quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
             book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
-            if from_date and to_date:
-                comlead_list = Lead.objects.filter(
-                    lead_status="Completed",
-                    from_date__gte=from_date,
-                    to_date__lte=to_date
+            if filters:
+                comlead_list = Lead.objects.filter(Q(lead_status="Completed")
+                     & filters
                 ).order_by("-last_updated_at")
                 paginator = Paginator(comlead_list, 10)
                 page_number = request.GET.get('page')
@@ -3789,8 +3830,23 @@ def lostquerylist(request):
     if request.method == "GET":
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')
+        sales_person = request.GET.get('salesperson')
+        page_number = request.GET.get('page')
+        
     if request.user.is_authenticated:
-        user_type = request.user.user_type  
+        user_type = request.user.user_type
+        filters = Q()
+
+        if from_date and to_date:
+            filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
+
+        if sales_person:
+            sales_person_parts = sales_person.split()
+            if len(sales_person_parts) == 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) | Q(sales_person__last_name__icontains=sales_person_parts[0])
+            elif len(sales_person_parts) > 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) & Q(sales_person__last_name__icontains=sales_person_parts[1])
+ 
         if user_type == "Admin":
             all_lead = Lead.objects.all().order_by("-last_updated_at")
             new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
@@ -3800,10 +3856,9 @@ def lostquerylist(request):
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
             book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
-            if from_date and to_date:
-                lost_list = Lead.objects.filter(lead_status="Lost",
-                    from_date__gte=from_date,
-                    to_date__lte=to_date).order_by("-last_updated_at")
+            if filters:
+                lost_list = Lead.objects.filter(Q(lead_status="Lost")
+                    & filters ).order_by("-last_updated_at")
                 paginator = Paginator(lost_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -3931,9 +3986,23 @@ def bookinglist(request):
     if request.method == "GET":
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')
-    
+        sales_person = request.GET.get('salesperson')
+        page_number = request.GET.get('page')
+
     if request.user.is_authenticated:
-        user_type = request.user.user_type  
+        user_type = request.user.user_type
+        filters = Q()
+
+        if from_date and to_date:
+            filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
+
+        if sales_person:
+            sales_person_parts = sales_person.split()
+            if len(sales_person_parts) == 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) | Q(sales_person__last_name__icontains=sales_person_parts[0])
+            elif len(sales_person_parts) > 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) & Q(sales_person__last_name__icontains=sales_person_parts[1])
+ 
         if user_type == "Admin":
 
             all_lead = Lead.objects.all().order_by("-last_updated_at")
@@ -3944,10 +4013,9 @@ def bookinglist(request):
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
-            if from_date and to_date:
-                book_list = Lead.objects.filter(lead_status="Booking Confirmed",
-                    from_date__gte=from_date,
-                    to_date__lte=to_date).order_by("-last_updated_at")
+            if filters:
+                book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed")
+                    & filters ).order_by("-last_updated_at")
                 paginator = Paginator(book_list, 10)
                 page_number = request.GET.get('page')
                 
@@ -4080,15 +4148,29 @@ def noanswerquerylist(request):
     if request.method == "GET":
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')
-        
+        sales_person = request.GET.get('salesperson')
+        page_number = request.GET.get('page')
+
     if request.user.is_authenticated:
-        user_type = request.user.user_type  
+        user_type = request.user.user_type
+        filters = Q()
+
+        if from_date and to_date:
+            filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
+
+        if sales_person:
+            sales_person_parts = sales_person.split()
+            if len(sales_person_parts) == 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) | Q(sales_person__last_name__icontains=sales_person_parts[0])
+            elif len(sales_person_parts) > 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) & Q(sales_person__last_name__icontains=sales_person_parts[1])
+ 
         if user_type == "Admin":
             all_lead = Lead.objects.all().order_by("-last_updated_at")
             new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
             lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
-            if from_date and to_date:
-                no_answer_list = Lead.objects.filter(lead_status="No Answer",from_date__gte=from_date, to_date__lte=to_date).order_by("-last_updated_at")
+            if filters:
+                no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & filters).order_by("-last_updated_at")
                 paginator = Paginator(no_answer_list, 10)
                 page_number = request.GET.get('page')
                 
