@@ -2954,6 +2954,7 @@ def allquerylist(request):
     if request.user.is_authenticated:
         user_type = request.user.user_type
         filters = Q()
+        
 
         if from_date and to_date:
             filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
