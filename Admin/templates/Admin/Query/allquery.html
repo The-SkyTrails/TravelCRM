@@ -9,6 +9,9 @@
    .dataTables_wrapper .dataTables_paginate {
       display: none !important;
    }
+
+   
+   
 </style>
 <div id="querylist">
    <div class="body-wrapper">
@@ -83,130 +86,131 @@
          <form action="{% url 'assign_leads' %}" method="post">
             {% csrf_token %}
             {% include "Login/messages.html" %}
-            <div class="datatables">
-               <div class="row">
-                  {% if user.user_type == "Sales Person" %}
-                  <div class="col-lg-2">
-                     <a href="{% url "newquerylist" %}">
-                        <div class="card"
-                           style="background: linear-gradient(90deg, rgba(255,145,94,1) 26%, rgba(224,158,0,1) 69%);">
-                           <div class="card-body p-4 d-flex align-items-center gap-3">
-                              <div>
-                                 <h5 class="fw-semibold mb-0">{{new_lead_list.count}}</h5>
-                                 <span class="fs-2 d-flex align-items-center" style="color: white;"><i
-                                       class="ti ti-map-pin text-dark fs-3 me-1"></i>
-                                    Pending</span>
-                              </div>
+            <div class="row">
+               {% if user.user_type == "Sales Person" %}
+               <div class="col-lg-2">
+                  <a href="{% url "newquerylist" %}">
+                     <div class="card"
+                        style="background: linear-gradient(90deg, rgba(255,145,94,1) 26%, rgba(224,158,0,1) 69%);">
+                        <div class="card-body p-4 d-flex align-items-center gap-3">
+                           <div>
+                              <h5 class="fw-semibold mb-0">{{new_lead_list.count}}</h5>
+                              <span class="fs-2 d-flex align-items-center" style="color: white;"><i
+                                    class="ti ti-map-pin text-dark fs-3 me-1"></i>
+                                 Pending</span>
                            </div>
                         </div>
-                     </a>
-                  </div>
-                  {% endif %}
-                  {% if user.user_type == "Sales Person" %}
-            <div class="col-lg-2">
-              <a href="{% url "noanswerquerylist" %}">
-                <div class="card"
-                  style="background: linear-gradient(90deg, rgba(5,172,33,1) 26%, rgba(6,103,33,1) 65%);">
-                  <div class="card-body p-4 d-flex align-items-center gap-3">
-                    <div>
-                      <h5 class="fw-semibold mb-0">{{no_answer_list.count}}</h5>
-                      <span class="fs-2 d-flex align-items-center" style="color: white;"><i
-                          class="ti ti-map-pin text-dark fs-3 me-1"></i>
-                        NoAnswer</span>
-                    </div>
-
-                  </div>
-                </div>
-              </a>
-            </div>
-            {% endif %}
-                  <div class="col-lg-2">
-                     <a href="{% url "connectedquerylist" %}">
-                        <div class="card"
-                           style="background: linear-gradient(90deg, rgba(120,144,126,1) 26%, rgba(55,73,51,1) 69%);">
-                           <div class="card-body p-4 d-flex align-items-center gap-3">
-                              <div>
-                                 <h5 class="fw-semibold mb-0">{{lead_list.count}}</h5>
-                                 <span class="fs-2 d-flex align-items-center" style="color: white;"><i
-                                       class="ti ti-map-pin text-dark fs-3 me-1"></i>Connected</span>
-                              </div>
-                           </div>
-                        </div>
-                     </a>
-                  </div>
-                  <div class="col-lg-2">
-                     <a href="{% url "quatationquerylist" %}">
-                        <div class="card"
-                           style="background: linear-gradient(90deg, rgba(231,111,96,1) 26%, rgba(209,2,2,1) 65%);">
-                           <div class="card-body p-4 d-flex align-items-center gap-3">
-                              <div>
-                                 <h5 class="fw-semibold mb-0">{{quatation_lead_list.count}}</h5>
-                                 <span class="fs-2 d-flex align-items-center" style="color: white;"><i
-                                       class="ti ti-map-pin text-dark fs-3 me-1"></i>Quotation Send</span>
-                              </div>
-                           </div>
-                        </div>
-                     </a>
-                  </div>
-                  <div class="col-lg-2">
-                     <a href="{% url "paymentdonequerylist" %}">
-                        <div class="card"
-                           style="background: linear-gradient(90deg, rgba(128,164,255,1) 26%, rgba(45,84,167,1) 65%);">
-                           <div class="card-body p-4 d-flex align-items-center gap-3">
-                              <div>
-                                 <h5 class="fw-semibold mb-0">{{paydonelead_list.count}}</h5>
-                                 <span class="fs-2 d-flex align-items-center" style="color: white;"><i
-                                       class="ti ti-map-pin text-dark fs-3 me-1"></i>Payment</span>
-                              </div>
-                           </div>
-                        </div>
-                     </a>
-                  </div>
-                  {% if user.user_type != "Sales Person" %}
-                  <div class="col-lg-2">
-                     <a href="{% url "bookinglist" %}">
-                        <div class="card"
-                           style="background: linear-gradient(90deg, rgba(255,145,94,1) 26%, rgba(224,158,0,1) 69%);">
-                           <div class="card-body p-4 d-flex align-items-center gap-3">
-                              <div>
-                                 <h5 class="fw-semibold mb-0">{{book_list.count}}</h5>
-                                 <span class="fs-2 d-flex align-items-center" style="color: white;"><i
-                                       class="ti ti-map-pin text-dark fs-3 me-1"></i>Booking Confirmed</span>
-                              </div>
-                           </div>
-                        </div>
-                     </a>
-                  </div>
-                  <div class="col-lg-2">
-                     <a href="{% url "completedquery" %}">
-                        <div class="card"
-                           style="background: linear-gradient(90deg, rgba(5,172,33,1) 26%, rgba(6,103,33,1) 65%);">
-                           <div class="card-body p-4 d-flex align-items-center gap-3">
-                              <div>
-                                 <h5 class="fw-semibold mb-0">{{comlead_list.count}}</h5>
-                                 <span class="fs-2 d-flex align-items-center" style="color: white;"><i
-                                       class="ti ti-map-pin text-dark fs-3 me-1"></i>Completed</span>
-                              </div>
-                           </div>
-                        </div>
-                     </a>
-                  </div>
-                  {% endif %}
-                  <div class="col-lg-2">
-                     <a href="{% url "lostquery" %}">
-                        <div class="card"
-                           style="background: linear-gradient(90deg, rgba(80,75,75,1) 26%, rgba(22,16,16,1) 65%);">
-                           <div class="card-body p-4 d-flex align-items-center gap-3">
-                              <div>
-                                 <h5 class="fw-semibold mb-0">{{lost_list.count}}</h5>
-                                 <span class="fs-2 d-flex align-items-center" style="color: white;"><i
-                                       class="ti ti-map-pin text-dark fs-3 me-1"></i>Lost</span>
-                              </div>
-                           </div>
-                        </div>
-                     </a>
-                  </div>
+                     </div>
+                  </a>
                </div>
+               {% endif %}
+               {% if user.user_type == "Sales Person" %}
+         <div class="col-lg-2">
+           <a href="{% url "noanswerquerylist" %}">
+             <div class="card"
+               style="background: linear-gradient(90deg, rgba(5,172,33,1) 26%, rgba(6,103,33,1) 65%);">
+               <div class="card-body p-4 d-flex align-items-center gap-3">
+                 <div>
+                   <h5 class="fw-semibold mb-0">{{no_answer_list.count}}</h5>
+                   <span class="fs-2 d-flex align-items-center" style="color: white;"><i
+                       class="ti ti-map-pin text-dark fs-3 me-1"></i>
+                     NoAnswer</span>
+                 </div>
+
+               </div>
+             </div>
+           </a>
+         </div>
+         {% endif %}
+               <div class="col-lg-2">
+                  <a href="{% url "connectedquerylist" %}">
+                     <div class="card"
+                        style="background: linear-gradient(90deg, rgba(120,144,126,1) 26%, rgba(55,73,51,1) 69%);">
+                        <div class="card-body p-4 d-flex align-items-center gap-3">
+                           <div>
+                              <h5 class="fw-semibold mb-0">{{lead_list.count}}</h5>
+                              <span class="fs-2 d-flex align-items-center" style="color: white;"><i
+                                    class="ti ti-map-pin text-dark fs-3 me-1"></i>Connected</span>
+                           </div>
+                        </div>
+                     </div>
+                  </a>
+               </div>
+               <div class="col-lg-2">
+                  <a href="{% url "quatationquerylist" %}">
+                     <div class="card"
+                        style="background: linear-gradient(90deg, rgba(231,111,96,1) 26%, rgba(209,2,2,1) 65%);">
+                        <div class="card-body p-4 d-flex align-items-center gap-3">
+                           <div>
+                              <h5 class="fw-semibold mb-0">{{quatation_lead_list.count}}</h5>
+                              <span class="fs-2 d-flex align-items-center" style="color: white;"><i
+                                    class="ti ti-map-pin text-dark fs-3 me-1"></i>Quotation Send</span>
+                           </div>
+                        </div>
+                     </div>
+                  </a>
+               </div>
+               <div class="col-lg-2">
+                  <a href="{% url "paymentdonequerylist" %}">
+                     <div class="card"
+                        style="background: linear-gradient(90deg, rgba(128,164,255,1) 26%, rgba(45,84,167,1) 65%);">
+                        <div class="card-body p-4 d-flex align-items-center gap-3">
+                           <div>
+                              <h5 class="fw-semibold mb-0">{{paydonelead_list.count}}</h5>
+                              <span class="fs-2 d-flex align-items-center" style="color: white;"><i
+                                    class="ti ti-map-pin text-dark fs-3 me-1"></i>Payment</span>
+                           </div>
+                        </div>
+                     </div>
+                  </a>
+               </div>
+               {% if user.user_type != "Sales Person" %}
+               <div class="col-lg-2">
+                  <a href="{% url "bookinglist" %}">
+                     <div class="card"
+                        style="background: linear-gradient(90deg, rgba(255,145,94,1) 26%, rgba(224,158,0,1) 69%);">
+                        <div class="card-body p-4 d-flex align-items-center gap-3">
+                           <div>
+                              <h5 class="fw-semibold mb-0">{{book_list.count}}</h5>
+                              <span class="fs-2 d-flex align-items-center" style="color: white;"><i
+                                    class="ti ti-map-pin text-dark fs-3 me-1"></i>Booking Confirmed</span>
+                           </div>
+                        </div>
+                     </div>
+                  </a>
+               </div>
+               <div class="col-lg-2">
+                  <a href="{% url "completedquery" %}">
+                     <div class="card"
+                        style="background: linear-gradient(90deg, rgba(5,172,33,1) 26%, rgba(6,103,33,1) 65%);">
+                        <div class="card-body p-4 d-flex align-items-center gap-3">
+                           <div>
+                              <h5 class="fw-semibold mb-0">{{comlead_list.count}}</h5>
+                              <span class="fs-2 d-flex align-items-center" style="color: white;"><i
+                                    class="ti ti-map-pin text-dark fs-3 me-1"></i>Completed</span>
+                           </div>
+                        </div>
+                     </div>
+                  </a>
+               </div>
+               {% endif %}
+               <div class="col-lg-2">
+                  <a href="{% url "lostquery" %}">
+                     <div class="card"
+                        style="background: linear-gradient(90deg, rgba(80,75,75,1) 26%, rgba(22,16,16,1) 65%);">
+                        <div class="card-body p-4 d-flex align-items-center gap-3">
+                           <div>
+                              <h5 class="fw-semibold mb-0">{{lost_list.count}}</h5>
+                              <span class="fs-2 d-flex align-items-center" style="color: white;"><i
+                                    class="ti ti-map-pin text-dark fs-3 me-1"></i>Lost</span>
+                           </div>
+                        </div>
+                     </div>
+                  </a>
+               </div>
+            </div>
+            <div class="datatables">
+               
                <div class="row">
                   <div class="col-12">
                      <!-- ---------------------
@@ -216,11 +220,13 @@
                         <div class="card-body">
                            <div class="table-responsive">
                               <div class="scrollable-container">
-                                 <table id="file_export"
-                                    class="table border table-bordered border-secondary  text-nowrap">
+                                 <table id="show_hide_col file_export" 
+                                    class="table border table-bordered border-secondary text-nowrap">
                                     <thead>
                                        <tr>
+                                          {% if request.user.user_type != "Sales Person" %}
                                           <th><input type="checkbox" id="select-all"></th>
+                                          {% endif %}
                                           <th>Id</th>
                                           <th>Title</th>
                                           <th>Departure City</th>
@@ -243,8 +249,10 @@
                                     <tbody>
                                        {% for i in page %}
                                        <tr class="pointer-cursor"
-                                          style="background-color: {% if user.user_type == 'Admin' or user.user_type == 'Operation Person' %}{% if i.colour_code == 'Red' %}#ff9090{% elif i.colour_code == 'Blue' %}#89CFF0{% elif i.colour_code == 'Green' %}#9cc599{% endif %}{% else %}Transparent{% endif %};">
+                                          style="background-color: {% if i.colour_code == 'Red' %}#ff9090{% elif i.colour_code == 'Blue' %}#89CFF0{% elif i.colour_code == 'Green' %}#9cc599{% else %}Transparent{% endif %};">
+                                          {% if request.user.user_type != "Sales Person" %}
                                           <td><input type="checkbox" name="lead_ids" value="{{ i.id }}"></td>
+                                          {% endif %}
                                           <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}"
                                              aria-controls="offcanvasRight">
                                              {{i.enquiry_number}}
@@ -323,7 +331,7 @@
                                                 <button type="button"
                                                    class="btn mb-1 bg-success-subtle text-success px-4 fs-4 font-medium">
                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em"
-                                                      viewBox="0 0 24 24" style="color: #2CD07E;">
+                                                      viewBox="0 0 24 24">
                                                       <g fill="none" stroke="currentColor" stroke-width="2">
                                                          <path stroke-linecap="round"
                                                             d="M10 22c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 18.771 2 15m20 0c0 3.771 0 4.657-1.172 5.828C19.657 22 17.771 22 14 22m0-20c3.771 0 5.657 0 6.828 1.172C22 4.343 22 5.229 22 9M10 2C6.229 2 4.343 2 3.172 3.172C2 4.343 2 5.229 2 9" />
@@ -399,13 +407,24 @@
                                        {% endfor %}
                                     </tbody>
                                  </table>
-                                 <div class="pagination"
+                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!--end row-->
+            </div>
+            <!-- end container -->
+
+            <div class="pagination"
                                     style="display: flex;justify-content:space-between;margin:0 10px;">
                                     <div class="showing-info">
                                        Showing {{ page.start_index }} to {{ page.end_index }} of {{ page.paginator.count }} entries
                                     </div>
                                     <div class="next">
-                                       <span class="step-links" style="margin: 4px;">
+                                       <span class="step-links" >
                                           {% if enquiry.has_previous %}
                                           <a href="?page={{ enquiry.previous_page_number }}">
                                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21"
@@ -447,6 +466,7 @@
                                        </span>
                                     </div>
                                  </div>
+                                 {% if request.user.user_type != "Sales Person" %}
                                  <div class="row mb-5">
                                     <label for="example-email-input" class="col-form-label">Sales Person</label>
                                     <div class="col-md-3">
@@ -461,15 +481,7 @@
                                        <button type="submit" class="btn btn-primary">Assign</button>
                                     </div>
                                  </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <!--end row-->
-            </div>
-            <!-- end container -->
+                                 {% endif %}
          </form>
       </div>
    </div>
@@ -595,5 +607,9 @@
             checkbox.checked = this.checked;
          }
       }
+
    </script>
+
+
+
    {% endblock main-content %}

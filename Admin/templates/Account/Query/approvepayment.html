@@ -79,7 +79,7 @@
                
             </div>
             <div class="datatables">
-               
+                
                <div class="row">
                   <div class="col-12">
                      <!-- ---------------------
@@ -144,13 +144,9 @@
                                              {% endif %}
                                           </td>
                                           <td>
-                                             {% if i.payment_approved %}
+                                            
                                                  <span class="mb-1 badge rounded-pill text-bg-success">Approved</span>
-                                             {% else %}
-                                                 <a href="{% url 'approvepayment' i.id %}">
-                                                     <button type="button" class="btn-primary">Approve</button>
-                                                 </a>
-                                             {% endif %}
+                                             
                                          </td>
                                           
                                           <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.lead.id}}"

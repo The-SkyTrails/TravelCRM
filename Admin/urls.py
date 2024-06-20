@@ -357,6 +357,8 @@ urlpatterns = [
     path("Accountdashboard", accountindex , name="accounthome"),
     path("paymentreceivelist", paymentreceivelist , name="paymentreceivelist"),
     path("approvepayment/<int:id>/", approvepayment, name="approvepayment"),
+    path("approvepaymentlist", approvepaymentlist, name="approvepaymentlist"),
+    path("account_view_booking_cards/<int:id>/", account_view_booking_cards, name="account_view_booking_cards"),
     
     
     

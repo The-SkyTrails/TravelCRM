@@ -1,0 +1,323 @@
+<style>
+  .btn-outline-warning:hover svg path {
+  stroke: white; 
+  }
+  .btn-outline-primary:hover svg path {
+  stroke: white; 
+  }
+  .btn-outline-secondary:hover svg path {
+  stroke: white; 
+  }
+  .btn-outline-success:hover svg path {
+   stroke: white; 
+   }
+  .custom-iframe {
+    background: none transparent;
+}
+
+</style>
+
+{% load custom_filters %}
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight-{{i.lead.id}}" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header" style="background-color: #43ced7;">
+     <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+        Lead Details
+     </h5>
+    
+    
+     <input type="text" name="" id="lead_id" value="{{i.lead.id}}" hidden>
+     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+     <div class="form-body">
+        <div class="card-body" style="padding: 6px 0;">
+           <h5 class="card-title mb-0" style="color: black !important;">Lead Details</h5>
+        </div>
+        <div class="card-body">
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Service Type :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.lead.service_type.name}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Query Title :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.lead.query_title}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Lead Source :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.lead.lead_source.name}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Operation Person :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.lead.operation_person.first_name}} {{i.lead.operation_person.last_name}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Sales Person :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.lead.sales_person.first_name}} {{i.lead.sales_person.last_name}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Other Information :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.lead.other_information}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class="card-body" style="padding: 6px 0;">
+           <h5 class="card-title mb-0" style="color: black !important;">Destination Details</h5>
+        </div>
+        <div class="card-body">
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Destination Type:</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.lead.inter_domes}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Destination :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.lead.destinations.name}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row" style="margin-bottom: 20px;">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <div class="col-md-6">
+                       <label class="form-label text-start">From Date </label>
+                       <input type="text" class="form-control" value="{{i.lead.from_date}}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                       <label class="form-label text-start">To Date </label>
+                       <input type="text" class="form-control" value="{{i.lead.to_date}}" readonly>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row" style="margin-bottom: 20px;">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <div class="col-md-4">
+                       <label class="form-label text-start">Adult </label>
+                       <input type="text" class="form-control" value="{{i.lead.adult}}" readonly>
+                    </div>
+                    <div class="col-md-4">
+                       <label class="form-label text-start">Child </label>
+                       <input type="text" class="form-control" value="{{i.lead.child}}" readonly>
+                    </div>
+                    <div class="col-md-4">
+                       <label class="form-label text-start">Infants </label>
+                       <input type="text" class="form-control" value="{{i.lead.infants}}" readonly>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Budget :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.lead.budget}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Purpose Of Travel :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.lead.purpose_of_travel}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class="card-body" style="padding: 6px 0;">
+           <h5 class="card-title mb-0" style="color: black !important;">Contact Person Details</h5>
+        </div>
+        <div class="card-body">
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Name :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.lead.name}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Email :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.lead.email}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Mobile No. :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.lead.mobile_number}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group row">
+                    <label class="form-label text-start col-md-4">Alternate No. :</label>
+                    <div class="col-md-8">
+                       <p class="form-control-static">{{i.lead.alternate_mobile_number}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           
+        </div>
+        <div class="card-body" style="padding: 6px 0;">
+         <h5 class="card-title mb-0" style="color: black !important;">Package Cost Details</h5>
+      </div>
+      <div class="card-body">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="form-group row">
+                  <label class="form-label text-start col-md-4">Complete Cost:</label>
+                  <div class="col-md-8">
+                     <p class="form-control-static">&#8377; {{i.lead.complete_package_cost}}</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-md-12">
+               <div class="form-group row">
+                  <label class="form-label text-start col-md-4">Received Amount :</label>
+                  <div class="col-md-8">
+                     <p class="form-control-static">&#8377; {{i.lead.received_package_cost}}</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-md-12">
+               <div class="form-group row">
+                  <label class="form-label text-start col-md-4">Balance Amount :</label>
+                  <div class="col-md-8">
+                     <p class="form-control-static">&#8377; {{i.lead.balance_package_cost}}</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         
+         
+      </div>
+        <div class="row" style="margin-bottom: 24px;">
+           
+           <div class="col-md-3">
+              <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#add-notes-{{i.lead.id}}">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 1V8M8 8V15M8 8H15M8 8H1" stroke="#43CED7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                 </svg>
+                 Notes
+              </button>
+              {% include "Account/Query/addnotes.html" %}
+           </div>
+           
+          
+           
+           
+          
+        </div>
+        <div class="card-body" style="padding: 6px 0;">
+           <h5 class="card-title mb-0" style="color: black !important;">Lead History</h5>
+        </div>
+        <div class="timeline">
+         {% for activity in i.lead.activities.all %}
+         <div class="timeline-item">
+             
+             
+             {% if activity.activity_type == "Note" %}
+                 <h5 style="color: black !important;">{{ activity.activity_type }}</h5>
+                 <div class="custom-row">
+                     {% for note in i.lead.notes.all %}
+                         {% if note.activity == activity %}
+                             <p>{{ note.notes }}</p>
+                             <p>{{ note.date }}</p>
+                         {% endif %}
+                     {% endfor %}
+                 </div>
+             
+             
+                 {% elif activity.activity_type == "Payment Attachment" %}
+                 <h5 style="color: black !important;">{{ activity.activity_type }}</h5>
+                 <div class="custom-row">
+                     {% for paymentattachments in i.lead.paymentattchment.all %}
+                         {% if paymentattachments.activity == activity %}
+                             <p>
+                                 
+                                     <a href="{{ paymentattachments.file.url }}" target="_blank">{{ paymentattachments.file.name|filename }}</a><br>
+                              <p><b>Amount</b> : {{  paymentattachments.amount }}</p>
+                             <p><b>Note</b> : {{ paymentattachments.note }}</p>
+                             <p>{{ paymentattachments.created_at }} - {{paymentattachments.created_by}} </p>
+                             
+                         {% endif %}
+                     {% endfor %}
+                 </div>
+             {% endif %}
+         </div>
+     {% endfor %}
+     
+        </div>
+        
+        
+        
+     </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
