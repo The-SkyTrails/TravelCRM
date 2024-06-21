@@ -409,6 +409,66 @@
 
 </div>
 
+
+
+<script>
+  $(document).ready(function () {
+     var callHistoryAppended = false;
+     $('.offcanvas').on('shown.bs.offcanvas', function () {
+        // Get the ID of the offcanvas element
+        var offcanvasId = $(this).attr('id');
+        console.log("Offcanvas opened with ID:", offcanvasId);
+        let text = "testttt";
+        // Extract the numeric part from the offcanvas ID
+        var leadId = offcanvasId.split('-')[1];
+
+        // Make the AJAX request using the extracted ID
+        $.ajax({
+           url: "/testt/" + leadId,
+           type: "GET",
+           success: function (response) {
+              if (!callHistoryAppended) {
+                 // Append the "Call History" title before the timeline
+                 var callHistoryTitle = `
+         <div class="card-body" style="padding: 6px 0;">
+           <h5 class="card-title mb-0" style="color: black !important;">Call History</h5>
+         </div>
+       `;
+                 $('#clientDetails_' + leadId).append(callHistoryTitle);
+                 callHistoryAppended = true; // Update the flag
+              }
+              {% comment %} console.log("Status:", response.recording_urls_and_dates.results); {% endcomment %}
+              response.recording_urls_and_dates.results.forEach(function (result, index) {
+                 var clientNumbers = `<p class="px-2" id="client_number_${leadId}_${index}"><b>Date :</b> ${result.date}</p>`;
+
+                 // Construct timeline item for each result
+                 var timelineItem = `
+           <div class="timeline-item" id="client_Details_${leadId}_${index}">
+             <h5 style="color: black !important;" class="mb-5">${index}.Call Record Detail</h5>
+             <div class="custom-row">
+               ${clientNumbers}
+               <p class="px-2"><b>Time :</b> ${result.time}</p>
+               <p class="px-2"><b>Call Duration :</b> ${result.call_duration}</p>
+               <p class="px-2 mb-2"><b>Answer Seconds :</b> ${result.answered_seconds}</p>
+              
+               <p> ${result.recording_url ? `<audio controls src="${result.recording_url}"></audio>` : `Call cut from Sales Department`} </p>
+             </div>
+           </div>
+         `;
+
+                 // Append the timeline item to the timeline
+                 $('#clientDetails_' + leadId).append(timelineItem);
+              });
+
+           },
+           error: function (xhr, status, error) {
+              console.error("Error:", error);
+           }
+        });
+     });
+  });
+</script>
+
 {{ message|json_script:"room-name" }}
 
 {% endblock main-content %} 
