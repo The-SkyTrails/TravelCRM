@@ -286,7 +286,8 @@
                      {% for note in i.lead.notes.all %}
                          {% if note.activity == activity %}
                              <p>{{ note.notes }}</p>
-                             <p>{{ note.date }}</p>
+                             <p>{{ note.date }} - {{note.added_by}}</p>
+                             
                          {% endif %}
                      {% endfor %}
                  </div>

@@ -352,7 +352,7 @@
                                      <a href="{{ attachment.file.url }}" target="_blank">{{ attachment.file.name|filename }}</a><br>
                                  {% endfor %}
                              </p>
-                             <p>{{ quotation.date }}</p>
+                             <p>{{ quotation.date }} - {{ quotation.added_by }}</p>
                          {% endif %}
                      {% endfor %}
                  </div>
@@ -366,7 +366,7 @@
                          {% endif %}
                          <div class="custom-row">
                              <p>{{ followup.note }} - {{ followup.datetime }}</p>
-                             <p>{{ followup.date }}</p>
+                             <p>{{ followup.date }} - {{ followup.added_by }}</p>
                          </div>
                      {% endif %}
                  {% endfor %}
@@ -376,7 +376,7 @@
                      {% for note in i.notes.all %}
                          {% if note.activity == activity %}
                              <p>{{ note.notes }}</p>
-                             <p>{{ note.date }}</p>
+                             <p>{{ note.date }} - {{ note.added_by }}</p>
                          {% endif %}
                      {% endfor %}
                  </div>
@@ -390,7 +390,7 @@
                                      <a href="{{ attachment.file.url }}" target="_blank">{{ attachment.file.name|filename }}</a><br>
                                  {% endfor %}
                              </p>
-                             <p>{{ attach.date }}</p>
+                             <p>{{ attach.date }} - {{ attach.added_by }}</p>
                          {% endif %}
                      {% endfor %}
                  </div>
@@ -402,6 +402,7 @@
                              <p><b>Link Id :</b> {{ payment.link_id }}</p>
                              <p><b>Payment Link :</b> {{ payment.payment_link }}</p>
                              <p><b>Expiry Date :</b> {{ payment.link_expiry_time }}</p>
+                             <p>{{ payment.date }} - {{ payment.added_by }}</p>
                              <p class="custom-cell"><button type="button" id="status_button_{{ payment.id }}" class="btn d-flex bg-primary-subtle w-100 d-block text-primary font-medium" onclick="checkPaymentStatus({{ payment.id }})">
                                  Check status
                                  </button>

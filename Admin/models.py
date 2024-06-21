@@ -579,6 +579,7 @@ class Quatation(models.Model):
     activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='quotation',null=True,blank=True)
     attachment = models.ManyToManyField(Attachment)
     date = models.DateTimeField(auto_now_add=True)
+    added_by = models.ForeignKey(CustomUser,on_delete=models.SET_NULL,null=True,blank=True)
 
 class Notes(models.Model):
     id=models.AutoField(primary_key=True)
@@ -586,6 +587,7 @@ class Notes(models.Model):
     activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='note',null=True,blank=True)
     notes = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
+    added_by = models.ForeignKey(CustomUser,on_delete=models.SET_NULL,null=True,blank=True)
     
     
 class Followup(models.Model):
@@ -597,6 +599,7 @@ class Followup(models.Model):
     note = models.TextField(max_length=100)
     archieve = models.BooleanField(default="True")
     date = models.DateTimeField(auto_now_add=True)
+    added_by = models.ForeignKey(CustomUser,on_delete=models.SET_NULL,null=True,blank=True)
    
 class File(models.Model):
     id=models.AutoField(primary_key=True)
@@ -608,6 +611,7 @@ class ConfirmAttachment(models.Model):
     activity = models.OneToOneField(ActivityHistory, on_delete=models.CASCADE, related_name='attachments',null=True,blank=True)
     attachment = models.ManyToManyField(File)
     date = models.DateTimeField(auto_now_add=True)
+    added_by = models.ForeignKey(CustomUser,on_delete=models.SET_NULL,null=True,blank=True)
 
 class Messages(models.Model):
     sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sent_messages')
@@ -621,6 +625,7 @@ class Payment(models.Model):
     link_id = models.CharField(max_length=255)
     payment_link = models.URLField(max_length=200,)
     link_expiry_time = models.DateTimeField()
+    added_by = models.ForeignKey(CustomUser,on_delete=models.SET_NULL,null=True,blank=True)
     
     
 class BookingCard(models.Model):

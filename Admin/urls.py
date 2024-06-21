@@ -359,7 +359,7 @@ urlpatterns = [
     path("approvepayment/<int:id>/", approvepayment, name="approvepayment"),
     path("approvepaymentlist", approvepaymentlist, name="approvepaymentlist"),
     path("account_view_booking_cards/<int:id>/", account_view_booking_cards, name="account_view_booking_cards"),
-    
+    path('account_add_notes/<int:id>/', account_add_notes, name='account_add_notes'),
     
     
     

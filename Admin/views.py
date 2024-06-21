@@ -4582,7 +4582,7 @@ def attach_quotation(request, id):
         
         try:
             lead = get_object_or_404(Lead, id=enq)
-            quotation = Quatation.objects.create(lead=lead)
+            quotation = Quatation.objects.create(lead=lead,added_by=request.user,date=timezone.now())
             
             for attachment in attachments:
                 attachment_obj = Attachment.objects.create(file=attachment)
@@ -4670,7 +4670,7 @@ def add_notes(request, id):
         
         try:
             lead = get_object_or_404(Lead, id=enq)
-            note = Notes.objects.create(lead=lead,notes=notes)
+            note = Notes.objects.create(lead=lead,notes=notes,added_by=request.user)
             activity_history = ActivityHistory.objects.create(lead=lead, activity_type='Note')
             note.activity = activity_history
             lead.last_updated_at = timezone.now()
@@ -4694,7 +4694,7 @@ def attach_confirmattachmnet(request, id):
         
         try:
             lead = get_object_or_404(Lead, id=enq)
-            attach = ConfirmAttachment.objects.create(lead=lead)
+            attach = ConfirmAttachment.objects.create(lead=lead,added_by=request.user,date=timezone.now())
             
             for attachment in attachments:
                 attachment_obj = File.objects.create(file=attachment)
@@ -4766,7 +4766,7 @@ def payment_link(request,id):
         
         lead.lead_status="Payment Processing"
         lead.save()
-        payment = Payment.objects.create(leads=lead,link_id=unique_link_id,payment_link=link_url,link_expiry_time=link_expiry_time)
+        payment = Payment.objects.create(leads=lead,link_id=unique_link_id,payment_link=link_url,link_expiry_time=link_expiry_time,added_by=request.user)
         activity_history = ActivityHistory.objects.create(lead=lead, activity_type='Payment')
         payment.activity = activity_history
         lead.last_updated_at = timezone.now()
@@ -4801,7 +4801,7 @@ def add_followup(request, id):
         
         try:
             lead = get_object_or_404(Lead, id=enq)
-            followup = Followup.objects.create(lead=lead,note=note,datetime=datetime , type=type)
+            followup = Followup.objects.create(lead=lead,note=note,datetime=datetime , type=type,added_by=request.user)
             
             activity_history = ActivityHistory.objects.create(lead=lead, activity_type='Followup')
             followup.activity = activity_history

@@ -98,7 +98,7 @@ def approvepayment(request, id):
     return redirect("paymentreceivelist")
     
 @login_required
-def add_notes(request, id):
+def account_add_notes(request, id):
     if request.method == "POST":
         enq = request.POST.get("enq_id")
         notes = request.POST.get("notes")
