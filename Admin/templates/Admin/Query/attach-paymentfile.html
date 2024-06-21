@@ -3,6 +3,7 @@
     <div class="modal-dialog modal-dialog-scrollable">
         <form action="{% url 'add_paymentattachment' i.id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            <input type="hidden" name="redirect_to" value="{% if request.path == '/newquerylist' %}newquerylist{% elif request.path == '/lostquery' %}lostquery{% elif request.path == '/connectedquerylist' %}connectedquerylist{% elif request.path == '/noanswerquerylist' %}noanswerquerylist{% elif request.path == '/quatationquerylist' %}quatationquerylist{% elif request.path == '/paymentdonequerylist' %}paymentdonequerylist{% elif request.path == '/completedquery' %}completedquery{% elif request.path == '/bookinglist' %}bookinglist{% else %}allquerylist{% endif %}">
             <div class="modal-content">
                 <div class="modal-header d-flex align-items-center">
                     <h4 class="modal-title" id="exampleModalLabel1">
