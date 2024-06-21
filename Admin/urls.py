@@ -292,6 +292,11 @@ urlpatterns = [
     path("completedquery", completedquerylist, name="completedquery"),
     path("lostquery", lostquerylist, name="lostquery"),
     path("bookinglist", bookinglist, name="bookinglist"),
+    path("bseleadlist", bseleadlist, name="bseleadlist"),
+    path("hotquerylist", hotquerylist, name="hotquerylist"),
+    path("warmquerylist", warmquerylist, name="warmquerylist"),
+    path("coldquerylist", coldquerylist, name="coldquerylist"),
+    
     path("addquery", addquery, name="addquery"),
     path("editquery/<int:id>/", editquery, name="editquery"),
     path('lead/<int:id>/update/', lead_status_update, name='lead_status_update'),

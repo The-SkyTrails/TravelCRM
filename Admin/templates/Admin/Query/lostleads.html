@@ -70,115 +70,169 @@
     </form>
 {% include "Login/messages.html" %}
 <div class="row">
-  {% if user.user_type == "Sales Person" %}
-    <div class="col-lg-2">
-      <a href="{% url "newquerylist" %}">
-      <div class="card" style="background: linear-gradient(90deg, rgba(255,145,94,1) 26%, rgba(224,158,0,1) 69%);">
+          
+  <div class="col-md-2 col-sm-6">
+    <a href="{% url "newquerylist" %}">
+    <div class="card" style="background: linear-gradient(90deg, rgba(255,145,94,1) 26%, rgba(224,158,0,1) 69%);">
+      <div class="card-body p-4 d-flex align-items-center gap-3">
+          <div>
+            <h5 class="fw-semibold mb-0">{{new_lead_list.count}}</h5>
+            <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>
+              Pending</span>
+          </div>
+          
+        </div>
+      </div>
+    </a>
+  </div>
+ 
+  <div class="col-md-2 col-sm-6">
+    <a href="{% url "noanswerquerylist" %}">
+      <div class="card"
+        style="background: linear-gradient(90deg, rgba(5,172,33,1) 26%, rgba(6,103,33,1) 65%);">
         <div class="card-body p-4 d-flex align-items-center gap-3">
-            <div>
-              <h5 class="fw-semibold mb-0">{{new_lead_list.count}}</h5>
-              <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>
-                Pending</span>
+          <div>
+            <h5 class="fw-semibold mb-0">{{no_answer_list.count}}</h5>
+            <span class="fs-2 d-flex align-items-center" style="color: white;"><i
+                class="ti ti-map-pin text-dark fs-3 me-1"></i>
+              NoAnswer</span>
+          </div>
+
+        </div>
+      </div>
+    </a>
+  </div>
+ 
+  <div class="col-md-2 col-sm-6">
+    <a href="{% url "connectedquerylist" %}">
+    <div class="card" style="background: linear-gradient(90deg, rgba(120,144,126,1) 26%, rgba(55,73,51,1) 69%);">
+      <div class="card-body p-4 d-flex align-items-center gap-3">
+          <div>
+              <h5 class="fw-semibold mb-0">{{lead_list.count}}</h5>
+              <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Connected</span>
             </div>
             
           </div>
         </div>
       </a>
+  </div>
+  <div class="col-md-2 col-sm-6">
+    <a href="{% url "quatationquerylist" %}">
+    <div class="card" style="background: linear-gradient(90deg, rgba(231,111,96,1) 26%, rgba(209,2,2,1) 65%);">
+      <div class="card-body p-4 d-flex align-items-center gap-3">
+        <div>
+          <h5 class="fw-semibold mb-0">{{quatation_lead_list.count}}</h5>
+          <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Quotation Send</span>
+        </div>
+      </div>
     </div>
-    {% endif %}
-    {% if user.user_type == "Sales Person" %}
-    <div class="col-lg-2">
-      <a href="{% url "noanswerquerylist" %}">
-        <div class="card"
-          style="background: linear-gradient(90deg, rgba(5,172,33,1) 26%, rgba(6,103,33,1) 65%);">
-          <div class="card-body p-4 d-flex align-items-center gap-3">
-            <div>
-              <h5 class="fw-semibold mb-0">{{no_answer_list.count}}</h5>
-              <span class="fs-2 d-flex align-items-center" style="color: white;"><i
-                  class="ti ti-map-pin text-dark fs-3 me-1"></i>
-                NoAnswer</span>
-            </div>
+  </a>
+  </div>
+  <div class="col-md-2 col-sm-6">
+    <a href="{% url "paymentdonequerylist" %}">
+    <div class="card" style="background: linear-gradient(90deg, rgba(128,164,255,1) 26%, rgba(45,84,167,1) 65%);">
+      <div class="card-body p-4 d-flex align-items-center gap-3">
+        <div>
+          <h5 class="fw-semibold mb-0">{{paydonelead_list.count}}</h5>
+          <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Payment</span>
+        </div>
+      </div>
+    </div>
+  </a>
+  </div>
+  
+  <div class="col-md-2 col-sm-6">
+    <a href="{% url "bookinglist" %}">
+    <div class="card" style="background: linear-gradient(90deg, rgba(255,145,94,1) 26%, rgba(224,158,0,1) 69%);">
+      <div class="card-body p-4 d-flex align-items-center gap-3">
+        <div>
+          <h5 class="fw-semibold mb-0">{{book_list.count}}</h5>
+          <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Booking Confirmed</span>
+        </div>
+      </div>
+    </div>
+  </a>
+  </div>
+  
+</div>
+<div class="row">
 
+  
+  <div class="col-md-2 col-sm-6">
+    <a href="{% url "bseleadlist" %}">
+    <div class="card" style="background: linear-gradient(90deg, rgba(120,144,126,1) 26%, rgba(55,73,51,1) 69%);">
+      <div class="card-body p-4 d-flex align-items-center gap-3">
+          <div>
+              <h5 class="fw-semibold mb-0">{{bse_list.count}}</h5>
+              <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Book Somewhere Else</span>
+            </div>
+            
           </div>
         </div>
       </a>
-    </div>
-    {% endif %}
-    <div class="col-lg-2">
-      <a href="{% url "connectedquerylist" %}">
-      <div class="card" style="background: linear-gradient(90deg, rgba(120,144,126,1) 26%, rgba(55,73,51,1) 69%);">
-        <div class="card-body p-4 d-flex align-items-center gap-3">
-            <div>
-                <h5 class="fw-semibold mb-0">{{lead_list.count}}</h5>
-                <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Connected</span>
-              </div>
-              
-            </div>
-          </div>
-        </a>
-    </div>
-    <div class="col-lg-2">
-      <a href="{% url "quatationquerylist" %}">
-      <div class="card" style="background: linear-gradient(90deg, rgba(231,111,96,1) 26%, rgba(209,2,2,1) 65%);">
-        <div class="card-body p-4 d-flex align-items-center gap-3">
-          <div>
-            <h5 class="fw-semibold mb-0">{{quatation_lead_list.count}}</h5>
-            <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Quotation Send</span>
-          </div>
+  </div>
+  <div class="col-md-2 col-sm-6">
+    <a href="{% url "hotquerylist" %}">
+    <div class="card" style="background: linear-gradient(90deg, rgba(231,111,96,1) 26%, rgba(209,2,2,1) 65%);">
+      <div class="card-body p-4 d-flex align-items-center gap-3">
+        <div>
+          <h5 class="fw-semibold mb-0">{{hotlead_list.count}}</h5>
+          <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Hot Leads</span>
         </div>
       </div>
-    </a>
     </div>
-    <div class="col-lg-2">
-      <a href="{% url "paymentdonequerylist" %}">
-      <div class="card" style="background: linear-gradient(90deg, rgba(128,164,255,1) 26%, rgba(45,84,167,1) 65%);">
-        <div class="card-body p-4 d-flex align-items-center gap-3">
-          <div>
-            <h5 class="fw-semibold mb-0">{{paydonelead_list.count}}</h5>
-            <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Payment</span>
-          </div>
+  </a>
+  </div>
+  <div class="col-md-2 col-sm-6">
+    <a href="{% url "warmquerylist" %}">
+    <div class="card" style="background: linear-gradient(90deg, rgba(128,164,255,1) 26%, rgba(45,84,167,1) 65%);">
+      <div class="card-body p-4 d-flex align-items-center gap-3">
+        <div>
+          <h5 class="fw-semibold mb-0">{{warmlead_list.count}}</h5>
+          <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Warm Leads</span>
         </div>
       </div>
-    </a>
     </div>
-    {% if user.user_type != "Sales Person" %}
-    <div class="col-lg-2">
-      <a href="{% url "bookinglist" %}">
-      <div class="card" style="background: linear-gradient(90deg, rgba(255,145,94,1) 26%, rgba(224,158,0,1) 69%);">
-        <div class="card-body p-4 d-flex align-items-center gap-3">
-          <div>
-            <h5 class="fw-semibold mb-0">{{book_list.count}}</h5>
-            <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Booking Confirmed</span>
-          </div>
+  </a>
+  </div>
+  
+  <div class="col-md-2 col-sm-6">
+    <a href="{% url "coldquerylist" %}">
+    <div class="card" style="background: linear-gradient(90deg, rgba(255,145,94,1) 26%, rgba(224,158,0,1) 69%);">
+      <div class="card-body p-4 d-flex align-items-center gap-3">
+        <div>
+          <h5 class="fw-semibold mb-0">{{coldlead_list.count}}</h5>
+          <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Cold Leads</span>
         </div>
       </div>
-    </a>
     </div>
-    <div class="col-lg-2">
-      <a href="{% url "completedquery" %}">
-      <div class="card" style="background: linear-gradient(90deg, rgba(5,172,33,1) 26%, rgba(6,103,33,1) 65%);;">
-        <div class="card-body p-4 d-flex align-items-center gap-3">
-          <div>
-            <h5 class="fw-semibold mb-0">{{comlead_list.count}}</h5>
-            <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Completed</span>
-          </div>
+  </a>
+  </div>
+  <div class="col-md-2 col-sm-6">
+    <a href="{% url "completedquery" %}">
+    <div class="card" style="background: linear-gradient(90deg, rgba(5,172,33,1) 26%, rgba(6,103,33,1) 65%);;">
+      <div class="card-body p-4 d-flex align-items-center gap-3">
+        <div>
+          <h5 class="fw-semibold mb-0">{{comlead_list.count}}</h5>
+          <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Completed</span>
         </div>
       </div>
-    </a>
     </div>
-    {% endif %}
-    <div class="col-lg-2">
-      <a href="{% url "lostquery" %}">
-      <div class="card" style="background: linear-gradient(90deg, rgba(80,75,75,1) 26%, rgba(22,16,16,1) 65%);">
-        <div class="card-body p-4 d-flex align-items-center gap-3">
-          <div>
-            <h5 class="fw-semibold mb-0">{{lost_list.count}}</h5>
-            <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Lost</span>
-          </div>
+  </a>
+  </div>
+  
+  <div class="col-md-2 col-sm-6">
+    <a href="{% url "lostquery" %}">
+    <div class="card" style="background: linear-gradient(90deg, rgba(80,75,75,1) 26%, rgba(22,16,16,1) 65%);">
+      <div class="card-body p-4 d-flex align-items-center gap-3">
+        <div>
+          <h5 class="fw-semibold mb-0">{{lost_list.count}}</h5>
+          <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Lost</span>
         </div>
       </div>
-    </a>
     </div>
+  </a>
+  </div>
 </div>
       <div class="datatables">
         
@@ -276,7 +330,7 @@
                                      
                                         {% if request.user.user_type != "Sales Person" %}
                                       <td>
-                                          <a href="{% url "update_booking_cards" i.id %}">
+                                          <a href="{% url "update_booking_cards" i.id %}?next={% url 'lostquery' %}">
                                             <button type="button" class="btn mb-1 bg-success-subtle text-success px-4 fs-4 font-medium">
                                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-filter-edit">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -293,7 +347,7 @@
                                           Last UpdatedAt: {{i.last_updated_at}}
                                         </td>
                                         <td>
-                                          <a href="{% url "editquery" i.id %}">
+                                          <a href="{% url "editquery" i.id %}?next={% url 'lostquery' %}">
                                             <button type="button" class="btn mb-1 bg-success-subtle text-success px-4 fs-4 font-medium">
                                               <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />

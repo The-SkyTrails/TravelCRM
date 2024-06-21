@@ -86,7 +86,8 @@ LEAD_STATUS_CHOICES = [
     ("Payment Done","Payment Done"),
     ("Booking Confirmed","Booking Confirmed"),
     ("Lost","Lost"),
-    ("Completed","Completed")
+    ("Completed","Completed"),
+    ("Book SomeWhere Else","Book SomeWhere Else")
 ]
 
 

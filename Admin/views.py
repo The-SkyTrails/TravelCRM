@@ -2991,6 +2991,10 @@ def allquerylist(request):
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
             book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(lead_status="Book SomeWhere Else").order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(colour_code="Red").order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(colour_code="Green").order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(colour_code="Blue").order_by("-last_updated_at")
         elif user_type == "Sales Person":
             if from_date and to_date:
                 all_lead = Lead.objects.filter(
@@ -3028,6 +3032,10 @@ def allquerylist(request):
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
         elif user_type == "Operation Person":
             if from_date and to_date:
                 all_lead = Lead.objects.filter(
@@ -3064,9 +3072,13 @@ def allquerylist(request):
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
     else:
         
-        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = []
+        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = bse_list = hotlead_list = warmlead_list = coldlead_list = []
 
 
     operation = CustomUser.objects.filter(user_type="Sales Person")
@@ -3086,7 +3098,11 @@ def allquerylist(request):
         'recording_urls_and_dates': recording_urls_and_dates,
         "book_list":book_list,
         "page":page,
-        "no_answer_list":no_answer_list
+        "no_answer_list":no_answer_list,
+        "bse_list":bse_list,
+        "hotlead_list":hotlead_list,
+        "warmlead_list":warmlead_list,
+        "coldlead_list":coldlead_list
     }
     
     return render(request,"Admin/Query/allquery.html",context)
@@ -3138,6 +3154,10 @@ def newquerylist(request):
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
             book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")        
+            bse_list = Lead.objects.filter(lead_status="Book SomeWhere Else").order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(colour_code="Red").order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(colour_code="Green").order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(colour_code="Blue").order_by("-last_updated_at")
         elif user_type == "Sales Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
             if from_date and to_date:
@@ -3175,6 +3195,10 @@ def newquerylist(request):
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
         elif user_type == "Operation Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
             if from_date and to_date:
@@ -3212,10 +3236,13 @@ def newquerylist(request):
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
-
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
     else:
         
-        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = []
+        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = bse_list = hotlead_list = warmlead_list = coldlead_list = []
 
     operation = CustomUser.objects.filter(user_type="Sales Person")
     recording_urls_and_dates = fetch_recording_urls_and_dates()
@@ -3231,7 +3258,11 @@ def newquerylist(request):
         "recording_urls_and_dates":recording_urls_and_dates,
         "book_list":book_list,
         "page":page,
-        "no_answer_list":no_answer_list
+        "no_answer_list":no_answer_list,
+        "bse_list":bse_list,
+        "hotlead_list":hotlead_list,
+        "warmlead_list":warmlead_list,
+        "coldlead_list":coldlead_list
 
     }
     return render(request,"Admin/Query/newquery.html",context)
@@ -3282,6 +3313,10 @@ def connectedquerylist(request):
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
             book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(lead_status="Book SomeWhere Else").order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(colour_code="Red").order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(colour_code="Green").order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(colour_code="Blue").order_by("-last_updated_at")
         elif user_type == "Sales Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
             new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
@@ -3316,6 +3351,10 @@ def connectedquerylist(request):
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
         elif user_type == "Operation Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
             new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
@@ -3350,10 +3389,13 @@ def connectedquerylist(request):
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
-
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
     else:
         
-        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = []
+        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = bse_list = hotlead_list = warmlead_list = coldlead_list =  []
 
     operation = CustomUser.objects.filter(user_type="Sales Person")
     recording_urls_and_dates = fetch_recording_urls_and_dates()
@@ -3369,7 +3411,11 @@ def connectedquerylist(request):
         "recording_urls_and_dates":recording_urls_and_dates,
         "book_list":book_list,
         "page":page,
-        "no_answer_list":no_answer_list
+        "no_answer_list":no_answer_list,
+        "bse_list":bse_list,
+        "hotlead_list":hotlead_list,
+        "warmlead_list":warmlead_list,
+        "coldlead_list":coldlead_list
     }
     return render(request,"Admin/Query/connectedquery.html",context)
 
@@ -3420,6 +3466,10 @@ def quatationquerylist(request):
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(lead_status="Book SomeWhere Else").order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(colour_code="Red").order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(colour_code="Green").order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(colour_code="Blue").order_by("-last_updated_at")
         elif user_type == "Sales Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
             new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
@@ -3453,6 +3503,10 @@ def quatationquerylist(request):
             paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
         elif user_type == "Operation Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
             new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
@@ -3487,10 +3541,13 @@ def quatationquerylist(request):
             paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
-
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
     else:
         
-        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = []
+        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = bse_list = hotlead_list = warmlead_list = coldlead_list = []
 
     operation = CustomUser.objects.filter(user_type="Sales Person")
     recording_urls_and_dates = fetch_recording_urls_and_dates()
@@ -3506,7 +3563,11 @@ def quatationquerylist(request):
         "recording_urls_and_dates":recording_urls_and_dates,
         "book_list":book_list,
         "page":page,
-        "no_answer_list":no_answer_list
+        "no_answer_list":no_answer_list,
+        "bse_list":bse_list,
+        "hotlead_list":hotlead_list,
+        "warmlead_list":warmlead_list,
+        "coldlead_list":coldlead_list
     }
     return render(request,"Admin/Query/quatationquery-list.html",context)
 
@@ -3573,6 +3634,10 @@ def paymentdonequerylist(request):
                     page = paginator.page(paginator.num_pages)
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(lead_status="Book SomeWhere Else").order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(colour_code="Red").order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(colour_code="Green").order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(colour_code="Blue").order_by("-last_updated_at")
         elif user_type == "Sales Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
             new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
@@ -3610,6 +3675,10 @@ def paymentdonequerylist(request):
                     page = paginator.page(paginator.num_pages)
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
     elif user_type == "Operation Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
             new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
@@ -3617,6 +3686,10 @@ def paymentdonequerylist(request):
             no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 paydonelead_list = Lead.objects.filter(
                     (Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) &
@@ -3650,7 +3723,7 @@ def paymentdonequerylist(request):
 
     else:
         
-        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = []
+        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = bse_list = hotlead_list = warmlead_list = coldlead_list = []
 
     operation = CustomUser.objects.filter(user_type="Sales Person")
     recording_urls_and_dates = fetch_recording_urls_and_dates()
@@ -3666,7 +3739,11 @@ def paymentdonequerylist(request):
         "recording_urls_and_dates":recording_urls_and_dates,
         "book_list":book_list,
         "page":page,
-        "no_answer_list":no_answer_list
+        "no_answer_list":no_answer_list,
+        "bse_list":bse_list,
+        "hotlead_list":hotlead_list,
+        "warmlead_list":warmlead_list,
+        "coldlead_list":coldlead_list
     }
     return render(request,"Admin/Query/paymentdonequery.html",context)
 
@@ -3703,6 +3780,10 @@ def completedquerylist(request):
             quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
             book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(lead_status="Book SomeWhere Else").order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(colour_code="Red").order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(colour_code="Green").order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(colour_code="Blue").order_by("-last_updated_at")
             if filters:
                 comlead_list = Lead.objects.filter(Q(lead_status="Completed")
                      & filters
@@ -3738,6 +3819,10 @@ def completedquerylist(request):
             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 comlead_list = Lead.objects.filter(
                     Q(lead_status="Completed") &
@@ -3775,6 +3860,10 @@ def completedquerylist(request):
             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 comlead_list = Lead.objects.filter(
                     Q(lead_status="Completed") &
@@ -3807,7 +3896,7 @@ def completedquerylist(request):
 
     else:
         
-        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = []
+        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = bse_list = hotlead_list = warmlead_list = coldlead_list =  []
 
     operation = CustomUser.objects.filter(user_type="Sales Person")
     recording_urls_and_dates = fetch_recording_urls_and_dates()
@@ -3823,7 +3912,11 @@ def completedquerylist(request):
         "recording_urls_and_dates":recording_urls_and_dates,
         "book_list":book_list,
         "page":page,
-        "no_answer_list":no_answer_list
+        "no_answer_list":no_answer_list,
+        "bse_list":bse_list,
+        "hotlead_list":hotlead_list,
+        "warmlead_list":warmlead_list,
+        "coldlead_list":coldlead_list
     }
     return render(request,"Admin/Query/completedquery.html",context)
 
@@ -3861,6 +3954,10 @@ def lostquerylist(request):
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
             book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(lead_status="Book SomeWhere Else").order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(colour_code="Red").order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(colour_code="Green").order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(colour_code="Blue").order_by("-last_updated_at")
             if filters:
                 lost_list = Lead.objects.filter(Q(lead_status="Lost")
                     & filters ).order_by("-last_updated_at")
@@ -3895,6 +3992,10 @@ def lostquerylist(request):
             paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 lost_list = Lead.objects.filter(
                     Q(lead_status="Lost") &
@@ -3932,6 +4033,10 @@ def lostquerylist(request):
             paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 lost_list = Lead.objects.filter(
                     Q(lead_status="Lost") &
@@ -3962,7 +4067,7 @@ def lostquerylist(request):
                     page = paginator.page(paginator.num_pages)
     else:
         
-        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = []
+        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = bse_list = hotlead_list = warmlead_list = coldlead_list = []
 
     operation = CustomUser.objects.filter(user_type="Sales Person")
     recording_urls_and_dates = fetch_recording_urls_and_dates()
@@ -3978,7 +4083,11 @@ def lostquerylist(request):
         "recording_urls_and_dates":recording_urls_and_dates,
         "book_list":book_list,
         "page":page,
-        "no_answer_list":no_answer_list
+        "no_answer_list":no_answer_list,
+        "bse_list":bse_list,
+        "hotlead_list":hotlead_list,
+        "warmlead_list":warmlead_list,
+        "coldlead_list":coldlead_list
     }
     return render(request,"Admin/Query/lostleads.html",context)
 
@@ -4018,6 +4127,10 @@ def bookinglist(request):
             paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(lead_status="Book SomeWhere Else").order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(colour_code="Red").order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(colour_code="Green").order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(colour_code="Blue").order_by("-last_updated_at")
             if filters:
                 book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed")
                     & filters ).order_by("-last_updated_at")
@@ -4052,6 +4165,10 @@ def bookinglist(request):
             paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 book_list = Lead.objects.filter(
                     Q(lead_status="Booking Confirmed") &
@@ -4089,6 +4206,10 @@ def bookinglist(request):
             paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             if from_date and to_date:
                 book_list = Lead.objects.filter(
                     Q(lead_status="Booking Confirmed") &
@@ -4119,7 +4240,7 @@ def bookinglist(request):
                     page = paginator.page(paginator.num_pages)
     else:
         
-        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = []
+        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = bse_list = hotlead_list = warmlead_list = coldlead_list = []
 
 
     operation = CustomUser.objects.filter(user_type="Sales Person")
@@ -4140,7 +4261,11 @@ def bookinglist(request):
         "operation": operation,
         'recording_urls_and_dates': recording_urls_and_dates,
         "page":page,
-        "no_answer_list":no_answer_list
+        "no_answer_list":no_answer_list,
+        "bse_list":bse_list,
+        "hotlead_list":hotlead_list,
+        "warmlead_list":warmlead_list,
+        "coldlead_list":coldlead_list
     }
     return render(request,"Admin/Query/bookingconfirmed.html",context)
 
@@ -4203,6 +4328,10 @@ def noanswerquerylist(request):
             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
             book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(lead_status="Book SomeWhere Else").order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(colour_code="Red").order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(colour_code="Green").order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(colour_code="Blue").order_by("-last_updated_at")
         elif user_type == "Sales Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
             new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
@@ -4236,6 +4365,10 @@ def noanswerquerylist(request):
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
         elif user_type == "Operation Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
             new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
@@ -4270,10 +4403,14 @@ def noanswerquerylist(request):
             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
             book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
 
     else:
         
-        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = []
+        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = bse_list = hotlead_list = warmlead_list = coldlead_list = []
 
     operation = CustomUser.objects.filter(user_type="Sales Person")
     recording_urls_and_dates = fetch_recording_urls_and_dates()
@@ -4289,9 +4426,676 @@ def noanswerquerylist(request):
         "recording_urls_and_dates":recording_urls_and_dates,
         "book_list":book_list,
         "page":page,
-        "no_answer_list":no_answer_list
+        "no_answer_list":no_answer_list,
+        "bse_list":bse_list,
+        "hotlead_list":hotlead_list,
+        "warmlead_list":warmlead_list,
+        "coldlead_list":coldlead_list
     }
     return render(request,"Admin/Query/noanswerquery.html",context)
+
+
+@login_required
+def bseleadlist(request):
+    context = {} 
+    
+    if request.method == "GET":
+        from_date = request.GET.get('from')
+        to_date = request.GET.get('to')
+        sales_person = request.GET.get('salesperson')
+        page_number = request.GET.get('page')
+
+    if request.user.is_authenticated:
+        user_type = request.user.user_type
+        filters = Q()
+
+        if from_date and to_date:
+            filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
+
+        if sales_person:
+            sales_person_parts = sales_person.split()
+            if len(sales_person_parts) == 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) | Q(sales_person__last_name__icontains=sales_person_parts[0])
+            elif len(sales_person_parts) > 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) & Q(sales_person__last_name__icontains=sales_person_parts[1])
+ 
+        if user_type == "Admin":
+            all_lead = Lead.objects.all().order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
+            if filters:
+                bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & filters).order_by("-last_updated_at")
+                
+                paginator = Paginator(bse_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            else:
+                bse_list = Lead.objects.filter(lead_status="Book SomeWhere Else").order_by("-last_updated_at")
+                paginator = Paginator(bse_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
+            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(colour_code="Red").order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(colour_code="Green").order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(colour_code="Blue").order_by("-last_updated_at")
+        elif user_type == "Sales Person":
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            if from_date and to_date:
+                bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(sales_person=request.user))& Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-last_updated_at")
+                paginator = Paginator(bse_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            else:
+                bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+                paginator = Paginator(bse_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+        elif user_type == "Operation Person":
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            if from_date and to_date:
+                bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(operation_person=request.user))&
+                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-last_updated_at")
+                paginator = Paginator(bse_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            else:
+                bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+                paginator = Paginator(bse_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+
+    else:
+        
+        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = bse_list = hotlead_list = warmlead_list = coldlead_list = []
+
+    operation = CustomUser.objects.filter(user_type="Sales Person")
+    recording_urls_and_dates = fetch_recording_urls_and_dates()
+    context = {
+        "new_lead_list":new_lead_list,
+        "lead_list":lead_list,
+        "quatation_lead_list":quatation_lead_list,
+        "paydonelead_list":paydonelead_list,
+        "comlead_list":comlead_list,
+        "all_lead":all_lead,
+        "lost_list":lost_list,
+        "operation":operation,
+        "recording_urls_and_dates":recording_urls_and_dates,
+        "book_list":book_list,
+        "page":page,
+        "no_answer_list":no_answer_list,
+        "bse_list":bse_list,
+        "hotlead_list":hotlead_list,
+        "warmlead_list":warmlead_list,
+        "coldlead_list":coldlead_list
+    }
+    return render(request,"Admin/Query/bseleadlist.html",context)
+
+
+@login_required
+def hotquerylist(request):
+    context = {} 
+    
+    if request.method == "GET":
+        from_date = request.GET.get('from')
+        to_date = request.GET.get('to')
+        sales_person = request.GET.get('salesperson')
+        page_number = request.GET.get('page')
+
+    if request.user.is_authenticated:
+        user_type = request.user.user_type
+        filters = Q()
+
+        if from_date and to_date:
+            filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
+
+        if sales_person:
+            sales_person_parts = sales_person.split()
+            if len(sales_person_parts) == 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) | Q(sales_person__last_name__icontains=sales_person_parts[0])
+            elif len(sales_person_parts) > 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) & Q(sales_person__last_name__icontains=sales_person_parts[1])
+ 
+        if user_type == "Admin":
+            all_lead = Lead.objects.all().order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
+            if filters:
+                hotlead_list = Lead.objects.filter(Q(colour_code="Red") & filters).order_by("-last_updated_at")               
+                paginator = Paginator(hotlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            else:
+                hotlead_list = Lead.objects.filter(colour_code="Red").order_by("-last_updated_at")
+                paginator = Paginator(hotlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
+            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(lead_status="Book SomeWhere Else").order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(colour_code="Green").order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(colour_code="Blue").order_by("-last_updated_at")
+        elif user_type == "Sales Person":
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            if from_date and to_date:
+                hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(sales_person=request.user))& Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-last_updated_at")
+                paginator = Paginator(hotlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            else:
+                hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+                paginator = Paginator(hotlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+        elif user_type == "Operation Person":
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            if from_date and to_date:
+                hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(operation_person=request.user))&
+                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-last_updated_at")
+                paginator = Paginator(hotlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            else:
+                hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")               
+                paginator = Paginator(hotlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+
+    else:
+        
+        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = bse_list = hotlead_list = warmlead_list = coldlead_list = []
+
+    operation = CustomUser.objects.filter(user_type="Sales Person")
+    recording_urls_and_dates = fetch_recording_urls_and_dates()
+    context = {
+        "new_lead_list":new_lead_list,
+        "lead_list":lead_list,
+        "quatation_lead_list":quatation_lead_list,
+        "paydonelead_list":paydonelead_list,
+        "comlead_list":comlead_list,
+        "all_lead":all_lead,
+        "lost_list":lost_list,
+        "operation":operation,
+        "recording_urls_and_dates":recording_urls_and_dates,
+        "book_list":book_list,
+        "page":page,
+        "no_answer_list":no_answer_list,
+        "bse_list":bse_list,
+        "hotlead_list":hotlead_list,
+        "warmlead_list":warmlead_list,
+        "coldlead_list":coldlead_list
+    }
+    return render(request,"Admin/Query/hotquery.html",context)
+
+
+@login_required
+def warmquerylist(request):
+    context = {} 
+    
+    if request.method == "GET":
+        from_date = request.GET.get('from')
+        to_date = request.GET.get('to')
+        sales_person = request.GET.get('salesperson')
+        page_number = request.GET.get('page')
+
+    if request.user.is_authenticated:
+        user_type = request.user.user_type
+        filters = Q()
+
+        if from_date and to_date:
+            filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
+
+        if sales_person:
+            sales_person_parts = sales_person.split()
+            if len(sales_person_parts) == 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) | Q(sales_person__last_name__icontains=sales_person_parts[0])
+            elif len(sales_person_parts) > 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) & Q(sales_person__last_name__icontains=sales_person_parts[1])
+ 
+        if user_type == "Admin":
+            all_lead = Lead.objects.all().order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
+            if filters:
+                warmlead_list = Lead.objects.filter(Q(colour_code="Green") & filters).order_by("-last_updated_at")
+                paginator = Paginator(warmlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            else:
+                warmlead_list = Lead.objects.filter(colour_code="Green").order_by("-last_updated_at")
+                paginator = Paginator(warmlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
+            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(lead_status="Book SomeWhere Else").order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(colour_code="Red").order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(colour_code="Blue").order_by("-last_updated_at")
+        elif user_type == "Sales Person":
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            if from_date and to_date:
+                warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(sales_person=request.user))& Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-last_updated_at")
+                paginator = Paginator(warmlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            else:
+                warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+                paginator = Paginator(warmlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+        elif user_type == "Operation Person":
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            if from_date and to_date:
+                warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(operation_person=request.user))&
+                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-last_updated_at")
+                paginator = Paginator(warmlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            else:
+                warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+                paginator = Paginator(warmlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+
+    else:
+        
+        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = bse_list = hotlead_list = warmlead_list = coldlead_list = []
+
+    operation = CustomUser.objects.filter(user_type="Sales Person")
+    recording_urls_and_dates = fetch_recording_urls_and_dates()
+    context = {
+        "new_lead_list":new_lead_list,
+        "lead_list":lead_list,
+        "quatation_lead_list":quatation_lead_list,
+        "paydonelead_list":paydonelead_list,
+        "comlead_list":comlead_list,
+        "all_lead":all_lead,
+        "lost_list":lost_list,
+        "operation":operation,
+        "recording_urls_and_dates":recording_urls_and_dates,
+        "book_list":book_list,
+        "page":page,
+        "no_answer_list":no_answer_list,
+        "bse_list":bse_list,
+        "hotlead_list":hotlead_list,
+        "warmlead_list":warmlead_list,
+        "coldlead_list":coldlead_list
+    }
+    return render(request,"Admin/Query/warmquery.html",context)
+
+
+@login_required
+def coldquerylist(request):
+    context = {} 
+    
+    if request.method == "GET":
+        from_date = request.GET.get('from')
+        to_date = request.GET.get('to')
+        sales_person = request.GET.get('salesperson')
+        page_number = request.GET.get('page')
+
+    if request.user.is_authenticated:
+        user_type = request.user.user_type
+        filters = Q()
+
+        if from_date and to_date:
+            filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
+
+        if sales_person:
+            sales_person_parts = sales_person.split()
+            if len(sales_person_parts) == 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) | Q(sales_person__last_name__icontains=sales_person_parts[0])
+            elif len(sales_person_parts) > 1:
+                filters &= Q(sales_person__first_name__icontains=sales_person_parts[0]) & Q(sales_person__last_name__icontains=sales_person_parts[1])
+ 
+        if user_type == "Admin":
+            all_lead = Lead.objects.all().order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(lead_status="Pending").order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
+            if filters:
+                coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & filters).order_by("-last_updated_at")
+                paginator = Paginator(coldlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            else:
+                coldlead_list = Lead.objects.filter(colour_code="Blue").order_by("-last_updated_at")
+                paginator = Paginator(coldlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter(Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(lead_status="Lost").order_by("-last_updated_at")
+            book_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(lead_status="Book SomeWhere Else").order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(colour_code="Red").order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(colour_code="Green").order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
+            
+        elif user_type == "Sales Person":
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            if from_date and to_date:
+                coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(sales_person=request.user))& Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-last_updated_at")
+                paginator = Paginator(coldlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            else:
+                coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+                paginator = Paginator(coldlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-last_updated_at")
+            
+        elif user_type == "Operation Person":
+            all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).order_by("-last_updated_at")
+            new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lead_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            if from_date and to_date:
+                coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(operation_person=request.user))&
+                    Q(from_date__gte=from_date, to_date__lte=to_date)).order_by("-last_updated_at")
+                paginator = Paginator(coldlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            else:
+                coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+                paginator = Paginator(coldlead_list, 25)
+                page_number = request.GET.get('page')
+                
+
+                try:
+                    page = paginator.page(page_number)
+                except PageNotAnInteger:
+                    page = paginator.page(1)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
+            quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            hotlead_list = Lead.objects.filter(Q(colour_code="Red") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            warmlead_list = Lead.objects.filter(Q(colour_code="Green") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-last_updated_at")
+            
+
+    else:
+        
+        new_lead_list = lead_list = quatation_lead_list = paydonelead_list = comlead_list = lost_list = all_lead = book_list = no_answer_list = bse_list = hotlead_list = warmlead_list = coldlead_list = []
+
+    operation = CustomUser.objects.filter(user_type="Sales Person")
+    recording_urls_and_dates = fetch_recording_urls_and_dates()
+    context = {
+        "new_lead_list":new_lead_list,
+        "lead_list":lead_list,
+        "quatation_lead_list":quatation_lead_list,
+        "paydonelead_list":paydonelead_list,
+        "comlead_list":comlead_list,
+        "all_lead":all_lead,
+        "lost_list":lost_list,
+        "operation":operation,
+        "recording_urls_and_dates":recording_urls_and_dates,
+        "book_list":book_list,
+        "page":page,
+        "no_answer_list":no_answer_list,
+        "bse_list":bse_list,
+        "hotlead_list":hotlead_list,
+        "warmlead_list":warmlead_list,
+        "coldlead_list":coldlead_list
+    }
+    return render(request,"Admin/Query/coldquery.html",context)
+
+
+
 
 
 
@@ -4413,7 +5217,7 @@ def editquery(request,id):
         "query":lead,
         "country":country,
     }
-    
+    next_url = request.GET.get('next', 'allquerylist')
     if request.method == "POST":
         try:
             contact_person_name = request.POST.get("contact_person_name").capitalize()
@@ -4485,10 +5289,10 @@ def editquery(request,id):
                 lead.countrys=country
             lead.save()
             messages.success(request, "Query updated successfully")
-            return redirect("allquerylist")
+            return redirect(next_url)
         except Exception as e:
             messages.error(request, f"Error occurred: {e}")
-        return redirect("allquerylist")
+        return redirect(next_url)
     else:
         pass
     
@@ -4505,22 +5309,31 @@ def lead_status_update(request,id):
         lead.lead_status = lead_status
         lead.save()
         
-        if lead_status == "Pending":
-            return redirect("newquerylist")
-        elif lead_status == "No Answer":
-            return redirect("noanswerquerylist")
-        elif lead_status == "Connected":
-            return redirect("connectedquerylist")
-        elif lead_status == "Quotation Send":
-            return redirect("quatationquerylist")
-        elif lead_status == "Payment Processing":
-            return redirect("paymentdonequerylist")
-        elif lead_status == "Payment Done":
-            return redirect("paymentdonequerylist")
-        elif lead_status == "Lost":
-            return redirect("lostquery")
-        elif lead_status == "Completed":
-            return redirect("completedquery")
+        redirect_to = request.POST.get("redirect_to")
+        if redirect_to == "newquerylist":
+            return HttpResponseRedirect(reverse("newquerylist"))
+        elif redirect_to == "lostquery":
+            return HttpResponseRedirect(reverse("lostquery"))
+        elif redirect_to == "connectedquerylist":
+            return HttpResponseRedirect(reverse("connectedquerylist"))
+        elif redirect_to == "noanswerquerylist":
+            return HttpResponseRedirect(reverse("noanswerquerylist"))
+        elif redirect_to == "quatationquerylist":
+            return HttpResponseRedirect(reverse("quatationquerylist"))
+        elif redirect_to == "paymentdonequerylist":
+            return HttpResponseRedirect(reverse("paymentdonequerylist"))
+        elif redirect_to == "completedquery":
+            return HttpResponseRedirect(reverse("completedquery"))
+        elif redirect_to == "bookinglist":
+            return HttpResponseRedirect(reverse("bookinglist"))
+        elif redirect_to == "bseleadlist":
+            return HttpResponseRedirect(reverse("bseleadlist"))
+        elif redirect_to == "hotquerylist":
+            return HttpResponseRedirect(reverse("hotquerylist"))
+        elif redirect_to == "warmquerylist":
+            return HttpResponseRedirect(reverse("warmquerylist"))
+        elif redirect_to == "coldquerylist":
+            return HttpResponseRedirect(reverse("coldquerylist"))
         
         
         if lead_status == "Booking Confirmed":
@@ -4571,6 +5384,14 @@ def op_update(request,id):
             return HttpResponseRedirect(reverse("completedquery"))
         elif redirect_to == "bookinglist":
             return HttpResponseRedirect(reverse("bookinglist"))
+        elif redirect_to == "bseleadlist":
+            return HttpResponseRedirect(reverse("bseleadlist"))
+        elif redirect_to == "hotquerylist":
+            return HttpResponseRedirect(reverse("hotquerylist"))
+        elif redirect_to == "warmquerylist":
+            return HttpResponseRedirect(reverse("warmquerylist"))
+        elif redirect_to == "coldquerylist":
+            return HttpResponseRedirect(reverse("coldquerylist"))
         else:
             return HttpResponseRedirect(reverse("allquerylist"))
     
@@ -4675,6 +5496,14 @@ def attach_quotation(request, id):
             return HttpResponseRedirect(reverse("completedquery"))
         elif redirect_to == "bookinglist":
             return HttpResponseRedirect(reverse("bookinglist"))
+        elif redirect_to == "bseleadlist":
+            return HttpResponseRedirect(reverse("bseleadlist"))
+        elif redirect_to == "hotquerylist":
+            return HttpResponseRedirect(reverse("hotquerylist"))
+        elif redirect_to == "warmquerylist":
+            return HttpResponseRedirect(reverse("warmquerylist"))
+        elif redirect_to == "coldquerylist":
+            return HttpResponseRedirect(reverse("coldquerylist"))
         else:
             return HttpResponseRedirect(reverse("allquerylist"))
     else:
@@ -4717,6 +5546,14 @@ def add_notes(request, id):
             return HttpResponseRedirect(reverse("completedquery"))
         elif redirect_to == "bookinglist":
             return HttpResponseRedirect(reverse("bookinglist"))
+        elif redirect_to == "bseleadlist":
+            return HttpResponseRedirect(reverse("bseleadlist"))
+        elif redirect_to == "hotquerylist":
+            return HttpResponseRedirect(reverse("hotquerylist"))
+        elif redirect_to == "warmquerylist":
+            return HttpResponseRedirect(reverse("warmquerylist"))
+        elif redirect_to == "coldquerylist":
+            return HttpResponseRedirect(reverse("coldquerylist"))
         else:
             return HttpResponseRedirect(reverse("allquerylist"))
     else:
@@ -4767,6 +5604,14 @@ def attach_confirmattachmnet(request, id):
             return HttpResponseRedirect(reverse("completedquery"))
         elif redirect_to == "bookinglist":
             return HttpResponseRedirect(reverse("bookinglist"))
+        elif redirect_to == "bseleadlist":
+            return HttpResponseRedirect(reverse("bseleadlist"))
+        elif redirect_to == "hotquerylist":
+            return HttpResponseRedirect(reverse("hotquerylist"))
+        elif redirect_to == "warmquerylist":
+            return HttpResponseRedirect(reverse("warmquerylist"))
+        elif redirect_to == "coldquerylist":
+            return HttpResponseRedirect(reverse("coldquerylist"))
         else:
             return HttpResponseRedirect(reverse("allquerylist"))
     else:
@@ -4884,6 +5729,14 @@ def add_followup(request, id):
             return HttpResponseRedirect(reverse("completedquery"))
         elif redirect_to == "bookinglist":
             return HttpResponseRedirect(reverse("bookinglist"))
+        elif redirect_to == "bseleadlist":
+            return HttpResponseRedirect(reverse("bseleadlist"))
+        elif redirect_to == "hotquerylist":
+            return HttpResponseRedirect(reverse("hotquerylist"))
+        elif redirect_to == "warmquerylist":
+            return HttpResponseRedirect(reverse("warmquerylist"))
+        elif redirect_to == "coldquerylist":
+            return HttpResponseRedirect(reverse("coldquerylist"))
         else:
             return HttpResponseRedirect(reverse("allquerylist"))
     else:
@@ -5765,6 +6618,14 @@ def update_colourcode(request,id):
             return HttpResponseRedirect(reverse("completedquery"))
         elif redirect_to == "bookinglist":
             return HttpResponseRedirect(reverse("bookinglist"))
+        elif redirect_to == "bseleadlist":
+            return HttpResponseRedirect(reverse("bseleadlist"))
+        elif redirect_to == "hotquerylist":
+            return HttpResponseRedirect(reverse("hotquerylist"))
+        elif redirect_to == "warmquerylist":
+            return HttpResponseRedirect(reverse("warmquerylist"))
+        elif redirect_to == "coldquerylist":
+            return HttpResponseRedirect(reverse("coldquerylist"))
         else:
             return HttpResponseRedirect(reverse("allquerylist"))
     
@@ -5772,7 +6633,7 @@ def update_colourcode(request,id):
     
 def create_booking_cards(request, id):
     lead = get_object_or_404(Lead, id=id)
-    
+    next_url = request.GET.get('next', 'allquerylist')
     if request.method == 'POST':
         product_list = request.POST.getlist('product')
         supplier_list = request.POST.getlist('supplier')
@@ -5820,7 +6681,7 @@ def create_booking_cards(request, id):
             lead.save()
             messages.success(request, "BookingCard Added successfully")
         
-        return redirect('allquerylist')  
+        return redirect(next_url)  
     else:
         return render(request, 'Admin/Query/edit_opleads.html')
     
@@ -5833,7 +6694,7 @@ def update_booking_cards(request, id):
         'lead': lead,
         'booking_cards': booking_cards,
     }
-    
+    next_url = request.GET.get('next', 'allquerylist')
     if request.method == 'POST':
         existing_booking_cards = BookingCard.objects.filter(leads=lead)
         
@@ -5887,7 +6748,7 @@ def update_booking_cards(request, id):
         lead.save()
         messages.success(request, "BookingCard updated successfully")
         
-        return redirect('allquerylist')  
+        return redirect(next_url)  
     else:
         return render(request, 'Admin/Query/edit_bookingcard.html',context)
     
@@ -5947,6 +6808,14 @@ def add_paymentattachment(request, id):
             return HttpResponseRedirect(reverse("completedquery"))
         elif redirect_to == "bookinglist":
             return HttpResponseRedirect(reverse("bookinglist"))
+        elif redirect_to == "bseleadlist":
+            return HttpResponseRedirect(reverse("bseleadlist"))
+        elif redirect_to == "hotquerylist":
+            return HttpResponseRedirect(reverse("hotquerylist"))
+        elif redirect_to == "warmquerylist":
+            return HttpResponseRedirect(reverse("warmquerylist"))
+        elif redirect_to == "coldquerylist":
+            return HttpResponseRedirect(reverse("coldquerylist"))
         else:
             return HttpResponseRedirect(reverse("allquerylist"))
     else:

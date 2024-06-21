@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-scrollable">
        <form action="{% url 'lead_status_update' i.id %}" method="POST" > 
         {% csrf_token %}
-        
+        <input type="hidden" name="redirect_to" value="{% if request.path == '/newquerylist' %}newquerylist{% elif request.path == '/lostquery' %}lostquery{% elif request.path == '/connectedquerylist' %}connectedquerylist{% elif request.path == '/noanswerquerylist' %}noanswerquerylist{% elif request.path == '/quatationquerylist' %}quatationquerylist{% elif request.path == '/paymentdonequerylist' %}paymentdonequerylist{% elif request.path == '/completedquery' %}completedquery{% elif request.path == '/bookinglist' %}bookinglist{% elif request.path == '/bseleadlist' %}bseleadlist{% elif request.path == '/hotquerylist' %}hotquerylist{% elif request.path == '/warmquerylist' %}warmquerylist{% elif request.path == '/coldquerylist' %}coldquerylist{% else %}allquerylist{% endif %}">
             
             <div class="modal-content">
                 <div class="modal-header d-flex align-items-center">
@@ -28,6 +28,7 @@
                                 <option value="Booking Confirmed" {% if i.lead_status == "Booking Confirmed" %}selected{% endif %}>Booking Confirmed</option>
                                 <option value="Lost" {% if i.lead_status == "Lost" %}selected{% endif %}>Lost</option>
                                 <option value="Completed" {% if i.lead_status == "Completed" %}selected{% endif %}>Completed</option>
+                                <option value="Book SomeWhere Else" {% if i.lead_status == "Book SomeWhere Else" %}selected{% endif %}>Book SomeWhere Else</option>
                             </select>
                         </div>
                     </div>
