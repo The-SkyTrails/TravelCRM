@@ -29220,7 +29220,7 @@ html[dir=rtl] .page-item:last-child .page-link {
     overflow-x: auto;
     white-space: nowrap;
     width: 100%;
-    height: 400px; /* Set a fixed height */
+    /* height: 400px; Set a fixed height */
     box-sizing: border-box;
     padding-bottom: 15px; /* Ensure scrollbar doesn't overlap content */
   }
@@ -29248,3 +29248,12 @@ html[dir=rtl] .page-item:last-child .page-link {
       max-height: 600px !important;
       height: 600px !important;
    }
+
+
+.dataTables_scrollHead {
+    overflow: visible !important;
+}
+
+.dataTables_scrollBody {
+  overflow: visible !important;
+}
