@@ -5584,7 +5584,7 @@ def attach_quotation(request, id):
             
             payload = {
                 "apiKey": api_key,
-                "campaignName": "Document Quotation",
+                "campaignName": "Document Quataion",
                 "destination": lead.mobile_number,
                 "userName": ai_sensy_username,
                 "templateParams": [],
