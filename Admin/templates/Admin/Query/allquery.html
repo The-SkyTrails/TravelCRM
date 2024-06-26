@@ -75,7 +75,12 @@
                {% if user.user_type != "Sales Person" %}
                <div class="col-md-3">
                   <label for="to" class="col-form-label">Sales Person</label>
-                  <input class="form-control" type="input" name="salesperson" id="salesperson">
+                  <select class="select2 form-control" name="salesperson" id="salesperson">
+                     {% for oper in operation %}
+                     <option value="{{ oper.id }}">{{ oper.first_name }} {{ oper.last_name }}</option>
+                     {% endfor %}
+                  </select>
+                  
                </div>
                {% endif %}
                <div class="col-md-3">
@@ -481,29 +486,27 @@
                                           {% endif %}
                                           <nav aria-label="Page navigation example">
                                              <ul class="pagination">
+                                             
                                                 {% if page.has_previous %}
-                                                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
-                                                <li class="page-item"><a class="page-link"
-                                                      href="?page={{ page.previous_page_number }}">Previous</a></li>
+                                                   <li class="page-item"><a class="page-link" href="{{ base_url }}{{ page.previous_page_number }}">Previous</a></li>
                                                 {% endif %}
-                                                {% for num in page.paginator.page_range|slice:":3" %}
-                                                <li class="page-item{% if page.number == num %} active{% endif %}">
-                                                   <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                                                </li>
+       
+                                                {% for i in page.paginator.page_range|slice:":3" %}
+                                                   {% if page.number == i %}
+                                                      <li class="page-item active"><a class="page-link" href="#">{{ i }}</a></li>
+                                                   {% else %}
+                                                      <li class="page-item"><a class="page-link" href="{{ base_url }}{{ i }}">{{ i }}</a></li>
+                                                   {% endif %}
                                                 {% endfor %}
                                                 {% if page.paginator.num_pages > 3 %}
                                                 <li class="page-item"><span class="page-link">...</span></li>
                                                 <li class="page-item"><a class="page-link"
-                                                      href="?page={{ page.paginator.num_pages }}">{{ page.paginator.num_pages }}</a>
+                                                      href="{{ base_url }}{{ page.paginator.num_pages }}">{{ page.paginator.num_pages }}</a>
                                                 </li>
                                                 {% endif %}
-                                                {% if page.has_next %}
-                                                <li class="page-item"><a class="page-link"
-                                                      href="?page={{ page.next_page_number }}">Next</a>
-                                                </li>
-                                                <li class="page-item"><a class="page-link"
-                                                      href="?page={{ page.paginator.num_pages }}">Last</a></li>
 
+                                                {% if page.has_next %}
+                                                   <li class="page-item"><a class="page-link" href="{{ base_url }}{{ page.next_page_number }}">Next</a></li>
                                                 {% endif %}
                                              </ul>
                                           </nav>

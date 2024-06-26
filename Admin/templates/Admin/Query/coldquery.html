@@ -66,7 +66,11 @@
             {% if user.user_type != "Sales Person" %}
                <div class="col-md-3">
                   <label for="to" class="col-form-label">Sales Person</label>
-                  <input class="form-control" type="input" name="salesperson" id="salesperson">
+                  <select class="select2 form-control" name="salesperson" id="salesperson">
+                    {% for oper in operation %}
+                    <option value="{{ oper.id }}">{{ oper.first_name }} {{ oper.last_name }}</option>
+                    {% endfor %}
+                 </select>
                </div>
                {% endif %}
             <div class="col-md-3">

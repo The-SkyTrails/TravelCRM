@@ -53,7 +53,7 @@
                   <table id="file_export" class="table border table-striped table-bordered display text-nowrap">
                     <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>Name-Username</th>
                                     <th>Email</th>
                                     <th>Mobile</th>
                                     <th>User Type</th>
@@ -71,7 +71,7 @@
                                 <tbody >
                                 {% for i in page %}
                                 <tr>
-                                    <td>{{i.users.first_name}} {{i.users.last_name}}</td>
+                                    <td>{{i.users.first_name}} {{i.users.last_name}} - {{i.users.username}}</td>
                                     <td>{{i.users.email}}</td>
                                     <td>{{i.users.code}}{{i.users.contact}}</td>
                                     <td>{{i.users.user_type}}</td>
