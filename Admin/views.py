@@ -5560,9 +5560,9 @@ def attach_quotation(request, id):
                 content_type, _ = mimetypes.guess_type(attachment.file.name)
                 if content_type is None:
                     content_type = 'application/octet-stream'
-                with open(attachment.file.path, 'rb') as f:
-                    email.attach(attachment.file.name, f.read(), content_type)
-            
+                
+                file_data = attachment.file.read()
+                email.attach(attachment.file.name, file_data, content_type)
             try:
                 email.send(fail_silently=False)
                 messages.success(request, "Email sent successfully!")
