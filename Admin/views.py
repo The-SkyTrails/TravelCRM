@@ -5410,6 +5410,121 @@ def op_update(request,id):
             return HttpResponseRedirect(reverse("allquerylist"))
     
 
+# def attach_quotation(request, id):
+#     if request.method == "POST":
+#         enq = request.POST.get("enq_id")
+#         attachments = request.FILES.getlist("attachment")
+        
+#         try:
+#             lead = get_object_or_404(Lead, id=enq)
+#             quotation = Quatation.objects.create(lead=lead,added_by=request.user,date=timezone.now())
+            
+#             for attachment in attachments:
+#                 attachment_obj = Attachment.objects.create(file=attachment)
+#                 quotation.attachment.add(attachment_obj)  
+
+#             lead.lead_status = "Quotation Send"  
+#             lead.save()
+#             activity_history = ActivityHistory.objects.create(lead=lead, activity_type='Quotation')
+
+#             quotation.activity = activity_history
+#             quotation.save()
+            
+#             messages.success(request, "Quotation Added Successfully...")
+
+#             user_email = request.user.email
+#             app_password = request.user.zoho_password
+#             subject = "Travel Packages Quotation Attached"
+#             message = "Dear {},\n\nI hope this email finds you well. Find your dream vacation inside!  We've attached a detailed quotation outlining each package, including destinations, activities, pricing, and more. \nWe look forward to helping you plan your next adventure!".format(lead.name)
+#             email_from = user_email
+#             to_email = lead.email
+
+#             email = EmailMessage(subject, message, email_from, [to_email])
+
+#             for attachment in quotation.attachment.all():
+#                 content_type, _ = mimetypes.guess_type(attachment.file.name)
+#                 if content_type is None:
+#                     content_type = 'application/octet-stream' 
+#                 with open(attachment.file.path, 'rb') as f:
+#                     email.attach(attachment.file.name, f.read(), content_type)
+            
+#             try:
+#                 email.send(fail_silently=False)
+#                 messages.success(request, "Email sent successfully!")
+#             except Exception as e:
+#                 messages.error(request, f"An error occurred while sending email: {str(e)}")
+            
+#             media_attachments = []
+#             for attachment in quotation.attachment.all():
+#                 attachment_url = request.build_absolute_uri(attachment.file.url)
+#                 media_attachments.append({
+#                     "url": attachment_url,
+#                     "filename": attachment.file.name 
+#                 })
+
+#             aisensy_api_url = "https://backend.aisensy.com/campaign/t1/api/v2"
+#             api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3ZSIsIm5hbWUiOiJ0aGVza3l0cmFpbCA4NDEzIiwiYXBwTmFtZSI6IkFpU2Vuc3kiLCJjbGllbnRJZCI6IjY1Zjk4M2ZmZTMxNWI1NDVjZDQ1Nzk3NCIsImFjdGl2ZVBsYW4iOiJCQVNJQ19NT05USExZIiwiaWF0IjoxNzEwODUxMDcxfQ.XnS_3uclP8c0J6drYjBCAQmbE6bHxGuD2IAGPaS4N9Y"
+
+#             ai_sensy_username = request.user.ai_sensy_username
+            
+#             payload = {
+#                 "apiKey": api_key,
+#                 "campaignName": "Document Quataion",
+#                 "destination": lead.mobile_number, 
+#                 "userName": ai_sensy_username,
+#                 # "userName": "theskytrail 8413",
+#                 "templateParams": [],
+#                 "source": "new-landing-page form",
+#                 "media": {
+#                     "url": attachment_url,
+#                     "filename": attachment.file.name
+#                 },
+#                 "buttons": [],
+#                 "carouselCards": [],
+#                 "location": {}
+#             }
+
+#             response = requests.post(aisensy_api_url, json=payload)
+#             if response.status_code == 200:
+#                 print("WhatsApp message sent successfully!")
+#             else:
+#                 print("Failed to send WhatsApp message:", response.text)
+            
+#         except Lead.DoesNotExist:
+#             pass
+        
+#         redirect_to = request.POST.get("redirect_to")
+#         if redirect_to == "newquerylist":
+#             return HttpResponseRedirect(reverse("newquerylist"))
+#         elif redirect_to == "lostquery":
+#             return HttpResponseRedirect(reverse("lostquery"))
+#         elif redirect_to == "connectedquerylist":
+#             return HttpResponseRedirect(reverse("connectedquerylist"))
+#         elif redirect_to == "noanswerquerylist":
+#             return HttpResponseRedirect(reverse("noanswerquerylist"))
+#         elif redirect_to == "quatationquerylist":
+#             return HttpResponseRedirect(reverse("quatationquerylist"))
+#         elif redirect_to == "paymentdonequerylist":
+#             return HttpResponseRedirect(reverse("paymentdonequerylist"))
+#         elif redirect_to == "completedquery":
+#             return HttpResponseRedirect(reverse("completedquery"))
+#         elif redirect_to == "bookinglist":
+#             return HttpResponseRedirect(reverse("bookinglist"))
+#         elif redirect_to == "bseleadlist":
+#             return HttpResponseRedirect(reverse("bseleadlist"))
+#         elif redirect_to == "hotquerylist":
+#             return HttpResponseRedirect(reverse("hotquerylist"))
+#         elif redirect_to == "warmquerylist":
+#             return HttpResponseRedirect(reverse("warmquerylist"))
+#         elif redirect_to == "coldquerylist":
+#             return HttpResponseRedirect(reverse("coldquerylist"))
+#         else:
+#             return HttpResponseRedirect(reverse("allquerylist"))
+#     else:
+#         pass
+
+
+
 def attach_quotation(request, id):
     if request.method == "POST":
         enq = request.POST.get("enq_id")
@@ -5417,13 +5532,13 @@ def attach_quotation(request, id):
         
         try:
             lead = get_object_or_404(Lead, id=enq)
-            quotation = Quatation.objects.create(lead=lead,added_by=request.user,date=timezone.now())
+            quotation = Quatation.objects.create(lead=lead, added_by=request.user, date=timezone.now())
             
             for attachment in attachments:
                 attachment_obj = Attachment.objects.create(file=attachment)
                 quotation.attachment.add(attachment_obj)  
 
-            lead.lead_status = "Quotation Send"  
+            lead.lead_status = "Quotation Send"
             lead.save()
             activity_history = ActivityHistory.objects.create(lead=lead, activity_type='Quotation')
 
@@ -5435,7 +5550,7 @@ def attach_quotation(request, id):
             user_email = request.user.email
             app_password = request.user.zoho_password
             subject = "Travel Packages Quotation Attached"
-            message = "Dear {},\n\nI hope this email finds you well. Find your dream vacation inside!  We've attached a detailed quotation outlining each package, including destinations, activities, pricing, and more. \nWe look forward to helping you plan your next adventure!".format(lead.name)
+            message = f"Dear {lead.name},\n\nI hope this email finds you well. Find your dream vacation inside! We've attached a detailed quotation outlining each package, including destinations, activities, pricing, and more. \nWe look forward to helping you plan your next adventure!"
             email_from = user_email
             to_email = lead.email
 
@@ -5444,7 +5559,7 @@ def attach_quotation(request, id):
             for attachment in quotation.attachment.all():
                 content_type, _ = mimetypes.guess_type(attachment.file.name)
                 if content_type is None:
-                    content_type = 'application/octet-stream' 
+                    content_type = 'application/octet-stream'
                 with open(attachment.file.path, 'rb') as f:
                     email.attach(attachment.file.name, f.read(), content_type)
             
@@ -5469,10 +5584,9 @@ def attach_quotation(request, id):
             
             payload = {
                 "apiKey": api_key,
-                "campaignName": "Document Quataion",
-                "destination": lead.mobile_number, 
+                "campaignName": "Document Quotation",
+                "destination": lead.mobile_number,
                 "userName": ai_sensy_username,
-                # "userName": "theskytrail 8413",
                 "templateParams": [],
                 "source": "new-landing-page form",
                 "media": {
@@ -5491,38 +5605,26 @@ def attach_quotation(request, id):
                 print("Failed to send WhatsApp message:", response.text)
             
         except Lead.DoesNotExist:
-            pass
-        
-        redirect_to = request.POST.get("redirect_to")
-        if redirect_to == "newquerylist":
-            return HttpResponseRedirect(reverse("newquerylist"))
-        elif redirect_to == "lostquery":
-            return HttpResponseRedirect(reverse("lostquery"))
-        elif redirect_to == "connectedquerylist":
-            return HttpResponseRedirect(reverse("connectedquerylist"))
-        elif redirect_to == "noanswerquerylist":
-            return HttpResponseRedirect(reverse("noanswerquerylist"))
-        elif redirect_to == "quatationquerylist":
-            return HttpResponseRedirect(reverse("quatationquerylist"))
-        elif redirect_to == "paymentdonequerylist":
-            return HttpResponseRedirect(reverse("paymentdonequerylist"))
-        elif redirect_to == "completedquery":
-            return HttpResponseRedirect(reverse("completedquery"))
-        elif redirect_to == "bookinglist":
-            return HttpResponseRedirect(reverse("bookinglist"))
-        elif redirect_to == "bseleadlist":
-            return HttpResponseRedirect(reverse("bseleadlist"))
-        elif redirect_to == "hotquerylist":
-            return HttpResponseRedirect(reverse("hotquerylist"))
-        elif redirect_to == "warmquerylist":
-            return HttpResponseRedirect(reverse("warmquerylist"))
-        elif redirect_to == "coldquerylist":
-            return HttpResponseRedirect(reverse("coldquerylist"))
-        else:
-            return HttpResponseRedirect(reverse("allquerylist"))
-    else:
-        pass
+            messages.error(request, "Lead does not exist.")
 
+        redirect_to = request.POST.get("redirect_to")
+        redirect_mapping = {
+            "newquerylist": "newquerylist",
+            "lostquery": "lostquery",
+            "connectedquerylist": "connectedquerylist",
+            "noanswerquerylist": "noanswerquerylist",
+            "quatationquerylist": "quatationquerylist",
+            "paymentdonequerylist": "paymentdonequerylist",
+            "completedquery": "completedquery",
+            "bookinglist": "bookinglist",
+            "bseleadlist": "bseleadlist",
+            "hotquerylist": "hotquerylist",
+            "warmquerylist": "warmquerylist",
+            "coldquerylist": "coldquerylist",
+        }
+        return HttpResponseRedirect(reverse(redirect_mapping.get(redirect_to, "allquerylist")))
+    else:
+        return HttpResponse(status=405)
 
 def add_notes(request, id):
     if request.method == "POST":
