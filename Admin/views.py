@@ -6912,8 +6912,6 @@ def allquerylist(request):
     return render(request, "Admin/Query/allquery.html", {})
 
 
-
-
 @login_required
 def newquerylist(request):
     context = {}
@@ -7014,7 +7012,6 @@ def newquerylist(request):
     return render(request, "Admin/Query/newquery.html", context)
 
 
-
 @login_required
 def connectedquerylist(request):
     if request.method == "GET":
@@ -7101,7 +7098,6 @@ def connectedquerylist(request):
         return render(request, "Admin/Query/connectedquery.html", context)
 
     return render(request, "Admin/Query/connectedquery.html", {})
-
 
 
 @login_required
@@ -7265,7 +7261,6 @@ def paymentdonequerylist(request):
     return render(request, "Admin/Query/paymentdonequery.html", {})
 
 
-
 @login_required
 def completedquerylist(request):
     if request.method == "GET":
@@ -7351,7 +7346,6 @@ def completedquerylist(request):
         return render(request, "Admin/Query/completedquery.html", context)
 
     return render(request, "Admin/Query/completedquery.html", {})
-
 
 
 @login_required
@@ -7528,7 +7522,6 @@ def bookinglist(request):
     return render(request, "Admin/Query/bookingconfirmed.html", {})
 
 
-
 @login_required
 def noanswerquerylist(request):
     if request.method == "GET":
@@ -7701,7 +7694,6 @@ def bseleadlist(request):
         return render(request, "Admin/Query/bseleadlist.html", context)
 
     return render(request, "Admin/Query/bseleadlist.html", {})
-
 
 
 @login_required
@@ -7878,7 +7870,6 @@ def warmquerylist(request):
     return render(request, "Admin/Query/warmquery.html", {})
 
 
-
 @login_required
 def coldquerylist(request):
     if request.method == "GET":
@@ -7964,3 +7955,5 @@ def coldquerylist(request):
         return render(request, "Admin/Query/coldquery.html", context)
 
     return render(request, "Admin/Query/coldquery.html", {})
+
+

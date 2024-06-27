@@ -79,10 +79,11 @@
         </div>
     </form>
 {% include "Login/messages.html" %}
+{% with sales_person_id=request.GET.salesperson %}
 <div class="row">
           
   <div class="col-md-2 col-sm-6">
-    <a href="{% url "newquerylist" %}">
+    <a href="{% url "newquerylist" %}?salesperson={{ sales_person_id }}">
     <div class="card" style="background: linear-gradient(90deg, rgba(255,145,94,1) 26%, rgba(224,158,0,1) 69%);">
       <div class="card-body p-4 d-flex align-items-center gap-3">
           <div>
@@ -97,7 +98,7 @@
   </div>
  
   <div class="col-md-2 col-sm-6">
-    <a href="{% url "noanswerquerylist" %}">
+    <a href="{% url "noanswerquerylist" %}?salesperson={{ sales_person_id }}">
       <div class="card"
         style="background: linear-gradient(90deg, rgba(5,172,33,1) 26%, rgba(6,103,33,1) 65%);">
         <div class="card-body p-4 d-flex align-items-center gap-3">
@@ -114,7 +115,7 @@
   </div>
  
   <div class="col-md-2 col-sm-6">
-    <a href="{% url "connectedquerylist" %}">
+    <a href="{% url "connectedquerylist" %}?salesperson={{ sales_person_id }}">
     <div class="card" style="background: linear-gradient(90deg, rgba(120,144,126,1) 26%, rgba(55,73,51,1) 69%);">
       <div class="card-body p-4 d-flex align-items-center gap-3">
           <div>
@@ -127,7 +128,7 @@
       </a>
   </div>
   <div class="col-md-2 col-sm-6">
-    <a href="{% url "quatationquerylist" %}">
+    <a href="{% url "quatationquerylist" %}?salesperson={{ sales_person_id }}">
     <div class="card" style="background: linear-gradient(90deg, rgba(231,111,96,1) 26%, rgba(209,2,2,1) 65%);">
       <div class="card-body p-4 d-flex align-items-center gap-3">
         <div>
@@ -139,7 +140,7 @@
   </a>
   </div>
   <div class="col-md-2 col-sm-6">
-    <a href="{% url "paymentdonequerylist" %}">
+    <a href="{% url "paymentdonequerylist" %}?salesperson={{ sales_person_id }}">
     <div class="card" style="background: linear-gradient(90deg, rgba(128,164,255,1) 26%, rgba(45,84,167,1) 65%);">
       <div class="card-body p-4 d-flex align-items-center gap-3">
         <div>
@@ -152,7 +153,7 @@
   </div>
   
   <div class="col-md-2 col-sm-6">
-    <a href="{% url "bookinglist" %}">
+    <a href="{% url "bookinglist" %}?salesperson={{ sales_person_id }}">
     <div class="card" style="background: linear-gradient(90deg, rgba(255,145,94,1) 26%, rgba(224,158,0,1) 69%);">
       <div class="card-body p-4 d-flex align-items-center gap-3">
         <div>
@@ -169,7 +170,7 @@
 
   
   <div class="col-md-2 col-sm-6">
-    <a href="{% url "bseleadlist" %}">
+    <a href="{% url "bseleadlist" %}?salesperson={{ sales_person_id }}">
     <div class="card" style="background: linear-gradient(90deg, rgba(120,144,126,1) 26%, rgba(55,73,51,1) 69%);">
       <div class="card-body p-4 d-flex align-items-center gap-3">
           <div>
@@ -182,7 +183,7 @@
       </a>
   </div>
   <div class="col-md-2 col-sm-6">
-    <a href="{% url "hotquerylist" %}">
+    <a href="{% url "hotquerylist" %}?salesperson={{ sales_person_id }}">
     <div class="card" style="background: linear-gradient(90deg, rgba(231,111,96,1) 26%, rgba(209,2,2,1) 65%);">
       <div class="card-body p-4 d-flex align-items-center gap-3">
         <div>
@@ -194,7 +195,7 @@
   </a>
   </div>
   <div class="col-md-2 col-sm-6">
-    <a href="{% url "warmquerylist" %}">
+    <a href="{% url "warmquerylist" %}?salesperson={{ sales_person_id }}">
     <div class="card" style="background: linear-gradient(90deg, rgba(128,164,255,1) 26%, rgba(45,84,167,1) 65%);">
       <div class="card-body p-4 d-flex align-items-center gap-3">
         <div>
@@ -207,7 +208,7 @@
   </div>
   
   <div class="col-md-2 col-sm-6">
-    <a href="{% url "coldquerylist" %}">
+    <a href="{% url "coldquerylist" %}?salesperson={{ sales_person_id }}">
     <div class="card" style="background: linear-gradient(90deg, rgba(255,145,94,1) 26%, rgba(224,158,0,1) 69%);">
       <div class="card-body p-4 d-flex align-items-center gap-3">
         <div>
@@ -219,7 +220,7 @@
   </a>
   </div>
   <div class="col-md-2 col-sm-6">
-    <a href="{% url "completedquery" %}">
+    <a href="{% url "completedquery" %}?salesperson={{ sales_person_id }}">
     <div class="card" style="background: linear-gradient(90deg, rgba(5,172,33,1) 26%, rgba(6,103,33,1) 65%);;">
       <div class="card-body p-4 d-flex align-items-center gap-3">
         <div>
@@ -232,7 +233,7 @@
   </div>
   
   <div class="col-md-2 col-sm-6">
-    <a href="{% url "lostquery" %}">
+    <a href="{% url "lostquery" %}?salesperson={{ sales_person_id }}">
     <div class="card" style="background: linear-gradient(90deg, rgba(80,75,75,1) 26%, rgba(22,16,16,1) 65%);">
       <div class="card-body p-4 d-flex align-items-center gap-3">
         <div>
@@ -244,6 +245,7 @@
   </a>
   </div>
 </div>
+{% endwith %}
       <div class="datatables">
         
         <div class="row">
