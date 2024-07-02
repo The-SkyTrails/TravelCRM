@@ -537,7 +537,7 @@ class Lead(models.Model):
             next_serial_number = last_serial_number + 1
         else:
             next_serial_number = 1
-        return f"{next_serial_number:05d}"
+        return f"{next_serial_number:06d}"
     
         
     def save(self, *args, **kwargs):
@@ -550,6 +550,8 @@ class Lead(models.Model):
                 self.enquiry_number = "100"
 
         super(Lead, self).save(*args, **kwargs)
+        
+        
     
     
     
