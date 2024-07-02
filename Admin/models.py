@@ -6,6 +6,8 @@ from django.dispatch import receiver
 import datetime
 from django.core.cache import cache
 from django.utils import timezone
+from django.db.models.functions import Cast
+from django.db.models import IntegerField
 
 BASE_CURRENCY = [
     ("Yes","Yes"),
@@ -541,26 +543,18 @@ class Lead(models.Model):
     
     def save(self, *args, **kwargs):
         if not self.enquiry_number:
-            highest_enquiry = Lead.objects.order_by("-enquiry_number").first()
+            # Fetch the highest enquiry_number as an integer
+            highest_enquiry = Lead.objects.annotate(
+                num_enquiry=Cast('enquiry_number', IntegerField())
+            ).order_by('-num_enquiry').first()
+
             if highest_enquiry and highest_enquiry.enquiry_number.isdigit():
                 last_enquiry_number = int(highest_enquiry.enquiry_number)
                 self.enquiry_number = str(last_enquiry_number + 1)
-                
             else:
                 self.enquiry_number = "100"
 
         super(Lead, self).save(*args, **kwargs)
-        
-    # def save(self, *args, **kwargs):
-    #     if not self.enquiry_number:
-    #         highest_enquiry = Lead.objects.order_by("-enquiry_number").first()
-    #         if highest_enquiry:
-    #             last_enquiry_number = int(highest_enquiry.enquiry_number)
-    #             self.enquiry_number = str(last_enquiry_number + 1)
-    #         else:
-    #             self.enquiry_number = "100"
-
-    #     super(Lead, self).save(*args, **kwargs)
         
         
     
