@@ -539,17 +539,28 @@ class Lead(models.Model):
             next_serial_number = 1
         return f"{next_serial_number:06d}"
     
-        
     def save(self, *args, **kwargs):
         if not self.enquiry_number:
             highest_enquiry = Lead.objects.order_by("-enquiry_number").first()
-            if highest_enquiry:
+            if highest_enquiry and highest_enquiry.enquiry_number.isdigit():
                 last_enquiry_number = int(highest_enquiry.enquiry_number)
                 self.enquiry_number = str(last_enquiry_number + 1)
+                
             else:
                 self.enquiry_number = "100"
 
         super(Lead, self).save(*args, **kwargs)
+        
+    # def save(self, *args, **kwargs):
+    #     if not self.enquiry_number:
+    #         highest_enquiry = Lead.objects.order_by("-enquiry_number").first()
+    #         if highest_enquiry:
+    #             last_enquiry_number = int(highest_enquiry.enquiry_number)
+    #             self.enquiry_number = str(last_enquiry_number + 1)
+    #         else:
+    #             self.enquiry_number = "100"
+
+    #     super(Lead, self).save(*args, **kwargs)
         
         
     
