@@ -246,8 +246,10 @@
                                   <td>
                                     {% if i.lead_status == "Pending" %}
                                         <p class="mb-0 badge rounded-pill text-bg-warning">{{ i.lead_status }}</p>
+                                    {% elif i.lead_status == "No Answer" %}
+                                    <p class="mb-0 badge rounded-pill text-bg-secondary">{{ i.lead_status }}</p>
                                     {% elif i.lead_status == "Connected" %}
-                                        <p class="mb-0 badge rounded-pill text-bg-danger">{{ i.lead_status }}</p>
+                                    <p class="mb-0 badge rounded-pill text-bg-danger">{{ i.lead_status }}</p>
                                     {% elif i.lead_status == "Quotation Send" %}
                                         <p class="mb-0 badge rounded-pill text-bg-primary">{{ i.lead_status }}</p>
                                     {% elif i.lead_status == "Payment Processing" %}
