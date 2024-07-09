@@ -135,3 +135,6 @@ def account_view_booking_cards(request, id):
         'lead_instance':lead_instance
     }
     return render(request, 'Account/Query/viewbookingcard.html', context)
+
+
+

@@ -5812,3 +5812,59 @@ def coldquerylist(request):
     return render(request, "Admin/Query/coldquery.html", {})
 
 
+def add_ticketing_query(request):
+    tkt_emp = CustomUser.objects.filter(user_type="Ticketing")
+    
+    if request.method == "POST":
+        departure_city = request.POST.get("departure_city")
+        arrival_city = request.POST.get("arrival_city")
+        date = request.POST.get("date")
+        tkt_emp_id = request.POST.get("tkt_emp_id")
+        
+        tkting_emp = CustomUser.objects.get(id=tkt_emp_id)
+        
+        tkting = TicketingQuery.objects.create(flight_from=departure_city,flight_to=arrival_city,departure_date=date,ticketing_user=tkting_emp,added_by=request.user)
+        tkting.save()
+        
+        client_names = request.POST.getlist("client_name")
+        emails = request.POST.getlist("email")
+        numbers = request.POST.getlist("number")
+        passport_numbers = request.POST.getlist("passport_no")
+        
+        
+        for client_name, email, number, passport_number in zip(client_names, emails, numbers, passport_numbers):
+            PersonalDetail.objects.create(
+                ticketing_query=tkting,
+                client_name=client_name,
+                mobile_number=number,
+                email=email,
+                passport_number=passport_number
+            )
+        
+        
+        return redirect("ticketing_list")
+        
+    context = {
+        "tkt_emp":tkt_emp
+    }
+    return render(request, "Admin/TicketQuery/addticket_query.html",context)
+
+
+def ticketing_list(request):
+    tickets_query = TicketingQuery.objects.all()
+    paginator = Paginator(tickets_query, 10)
+    page_number = request.GET.get('page')
+    
+
+    try:
+        page = paginator.page(page_number)
+    except PageNotAnInteger:
+        page = paginator.page(1)
+    except EmptyPage:
+        page = paginator.page(paginator.num_pages)
+  
+    context = {
+        "tickets_query":tickets_query,
+        "page":page
+    }
+    return render(request, "Admin/TicketQuery/ticket_query_list.html",context)

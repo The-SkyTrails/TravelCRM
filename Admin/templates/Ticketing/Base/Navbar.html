@@ -1,0 +1,36 @@
+<aside class="left-sidebar with-vertical">
+  <div><!-- ---------------------------------- -->
+    <!-- Start Vertical Layout Sidebar -->
+    <!-- ---------------------------------- -->
+    <!-- Sidebar scroll-->
+    <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+    
+      <ul id="sidebarnav">
+        <!-- ---------------------------------- -->
+        <!-- Home -->
+        <!-- ---------------------------------- -->
+
+        <li class="nav-small-cap">
+          <iconify-icon icon="solar:menu-dots-bold" class="nav-small-cap-icon fs-4"></iconify-icon>
+          <span class="hide-menu">Home</span>
+        </li>
+        <!-- ---------------------------------- -->
+        <!-- Dashboard -->
+        <!-- ---------------------------------- -->
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="{% url "ticketinghome" %}">
+            <iconify-icon icon="solar:widget-4-linear" class="aside-icon"></iconify-icon>
+            <span class="hide-menu">Dashboard</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="{% url "ticketing_queries" %}">
+            <iconify-icon icon="solar:atom-linear" class="aside-icon"></iconify-icon>
+            <span class="hide-menu">Query</span>
+          </a>
+        </li>
+       
+      </ul>
+    </nav>
+  </div>
+</aside>

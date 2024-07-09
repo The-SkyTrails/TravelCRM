@@ -22,6 +22,8 @@ def CustomLoginView(request):
                 login(request, user)
                 if user.user_type == 'Account': 
                     return redirect("accounthome")
+                elif user.user_type == 'Ticketing': 
+                    return redirect("ticketinghome")
                 else:
                     return redirect("home")
                 # return redirect("home")

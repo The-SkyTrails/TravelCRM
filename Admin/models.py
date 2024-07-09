@@ -30,6 +30,12 @@ ARRIVAL_DEPARTURE = [
     ("Departure","Departure")
 ]
 
+TICKET_STATUS = [
+    ("Pending","Pending"),
+    ("Booked","Booked"),
+    ("Lost","Lost")
+]
+
 SERVICE_TYPE = [
     ("Hotel","Hotel"),
     ("Meals","Meals"),
@@ -77,6 +83,7 @@ USER_TYPE_CHOICES = [
     ("Customer Service","Customer Service"), 
     ("Marketing Person","Marketing Person"), 
     ("Sales + Marketing Person","Sales + Marketing Person"), 
+    ("Ticketing","Ticketing"), 
 ]
 
 LEAD_STATUS_CHOICES = [
@@ -671,7 +678,25 @@ class PaymentAttachment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(CustomUser,on_delete=models.SET_NULL,blank=True, null=True)
     
-    
+
+class TicketingQuery(models.Model):
+    id=models.AutoField(primary_key=True)
+    flight_from = models.CharField(max_length=100)
+    flight_to = models.CharField(max_length=100)
+    departure_date = models.DateField()
+    status = models.CharField(max_length=100,choices=TICKET_STATUS,default="Pending")
+    added_by = models.ForeignKey(CustomUser,on_delete=models.SET_NULL,blank=True, null=True)
+    ticketing_user = models.ForeignKey(CustomUser,on_delete=models.SET_NULL,blank=True, null=True,related_name="ticketinguser")
+
+
+class PersonalDetail(models.Model):
+    ticketing_query = models.ForeignKey(TicketingQuery, on_delete=models.CASCADE, related_name="personal_details")
+    client_name = models.CharField(max_length=200)
+    mobile_number = models.CharField(max_length=15)
+    email = models.EmailField()
+    passport_number = models.CharField(max_length=100, blank=True, null=True)
+
+
     
 @receiver(post_save, sender=CustomUser)
 def create_admin_profile(sender, instance, created, **kwargs):
@@ -709,6 +734,9 @@ def create_admin_profile(sender, instance, created, **kwargs):
         if instance.user_type == "Sales + Marketing Person":
             Admin.objects.create(users=instance)
         
+        if instance.user_type == "Ticketing":
+            Admin.objects.create(users=instance)
+        
 
 @receiver(post_save, sender=CustomUser)
 def save_user_profile(sender, instance, **kwargs):
@@ -733,6 +761,8 @@ def save_user_profile(sender, instance, **kwargs):
     if instance.user_type == "Marketing Person":
         instance.admin.save()
     if instance.user_type == "Sales + Marketing Person":
+        instance.admin.save()
+    if instance.user_type == "Ticketing":
         instance.admin.save()
         
 

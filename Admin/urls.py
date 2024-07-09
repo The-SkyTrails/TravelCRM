@@ -2,6 +2,7 @@ from django.urls import path
 from .views import *
 from .Accountviews import *
 from django.contrib.auth import views as auth_views
+from .Ticketingviews import *
 
 urlpatterns = [
     path("dashboard", index, name="home"),
@@ -354,7 +355,8 @@ urlpatterns = [
     
     path('add_paymentattachment/<int:id>/', add_paymentattachment, name='add_paymentattachment'),
     
-    
+    path('ticketing_list/', ticketing_list, name='ticketing_list'),
+    path('add_ticketing_query/', add_ticketing_query, name='add_ticketing_query'),
     
     
     ##################################### ACCOUNT ################################################
@@ -367,5 +369,9 @@ urlpatterns = [
     path('account_add_notes/<int:id>/', account_add_notes, name='account_add_notes'),
     
     
+    ################################### TICKETING ################################################
     
+    path("Ticketingdashboard", ticketingindex , name="ticketinghome"),
+    path("TicketingQuery", ticketing_queries , name="ticketing_queries"),
+    path("update_tkt_status/<int:id>/", update_tkt_status , name="update_tkt_status"),
 ]

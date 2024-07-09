@@ -1,0 +1,343 @@
+{% load static %}
+<header class="topbar rounded-0 border-0 bg-primary">
+  <div class="with-vertical"><!-- ---------------------------------- -->
+    <!-- Start Vertical Layout Header -->
+    <!-- ---------------------------------- -->
+    <nav class="navbar navbar-expand-lg px-lg-0 px-3 py-0">
+      <div class="d-none d-lg-block">
+        <div class="brand-logo d-flex align-items-center justify-content-between">
+          <a href="{% url "ticketinghome" %}" class="text-nowrap logo-img">
+            <b class="logo-icon">
+              <img src="{% static "assets/images/logos/full-logo.svg" %}" alt="homepage" class="dark-logo" style="width:18%;">
+              
+            </b>
+
+          </a>
+        </div>
+
+
+      </div>
+
+      <ul class="navbar-nav">
+
+        <li class="nav-item">
+          <a class="nav-link nav-icon-hover sidebartoggler" id="headerCollapse" href="javascript:void(0)">
+            <iconify-icon icon="solar:list-bold"></iconify-icon>
+          </a>
+        </li>
+        <!-- ------------------------------- -->
+        <!-- start notification Dropdown -->
+        <!-- ------------------------------- -->
+        
+
+
+
+      </ul>
+
+      <ul class="navbar-nav flex-row  align-items-center justify-content-center d-flex d-lg-none">
+        <li class="nav-item dropdown">
+          <a class="navbar-toggler nav-link text-white nav-icon-hover border-0" href="javascript:void(0)"
+            data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="">
+              <iconify-icon icon="ph:dots-three"></iconify-icon>
+            </span>
+          </a>
+        </li>
+      </ul>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div class="d-flex align-items-center justify-content-between">
+          <ul class="navbar-nav flex-row  align-items-center justify-content-center d-flex d-lg-none">
+          
+            <li class="nav-item hover-dd d-none d-lg-block">
+              <a href="https://mail.zoho.in/zm/#mail/folder/inbox" target="_blank_">
+                <img src="{% static "assets/images/gallery/email.svg" %}" alt="email" width="25" srcset="">
+              </a>
+            </li>
+
+           
+            
+          </ul>
+          <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
+
+            <!-- ------------------------------- -->
+            <!-- end notification Dropdown -->
+            <!-- ------------------------------- -->
+
+            <!-- ------------------------------- -->
+            <!-- start profile Dropdown -->
+            <!-- ------------------------------- -->
+            <li class="nav-item hover-dd dropdown">
+              <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" aria-expanded="false">
+                <img src="{% static "assets/images/profile/user-1.jpg" %}" alt="user"
+                  class="profile-pic rounded-circle round-30">
+              </a>
+              <div class="dropdown-menu pt-0 content-dd overflow-hidden pt-0 dropdown-menu-end user-dd"
+                aria-labelledby="drop2">
+                <div class="profile-dropdown position-relative" data-simplebar="">
+                  <div class=" py-3 border-bottom">
+                    <div class="d-flex align-items-center px-3">
+                      <img src="{% static "assets/images/profile/user-1.jpg" %}" class="rounded-circle round-50" alt="">
+                      <div class="ms-3">
+                        <p class="mb-0 fs-2 d-flex align-items-center text-muted">
+                          
+                          {{request.user.first_name}} {{request.user.last_name}}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="message-body pb-3">
+                    <div class="px-3 pt-3">
+                      {% if request.user.user_type == "Admin" %}
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "user" %}" class=" d-flex  align-items-center ">
+                          Users
+                        </a>
+                      </div>
+                      
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "add_role" %}" class=" d-flex  align-items-center ">
+                          Role & Permission
+                        </a>
+                      </div>
+                      {% endif %}
+                      
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "profile" %}" class=" d-flex  align-items-center ">
+                          Profile
+                        </a>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="px-3">
+                      
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "change_psw" %}" class=" d-flex  align-items-center  ">
+                          Account Settings
+                        </a>
+                      </div>
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "logout" %}" class=" d-flex  align-items-center ">
+                          Sign Out
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </li>
+
+
+            <!-- ------------------------------- -->
+            <!-- end profile Dropdown -->
+            <!-- ------------------------------- -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+  </div>
+  <div class="app-header with-horizontal">
+    <nav class="navbar navbar-expand-xl container-fluid">
+      <ul class="navbar-nav">
+        <li class="nav-item d-block d-xl-none">
+          <a class="nav-link sidebartoggler ms-n3" id="sidebarCollapse" href="javascript:void(0)">
+            <iconify-icon icon="solar:hamburger-menu-line-duotone"></iconify-icon>
+          </a>
+        </li>
+        <li class="nav-item d-none d-xl-block">
+          <div class="brand-logo d-flex align-items-center justify-content-between">
+            <a href="{% url "accounthome" %}" class="text-nowrap logo-img">
+              <span class="logo-text">  
+                <img src="{% static "assets/images/logos/full-logo.svg" %}" alt="homepage" class="dark-logo ps-2" style="width:18%;">
+              </span>
+            </a>
+          </div>
+        </li>
+      </ul>
+
+
+  
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div class="d-flex align-items-center justify-content-between">
+          <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
+            <li class="nav-item hover-dd d-none d-lg-block">
+              <a href="https://mail.zoho.in/zm/#mail/folder/inbox" target="_blank_">
+                <img src="{% static "assets/images/gallery/email.svg" %}" alt="email" width="25" srcset="">
+              </a>
+            </li>
+
+            <li class="nav-item hover-dd dropdown">
+              <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" aria-expanded="false">
+                <img src="{% static "assets/images/profile/user-1.jpg" %}" alt="user" width="30"
+                  class="profile-pic rounded-circle">
+              </a>
+              <div class="dropdown-menu pt-0 content-dd overflow-hidden pt-0 dropdown-menu-end user-dd"
+                aria-labelledby="drop2">
+                <div class="profile-dropdown position-relative" data-simplebar="">
+                  <div class=" py-3 border-bottom">
+                    <div class="d-flex align-items-center px-3">
+                      <img src="{% static "assets/images/profile/user-1.jpg" %}" class="rounded-circle round-50" alt="">
+                      <div class="ms-3">
+                        
+                        <p class="mb-0 fs-2 d-flex align-items-center text-muted">
+                          {{request.user.first_name}} {{request.user.last_name}}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="message-body pb-3">
+                    <div class="px-3 pt-3">
+                      {% if request.user.user_type == "Admin" %}
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "user" %}" class=" d-flex  align-items-center ">
+                          Users
+                        </a>
+                      </div>
+                      
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "add_role" %}" class=" d-flex  align-items-center ">
+                          Role & Permission
+                        </a>
+                      </div>
+                      {% endif %}
+                      
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "profile" %}" class=" d-flex  align-items-center ">
+                          Profile
+                        </a>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="px-3">
+                      
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "change_psw" %}" class=" d-flex  align-items-center  ">
+                          Account Settings
+                        </a>
+                      </div>
+                      <div class="h6 mb-0 dropdown-item py-8 px-3 rounded-2 link">
+                        <a href="{% url "logout" %}" class=" d-flex  align-items-center ">
+                          Sign Out
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </li>
+
+            <!-- ------------------------------- -->
+            <!-- end profile Dropdown -->
+            <!-- ------------------------------- -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+  </div>
+</header>
+<!--  Header End -->
+<aside class="left-sidebar with-horizontal">
+  <!-- Sidebar scroll-->
+  <div>
+    <!-- Sidebar navigation-->
+    <nav class="sidebar-nav scroll-sidebar container-fluid">
+      <ul id="sidebarnav">
+        <!-- ============================= -->
+        <!-- Home -->
+        <!-- ============================= -->
+        <li class="nav-small-cap">
+          <iconify-icon icon="solar:menu-dots-bold" class="nav-small-cap-icon"></iconify-icon>
+          <span class="hide-menu">Home</span>
+        </li>
+        <!-- =================== -->
+        <!-- Dashboard -->
+        <!-- =================== -->
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="{% url "ticketinghome" %}" aria-expanded="false">
+            <iconify-icon icon="solar:widget-4-linear" class="aside-icon"></iconify-icon>
+            <span class="hide-menu">Dashboard</span>
+          </a>
+          
+        </li>
+
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="{% url "ticketing_queries" %}" aria-expanded="false">
+            <iconify-icon icon="solar:widget-4-linear" class="aside-icon"></iconify-icon>
+            <span class="hide-menu">Query</span>
+          </a>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    <!-- End Sidebar navigation -->
+  </div>
+  <!-- End Sidebar scroll-->
+</aside>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const closedNotifications = JSON.parse(localStorage.getItem('closedNotifications')) || [];
+
+      const closeButtons = document.querySelectorAll('.btn-close');
+      closeButtons.forEach(button => {
+          button.addEventListener('click', function() {
+              const followupId = button.getAttribute('data-followup-id');
+              closeNotification(followupId);
+              button.closest('.dropdown-item').remove();
+          });
+      });
+
+      function closeNotification(followupId) {
+          // Store the ID of the closed notification in local storage
+          closedNotifications.push(followupId);
+          localStorage.setItem('closedNotifications', JSON.stringify(closedNotifications));
+      }
+
+      // Hide notifications that are permanently closed
+      closedNotifications.forEach(closedId => {
+          const closedNotification = document.querySelector(`[data-followup-id="${closedId}"]`);
+          if (closedNotification) {
+              closedNotification.remove();
+          }
+      });
+  });
+</script>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const closedNotifications = JSON.parse(localStorage.getItem('closedNotifications')) || [];
+
+      const closeButtons = document.querySelectorAll('.btn-close');
+      closeButtons.forEach(button => {
+          button.addEventListener('click', function() {
+              const notificationId = button.getAttribute('data-notification-id');
+              closeNotification(notificationId);
+              button.closest('.dropdown-item').remove();
+          });
+      });
+
+      function closeNotification(notificationId) {
+          // Store the ID of the closed notification in local storage
+          if (!closedNotifications.includes(notificationId)) {
+              closedNotifications.push(notificationId);
+              localStorage.setItem('closedNotifications', JSON.stringify(closedNotifications));
+          }
+      }
+
+      // Hide notifications that are permanently closed
+      closedNotifications.forEach(closedId => {
+          const closedNotification = document.querySelector(`[data-notification-id="${closedId}"]`);
+          if (closedNotification) {
+              closedNotification.remove();
+          }
+      });
+  });
+</script>

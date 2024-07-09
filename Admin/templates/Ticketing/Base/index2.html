@@ -1,0 +1,154 @@
+{% extends "Ticketing/Base/base.html" %}
+{% load static %}
+{% block main-content %}
+
+
+<style>
+  .whatsapp-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+
+</style>
+
+      <div class="body-wrapper">
+        <div class="container-fluid">
+          <!-- -------------------------------------------------------------- -->
+          <!-- Breadcrumb -->
+          <!-- -------------------------------------------------------------- -->
+          <div class="font-weight-medium shadow-none position-relative overflow-hidden mb-7">
+            <div class="card-body px-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h4 class="font-weight-medium fs-14 mb-0">Dashboard</h4>
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item">
+                        <a class="text-muted text-decoration-none" href="{% url "ticketinghome" %}">Home
+                        </a>
+                      </li>
+                      <li class="breadcrumb-item text-muted" aria-current="page">Dashboard</li>
+                    </ol>
+                  </nav>
+                </div>
+                
+                
+              </div>
+            </div>
+          </div>
+
+          <!-- -------------------------------------------------------------- -->
+          <!-- Breadcrumb End -->
+          <!-- -------------------------------------------------------------- -->
+
+          
+
+          <div class="row">
+            <div class="col-md-3">
+              <div class="row">
+                
+                <div class="col-lg-12 col-md-12">
+                  <a href="{% url "ticketing_queries" %}">
+                  <div class="card">
+                    <div class="card-body p-9">
+                      <div class="hstack gap-9">
+                        <div>
+                          <img src="{% static "assets/images/gallery/Pending.svg" %}" alt="" srcset="">
+                          
+                        </div>
+                        <div class="align-self-center">
+                          <h3 class="mb-1 fs-6">{{Count_tickets_query}}</h3>
+                          <span class="text-muted">Query</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                </div>
+                
+                
+              </div>
+            </div>
+                  <div class="col-lg-9 col-md-9">
+                    <div class="card w-100">
+                      <div class="card-body">
+                        <h4 class="card-title">Latest Query</h4>
+                        <div class="chat-box w-100" data-simplebar="" style="height: 382px">
+                          <!--chat Row -->
+                          <div class="table-responsive mt-3">
+                            <table class="table v-middle mb-0 no-wrap">
+                              <thead>
+                                <tr>
+                                  <th class="border-0 ps-0">
+                                    Id
+                                  </th>
+                                  <th>Contact Details</th>
+                                  <th class="border-0">Departure City</th>
+                                  <th class="border-0">
+                                    Arrival City
+                                  </th>
+                                  
+                                  <th class="border-0 text-end">
+                                    Departure Date
+                                  </th>
+                                  <th>Status</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for i in tickets_query %}
+                                <tr>
+                                  <td class="border-0 ps-0">{{forloop.counter}}</td>
+                                  <td>
+                                    {% for detail in i.personal_details.all %}
+                                            <b>{{ detail.client_name }}</b><br>
+                                            <b>{{ detail.email }}</b><br>
+                                            <b>{{ detail.mobile_number }}</b><br>
+                                         {% endfor %}
+                                  </td>
+                                  <td class="border-0">{{i.flight_from}}</td>
+                                  <td class="border-0">{{i.flight_to}}</td>
+                                  <td class="border-0 text-end">{{i.departure_date}}</td>
+                                  <td>
+                                    {% if i.status == "Pending" %}
+                                            <span class="mb-1 badge rounded-pill text-bg-secondary">{{ i.status }}</span>
+                                            {% elif i.status == "Booked" %}
+                                            <span class="mb-1 badge rounded-pill text-bg-success">{{ i.status }}</span>
+                                            {% elif i.status == "Lost" %}
+                                            <span class="mb-1 badge rounded-pill text-bg-warning">{{ i.status }}</span>
+                                            {% endif %}
+                                  </td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                    
+                  </div>
+               
+              
+            </div>
+            <!-- Column -->
+            
+            <!-- Column -->
+          
+        </div>
+        <a href="https://www.app.aisensy.com/login" class="whatsapp-icon" target="_blank_">
+          <img src="{% static "assets/images/backgrounds/whatsapp-icon.svg" %}" width="32" height="32" alt="" srcset="">
+        </a>
+        
+        
+      </div>
+
+
+      
+
+{% endblock main-content %}

@@ -1,0 +1,148 @@
+{% extends "Admin/Base/base.html" %}
+{% block main-content %}
+
+    <div class="body-wrapper">
+        <div class="container-fluid">
+          <div class="font-weight-medium shadow-none position-relative overflow-hidden mb-7">
+            <div class="card-body px-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h4 class="font-weight-medium fs-14 mb-0">Add Query</h4>
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item">
+                        <a class="text-muted text-decoration-none" href="{% url "home" %}">Home
+                        </a>
+                      </li>
+                      <li class="breadcrumb-item text-muted" aria-current="page"><a class="text-muted text-decoration-none" href="#">Ticketing Query</a></li>
+                    </ol>
+                  </nav>
+                </div>
+                <div>
+                 
+                </div>
+              </div>
+            </div>    
+          </div>
+    
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <form action="" method="post" enctype="multipart/form-data">
+                   
+                      {% csrf_token %}
+                        <div class="row">
+                            <div class="col-xl-12">
+                              <h4 class="mt-0 header-title">Information</h4>
+                      
+                                <div class="form-group row">
+                                    
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">Departure City</label>
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter CityName" name="departure_city" required>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">Arrival City</label>
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter CityName" name="arrival_city" required>
+                                    </div>
+                                    
+                                </div>
+                                
+                                <div class="form-group row">
+                                    
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">Date</label>
+                                        <input class="form-control" type="date"  id="example-text-input" name="date" required>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="example-text-input" class="col-form-label">Ticketing User</label>
+                                       <select name="tkt_emp_id" id="tkt_emp" class="form-control" required>
+                                        {% for i in tkt_emp %}
+                                        <option value="{{i.id}}">{{i.first_name}} {{i.last_name}}</option>
+                                        {% endfor %}
+                                       </select>
+                                    </div>
+                                    
+                                </div>
+                                <h4 class="mt-3 header-title">Personal Details</h4>
+                                <div id="personal-details">
+                                  <div class="form-group row">
+                                      
+                                    <div class="col-sm-3">
+                                        <label for="example-text-input" class="col-form-label">Client Name</label>
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter Name" name="client_name" required>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label for="example-text-input" class="col-form-label">Email</label>
+                                        <input class="form-control" type="email"  id="example-text-input" placeholder="Enter Email" name="email" required>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label for="example-text-input" class="col-form-label">Contact No.</label>
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter No." name="number" required>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label for="example-text-input" class="col-form-label">Passport No.</label>
+                                        <input class="form-control" type="text"  id="example-text-input" placeholder="Enter No." name="passport_no">
+                                    </div>
+                                    
+                                  </div>
+                                  
+                                </div>
+                                <button type="button" class="btn btn-primary mt-3" onclick="addPersonalDetail()">Add More</button>
+                                <button type="button" class="btn btn-danger mt-3" onclick="removeLatestPersonalDetail()">Remove</button>
+                                <div class="modal-footer" style="margin-top:10px;">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                   </div>
+                                
+                            </div>
+                           
+                        </div> 
+                    </form>    
+                </div>
+              </div>
+            </div>
+          </div>
+    
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+      function addPersonalDetail() {
+          var personalDetailsDiv = document.getElementById("personal-details");
+          var newDetail = document.createElement("div");
+          newDetail.className = "form-group row personal-detail";
+          newDetail.innerHTML = `
+              <div class="col-sm-3">
+                  <label for="example-text-input" class="col-form-label">Client Name</label>
+                  <input class="form-control" type="text" placeholder="Enter Name" name="client_name" required>
+              </div>
+              <div class="col-sm-3">
+                  <label for="example-text-input" class="col-form-label">Email</label>
+                  <input class="form-control" type="email" placeholder="Enter Email" name="email" required>
+              </div>
+              <div class="col-sm-3">
+                  <label for="example-text-input" class="col-form-label">Contact No.</label>
+                  <input class="form-control" type="text" placeholder="Enter No." name="number" required>
+              </div>
+              <div class="col-sm-3">
+                  <label for="example-text-input" class="col-form-label">Passport No.</label>
+                  <input class="form-control" type="text" placeholder="Enter No." name="passport_no">
+              </div>
+              <hr>
+          `;
+          personalDetailsDiv.appendChild(newDetail);
+      }
+
+      function removeLatestPersonalDetail() {
+          var personalDetailsDiv = document.getElementById("personal-details");
+          var detailDivs = personalDetailsDiv.getElementsByClassName("personal-detail");
+          if (detailDivs.length > 0) {
+              personalDetailsDiv.removeChild(detailDivs[detailDivs.length - 1]);
+          }
+      }
+  </script>
+
+{% endblock main-content %}
