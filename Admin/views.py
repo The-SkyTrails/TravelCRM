@@ -4696,13 +4696,27 @@ def allquerylist(request):
         #         name = entry.get('name', 'N/A')
         #         email = entry.get('email', 'N/A')
         #         mobile_number = entry.get('mobile_number', 'N/A')
-        #         print(f"Name: {name}, Email: {email}, Mobile Number: {mobile_number}")
-        #         lead = Lead(name=name, email=email, mobile_number=mobile_number,last_updated_by=request.user)
-        #         lead.save()
+        #         inter_domes = entry.get('inter_domes','N/A')
+        #         destinations = entry.get('destination','N/A')
+        #         countrys = entry.get('country','N/A')
+        #         from_date = entry.get('from_date','N/A')
+        #         query_title = entry.get('query_title','N/A')
+        #         adult = entry.get('adults','N/A')
+        #         child = entry.get('child','N/A')
+        #         complete_package_cost = entry.get('complete_package_cost','N/A')
+        #         departure_City = entry.get('departure_City','N/A')
+        #         date_of_journey = entry.get('date_Of_journey','N/A')
+    
+
+        #         if not Lead.objects.filter(name=name, mobile_number=mobile_number).exists():
+        #             lead = Lead(name=name, email=email, mobile_number=mobile_number,inter_domes=inter_domes,destinations=destinations,countrys=countrys,
+        #                         from_date=from_date,query_title=query_title,adult=adult,child=child,
+        #                         complete_package_cost=complete_package_cost,departure_City=departure_City,date_of_journey=date_of_journey,lead_status="Pending",last_updated_by=request.user)
+        #             lead.save()
+               
 
         
         # else:
-        #     # Handle error
         #     api_data = []
 
         # # Combine database queryset and API data
@@ -5868,3 +5882,11 @@ def ticketing_list(request):
         "page":page
     }
     return render(request, "Admin/TicketQuery/ticket_query_list.html",context)
+
+
+
+
+
+
+
+
