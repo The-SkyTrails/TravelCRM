@@ -491,7 +491,7 @@ class Lead(models.Model):
     enquiry_number = models.CharField(max_length=10, unique=True, null=True, blank=True)
     name = models.CharField(max_length=100)
     email = models.EmailField()
-    mobile_number = models.CharField(max_length=15)
+    mobile_number = models.CharField(max_length=20)
     alternate_mobile_number = models.CharField(max_length=15,blank=True, null=True)
     inter_domes = models.CharField(max_length=20,choices=INTER_DOMES_CHOICES,blank=True, null=True)
     destinations = models.ForeignKey(Destination,on_delete=models.SET_NULL,blank=True,null=True)
