@@ -501,7 +501,7 @@ class Lead(models.Model):
     purpose_of_travel = models.CharField(max_length=100,blank=True, null=True)
     service_type = models.ForeignKey(Service_type,on_delete=models.SET_NULL,blank=True, null=True)
     query_title = models.CharField(max_length=100)
-    budget = models.CharField(max_length=50,blank=True, null=True)
+    budget = models.CharField(max_length=100,blank=True, null=True)
     adult = models.CharField(max_length=255)
     child = models.CharField(max_length=50,blank=True, null=True)
     infants = models.CharField(max_length=50,blank=True, null=True)
