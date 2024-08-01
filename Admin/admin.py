@@ -3,8 +3,11 @@ from .models import *
 from import_export.admin import ImportExportActionModelAdmin,ImportExportModelAdmin
 from .resources import LeadResource
 
-class LeadAdmin(ImportExportModelAdmin):
+class LeadAdmin(ImportExportModelAdmin , admin.ModelAdmin):
     resource_class = LeadResource
+    model = Lead
+    list_display = [ "enquiry_number","name", "email", "mobile_number"]
+
 
 
 admin.site.register(Country)
