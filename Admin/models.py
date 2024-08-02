@@ -693,7 +693,7 @@ class PersonalDetail(models.Model):
     ticketing_query = models.ForeignKey(TicketingQuery, on_delete=models.CASCADE, related_name="personal_details")
     client_name = models.CharField(max_length=200)
     mobile_number = models.CharField(max_length=15)
-    email = models.EmailField()
+    email = models.EmailField(blank=True, null=True)
     passport_number = models.CharField(max_length=100, blank=True, null=True)
 
 
