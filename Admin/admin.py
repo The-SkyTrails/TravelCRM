@@ -3,6 +3,7 @@ from .models import *
 from import_export.admin import ImportExportActionModelAdmin,ImportExportModelAdmin
 from .resources import LeadResource
 
+
 class LeadAdmin(ImportExportModelAdmin , admin.ModelAdmin):
     resource_class = LeadResource
     model = Lead
