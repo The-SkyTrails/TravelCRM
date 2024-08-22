@@ -74,6 +74,7 @@
               </div>
           </div>
         </form>
+        <form action="{% url 'bookingconfirmed_leads_sale_assign' %}" method="post">
         {% include "Login/messages.html" %}
         {% with sales_person_id=request.GET.salesperson %}
         <div class="row">
@@ -243,6 +244,7 @@
                                 class="table border table-bordered border-secondary text-nowrap">
                                 <thead>
                                   <tr>
+                                      <th><input type="checkbox" id="select-all"></th>
                                       <th>Id</th>
                                       <th>Title</th>
                                       <th>Contact Details</th>
@@ -264,6 +266,7 @@
                                 <tbody >
                                   {% for i in page %}
                                   <tr class="pointer-cursor" style="background-color: {% if i.colour_code == 'Red' %}#ff9090{% elif i.colour_code == 'Blue' %}#89CFF0{% elif i.colour_code == 'Green' %}#9cc599{% else %}Transparent{% endif %};">
+                                      <td><input type="checkbox" name="lead_ids" value="{{ i.id }}"></td>
                                       <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
                                         {{i.enquiry_number}}
                                       </td>
@@ -448,7 +451,9 @@
                                        </span>
                                     </div>
                                  </div>
+                                  {% include "Admin/Query/assign_Sales_person.html" %}
     </div>
+  </form>
   </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -548,4 +553,14 @@
    
 </script>
 {{ message|json_script:"room-name" }}
+
+<script>
+    document.getElementById('select-all').onclick = function () {
+
+      var checkboxes = document.getElementsByName('lead_ids');
+      for (var checkbox of checkboxes) {
+        checkbox.checked = this.checked;
+      }
+    }
+  </script>
 {% endblock main-content %}

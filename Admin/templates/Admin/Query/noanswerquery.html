@@ -79,7 +79,7 @@
         </div>
       </form>
       
-
+        <form action="{% url 'noanswer_leads_assign' %}" method="post">
         {% include "Login/messages.html" %}
         {% with sales_person_id=request.GET.salesperson %}
         <div class="row">
@@ -466,7 +466,9 @@
                                        </span>
                                     </div>
                                  </div>
+                                  {% include "Admin/Query/assign_Sales_person.html" %}
     </div>
+     </form>
 
   </div>
   <script>

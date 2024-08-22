@@ -4282,9 +4282,302 @@ def assign_leads(request):
             lead = Lead.objects.get(pk=lead_id)
             lead.sales_person = sales_person  
             lead.save()
+            
             # messages.success(request, "Leads Assign Successfully...")
 
         return redirect('allquerylist') 
+    
+
+def pending_assign_leads(request):
+    
+    if request.method == 'POST':
+        lead_ids = request.POST.getlist('lead_ids')
+        
+        sales_person_id = request.POST.get('sales_person_id')
+        
+        if not lead_ids or not sales_person_id:
+            return redirect('allquerylist')
+
+        try:
+            sales_person = CustomUser.objects.get(pk=sales_person_id)
+        except CustomUser.DoesNotExist:
+            return redirect('allquerylist')
+        for lead_id in lead_ids:
+            lead = Lead.objects.get(pk=lead_id)
+            lead.sales_person = sales_person  
+            lead.save()
+            
+            # messages.success(request, "Leads Assign Successfully...")
+
+        return redirect('newquerylist') 
+    
+
+def noanswer_leads_assign(request):
+    
+    if request.method == 'POST':
+        lead_ids = request.POST.getlist('lead_ids')
+        
+        sales_person_id = request.POST.get('sales_person_id')
+        
+        if not lead_ids or not sales_person_id:
+            return redirect('noanswerquerylist')
+
+        try:
+            sales_person = CustomUser.objects.get(pk=sales_person_id)
+        except CustomUser.DoesNotExist:
+            return redirect('noanswerquerylist')
+        for lead_id in lead_ids:
+            lead = Lead.objects.get(pk=lead_id)
+            lead.sales_person = sales_person  
+            lead.save()
+            
+            # messages.success(request, "Leads Assign Successfully...")
+
+        return redirect('noanswerquerylist') 
+    
+
+def connected_leads_sale_assign(request):
+    
+    if request.method == 'POST':
+        lead_ids = request.POST.getlist('lead_ids')
+        
+        sales_person_id = request.POST.get('sales_person_id')
+        
+        if not lead_ids or not sales_person_id:
+            return redirect('connectedquerylist')
+
+        try:
+            sales_person = CustomUser.objects.get(pk=sales_person_id)
+        except CustomUser.DoesNotExist:
+            return redirect('connectedquerylist')
+        for lead_id in lead_ids:
+            lead = Lead.objects.get(pk=lead_id)
+            lead.sales_person = sales_person  
+            lead.save()
+            
+            # messages.success(request, "Leads Assign Successfully...")
+
+        return redirect('connectedquerylist') 
+    
+
+def quatation_leads_sale_assign(request):
+    
+    if request.method == 'POST':
+        lead_ids = request.POST.getlist('lead_ids')
+        
+        sales_person_id = request.POST.get('sales_person_id')
+        
+        if not lead_ids or not sales_person_id:
+            return redirect('quatationquerylist')
+
+        try:
+            sales_person = CustomUser.objects.get(pk=sales_person_id)
+        except CustomUser.DoesNotExist:
+            return redirect('quatationquerylist')
+        for lead_id in lead_ids:
+            lead = Lead.objects.get(pk=lead_id)
+            lead.sales_person = sales_person  
+            lead.save()
+            
+            # messages.success(request, "Leads Assign Successfully...")
+
+        return redirect('quatationquerylist') 
+    
+    
+
+def payemendone_leads_sale_assign(request):
+    
+    if request.method == 'POST':
+        lead_ids = request.POST.getlist('lead_ids')
+        
+        sales_person_id = request.POST.get('sales_person_id')
+        
+        if not lead_ids or not sales_person_id:
+            return redirect('paymentdonequerylist')
+
+        try:
+            sales_person = CustomUser.objects.get(pk=sales_person_id)
+        except CustomUser.DoesNotExist:
+            return redirect('paymentdonequerylist')
+        for lead_id in lead_ids:
+            lead = Lead.objects.get(pk=lead_id)
+            lead.sales_person = sales_person  
+            lead.save()
+            
+            # messages.success(request, "Leads Assign Successfully...")
+
+        return redirect('paymentdonequerylist') 
+    
+    
+
+def bookingconfirmed_leads_sale_assign(request):
+    
+    if request.method == 'POST':
+        lead_ids = request.POST.getlist('lead_ids')
+        
+        sales_person_id = request.POST.get('sales_person_id')
+        
+        if not lead_ids or not sales_person_id:
+            return redirect('bookinglist')
+
+        try:
+            sales_person = CustomUser.objects.get(pk=sales_person_id)
+        except CustomUser.DoesNotExist:
+            return redirect('bookinglist')
+        for lead_id in lead_ids:
+            lead = Lead.objects.get(pk=lead_id)
+            lead.sales_person = sales_person  
+            lead.save()
+            
+            # messages.success(request, "Leads Assign Successfully...")
+
+        return redirect('bookinglist') 
+    
+    
+
+def BooksomewhereElse_leads_sale_assign(request):
+    
+    if request.method == 'POST':
+        lead_ids = request.POST.getlist('lead_ids')
+        
+        sales_person_id = request.POST.get('sales_person_id')
+        
+        if not lead_ids or not sales_person_id:
+            return redirect('bseleadlist')
+
+        try:
+            sales_person = CustomUser.objects.get(pk=sales_person_id)
+        except CustomUser.DoesNotExist:
+            return redirect('bseleadlist')
+        for lead_id in lead_ids:
+            lead = Lead.objects.get(pk=lead_id)
+            lead.sales_person = sales_person  
+            lead.save()
+            
+            # messages.success(request, "Leads Assign Successfully...")
+
+        return redirect('bseleadlist') 
+    
+
+def lost_leads_sale_assign(request):
+    
+    if request.method == 'POST':
+        lead_ids = request.POST.getlist('lead_ids')
+        
+        sales_person_id = request.POST.get('sales_person_id')
+        
+        if not lead_ids or not sales_person_id:
+            return redirect('lostquery')
+
+        try:
+            sales_person = CustomUser.objects.get(pk=sales_person_id)
+        except CustomUser.DoesNotExist:
+            return redirect('lostquery')
+        for lead_id in lead_ids:
+            lead = Lead.objects.get(pk=lead_id)
+            lead.sales_person = sales_person  
+            lead.save()
+            
+            # messages.success(request, "Leads Assign Successfully...")
+
+        return redirect('lostquery') 
+    
+    
+
+def hot_leads_sale_assign(request):
+    
+    if request.method == 'POST':
+        lead_ids = request.POST.getlist('lead_ids')
+        
+        sales_person_id = request.POST.get('sales_person_id')
+        
+        if not lead_ids or not sales_person_id:
+            return redirect('hotquerylist')
+
+        try:
+            sales_person = CustomUser.objects.get(pk=sales_person_id)
+        except CustomUser.DoesNotExist:
+            return redirect('hotquerylist')
+        for lead_id in lead_ids:
+            lead = Lead.objects.get(pk=lead_id)
+            lead.sales_person = sales_person  
+            lead.save()
+            
+            # messages.success(request, "Leads Assign Successfully...")
+
+        return redirect('hotquerylist') 
+    
+
+def warm_leads_sale_assign(request):
+    
+    if request.method == 'POST':
+        lead_ids = request.POST.getlist('lead_ids')
+        
+        sales_person_id = request.POST.get('sales_person_id')
+        
+        if not lead_ids or not sales_person_id:
+            return redirect('warmquerylist')
+
+        try:
+            sales_person = CustomUser.objects.get(pk=sales_person_id)
+        except CustomUser.DoesNotExist:
+            return redirect('warmquerylist')
+        for lead_id in lead_ids:
+            lead = Lead.objects.get(pk=lead_id)
+            lead.sales_person = sales_person  
+            lead.save()
+            
+            # messages.success(request, "Leads Assign Successfully...")
+
+        return redirect('warmquerylist') 
+    
+
+def cold_leads_sale_assign(request):
+    
+    if request.method == 'POST':
+        lead_ids = request.POST.getlist('lead_ids')
+        
+        sales_person_id = request.POST.get('sales_person_id')
+        
+        if not lead_ids or not sales_person_id:
+            return redirect('coldquerylist')
+
+        try:
+            sales_person = CustomUser.objects.get(pk=sales_person_id)
+        except CustomUser.DoesNotExist:
+            return redirect('coldquerylist')
+        for lead_id in lead_ids:
+            lead = Lead.objects.get(pk=lead_id)
+            lead.sales_person = sales_person  
+            lead.save()
+            
+            # messages.success(request, "Leads Assign Successfully...")
+
+        return redirect('coldquerylist') 
+    
+
+def complete_leads_sale_assign(request):
+    
+    if request.method == 'POST':
+        lead_ids = request.POST.getlist('lead_ids')
+        
+        sales_person_id = request.POST.get('sales_person_id')
+        
+        if not lead_ids or not sales_person_id:
+            return redirect('completedquery')
+
+        try:
+            sales_person = CustomUser.objects.get(pk=sales_person_id)
+        except CustomUser.DoesNotExist:
+            return redirect('completedquery')
+        for lead_id in lead_ids:
+            lead = Lead.objects.get(pk=lead_id)
+            lead.sales_person = sales_person  
+            lead.save()
+            
+            # messages.success(request, "Leads Assign Successfully...")
+
+        return redirect('completedquery') 
     
     
 from datetime import datetime
@@ -4783,6 +5076,7 @@ def allquerylist(request):
 
 @login_required
 def newquerylist(request):
+    
     context = {}
 
     if request.method == "GET":
@@ -5393,6 +5687,7 @@ def bookinglist(request):
 
 @login_required
 def noanswerquerylist(request):
+    
     if request.method == "GET":
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')
@@ -5567,6 +5862,7 @@ def bseleadlist(request):
 
 @login_required
 def hotquerylist(request):
+    
     if request.method == "GET":
         from_date = request.GET.get('from')
         to_date = request.GET.get('to')
@@ -5583,9 +5879,13 @@ def hotquerylist(request):
         if sales_person:
             filters &= Q(sales_person__id=sales_person)
         if user_type == "Admin":
+           
             if filters:
+                
                 hotlead_list = Lead.objects.filter(Q(colour_code="Red") & filters).exclude(lead_status="Lost").order_by("-last_updated_at")
+
             else:
+                print("demooooooooooooo")
                 hotlead_list = Lead.objects.filter(colour_code="Red").exclude(lead_status="Lost").order_by("-last_updated_at")
         
         elif user_type == "Sales Person":

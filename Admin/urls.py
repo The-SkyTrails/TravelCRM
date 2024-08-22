@@ -346,6 +346,18 @@ urlpatterns = [
         ),
     
     path('assign_leads/', assign_leads, name='assign_leads'),
+    path('pending_leads/', pending_assign_leads, name='pending_assign_leads'),
+    path('NoAnswerLead/Sale/Assign', noanswer_leads_assign, name='noanswer_leads_assign'),
+    path('ConnectLead/Sale/Assign', connected_leads_sale_assign, name='connected_leads_sale_assign'),
+    path('Quatation/Sale/Assign', quatation_leads_sale_assign, name='quatation_leads_sale_assign'),
+    path('PaymentDone/Sale/Assign', payemendone_leads_sale_assign, name='payemendone_leads_sale_assign'),
+    path('BookingConfirmed/Sale/Assign', bookingconfirmed_leads_sale_assign, name='bookingconfirmed_leads_sale_assign'),
+    path('BooksomewhereElse/Sale/Assign', BooksomewhereElse_leads_sale_assign, name='BooksomewhereElse_leads_sale_assign'),
+    path('Lost/Sale/Assign', lost_leads_sale_assign, name='lost_leads_sale_assign'),
+    path('HotLead/Sale/Assign', hot_leads_sale_assign, name='hot_leads_sale_assign'),
+    path('WarmLead/Sale/Assign', warm_leads_sale_assign, name='warm_leads_sale_assign'),
+    path('ColdLead/Sale/Assign', cold_leads_sale_assign, name='cold_leads_sale_assign'),
+    path('CompleteLead/Sale/Assign', complete_leads_sale_assign, name='complete_leads_sale_assign'),
     path('export-lead-data/', export_lead_data, name='export_lead_data'),
     
     path('colour_code/<int:id>/update/', update_colourcode, name='update_colourcode'),

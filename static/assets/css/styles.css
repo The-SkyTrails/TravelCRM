@@ -29246,7 +29246,7 @@ html[dir=rtl] .page-item:last-child .page-link {
 
 .dataTables_scrollBody {
       max-height: 600px !important;
-      height: 600px !important;
+      height: 400px !important;
    }
 
 
