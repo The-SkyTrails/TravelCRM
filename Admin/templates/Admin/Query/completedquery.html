@@ -323,7 +323,7 @@
                                         <button type="button" class="btn d-flex bg-primary-subtle w-100 d-block text-primary font-medium" data-bs-toggle="modal" data-bs-target="#update_status{{i.id}}">
                                           Update 
                                         </button></td>
-                                        {% include "Admin/Query/status_update.html" %}
+                                        
   
                                       
                                       
@@ -349,6 +349,7 @@
                                        
                                         {% include "Admin/Query/detailsquery.html" %}
                                   </tr>
+                                  {% include "Admin/Query/status_update.html" %}
                                   {% endfor %}
                                 </tbody>
                             </table>

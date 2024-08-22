@@ -336,7 +336,7 @@
                                 Update
                               </button>
                             </td>
-                            {% include "Admin/Query/status_update.html" %}
+                            {% comment %} {% include "Admin/Query/status_update.html" %} {% endcomment %}
 
 
 
@@ -402,6 +402,7 @@
                             </td>
                             {% include "Admin/Query/detailsquery.html" %}
                           </tr>
+                          {% include "Admin/Query/status_update.html" %}
                           {% endfor %}
 
 

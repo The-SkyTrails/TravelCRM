@@ -3155,7 +3155,9 @@ def lead_status_update(request,id):
         lead.save()
         
         redirect_to = request.POST.get("redirect_to")
+        print("okkkkkkkkkkkkk",redirect_to)
         if redirect_to == "newquerylist":
+            print("ggggggggggg")
             return HttpResponseRedirect(reverse("newquerylist"))
         elif redirect_to == "lostquery":
             return HttpResponseRedirect(reverse("lostquery"))
