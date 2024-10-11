@@ -4953,6 +4953,7 @@ def allquerylist(request):
         to_date = request.GET.get('to')
         sales_person = request.GET.get('salesperson')
         page_number = request.GET.get('page')
+        print("ggggggggggg",from_date)
         
 
     if request.user.is_authenticated:
@@ -4963,11 +4964,15 @@ def allquerylist(request):
             filters &= Q(from_date__gte=from_date, to_date__lte=to_date)
 
         if sales_person:
+            print("sales person....",sales_person)
             filters &= Q(sales_person__id=sales_person)
+            print("filtersss",filters)
             
         if user_type == "Admin":
+           
             if filters:
                 all_lead = Lead.objects.filter(filters).exclude(lead_status="Lost").order_by("-last_updated_at")
+                print("all leads....",all_lead)
             else:
                 all_lead = Lead.objects.all().exclude(lead_status="Lost").order_by("-last_updated_at")
 

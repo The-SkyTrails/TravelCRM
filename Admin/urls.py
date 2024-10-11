@@ -284,6 +284,7 @@ urlpatterns = [
     
     # --------------------------------- QUERY ------------------------------
     
+    
     path("newquerylist", newquerylist, name="newquerylist"),
     path("allquerylist", allquerylist, name="allquerylist"),
     path("connectedquerylist", connectedquerylist, name="connectedquerylist"),
