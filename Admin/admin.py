@@ -1,13 +1,13 @@
 from django.contrib import admin
 from .models import *
-from import_export.admin import ImportExportActionModelAdmin,ImportExportModelAdmin
+# from import_export.admin import ImportExportActionModelAdmin,ImportExportModelAdmin
 from .resources import LeadResource
 
 
-class LeadAdmin(ImportExportModelAdmin , admin.ModelAdmin):
-    resource_class = LeadResource
-    model = Lead
-    list_display = [ "enquiry_number","name", "email", "mobile_number"]
+# class LeadAdmin(ImportExportModelAdmin , admin.ModelAdmin):
+#     resource_class = LeadResource
+#     model = Lead
+#     list_display = [ "enquiry_number","name", "email", "mobile_number"]
 
 
 
@@ -50,7 +50,7 @@ admin.site.register(Folder)
 admin.site.register(Role_Permission)
 admin.site.register(CustomUser)
 admin.site.register(Admin)
-admin.site.register(Lead,LeadAdmin)
+admin.site.register(Lead)
 admin.site.register(Quatation)
 admin.site.register(Attachment)
 admin.site.register(Notes)
