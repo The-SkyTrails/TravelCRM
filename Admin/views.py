@@ -35,10 +35,87 @@ from django.urls import reverse_lazy
 from itertools import chain
 
 
+# @login_required
+# def index(request):
+#     if request.user.is_authenticated:
+#         user_type = request.user.user_type  
+#         if user_type == "Admin":
+#             all_lead = Lead.objects.all().exclude(lead_status="Lost").order_by("-id")
+#             quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
+#             comlead_list = Lead.objects.filter(lead_status="Completed").order_by("-id")
+#             pending_list = Lead.objects.filter(lead_status="Pending").order_by("-id")
+#             connected_list = Lead.objects.filter(lead_status="Connected").order_by("-id")
+#             payment_list = Lead.objects.filter(lead_status="Payment Done").order_by("-id")
+#             booking_list = Lead.objects.filter(lead_status="Booking Confirmed").order_by("-id")
+#             lost_list = Lead.objects.filter(lead_status="Lost").order_by("-id")
+#             follow_up = Followup.objects.filter(type='followup').order_by('-id')[:10]
+#             task = Followup.objects.filter(type='task').order_by('-id')[:10]
+#             active_user = CustomUser.objects.filter(is_logged_in="Yes")
+#             inactive_user = CustomUser.objects.filter(is_logged_in="No")
+#         elif user_type == "Sales Person":
+#             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).exclude(lead_status="Lost").order_by("-id")
+#             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+#             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+#             pending_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+#             connected_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+#             payment_list = Lead.objects.filter(Q(lead_status="Payment Done") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+#             booking_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+#             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
+#             follow_up = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__sales_person=request.user),type = "followup").order_by('-id')[:10]
+#             task = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__sales_person=request.user),type = "task").order_by('-id')[:10]
+#             active_user = CustomUser.objects.filter(is_logged_in="Yes")
+#             inactive_user = CustomUser.objects.filter(is_logged_in="No")
+#         elif user_type == "Operation Person":
+#             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).exclude(lead_status="Lost").order_by("-id")
+#             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+#             comlead_list = Lead.objects.filter(Q(lead_status="Completed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+#             pending_list = Lead.objects.filter(Q(lead_status="Pending") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+#             connected_list = Lead.objects.filter(Q(lead_status="Connected") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+#             payment_list = Lead.objects.filter(Q(lead_status="Payment Done") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+#             booking_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
+#             lost_list = Lead.objects.filter(Q(lead_status="Lost") & (Q(added_by=request.user) | Q(operation_person=request.user)) ).order_by("-id")
+#             follow_up = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__operation_person=request.user),type = "followup").order_by('-id')[:10]
+#             task = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__operation_person=request.user),type = "task").order_by('-id')[:10]
+#             active_user = CustomUser.objects.filter(is_logged_in="Yes")
+#             inactive_user = CustomUser.objects.filter(is_logged_in="No")
+#         else:
+#             pass
+        
+#         context = {
+#             "quatation_lead_list": quatation_lead_list,
+#             "comlead_list": comlead_list,
+#             "all_lead": all_lead,
+#             "lost_list": lost_list,
+#             "follow_up":follow_up,
+#             "task":task,
+#             "active_user":active_user,
+#             "inactive_user":inactive_user,
+#             "pending_list":pending_list,
+#             "connected_list":connected_list,
+#             "payment_list":payment_list,
+#             "booking_list":booking_list
+        
+#     }
+#     return render(request,"Admin/Base/index2.html", context)
+
+
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from django.utils import timezone
+from datetime import timedelta
+from django.db.models import Q
+from .models import Lead, Followup, CustomUser
+from django.db.models import Count
+from django.db.models.functions import TruncDate
+from django.db.models import Count, Sum
+
 @login_required
 def index(request):
     if request.user.is_authenticated:
         user_type = request.user.user_type  
+        lead_summary = None  # Initialize lead summary
+        organized_data = None
+
         if user_type == "Admin":
             all_lead = Lead.objects.all().exclude(lead_status="Lost").order_by("-id")
             quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-id")
@@ -52,6 +129,31 @@ def index(request):
             task = Followup.objects.filter(type='task').order_by('-id')[:10]
             active_user = CustomUser.objects.filter(is_logged_in="Yes")
             inactive_user = CustomUser.objects.filter(is_logged_in="No")
+
+            # Calculate lead summary grouped by assigned user and date
+           
+            lead_summary = (
+                Lead.objects
+                .annotate(created_date=TruncDate('date'))  # Rename the annotation to avoid conflict
+                .values('sales_person__first_name','sales_person__last_name','destinations__name')
+                .annotate(total_leads=Count('id'))
+                .order_by('sales_person__first_name','sales_person__last_name','destinations__name')
+            )
+            
+            
+           
+           
+                
+            
+            grand_total = Lead.objects.aggregate(grand_total_leads=Count('id'))['grand_total_leads']
+            sales_person_totals = (
+            Lead.objects
+            .values('sales_person__first_name', 'sales_person__last_name')
+            .annotate(total_leads=Count('id'))
+            )
+            print("ooooooooooooo",grand_total)
+            print("Salessssssssssssss",sales_person_totals)
+            
         elif user_type == "Sales Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).exclude(lead_status="Lost").order_by("-id")
             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(sales_person=request.user))).order_by("-id")
@@ -65,6 +167,7 @@ def index(request):
             task = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__sales_person=request.user),type = "task").order_by('-id')[:10]
             active_user = CustomUser.objects.filter(is_logged_in="Yes")
             inactive_user = CustomUser.objects.filter(is_logged_in="No")
+
         elif user_type == "Operation Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(operation_person=request.user)).exclude(lead_status="Lost").order_by("-id")
             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & (Q(added_by=request.user) | Q(operation_person=request.user))).order_by("-id")
@@ -78,6 +181,7 @@ def index(request):
             task = Followup.objects.filter(Q(lead__added_by=request.user) | Q(lead__operation_person=request.user),type = "task").order_by('-id')[:10]
             active_user = CustomUser.objects.filter(is_logged_in="Yes")
             inactive_user = CustomUser.objects.filter(is_logged_in="No")
+
         else:
             pass
         
@@ -86,17 +190,22 @@ def index(request):
             "comlead_list": comlead_list,
             "all_lead": all_lead,
             "lost_list": lost_list,
-            "follow_up":follow_up,
-            "task":task,
-            "active_user":active_user,
-            "inactive_user":inactive_user,
-            "pending_list":pending_list,
-            "connected_list":connected_list,
-            "payment_list":payment_list,
-            "booking_list":booking_list
+            "follow_up": follow_up,
+            "task": task,
+            "active_user": active_user,
+            "inactive_user": inactive_user,
+            "pending_list": pending_list,
+            "connected_list": connected_list,
+            "payment_list": payment_list,
+            "booking_list": booking_list,
+            "lead_summary": lead_summary,  # Add lead summary to context
+            'organized_data':organized_data,
+            'grand_total':grand_total,
+            'sales_person_totals':sales_person_totals,
+        }
         
-    }
-    return render(request,"Admin/Base/index2.html", context)
+        return render(request, "Admin/Base/index2.html", context)
+
 
 @login_required
 def add_Country(request):
@@ -4969,6 +5078,7 @@ def allquerylist(request):
             print("filtersss",filters)
             
         if user_type == "Admin":
+            print("ggggggggggg")
            
             if filters:
                 all_lead = Lead.objects.filter(filters).exclude(lead_status="Lost").order_by("-last_updated_at")

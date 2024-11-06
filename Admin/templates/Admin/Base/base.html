@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="{% static "assets/libs/jvectormap/jquery-jvectormap.css" %}">
   <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
   <link rel="stylesheet" href="{% static "assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" %}">
-  <link rel="stylesheet" href="{% static "assets/buttons/2.4.2/css/buttons.dataTables.min.css" %}">
+  <link rel="stylesheet" href="{% static "buttons/2.4.2/css/buttons.dataTables.min.css" %}">
   <link rel="stylesheet" href="{% static "assets/libs/select2/dist/css/select2.min.css" %}">
 </head>
 
@@ -68,18 +68,20 @@
 <script src="{% static "assets/libs/jvectormap/jquery-jvectormap.min.js" %}"></script>
 <script src="{% static "assets/js/extra-libs/jvectormap/jquery-jvectormap-us-aea-en.js" %}"></script>
 <script src="{% static "assets/libs/datatables.net/js/jquery.dataTables.min.js" %}"></script>
-<script src="{% static "assets/buttons/2.4.2/js/dataTables.buttons.min.js" %}"></script>
-<script src="{% static "assets/ajax/libs/jszip/3.10.1/jszip.min.js" %}"></script>
-<script src="{% static "assets/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" %}"></script>
-<script src="{% static "assets/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" %}"></script>
-<script src="{% static "assets/buttons/2.4.2/js/buttons.html5.min.js" %}"></script>
-<script src="{% static "assets/buttons/2.4.2/js/buttons.print.min.js" %}"></script>
+<script src="{% static "buttons/2.4.2/js/dataTables.buttons.min.js" %}"></script>
+<script src="{% static "ajax/libs/jszip/3.10.1/jszip.min.js" %}"></script>
+<script src="{% static "ajax/libs/pdfmake/0.1.53/pdfmake.min.js" %}"></script>
+<script src="{% static "ajax/libs/pdfmake/0.1.53/vfs_fonts.js" %}"></script>
+<script src="{% static "buttons/2.4.2/js/buttons.html5.min.js" %}"></script>
+<script src="{% static "buttons/2.4.2/js/buttons.print.min.js" %}"></script>
 
-<script src="{% static "assets/js/datatable/datatable-advanced.init.js" %}"></script>
 <script src="{% static "assets/libs/select2/dist/js/select2.full.min.js" %}"></script>
 <script src="{% static "assets/libs/select2/dist/js/select2.min.js" %}"></script>
 <script src="{% static "assets/js/forms/select2.init.js" %}"></script>
 <script src="{% static "assets/js/apps/chat.js" %}"></script>
+<script src="{% static "assets/js/datatable/datatable-advanced.init.js" %}"></script>
+
+
 <script>
   document.body.addEventListener('htmx:configRequest', function(event) {
   event.detail.headers['X-CSRFToken'] = '{{csrf_token}}'; // add a new parameter into the mix

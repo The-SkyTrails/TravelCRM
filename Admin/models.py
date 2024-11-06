@@ -227,6 +227,10 @@ class Destination(models.Model):
     name = models.CharField(max_length=100)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+    
     
 
 

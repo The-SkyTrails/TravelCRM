@@ -14,6 +14,11 @@
     transition: background-color 0.3s ease;
   }
 
+ 
+.simplebar-track {
+  display: none  !important;
+}
+
 </style>
 
       <div class="body-wrapper">
@@ -606,13 +611,165 @@
               </div>
             </div>
           </div>
-        </div>
-        <a href="https://www.app.aisensy.com/login" class="whatsapp-icon" target="_blank_">
-          <img src="{% static "assets/images/backgrounds/whatsapp-icon.svg" %}" width="32" height="32" alt="" srcset="">
-        </a>
-        
-        
-      </div>
+{% comment %} 
+          <div class="col-lg-12 col-md-12">
+            <div class="card w-100">
+              <div class="card-body">
+                <h4 class="card-title">Lead Summary</h4>
+                <div class="chat-box w-100" data-simplebar="" style="height: 382px">
+                  <!--chat Row -->
+                  <div class="table-responsive mt-3">
+                    <table class="table v-middle mb-0 no-wrap">
+                      <thead>
+                        <tr>
+                          
+                          <th class="border-0">
+                            Sales Person
+                          </th>
+                          
+                          <th>Destination</th>
+                          <th class="border-0 text-end">
+                            Total Leads
+                          </th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for lead  in lead_summary   %}
+                        <tr>
+                         
+                         
+                          <td>
+                            <p class="mb-0">{{lead.sales_person__first_name}} {{lead.sales_person__last_name}}</p>
+                          </td>
+                          
+                        <td>{{lead.destinations__name}}</td>
+                          
+                          <td class="text-end">
+                            <p class="mb-0 fs-3">{{ lead.total_leads }}</p>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            
+          </div> {% endcomment %}
+          
+          <div class="datatables">
+            <!-- File export -->
+            <div class="row">
+              <div class="col-12">
+                <!-- ---------------------
+                            start File export
+                        ---------------- -->
+                <div class="card">
+                  <div class="card-body">
+                    <div class="mb-2">
+                      <h3 class="mb-0 text-dark">Summary</h3>
+                    </div>
+                    
+                    <div class="table-responsive" style="overflow-x: auto;">
+                      <table id="file_export" class="table border table-striped table-bordered display text-nowrap">
+                        <thead>
+                          <!-- start row -->
+                          <tr>
+                            <th>Sales Person</th>
+                            <th>Destination</th>
+                            <th>Leads</th>
+                            
+                            
+                          </tr>
+                          <!-- end row -->
+                        </thead>
+                        <tbody>
+                          <!-- start row -->
+                          {% for lead  in lead_summary   %}
+                          <tr>
+                            <td>{{lead.sales_person__first_name}} {{lead.sales_person__last_name}}</td>
+                            <td>{{lead.destinations__name}}</td>
+                            
+                            <td>{{ lead.total_leads }}</td>
+                           
+                         
+                          </tr>
+                          {% endfor %}
+                         
+                          
+                         
+                         
+
+                          <!-- end row -->
+                        </tbody>
+                        <tfoot>
+                          <!-- start row -->
+                          <tr class="bg-secondary">
+                            <th>Grand Total</th>
+                            
+                            <th></th>
+                            <th>{{grand_total}}</th>
+                           
+                          </tr>
+                          <!-- end row -->
+                        </tfoot>
+                      </table>
+                    </div>
+                    
+                    <div class="card" style="width: 35rem;">
+                      <div class="cardbody">
+                        <h1>Total Leads</h1>
+                        <div class="table-responsive">
+                          <table class="table border table-striped table-bordered display text-nowrap">
+                            <thead>
+                              <tr>
+                                <th>Name</th>
+                                <th>Total Leads</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for i in sales_person_totals %}
+                              <tr>
+                                <td>{{i.sales_person__first_name}} {{i.sales_person__last_name}}</td>
+                                <td>{{i.total_leads}}</td>
+
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      
+                      
+
+                    </div>
+                    
+                  </div>
+                  
+                </div>
+
+                
+                
+                <!-- ---------------------
+                            end File export
+                        ---------------- -->
+              </div>
+
+              
+              
+            </div>
+            
+           
+          </div>
+
+          
+
+          
+     
 
 
       
