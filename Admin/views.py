@@ -115,7 +115,8 @@ def index(request):
         user_type = request.user.user_type  
         lead_summary = None  # Initialize lead summary
         organized_data = None
-        grand_total= 0
+        grand_total= None
+        sales_person_totals = None
         
 
         if user_type == "Admin":
