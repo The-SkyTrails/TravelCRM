@@ -116,6 +116,7 @@ def index(request):
         lead_summary = None  # Initialize lead summary
         organized_data = None
         grand_total= 0
+        sales_person_totals = 0
 
         if user_type == "Admin":
             all_lead = Lead.objects.all().exclude(lead_status="Lost").order_by("-id")
