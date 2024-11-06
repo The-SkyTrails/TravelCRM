@@ -151,7 +151,7 @@ def index(request):
             grand_total = Lead.objects.aggregate(grand_total_leads=Count('id'))['grand_total_leads']
             sales_person_totals = (
             Lead.objects
-            .values('sales_person__first_name', 'sales_person__last_name')
+            .values('sales_person__first_name', 'sales_person__last_name',"sales_person__username")
             .annotate(total_leads=Count('id'))
             )
             print("ooooooooooooo",grand_total)

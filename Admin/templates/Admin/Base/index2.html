@@ -736,7 +736,7 @@
                             <tbody>
                               {% for i in sales_person_totals %}
                               <tr>
-                                <td>{{i.sales_person__first_name}} {{i.sales_person__last_name}}</td>
+                                <td>Email:({{i.sales_person__username}})  {{i.sales_person__first_name}} {{i.sales_person__last_name}}</td>
                                 <td>{{i.total_leads}}</td>
 
                               </tr>
