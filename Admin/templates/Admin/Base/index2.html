@@ -660,7 +660,7 @@
             </div>
             
           </div> {% endcomment %}
-          
+          {% if request.user.is_authenticated and request.user.user_type == "Admin" %}
           <div class="datatables">
             <!-- File export -->
             <div class="row">
@@ -765,6 +765,7 @@
             
            
           </div>
+          {% endif %}
 
           
 
