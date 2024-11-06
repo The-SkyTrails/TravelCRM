@@ -138,9 +138,9 @@ def index(request):
             lead_summary = (
                 Lead.objects
                 .annotate(created_date=TruncDate('date'))  # Rename the annotation to avoid conflict
-                .values('sales_person__first_name','sales_person__last_name','destinations__name')
+                .values('sales_person__first_name','sales_person__last_name','destinations__name','countrys__country_name')
                 .annotate(total_leads=Count('id'))
-                .order_by('sales_person__first_name','sales_person__last_name','destinations__name')
+                .order_by('sales_person__first_name','sales_person__last_name','destinations__name','countrys__country_name')
             )
             
             
@@ -4019,6 +4019,8 @@ def bulk_lead_upload(request):
         try:
             df = pd.read_excel(file)
             destinations = list(df["destinations"].unique())
+            print("destinatinsss",destinations)
+
             
             salespersons_by_destination = defaultdict(list)
             for destination_name in destinations:

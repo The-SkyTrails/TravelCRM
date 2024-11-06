@@ -681,6 +681,7 @@
                           <tr>
                             <th>Sales Person</th>
                             <th>Destination</th>
+                            <th>Country</th>
                             <th>Leads</th>
                             
                             
@@ -693,7 +694,7 @@
                           <tr>
                             <td>{{lead.sales_person__first_name}} {{lead.sales_person__last_name}}</td>
                             <td>{{lead.destinations__name}}</td>
-                            
+                            <td>{{lead.countrys__country_name}}</td>
                             <td>{{ lead.total_leads }}</td>
                            
                          
@@ -711,6 +712,7 @@
                           <tr class="bg-secondary">
                             <th>Grand Total</th>
                             
+                            <th></th>
                             <th></th>
                             <th>{{grand_total}}</th>
                            
