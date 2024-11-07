@@ -170,6 +170,7 @@ def index(request):
                 
             
             grand_total = Lead.objects.aggregate(grand_total_leads=Count('id'))['grand_total_leads']
+            pending_grand_total = lead_summary_query.aggregate(grand_total_leads=Count('id'))['grand_total_leads']
             sales_person_totals = (
             Lead.objects
             .values('sales_person__first_name', 'sales_person__last_name')
@@ -232,6 +233,7 @@ def index(request):
             "booking_list": booking_list,
             "lead_summary": lead_summary,  # Add lead summary to context
             'organized_data':organized_data,
+            'pending_grand_total':pending_grand_total,
             'grand_total':grand_total,
             'sales_person_totals':sales_person_totals,
             'sales_person_pending_totals':sales_person_pending_totals,

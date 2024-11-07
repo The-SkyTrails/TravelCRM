@@ -706,7 +706,7 @@
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>{{grand_total}}</th>
+                            <th>{{pending_grand_total}}</th>
                            
                           </tr>
                           <!-- end row -->
@@ -734,6 +734,15 @@
                               </tr>
                               {% endfor %}
                             </tbody>
+                            <tfoot>
+                              <!-- start row -->
+                              <tr class="bg-secondary">
+                                <th>Grand Total</th>
+                                
+                                
+                                <th>{{grand_total}}</th>
+                               
+                              </tr>
                           </table>
                         </div>
                       </div>
@@ -761,6 +770,15 @@
                               </tr>
                               {% endfor %}
                             </tbody>
+                            <tfoot>
+                              <!-- start row -->
+                              <tr class="bg-secondary">
+                                <th>Grand Total</th>
+                                
+                               
+                                <th>{{pending_grand_total}}</th>
+                               
+                              </tr>
                           </table>
                         </div>
                       </div>
