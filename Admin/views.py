@@ -121,6 +121,8 @@ def index(request):
         pending_grand_total = None
         sales_persons = None
         sales_person_id = None
+        start_date = None
+        end_date = None
         
 
         if user_type == "Admin":
