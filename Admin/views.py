@@ -117,6 +117,7 @@ def index(request):
         organized_data = None
         grand_total= None
         sales_person_totals = None
+        sales_person_pending_totals = None
         
 
         if user_type == "Admin":
@@ -133,14 +134,34 @@ def index(request):
             active_user = CustomUser.objects.filter(is_logged_in="Yes")
             inactive_user = CustomUser.objects.filter(is_logged_in="No")
 
+
+            start_date = request.GET.get("start_date")
+            end_date = request.GET.get("end_date")
+            sales_person_id = request.GET.get("sales_person")
+            lead_summary_query = Lead.objects.filter(lead_status="Pending")
+            if start_date and end_date:
+                lead_summary_query = lead_summary_query.filter(date__range=[start_date, end_date])
+            if sales_person_id:
+                lead_summary_query = lead_summary_query.filter(sales_person_id=sales_person_id)
+
+
+
             # Calculate lead summary grouped by assigned user and date
            
+            # lead_summary = (
+            #     Lead.objects
+            #     .annotate(created_date=TruncDate('date'))  # Rename the annotation to avoid conflict
+            #     .values('sales_person__first_name','sales_person__last_name','destinations__name','countrys__country_name')
+            #     .annotate(total_leads=Count('id'))
+            #     .order_by('sales_person__first_name','sales_person__last_name','destinations__name','countrys__country_name')
+            # )
+
             lead_summary = (
-                Lead.objects
-                .annotate(created_date=TruncDate('date'))  # Rename the annotation to avoid conflict
-                .values('sales_person__first_name','sales_person__last_name','destinations__name','countrys__country_name')
+                lead_summary_query  # Filter for pending status
+                .annotate(created_date=TruncDate('date'))
+                .values('date','sales_person__first_name', 'sales_person__last_name', 'destinations__name', 'countrys__country_name','lead_status')
                 .annotate(total_leads=Count('id'))
-                .order_by('sales_person__first_name','sales_person__last_name','destinations__name','countrys__country_name')
+                .order_by('sales_person__first_name', 'sales_person__last_name', 'destinations__name', 'countrys__country_name')
             )
             
             
@@ -154,8 +175,16 @@ def index(request):
             .values('sales_person__first_name', 'sales_person__last_name')
             .annotate(total_leads=Count('id'))
             )
+            sales_person_pending_totals = (
+            Lead.objects
+            .filter(lead_status="Pending") 
+            .values('sales_person__first_name', 'sales_person__last_name')
+            .annotate(total_leads=Count('id'))
+            )
             print("ooooooooooooo",grand_total)
             print("Salessssssssssssss",sales_person_totals)
+            sales_persons = CustomUser.objects.filter(user_type="Sales Person")
+            print("pppppppppppp",sales_persons)
             
         elif user_type == "Sales Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).exclude(lead_status="Lost").order_by("-id")
@@ -205,6 +234,11 @@ def index(request):
             'organized_data':organized_data,
             'grand_total':grand_total,
             'sales_person_totals':sales_person_totals,
+            'sales_person_pending_totals':sales_person_pending_totals,
+            "sales_persons": sales_persons,
+            "selected_sales_person_id": sales_person_id,
+            "selected_start_date": start_date,
+            "selected_end_date": end_date,
         }
         
         return render(request, "Admin/Base/index2.html", context)
