@@ -266,6 +266,7 @@
                       <tr>
                           <th><input type="checkbox" id="select-all"></th>
                           <th>SI No</th>
+                          <th>Date</th>
                           <th>Id</th>
                           <th>Title</th>
                           <th>Contact Details</th>
@@ -288,6 +289,7 @@
                                   <tr class="pointer-cursor" style="background-color: {% if i.colour_code == 'Red' %}#ff9090{% elif i.colour_code == 'Blue' %}#89CFF0{% elif i.colour_code == 'Green' %}#9cc599{% else %}Transparent{% endif %};">
                                       <td><input type="checkbox" name="lead_ids" value="{{ i.id }}"></td>
                                       <td>{{forloop.counter}}</td>
+                                      <td>{{i.date}}</td>
                                       <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">
                                           {{i.enquiry_number}}
                                       </td>

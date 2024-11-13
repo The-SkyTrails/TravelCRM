@@ -5253,7 +5253,7 @@ def newquerylist(request):
         filters = Q()
 
         if from_date and to_date:
-            filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
+            filters &= Q(date__gte=from_date) & Q(date__lte=to_date)
 
         if sales_person:
             filters &= Q(sales_person__id=sales_person)
@@ -5351,7 +5351,7 @@ def connectedquerylist(request):
         filters = Q()
 
         if from_date and to_date:
-            filters &= Q(from_date__gte=from_date, to_date__lte=to_date)
+            filters &= Q(date__gte=from_date, date__lte=to_date)
 
         if sales_person:
             filters &= Q(sales_person__id=sales_person)
@@ -5439,7 +5439,7 @@ def quatationquerylist(request):
         filters = Q()
 
         if from_date and to_date:
-            filters &= Q(from_date__gte=from_date, to_date__lte=to_date)
+            filters &= Q(date__gte=from_date,date__lte=to_date)
 
         if sales_person:
             filters &= Q(sales_person__id=sales_person)
@@ -5526,7 +5526,7 @@ def paymentdonequerylist(request):
         filters = Q()
 
         if from_date and to_date:
-            filters &= Q(from_date__gte=from_date) & Q(to_date__lte=to_date)
+            filters &= Q(date__gte=from_date) & Q(date__lte=to_date)
 
         if sales_person:
             filters &= Q(sales_person__id=sales_person)
@@ -5600,7 +5600,7 @@ def completedquerylist(request):
         filters = Q()
 
         if from_date and to_date:
-            filters &= Q(from_date__gte=from_date, to_date__lte=to_date)
+            filters &= Q(date__gte=from_date, date__lte=to_date)
 
         if sales_person:
             filters &= Q(sales_person__id=sales_person)
@@ -5687,7 +5687,7 @@ def lostquerylist(request):
         filters = Q()
 
         if from_date and to_date:
-            filters &= Q(from_date__gte=from_date, to_date__lte=to_date)
+            filters &= Q(date__gte=from_date, date__lte=to_date)
 
         if sales_person:
             filters &= Q(sales_person__id=sales_person)
@@ -5774,7 +5774,7 @@ def bookinglist(request):
         filters = Q()
 
         if from_date and to_date:
-            filters &= Q(from_date__gte=from_date, to_date__lte=to_date)
+            filters &= Q(date__gte=from_date, date__lte=to_date)
 
         if sales_person:
             filters &= Q(sales_person__id=sales_person)
@@ -5862,7 +5862,7 @@ def noanswerquerylist(request):
         filters = Q()
 
         if from_date and to_date:
-            filters &= Q(from_date__gte=from_date, to_date__lte=to_date)
+            filters &= Q(date__gte=from_date, date__lte=to_date)
 
         if sales_person:
             filters &= Q(sales_person__id=sales_person)
@@ -5949,7 +5949,7 @@ def bseleadlist(request):
         filters = Q()
 
         if from_date and to_date:
-            filters &= Q(from_date__gte=from_date, to_date__lte=to_date)
+            filters &= Q(date__gte=from_date, date__lte=to_date)
 
         if sales_person:
             filters &= Q(sales_person__id=sales_person)
@@ -6037,7 +6037,7 @@ def hotquerylist(request):
         filters = Q()
 
         if from_date and to_date:
-            filters &= Q(from_date__gte=from_date, to_date__lte=to_date)
+            filters &= Q(date__gte=from_date, date__lte=to_date)
 
         if sales_person:
             filters &= Q(sales_person__id=sales_person)
@@ -6215,7 +6215,7 @@ def coldquerylist(request):
         filters = Q()
 
         if from_date and to_date:
-            filters &= Q(from_date__gte=from_date, to_date__lte=to_date)
+            filters &= Q(date__gte=from_date, date__lte=to_date)
 
         if sales_person:
             filters &= Q(sales_person__id=sales_person)
