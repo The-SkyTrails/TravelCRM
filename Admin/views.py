@@ -5116,7 +5116,7 @@ def allquerylist(request):
         filters = Q()
 
         if from_date and to_date:
-            filters &= Q(from_date__gte=from_date, to_date__lte=to_date)
+            filters &= Q(date__gte=from_date, date__lte=to_date)
 
         if sales_person:
             print("sales person....",sales_person)
