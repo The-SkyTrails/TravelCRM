@@ -286,8 +286,8 @@
                                           {% if request.user.user_type != "Sales Person" %}
                                           <td><input type="checkbox" name="lead_ids" value="{{ i.id }}"></td>
                                           {% endif %}
-                                          <td>{{i.date}}</td>
                                           <td>{{forloop.counter}}</td>
+                                          <td>{{i.date}}</td>
                                           <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}"
                                              aria-controls="offcanvasRight">
                                              {{i.enquiry_number}}
