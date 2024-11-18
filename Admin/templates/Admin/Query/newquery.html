@@ -307,8 +307,13 @@
                               Contact No: {{i.mobile_number}}
                             </td>
                             <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}"
-                              aria-controls="offcanvasRight">Destination:{{i.destinations.name}}
-                              Country:{{i.countrys.country_name}}</td>
+                              aria-controls="offcanvasRight">
+                              {% if i.destinations %}
+                              {{i.destinations.name}}
+                              {% else %}
+                              {{i.countrys.country_name}}
+                              {% endif %}
+                              </td>
                             <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}"
                               aria-controls="offcanvasRight">{{i.from_date}}</td>
                             <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}"
