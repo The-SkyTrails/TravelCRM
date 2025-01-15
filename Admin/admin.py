@@ -9,7 +9,7 @@ class LeadAdmin(admin.ModelAdmin):
     model = Lead
     list_display = [ "enquiry_number","lead_status","name", "email", "mobile_number","date"]
     search_fields = ['enquiry_number', 'name', 'email', 'mobile_number', 'date']
-    list_filter = ('lead_status', 'date')
+    list_filter = ('lead_status', 'date','email')
 
 admin.site.register(Country)
 admin.site.register(State)
