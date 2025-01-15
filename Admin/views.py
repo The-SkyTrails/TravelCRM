@@ -4201,6 +4201,7 @@ def bulk_lead_upload(request):
 def make_click_to_alternatecall(request,id):
    
     user = request.user
+    print("heloooo")
    
     lead = Lead.objects.get(id=id)
     url = "https://api-smartflo.tatateleservices.com/v1/click_to_call"

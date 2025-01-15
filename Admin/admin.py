@@ -7,7 +7,7 @@ from .resources import LeadResource
 class LeadAdmin(admin.ModelAdmin):
     resource_class = LeadResource
     model = Lead
-    list_display = [ "enquiry_number","name", "email", "mobile_number","date"]
+    list_display = [ "enquiry_number","name", "email", "mobile_number","date","lead_status"]
     search_fields = ['enquiry_number', 'name', 'email', 'mobile_number', 'date']
 
 admin.site.register(Country)
