@@ -96,7 +96,8 @@ LEAD_STATUS_CHOICES = [
     ("Booking Confirmed","Booking Confirmed"),
     ("Lost","Lost"),
     ("Completed","Completed"),
-    ("Book SomeWhere Else","Book SomeWhere Else")
+    ("Book SomeWhere Else","Book SomeWhere Else"),
+    ("Remainder","Remainder")
 ]
 
 

@@ -238,6 +238,18 @@
                   </div>
                   </a>
                </div>
+               <div class="col-md-2 col-sm-6">
+                  <a href="{% url "Remainder" %}?salesperson={{ sales_person_id }}">
+                  <div class="card" style="background: linear-gradient(90deg, rgba(80,75,75,1) 26%, rgb(255, 222, 116) 65%);">
+                     <div class="card-body p-4 d-flex align-items-center gap-3">
+                        <div>
+                           <h5 class="fw-semibold mb-0">{{remainder_list.count}}</h5>
+                           <span class="fs-2 d-flex align-items-center" style="color: white;"><i class="ti ti-map-pin text-dark fs-3 me-1"></i>Reminder</span>
+                        </div>
+                     </div>
+                  </div>
+                  </a>
+               </div>
             </div>
             {% endwith %}
             <div class="datatables">
@@ -336,6 +348,8 @@
                                              {% elif i.lead_status == "Payment Done" %}
                                              <span class="mb-1 badge rounded-pill text-bg-info">{{ i.lead_status }}</span>
                                              {% elif i.lead_status == "Lost" %}
+                                             <span class="mb-1 badge rounded-pill text-bg-dark">{{ i.lead_status }}</span>
+                                             {% elif i.lead_status == "Remainder" %}
                                              <span class="mb-1 badge rounded-pill text-bg-dark">{{ i.lead_status }}</span>
                                              {% elif i.lead_status == "Completed" %}
                                              <span class="mb-1 badge rounded-pill text-bg-success">{{ i.lead_status }}</span>

@@ -3305,6 +3305,7 @@ def lead_status_update(request,id):
     if request.method == "POST":
         lead_status = request.POST.get("lead_status")
         lead.lead_status = lead_status
+        print("leadoooooooooooooooo",lead_status)
         lead.save()
         
         redirect_to = request.POST.get("redirect_to")
@@ -5125,12 +5126,13 @@ def allquerylist(request):
             print("filtersss",filters)
             
         if user_type == "Admin":
-            print("ggggggggggg")
+            print("okkkkkkkkkkkkkk")
            
             if filters:
                 all_lead = Lead.objects.filter(filters).exclude(lead_status="Lost").order_by("-last_updated_at")
                 print("all leads....",all_lead)
             else:
+                print("gggggggggggggggggggggggggggoooooooooooooo")
                 all_lead = Lead.objects.all().exclude(lead_status="Lost").order_by("-last_updated_at")
 
         elif user_type == "Sales Person":
@@ -5203,6 +5205,7 @@ def allquerylist(request):
         paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & filters).order_by("-last_updated_at")
         comlead_list = Lead.objects.filter(Q(lead_status="Completed") & filters).order_by("-last_updated_at")
         lost_list = Lead.objects.filter(Q(lead_status="Lost") & filters).order_by("-last_updated_at")
+        remainder_list = Lead.objects.filter(Q(lead_status="Remainder") & filters).order_by("-last_updated_at")
         book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & filters).order_by("-last_updated_at")
         bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & filters).order_by("-last_updated_at")
         hotlead_list = Lead.objects.filter(Q(colour_code="Red") & filters).exclude(lead_status="Lost").order_by("-last_updated_at")
@@ -5221,6 +5224,7 @@ def allquerylist(request):
             "comlead_list": comlead_list,
             "all_lead": all_lead,
             "lost_list": lost_list,
+            "remainder_list": remainder_list,
             "operation": operation,
             'recording_urls_and_dates': recording_urls_and_dates,
             "book_list": book_list,
@@ -5760,6 +5764,94 @@ def lostquerylist(request):
         return render(request, "Admin/Query/lostleads.html", context)
 
     return render(request, "Admin/Query/lostleads.html", {})
+
+@login_required
+def Remainder(request):
+    if request.method == "GET":
+        from_date = request.GET.get('from')
+        to_date = request.GET.get('to')
+        sales_person = request.GET.get('salesperson')
+        page_number = request.GET.get('page')
+
+    if request.user.is_authenticated:
+        user_type = request.user.user_type
+        filters = Q()
+
+        if from_date and to_date:
+            filters &= Q(date__gte=from_date, date__lte=to_date)
+
+        if sales_person:
+            filters &= Q(sales_person__id=sales_person)
+        if user_type == "Admin":
+            if filters:
+                lost_list = Lead.objects.filter(Q(lead_status="Remainder") & filters).order_by("-last_updated_at")
+            else:
+                lost_list = Lead.objects.filter(lead_status="Remainder").order_by("-last_updated_at")
+        
+        elif user_type == "Sales Person":
+            filters &= (Q(added_by=request.user) | Q(sales_person=request.user))
+            lost_list = Lead.objects.filter(Q(lead_status="Remainder") & filters).order_by("-last_updated_at")
+        
+        elif user_type == "Operation Person":
+            filters &= (Q(added_by=request.user) | Q(operation_person=request.user))
+            lost_list = Lead.objects.filter(Q(lead_status="Remainder") & filters).order_by("-last_updated_at")
+
+        paginator = Paginator(lost_list, 25)
+        try:
+            page = paginator.page(page_number)
+        except PageNotAnInteger:
+            page = paginator.page(1)
+        except EmptyPage:
+            page = paginator.page(paginator.num_pages)
+
+        query_params = request.GET.copy()
+        if 'page' in query_params:
+            del query_params['page']
+        base_url = request.path + '?' + query_params.urlencode()
+        if query_params:
+            base_url += '&page='
+        else:
+            base_url += 'page='
+
+        new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & filters).order_by("-last_updated_at")
+        lead_list = Lead.objects.filter(Q(lead_status="Connected") & filters).order_by("-last_updated_at")
+        remainder_list = Lead.objects.filter(Q(lead_status="Remainder") & filters).order_by("-last_updated_at")
+        no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & filters).order_by("-last_updated_at")
+        paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & filters).order_by("-last_updated_at")
+        quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & filters).order_by("-last_updated_at")
+        comlead_list = Lead.objects.filter(Q(lead_status="Completed") & filters).order_by("-last_updated_at")
+        book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & filters).order_by("-last_updated_at")
+        bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & filters).order_by("-last_updated_at")
+        hotlead_list = Lead.objects.filter(Q(colour_code="Red") & filters).exclude(lead_status="Lost").order_by("-last_updated_at")
+        warmlead_list = Lead.objects.filter(Q(colour_code="Green") & filters).exclude(lead_status="Lost").order_by("-last_updated_at")
+        coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & filters).exclude(lead_status="Lost"). order_by("-last_updated_at")
+
+        operation = CustomUser.objects.filter(user_type="Sales Person")
+        recording_urls_and_dates = fetch_recording_urls_and_dates()
+
+        context = {
+            "new_lead_list": new_lead_list,
+            "lead_list": lead_list,
+            "quatation_lead_list": quatation_lead_list,
+            "paydonelead_list": paydonelead_list,
+            "comlead_list": comlead_list,
+            "lost_list": lost_list,
+            "remainder_list": remainder_list,
+            "operation": operation,
+            "recording_urls_and_dates": recording_urls_and_dates,
+            "book_list": book_list,
+            "page": page,
+            "no_answer_list": no_answer_list,
+            "bse_list": bse_list,
+            "hotlead_list": hotlead_list,
+            "warmlead_list": warmlead_list,
+            "coldlead_list": coldlead_list,
+            "base_url": base_url,
+        }
+
+        return render(request, "Admin/Query/remainder.html", context)
+
+    return render(request, "Admin/Query/remainder.html", {})
 
 
 @login_required

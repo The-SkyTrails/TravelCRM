@@ -293,6 +293,7 @@ urlpatterns = [
     path("paymentdonequerylist", paymentdonequerylist, name="paymentdonequerylist"),
     path("completedquery", completedquerylist, name="completedquery"),
     path("lostquery", lostquerylist, name="lostquery"),
+    path("Remainder", Remainder, name="Remainder"),
     path("bookinglist", bookinglist, name="bookinglist"),
     path("bseleadlist", bseleadlist, name="bseleadlist"),
     path("hotquerylist", hotquerylist, name="hotquerylist"),
