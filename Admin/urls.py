@@ -388,4 +388,5 @@ urlpatterns = [
     path("Ticketingdashboard", ticketingindex , name="ticketinghome"),
     path("TicketingQuery", ticketing_queries , name="ticketing_queries"),
     path("update_tkt_status/<int:id>/", update_tkt_status , name="update_tkt_status"),
+    path('webhooks/', fetch_leads, name='facebook_webhook'),
 ]
