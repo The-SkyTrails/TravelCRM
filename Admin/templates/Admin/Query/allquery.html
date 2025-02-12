@@ -82,6 +82,7 @@
                   <button type="submit" class="btn btn-primary" style="margin-top: 2.5rem;">Search</button>
                </div>
             </div>
+            
          </form>
          <form action="{% url 'assign_leads' %}" method="post">
             {% csrf_token %}
@@ -250,8 +251,18 @@
                   </div>
                   </a>
                </div>
+               {% endwith %}
+
+              
+              
             </div>
-            {% endwith %}
+
+            {% comment %} ---------------------- modifyyyyyyyyyyyyyyyyy {% endcomment %}
+
+            
+            
+
+            
             <div class="datatables">
                <div class="row">
                   <div class="col-12">
@@ -520,6 +531,7 @@
             </div>
             {% include "Admin/Query/assign_Sales_person.html" %}
          </form>
+         
       </div>
    </div>
 </div>

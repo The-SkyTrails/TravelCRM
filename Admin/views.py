@@ -5126,7 +5126,7 @@ def allquerylist(request):
             print("filtersss",filters)
             
         if user_type == "Admin":
-            print("okkkkkkkkkkkkkk")
+           
            
             if filters:
                 all_lead = Lead.objects.filter(filters).exclude(lead_status="Lost").order_by("-last_updated_at")
