@@ -270,10 +270,12 @@
                           <th>Date</th>
                           <th>Id</th>
                           <th>Title</th>
+                          <th>Departure City</th>
                           <th>Contact Details</th>
                           <th>Destination</th>
                           <th>From Date</th>
                           <th>To Date</th>
+                          <th>Date of Journey</th>
                           <th>Status</th>
                           <th>Sales</th>
                           <th>Colour Code</th>
@@ -295,6 +297,9 @@
                                         
                                       <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.query_title}}
                                       </td>
+                                      <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}"
+                                        aria-controls="offcanvasRight">{{i.departure_City}}</td>
+
                                       <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">Name: {{i.name}} <br>
                                         Email: {{i.email}} <br>
                                         Contact No: {{i.mobile_number}}
@@ -303,6 +308,10 @@
                                         {{i.countrys.country_name}}</td>
                                       <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.from_date}}</td>
                                       <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}" aria-controls="offcanvasRight">{{i.to_date}}</td>
+                                      
+                                      <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight-{{i.id}}"
+                                        aria-controls="offcanvasRight">{{i.date_of_journey}}</td>
+
                                       <td>{% if i.lead_status == "Pending" %}
                                         <span class="mb-1 badge rounded-pill text-bg-warning">{{ i.lead_status }}</span>
                                         {% elif i.lead_status == "No Answer" %}

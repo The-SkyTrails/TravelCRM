@@ -187,10 +187,9 @@ def index(request):
             .values('sales_person__first_name', 'sales_person__last_name')
             .annotate(total_leads=Count('id'))
             )
-            print("ooooooooooooo",grand_total)
-            print("Salessssssssssssss",sales_person_totals)
+           
             sales_persons = CustomUser.objects.filter(user_type="Sales Person")
-            print("pppppppppppp",sales_persons)
+           
             
         elif user_type == "Sales Person":
             all_lead = Lead.objects.filter(Q(added_by=request.user) | Q(sales_person=request.user)).exclude(lead_status="Lost").order_by("-id")
@@ -4114,7 +4113,7 @@ def bulk_lead_upload(request):
                 other_information = row["other_information"]
                 departure_City = row["departure_City"]
                 date_of_journey = row["date_of_journey"]
-                
+                print("Dateee of journeyyyyyyyyyy",date_of_journey)
                 sales_person = None
                 
                
