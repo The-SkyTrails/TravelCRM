@@ -4876,7 +4876,9 @@ def update_colourcode(request,id):
     lead = Lead.objects.get(id=id)
     if request.method == "POST":
         colour = request.POST.get("colour_code")
-        lead.colour_code = colour
+        
+        # lead.colour_code = colour
+        lead.colour_code = colour if colour else None
         lead.save()
         redirect_to = request.POST.get("redirect_to")
         if redirect_to == "newquerylist":
