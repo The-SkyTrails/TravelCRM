@@ -5361,12 +5361,26 @@ def connectedquerylist(request):
 
         if sales_person:
             filters &= Q(sales_person__id=sales_person)
+        # if user_type == "Admin":
+        #     if filters:
+        #         lead_list = Lead.objects.filter(Q(lead_status="Connected") & filters).order_by("-last_updated_at")
+        #     else:
+        #         lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
+
         if user_type == "Admin":
             if filters:
-                lead_list = Lead.objects.filter(Q(lead_status="Connected") & filters).order_by("-last_updated_at")
+                no_answer_list = Lead.objects.filter(
+                    Q(lead_status="Connected") & filters
+                ).exclude(
+                   sales_person__username="yomor66005@gmail.com"
+                ).order_by("-last_updated_at")
             else:
-                lead_list = Lead.objects.filter(lead_status="Connected").order_by("-last_updated_at")
-            
+                no_answer_list = Lead.objects.filter(
+                    lead_status="Connected"
+                ).exclude(
+                    sales_person__username="yomor66005@gmail.com"
+                ).order_by("-last_updated_at")
+        
         elif user_type == "Sales Person":
             filters &= (Q(added_by=request.user) | Q(sales_person=request.user))
             lead_list = Lead.objects.filter(Q(lead_status="Connected") & filters).order_by("-last_updated_at")
@@ -5449,12 +5463,26 @@ def quatationquerylist(request):
 
         if sales_person:
             filters &= Q(sales_person__id=sales_person)
+        # if user_type == "Admin":
+        #     if filters:
+        #         quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & filters).order_by("-last_updated_at")
+        #     else:
+        #         quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
+        
         if user_type == "Admin":
             if filters:
-                quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & filters).order_by("-last_updated_at")
+                no_answer_list = Lead.objects.filter(
+                    Q(lead_status="Quotation Send") & filters
+                ).exclude(
+                    sales_person__username="yomor66005@gmail.com"
+                ).order_by("-last_updated_at")
             else:
-                quatation_lead_list = Lead.objects.filter(lead_status="Quotation Send").order_by("-last_updated_at")
-        
+                no_answer_list = Lead.objects.filter(
+                    lead_status="Quotation Send"
+                ).exclude(
+                    sales_person__username="yomor66005@gmail.com"
+                ).order_by("-last_updated_at")
+
         elif user_type == "Sales Person":
             filters &= (Q(added_by=request.user) | Q(sales_person=request.user))
             quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & filters).order_by("-last_updated_at")
@@ -5960,11 +5988,25 @@ def noanswerquerylist(request):
 
         if sales_person:
             filters &= Q(sales_person__id=sales_person)
+        # if user_type == "Admin":
+        #     if filters:
+        #         no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & filters).order_by("-last_updated_at")
+        #     else:
+        #         no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
         if user_type == "Admin":
             if filters:
-                no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & filters).order_by("-last_updated_at")
+                no_answer_list = Lead.objects.filter(
+                    Q(lead_status="No Answer") & filters
+                ).exclude(
+                    sales_person__username="yomor66005@gmail.com"
+                ).order_by("-last_updated_at")
             else:
-                no_answer_list = Lead.objects.filter(lead_status="No Answer").order_by("-last_updated_at")
+                no_answer_list = Lead.objects.filter(
+                    lead_status="No Answer"
+                ).exclude(
+                    sales_person__username="yomor66005@gmail.com"
+                ).order_by("-last_updated_at")
+
         
         elif user_type == "Sales Person":
             filters &= (Q(added_by=request.user) | Q(sales_person=request.user))
