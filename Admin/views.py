@@ -5369,13 +5369,13 @@ def connectedquerylist(request):
 
         if user_type == "Admin":
             if filters:
-                no_answer_list = Lead.objects.filter(
+                lead_list = Lead.objects.filter(
                     Q(lead_status="Connected") & filters
                 ).exclude(
                    sales_person__username="yomor66005@gmail.com"
                 ).order_by("-last_updated_at")
             else:
-                no_answer_list = Lead.objects.filter(
+                lead_list = Lead.objects.filter(
                     lead_status="Connected"
                 ).exclude(
                     sales_person__username="yomor66005@gmail.com"
@@ -5471,13 +5471,13 @@ def quatationquerylist(request):
         
         if user_type == "Admin":
             if filters:
-                no_answer_list = Lead.objects.filter(
+                quatation_lead_list = Lead.objects.filter(
                     Q(lead_status="Quotation Send") & filters
                 ).exclude(
                     sales_person__username="yomor66005@gmail.com"
                 ).order_by("-last_updated_at")
             else:
-                no_answer_list = Lead.objects.filter(
+                quatation_lead_list = Lead.objects.filter(
                     lead_status="Quotation Send"
                 ).exclude(
                     sales_person__username="yomor66005@gmail.com"
