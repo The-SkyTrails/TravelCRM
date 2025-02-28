@@ -13,7 +13,7 @@ class Command(BaseCommand):
             return
 
         # "No Answer" wale leads ko assign karein
-        updated_count = Lead.objects.filter(lead_status="Connected").update(sales_person=user)
+        updated_count = Lead.objects.filter(lead_status="Quotation Send").update(sales_person=user)
 
         if updated_count > 0:
             self.stdout.write(self.style.SUCCESS(f"Successfully updated {updated_count} leads!"))
