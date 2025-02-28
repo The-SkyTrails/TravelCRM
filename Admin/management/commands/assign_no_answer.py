@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from Admin.models import CustomUser, Lead  # your_app ko apne app name se replace karein
 
 class Command(BaseCommand):
-    help = 'Assigns "No Answer" leads to Dummy2 (yomor66005@gmail.com)'
+    help = 'Assigns "Connected" leads to Dummy2 (yomor66005@gmail.com)'
 
     def handle(self, *args, **kwargs):
         try:
@@ -13,7 +13,7 @@ class Command(BaseCommand):
             return
 
         # "No Answer" wale leads ko assign karein
-        updated_count = Lead.objects.filter(lead_status="No Answer").update(sales_person=user)
+        updated_count = Lead.objects.filter(lead_status="Connected").update(sales_person=user)
 
         if updated_count > 0:
             self.stdout.write(self.style.SUCCESS(f"Successfully updated {updated_count} leads!"))
