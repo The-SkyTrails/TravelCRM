@@ -42,11 +42,11 @@ class LeadAdmin(ImportExportModelAdmin, ExportMixin):
     # ✅ Foreign Key fields ke readable names ko display karega
     list_display = [
         "enquiry_number", "lead_status", "name", "email", "mobile_number", 
-        "get_country", "get_destination", "get_service", "get_lead_source", "date"
+        "get_country", "get_destination", "get_service", "get_lead_source", "date","sales_person"
     ]
     
     search_fields = ['enquiry_number', 'name', 'email', 'mobile_number', 'date']
-    list_filter = ('lead_status', 'date', 'email')
+    list_filter = ('lead_status',"sales_person", 'date', 'email')
 
     # ✅ Foreign Key fields ke readable names ke liye methods
     def get_country(self, obj):
