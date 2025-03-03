@@ -94,6 +94,12 @@
                                         {% endfor %}
                                     </select>
                                     </div>
+                                    <div class="col-sm-12">
+                                      <label for="example-email-input" class="col-form-label">Account Activate</label>
+                                      <input type="checkbox" name="is_active" value="1" {% if user.users.is_active %}checked{% endif %}>
+                                      <input type="hidden" name="is_active_hidden" value="0">
+                                      
+                                    </div>
                                 
                                 </div>
                                 {% comment %} <div class="row mb-3">

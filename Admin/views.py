@@ -4263,6 +4263,10 @@ def edit_user(request,id):
         zoho_password = request.POST.get("zoho_password")
         
         reporting_to = CustomUser.objects.get(id=reporting_to_id)
+
+        is_active = request.POST.get("is_active", "0") 
+
+        print("iss active.........",is_active)
         
         
         custom_id = user.users.id
@@ -4279,6 +4283,7 @@ def edit_user(request,id):
         customuser.tata_tele_agent_no=tata_tele_agent_no
         customuser.zoho_password=zoho_password
 
+        customuser.is_active = bool(int(is_active))
                     
         customuser.destination.clear()  
         for dest_id in destination_id:

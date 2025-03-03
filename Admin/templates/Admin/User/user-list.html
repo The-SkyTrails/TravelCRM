@@ -63,6 +63,7 @@
                                     <th>Address</th>
                                     <th>By</th>
                                     <th>Date</th>
+                                    <th>Activate/Deactivate</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -87,6 +88,8 @@
                                     <td>{{i.address}}</td>
                                     <td>{{i.registered_by}}</td>
                                     <td>{{i.users.date_joined}}</td>
+                                    {% comment %} <td>{{i.users.is_active}}</td> {% endcomment %}
+                                    <td>{% if i.users.is_active == True %}Activate {% else %}Deactivate{% endif %}</td>
                                     <td>
                                     <a href="{% url "edituser" i.id %}"> <button  form:abort" type="button" class="btn mb-1 bg-success-subtle text-success px-4 fs-4 font-medium"  >
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
