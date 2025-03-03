@@ -15,6 +15,10 @@ def CustomLoginView(request):
         try:
             user = CustomUser.objects.get(username=username)
 
+            if not user.is_active:
+                messages.error(request, "Your account is deactivated. contact your admin.")
+                return redirect("login")
+
             if check_password(password, user.password):
                 
                 user.is_logged_in = "Yes"
