@@ -58,7 +58,7 @@
                </div>
             </div>
          </div>
-         <form method="GET">
+         {% comment %} <form method="GET">
             <div class="row mb-3">
                <div class="col-md-3">
                   <label for="from" class="col-form-label">From Date</label>
@@ -83,7 +83,37 @@
                </div>
             </div>
             
-         </form>
+         </form> {% endcomment %}
+         <form method="GET" action="{% url 'allquerylist' %}">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label for="from" class="col-form-label">From Date</label>
+                    <input class="form-control" type="date" name="from" id="from" value="{{ request.GET.from }}">
+                </div>
+                <div class="col-md-3">
+                    <label for="to" class="col-form-label">To Date</label>
+                    <input class="form-control" type="date" name="to" id="to" value="{{ request.GET.to }}">
+                </div>
+                {% if user.user_type != "Sales Person" %}
+                <div class="col-md-3">
+                    <label for="salesperson" class="col-form-label">Sales Person</label>
+                    <select class="form-control" name="salesperson" id="salesperson">
+                        <option value="">All</option>
+                        {% for oper in operation %}
+                        <option value="{{ oper.id }}" {% if request.GET.salesperson == oper.id|stringformat:"s" %}selected{% endif %}>
+                            {{ oper.first_name }} {{ oper.last_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %}
+                <div class="col-md-3">
+                    <!-- Filter Button with Unique Name -->
+                    <button type="submit" class="btn btn-primary" name="filter_submit" style="margin-top: 2.5rem;">Filter</button>
+                </div>
+            </div>
+        </form>
+        
          <form action="{% url 'assign_leads' %}" method="post">
             {% csrf_token %}
             {% include "Login/messages.html" %}
@@ -271,10 +301,19 @@
                         ---------------- -->
                      <div class="card">
                         <div class="card-body">
+                            {% comment %} <input type="text"  placeholder="Search by Contact, Email, Sales Person"> {% endcomment %}
+                            <form method="GET" action="{% url 'allquerylist' %}">
+                              <!-- Search Query Input -->
+                              <input type="text" name="q" class="form-control" 
+                                     placeholder="Search by Contact, Email, Sales Person" value="{{ request.GET.q }}">
+                      
+                              <!-- Search Button with Unique Name -->
+                              <button type="submit" class="btn btn-primary mt-2" name="search_submit">Search</button>
+                          </form>
                            <div class="table-responsive">
                               <div class="scrollable-container">
                                  
-                                 <table id="show_hide_col" 
+                                 <table id="" 
                                     class="table border table-bordered border-secondary text-nowrap">
                                     <thead>
                                        <tr>

@@ -5109,84 +5109,201 @@ def add_paymentattachment(request, id):
 # ______________________________________ QUERY ____________________________________________________
 
 
+# @login_required
+# def allquerylist(request):
+#     if request.method == "GET":
+#         from_date = request.GET.get('from')
+#         to_date = request.GET.get('to')
+#         sales_person = request.GET.get('salesperson')
+#         page_number = request.GET.get('page')
+#         print("ggggggggggg",from_date)
+        
+
+#     if request.user.is_authenticated:
+#         user_type = request.user.user_type
+#         filters = Q()
+
+#         if from_date and to_date:
+#             filters &= Q(date__gte=from_date, date__lte=to_date)
+
+#         if sales_person:
+#             print("sales person....",sales_person)
+#             filters &= Q(sales_person__id=sales_person)
+#             print("filtersss",filters)
+            
+#         if user_type == "Admin":
+           
+           
+#             if filters:
+#                 all_lead = Lead.objects.filter(filters).exclude(lead_status="Lost").order_by("-last_updated_at")
+               
+#             else:
+#                 print("gggggggggggggggggggggggggggoooooooooooooo")
+#                 all_lead = Lead.objects.all().exclude(lead_status="Lost").order_by("-last_updated_at")
+
+#         elif user_type == "Sales Person":
+#             filters &= (Q(added_by=request.user) | Q(sales_person=request.user))
+#             all_lead = Lead.objects.filter(filters).exclude(lead_status="Lost").order_by("-last_updated_at")
+
+#         elif user_type == "Operation Person":
+#             filters &= (Q(added_by=request.user) | Q(operation_person=request.user))
+#             all_lead = Lead.objects.filter(filters).exclude(lead_status="Lost").order_by("-last_updated_at")
+            
+#         # api_url = "https://back.theskytrails.com/skyTrails/api/admin/getAllPackageEnquiryOnCRM"
+        
+#         # response = requests.get(api_url)
+#         # api_data = []
+#         # if response.status_code == 200:
+#         #     api_data = response.json()
+            
+#         #     result = api_data.get('result', [])
+#         #     for entry in result:
+#         #         name = entry.get('name', 'N/A')
+#         #         email = entry.get('email', 'N/A')
+#         #         mobile_number = entry.get('mobile_number', 'N/A')
+#         #         inter_domes = entry.get('inter_domes','N/A')
+#         #         destinations = entry.get('destination','N/A')
+#         #         countrys = entry.get('country','N/A')
+#         #         from_date = entry.get('from_date','N/A')
+#         #         query_title = entry.get('query_title','N/A')
+#         #         adult = entry.get('adults','N/A')
+#         #         child = entry.get('child','N/A')
+#         #         complete_package_cost = entry.get('complete_package_cost','N/A')
+#         #         departure_City = entry.get('departure_City','N/A')
+#         #         date_of_journey = entry.get('date_Of_journey','N/A')
+    
+
+#         #         if not Lead.objects.filter(name=name, mobile_number=mobile_number).exists():
+#         #             lead = Lead(name=name, email=email, mobile_number=mobile_number,inter_domes=inter_domes,destinations=destinations,countrys=countrys,
+#         #                         from_date=from_date,query_title=query_title,adult=adult,child=child,
+#         #                         complete_package_cost=complete_package_cost,departure_City=departure_City,date_of_journey=date_of_journey,lead_status="Pending",last_updated_by=request.user)
+#         #             lead.save()
+               
+
+        
+#         # else:
+#         #     api_data = []
+
+#         # # Combine database queryset and API data
+#         # combined_lead_list = list(chain(all_lead, api_data))
+
+#         paginator = Paginator(all_lead, 25)
+#         try:
+#             page = paginator.page(page_number)
+#         except PageNotAnInteger:
+#             page = paginator.page(1)
+#         except EmptyPage:
+#             page = paginator.page(paginator.num_pages)
+
+#         query_params = request.GET.copy()
+#         if 'page' in query_params:
+#             del query_params['page']
+#         base_url = request.path + '?' + query_params.urlencode()
+#         if query_params:
+#             base_url += '&page='
+#         else:
+#             base_url += 'page='
+
+#         new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & filters).order_by("-last_updated_at")
+        
+#         # lead_list = Lead.objects.filter(Q(lead_status="Connected") & filters).order_by("-last_updated_at")
+#         lead_list = Lead.objects.filter(Q(lead_status="Connected") & filters) \
+#         .exclude(sales_person__username="yomor66005@gmail.com") \
+#         .order_by("-last_updated_at")
+        
+#         no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & filters) \
+#         .exclude(sales_person__username="yomor66005@gmail.com") \
+#         .order_by("-last_updated_at")
+
+#         # quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & filters).order_by("-last_updated_at")
+#         quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & filters) \
+#         .exclude(sales_person__username="yomor66005@gmail.com") \
+#         .order_by("-last_updated_at")
+
+#         paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & filters).order_by("-last_updated_at")
+#         comlead_list = Lead.objects.filter(Q(lead_status="Completed") & filters).order_by("-last_updated_at")
+#         lost_list = Lead.objects.filter(Q(lead_status="Lost") & filters).order_by("-last_updated_at")
+#         remainder_list = Lead.objects.filter(Q(lead_status="Remainder") & filters).order_by("-last_updated_at")
+#         book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & filters).order_by("-last_updated_at")
+#         bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & filters).order_by("-last_updated_at")
+#         hotlead_list = Lead.objects.filter(Q(colour_code="Red") & filters).exclude(lead_status="Lost").order_by("-last_updated_at")
+#         warmlead_list = Lead.objects.filter(Q(colour_code="Green") & filters).exclude(lead_status="Lost").order_by("-last_updated_at")
+#         coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & filters).exclude(lead_status="Lost").order_by("-last_updated_at")
+
+#         operation = CustomUser.objects.filter(user_type="Sales Person")
+#         recording_urls_and_dates = fetch_recording_urls_and_dates()
+        
+
+#         context = {
+#             "new_lead_list": new_lead_list,
+#             "lead_list": lead_list,
+#             "quatation_lead_list": quatation_lead_list,
+#             "paydonelead_list": paydonelead_list,
+#             "comlead_list": comlead_list,
+#             "all_lead": all_lead,
+#             "lost_list": lost_list,
+#             "remainder_list": remainder_list,
+#             "operation": operation,
+#             'recording_urls_and_dates': recording_urls_and_dates,
+#             "book_list": book_list,
+#             "page": page,
+#             "no_answer_list": no_answer_list,
+#             "bse_list": bse_list,
+#             "hotlead_list": hotlead_list,
+#             "warmlead_list": warmlead_list,
+#             "coldlead_list": coldlead_list,
+#             'base_url': base_url,
+#         }
+
+#         return render(request, "Admin/Query/allquery.html", context)
+
+#     return render(request, "Admin/Query/allquery.html", {})
+
+
+
 @login_required
 def allquerylist(request):
-    if request.method == "GET":
-        from_date = request.GET.get('from')
-        to_date = request.GET.get('to')
-        sales_person = request.GET.get('salesperson')
-        page_number = request.GET.get('page')
-        print("ggggggggggg",from_date)
-        
+    from_date = request.GET.get('from')
+    to_date = request.GET.get('to')
+    sales_person = request.GET.get('salesperson')
+    
+    # Check if search form is submitted
+    search_submitted = 'search_submit' in request.GET
+    search_query = request.GET.get('q', '') if search_submitted else ''  # Get q only when search form is submitted
+    
+    page_number = request.GET.get('page')
 
     if request.user.is_authenticated:
         user_type = request.user.user_type
         filters = Q()
 
-        if from_date and to_date:
-            filters &= Q(date__gte=from_date, date__lte=to_date)
+        # Apply date & salesperson filter only if filter form is submitted
+        if 'filter_submit' in request.GET:
+            if from_date and to_date:
+                filters &= Q(date__gte=from_date, date__lte=to_date)
 
-        if sales_person:
-            print("sales person....",sales_person)
-            filters &= Q(sales_person__id=sales_person)
-            print("filtersss",filters)
-            
+            if sales_person:
+                filters &= Q(sales_person__id=sales_person)
+
+        # Apply search filter only if search form is submitted
+        if search_submitted and search_query:
+            filters &= Q(mobile_number__icontains=search_query) | \
+                       Q(email__icontains=search_query) | \
+                       Q(sales_person__first_name__icontains=search_query) | \
+                       Q(sales_person__last_name__icontains=search_query)
+
+        # User-based filtering
         if user_type == "Admin":
-           
-           
-            if filters:
-                all_lead = Lead.objects.filter(filters).exclude(lead_status="Lost").order_by("-last_updated_at")
-               
-            else:
-                print("gggggggggggggggggggggggggggoooooooooooooo")
-                all_lead = Lead.objects.all().exclude(lead_status="Lost").order_by("-last_updated_at")
-
+            
+            all_lead = Lead.objects.filter(filters).exclude(lead_status="Lost").order_by("-last_updated_at")
         elif user_type == "Sales Person":
             filters &= (Q(added_by=request.user) | Q(sales_person=request.user))
             all_lead = Lead.objects.filter(filters).exclude(lead_status="Lost").order_by("-last_updated_at")
-
         elif user_type == "Operation Person":
             filters &= (Q(added_by=request.user) | Q(operation_person=request.user))
             all_lead = Lead.objects.filter(filters).exclude(lead_status="Lost").order_by("-last_updated_at")
-            
-        # api_url = "https://back.theskytrails.com/skyTrails/api/admin/getAllPackageEnquiryOnCRM"
-        
-        # response = requests.get(api_url)
-        # api_data = []
-        # if response.status_code == 200:
-        #     api_data = response.json()
-            
-        #     result = api_data.get('result', [])
-        #     for entry in result:
-        #         name = entry.get('name', 'N/A')
-        #         email = entry.get('email', 'N/A')
-        #         mobile_number = entry.get('mobile_number', 'N/A')
-        #         inter_domes = entry.get('inter_domes','N/A')
-        #         destinations = entry.get('destination','N/A')
-        #         countrys = entry.get('country','N/A')
-        #         from_date = entry.get('from_date','N/A')
-        #         query_title = entry.get('query_title','N/A')
-        #         adult = entry.get('adults','N/A')
-        #         child = entry.get('child','N/A')
-        #         complete_package_cost = entry.get('complete_package_cost','N/A')
-        #         departure_City = entry.get('departure_City','N/A')
-        #         date_of_journey = entry.get('date_Of_journey','N/A')
-    
 
-        #         if not Lead.objects.filter(name=name, mobile_number=mobile_number).exists():
-        #             lead = Lead(name=name, email=email, mobile_number=mobile_number,inter_domes=inter_domes,destinations=destinations,countrys=countrys,
-        #                         from_date=from_date,query_title=query_title,adult=adult,child=child,
-        #                         complete_package_cost=complete_package_cost,departure_City=departure_City,date_of_journey=date_of_journey,lead_status="Pending",last_updated_by=request.user)
-        #             lead.save()
-               
-
-        
-        # else:
-        #     api_data = []
-
-        # # Combine database queryset and API data
-        # combined_lead_list = list(chain(all_lead, api_data))
-
+        # Pagination
         paginator = Paginator(all_lead, 25)
         try:
             page = paginator.page(page_number)
@@ -5195,69 +5312,22 @@ def allquerylist(request):
         except EmptyPage:
             page = paginator.page(paginator.num_pages)
 
-        query_params = request.GET.copy()
-        if 'page' in query_params:
-            del query_params['page']
-        base_url = request.path + '?' + query_params.urlencode()
-        if query_params:
-            base_url += '&page='
-        else:
-            base_url += 'page='
-
-        new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & filters).order_by("-last_updated_at")
-        
-        # lead_list = Lead.objects.filter(Q(lead_status="Connected") & filters).order_by("-last_updated_at")
-        lead_list = Lead.objects.filter(Q(lead_status="Connected") & filters) \
-        .exclude(sales_person__username="yomor66005@gmail.com") \
-        .order_by("-last_updated_at")
-        
-        no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & filters) \
-        .exclude(sales_person__username="yomor66005@gmail.com") \
-        .order_by("-last_updated_at")
-
-        # quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & filters).order_by("-last_updated_at")
-        quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & filters) \
-        .exclude(sales_person__username="yomor66005@gmail.com") \
-        .order_by("-last_updated_at")
-
-        paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & filters).order_by("-last_updated_at")
-        comlead_list = Lead.objects.filter(Q(lead_status="Completed") & filters).order_by("-last_updated_at")
-        lost_list = Lead.objects.filter(Q(lead_status="Lost") & filters).order_by("-last_updated_at")
-        remainder_list = Lead.objects.filter(Q(lead_status="Remainder") & filters).order_by("-last_updated_at")
-        book_list = Lead.objects.filter(Q(lead_status="Booking Confirmed") & filters).order_by("-last_updated_at")
-        bse_list = Lead.objects.filter(Q(lead_status="Book SomeWhere Else") & filters).order_by("-last_updated_at")
-        hotlead_list = Lead.objects.filter(Q(colour_code="Red") & filters).exclude(lead_status="Lost").order_by("-last_updated_at")
-        warmlead_list = Lead.objects.filter(Q(colour_code="Green") & filters).exclude(lead_status="Lost").order_by("-last_updated_at")
-        coldlead_list = Lead.objects.filter(Q(colour_code="Blue") & filters).exclude(lead_status="Lost").order_by("-last_updated_at")
-
         operation = CustomUser.objects.filter(user_type="Sales Person")
-        recording_urls_and_dates = fetch_recording_urls_and_dates()
-        
 
         context = {
-            "new_lead_list": new_lead_list,
-            "lead_list": lead_list,
-            "quatation_lead_list": quatation_lead_list,
-            "paydonelead_list": paydonelead_list,
-            "comlead_list": comlead_list,
             "all_lead": all_lead,
-            "lost_list": lost_list,
-            "remainder_list": remainder_list,
-            "operation": operation,
-            'recording_urls_and_dates': recording_urls_and_dates,
-            "book_list": book_list,
             "page": page,
-            "no_answer_list": no_answer_list,
-            "bse_list": bse_list,
-            "hotlead_list": hotlead_list,
-            "warmlead_list": warmlead_list,
-            "coldlead_list": coldlead_list,
-            'base_url': base_url,
+            "operation": operation,
+            "search_query": search_query,
+            "from_date": from_date,
+            "to_date": to_date,
+            "sales_person": sales_person,
         }
 
         return render(request, "Admin/Query/allquery.html", context)
 
     return render(request, "Admin/Query/allquery.html", {})
+
 
 
 @login_required
