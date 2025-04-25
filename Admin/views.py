@@ -5207,18 +5207,27 @@ def allquerylist(request):
         new_lead_list = Lead.objects.filter(Q(lead_status="Pending") & filters).order_by("-last_updated_at")
         
         # lead_list = Lead.objects.filter(Q(lead_status="Connected") & filters).order_by("-last_updated_at")
-        lead_list = Lead.objects.filter(Q(lead_status="Connected") & filters) \
-        .exclude(sales_person__username="yomor66005@gmail.com") \
-        .order_by("-last_updated_at")
+        # lead_list = Lead.objects.filter(Q(lead_status="Connected") & filters) \
+        # .exclude(sales_person__username="yomor66005@gmail.com") \
+        # .order_by("-last_updated_at")
         
-        no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & filters) \
-        .exclude(sales_person__username="yomor66005@gmail.com") \
-        .order_by("-last_updated_at")
+        # no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & filters) \
+        # .exclude(sales_person__username="yomor66005@gmail.com") \
+        # .order_by("-last_updated_at")
 
-        # quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & filters).order_by("-last_updated_at")
-        quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & filters) \
-        .exclude(sales_person__username="yomor66005@gmail.com") \
-        .order_by("-last_updated_at")
+        # # quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & filters).order_by("-last_updated_at")
+        # quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & filters) \
+        # .exclude(sales_person__username="yomor66005@gmail.com") \
+        # .order_by("-last_updated_at")
+
+
+        lead_list = Lead.objects.filter(Q(lead_status="Connected") & filters).order_by("-last_updated_at")
+
+        no_answer_list = Lead.objects.filter(Q(lead_status="No Answer") & filters).order_by("-last_updated_at")
+
+        quatation_lead_list = Lead.objects.filter(Q(lead_status="Quotation Send") & filters).order_by("-last_updated_at")
+
+
 
         paydonelead_list = Lead.objects.filter((Q(lead_status="Payment Done") | Q(lead_status="Payment Processing")) & filters).order_by("-last_updated_at")
         comlead_list = Lead.objects.filter(Q(lead_status="Completed") & filters).order_by("-last_updated_at")
